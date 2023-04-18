@@ -10,4 +10,7 @@ public class TrainingBuildings extends Building {
         this.outputMilitaryPeople = outputMilitaryPeople;
     }
 
+    public ArrayList<MilitaryPerson> getOutputMilitaryPeople() {
+        return outputMilitaryPeople;
+    }
 }
