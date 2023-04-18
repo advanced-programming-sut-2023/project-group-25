@@ -34,6 +34,13 @@ public class Building {
         }
         return null;
     }
+    public int calculateBuildingCost() {
+        int price = 0;
+        for(int i = 0; i<this.buildingCosts.size(); i++) {
+            price += this.buildingCosts.get(i).getPrice();
+        }
+        return price;
+    }
 
     public String getType() {
         return type;
