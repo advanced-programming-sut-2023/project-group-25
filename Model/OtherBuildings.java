@@ -10,4 +10,8 @@ public class OtherBuildings extends Building {
     public void setIsWorking(boolean isWorking) {
         isWorking = isWorking;
     }
+
+    public boolean isWorking() {
+        return isWorking;
+    }
 }
