@@ -3,17 +3,14 @@ package Model;
 public class Map {
     private Map[3]templateMaps;
     private Cell[][] cells;
-    private int height;
-    private int width;
 
 
     public Map(int height, int width) {
-        this.height = height;
-        this.width = width;
+        cells=new Cell[height][width];
     }
 
-    public Cell getCellByLocation(int width, int height) {
-        return cells[width][height];
+    public Cell getCellByLocation(int x, int y) {
+        return cells[x][y];
     }
 
     public Cell[][] getCells() {
