@@ -14,11 +14,11 @@ public class MilitaryPerson extends Person {
 
     public MilitaryPerson(User king, String type, Cell location, MilitaryPerson militaryPerson) {
         super(king, type, location);
-        firePower = militaryPerson.firePower;
-        defendPower = militaryPerson.defendPower;
-        speed = militaryPerson.speed;
-        trainingCost = militaryPerson.trainingCost;
-        mode = militaryPerson.mode;
+        this.firePower = militaryPerson.firePower;
+        this.defendPower = militaryPerson.defendPower;
+        this.speed = militaryPerson.speed;
+        this.trainingCost = militaryPerson.trainingCost;
+        this.mode = militaryPerson.mode;
     }
 
     public MilitaryPerson(User king, String type, Cell location, ArrayList<Product> neededProducts,
