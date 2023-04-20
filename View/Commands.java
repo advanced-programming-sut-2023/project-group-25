@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Commands {
+    
     /*not sure*/CREATEUSER("user create -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+) -(?<thirdInputIdentifier[a-z]+) (?<thirdInput>.+) -(?<fourthInputIdentifier[a-z]+) (?<fourthInput>.+) -(?<fifthInputIdentifier[a-z]+) (?<fifthInput>.+)"),
     PICKQUESTION("question pick -q (?<questionNumber>\\d+) -a (?<answer>.+) -c (?<answerConfirm>.+)"),
     NEWCAPTCHA("show me a new captcha"),
@@ -60,14 +61,15 @@ public enum Commands {
     TRADEHISTORY("trade history"),
     SHOWPRICELIST("show price list"),
     BUYORSELL("(?<activity>[(buy)|(sell)] -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)"),
-    NEXTTURN("next turn");
-
+    NEXTTURN("next turn")
+    ;
+    
     private final String regex;
-
+    
     private Commands(String regex) {
         this.regex = regex;
     }
-
+    
     public static Matcher getMatcher(String input, Commands commands) {
         Matcher matcher = Pattern.compile(commands.regex).matcher(input);
         return matcher.matches() ? matcher : null;
