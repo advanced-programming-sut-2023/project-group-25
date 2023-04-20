@@ -45,7 +45,16 @@ public enum Commands {
     DISABLEMOAT("disable moat -x (?<x>\\d+) -y (?<y>\\d+)"),
     FETCHOIL("fetch oil"),//the engineer has already been selected
     BURNOIL("burn oil"),//might need to take in some other information
-    SUFFUSEMOAT("suffuce moat -x (?<x>\\d+) -y (?<y>\\d+)"),
+    SUFFUSEMOAT("suffuse moat -x (?<x>\\d+) -y (?<y>\\d+)"),
+    //problem: ready templates should be able to change according to the size of the map
+    CHOOSEMAP("choose map -t (?<templateNumber>\\d+) -w (?<width>.+) -l (?<length>.+)"),
+    BLOCKSETTEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
+    RECTANGLESETTEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
+    CLEARBLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
+    //next ones can be merged or separated
+    DROPROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z]"),
+    DROPOBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
+    CHOOSCOLOR("choose color -c (?<color>.+)"),
     
     ;
     
