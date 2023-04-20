@@ -55,7 +55,13 @@ public enum Commands {
     DROPROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z]"),
     DROPOBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
     CHOOSCOLOR("choose color -c (?<color>.+)"),
-    
+    /*not sure*/TRADEREQUEST("trade -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+) -(?<thirdInputIdentifier[a-z]+) (?<thirdInput>.+) -(?<fourthInputIdentifier[a-z]+) (?<fourthInput>.+)"),
+    TRADELIST("trade list"),
+    /*not sure*/TRADEACCEPT("trade accept -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)"),
+    TRADEHISTORY("trade history"),
+    SHOWPRICELIST("show price list"),
+    BUYORSELL("(?<activity>[(buy)|(sell)] -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)"),
+    NEXTTURN("next turn")
     ;
     
     private final String regex;
