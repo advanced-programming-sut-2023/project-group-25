@@ -49,15 +49,14 @@ public class ProfileController {
             else if (!RegisterLoginController.isPasswordWeak(newPassword))
                 return "New password is weak!";
             currentUser.setPassword(newPassword);
-            System.out.println("Password changed successfully.");
-            return "Please enter your new password again";
+            return "Password changed successfully.\nPlease enter your new password again";
         }
         return "Current password is incorrect!";
     }
 
-    public void removeSlogan() {
+    public String removeSlogan() {
         currentUser.setSlogan("");
-        System.out.println("Slogan field is now empty.");
+        return "Slogan field is now empty.";
     }
 
     public String displayProfile(Matcher matcher) {
