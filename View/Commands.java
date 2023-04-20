@@ -16,8 +16,36 @@ public enum Commands {
     CHANGESLOGAN("profile change slogan -s (?<slogan>.+)"),
     DISPLAYINFO("profile display( (?<field>.+))?"),
     SHOWMAP("show map -x (?<x>\\d+) -y (?<y>\\d+)"),
-    MOVEONMAP("map (?<verticalNumber>\\d+) (?<verticalDirection>\\S+) (?<horizontalNumber>\\d+) (?<horizontalDirection>\\S+)"),
+    MOVEONMAP("map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)"),
     SHOWDETAILS("show details -x (?<x>\\d+) -y (?<y>\\d+)"),
+    SHOWPOPULARITYFACTORS("show popularity factors"),
+    SHOWPOPULARITY("show popularity"),
+    SHOWFOODLIST("show food list"),
+    //the next two can be merged.
+    RATEPOPULARITYFACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
+    SHOWPOPULARITYFACTORRATE("food rate show"),
+    DROPBUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
+    SELECTBUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
+    CREATEUNIT("createunit -t (?<type>.+) -c (?<count>.+)"),
+    REPAIR("repair"),
+    SELECTUNIT("select unit -x (?<x>\\d+) -y (?<y>\\d+)"),
+    MOVEUNIT("move unit to -x (?<x>\\d+) -y (?<y>\\d+)"),
+    PATROL("patrol unit -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
+    SETMODE("set -x (?<x>\\d+) -y (?<y>\\d+) -s (?<mode>.+)"),
+    //the next two can be merged
+    ATTACKENEMY("attack -e (?<enemy>.+)"),
+    AERIALATTACK("ATTACK -x (?<x>\\d+) -y (?<y>\\d+)"),
+    POUROIL("pour oil -d (?<direction>.+)"),
+    DIGTUNNEL("dig tunnel -x (?<x>\\d+) -y (?<y>\\d+)"),
+    BUILDEQUIPMENT("build -q (?<equipmentName>.+)"),
+    MOVEEQUIPMENT("move equipment -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
+    DISBAND("disband unit"),
+    DIGMOAT("dig moat -x (?<x>\\d+) -y (?<y>\\d+)"),//the unit has already been selected
+    CANCELDIGGINGMOAT("cancel digging moat"),
+    DISABLEMOAT("disable moat -x (?<x>\\d+) -y (?<y>\\d+)"),
+    FETCHOIL("fetch oil"),//the engineer has already been selected
+    BURNOIL("burn oil"),//might need to take in some other information
+    SUFFUSEMOAT("suffuce moat -x (?<x>\\d+) -y (?<y>\\d+)"),
     
     ;
     
