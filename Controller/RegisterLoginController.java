@@ -20,7 +20,7 @@ public class RegisterLoginController {
             return false;
     }
 
-    //return word is the reason for being weak!
+    //return Sentence is the reason for being weak!
     public String isPasswordWeak(String password) {
         if(password.length() < 6)
             return "The password is too short!";
@@ -34,5 +34,12 @@ public class RegisterLoginController {
             return "Please enter at least one alphanumeric character!";
         else
             return "success";
+    }
+
+    public boolean isEmailValid(String email) {
+        if(email.matches("^(?<firstGroup>\\S+)@(?<secondGroup>\\S+)\\.(?<thirdGroup>\\S+)$"))
+            return true;
+        else
+            return false;
     }
 }
