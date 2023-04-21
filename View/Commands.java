@@ -4,15 +4,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Commands {
-
-    /*not sure*/CREATEUSER("user create -(?<option1[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+) -(?<thirdInputIdentifier[a-z]+) (?<thirdInput>.+) -(?<fourthInputIdentifier[a-z]+) (?<fourthInput>.+) -(?<fifthInputIdentifier[a-z]+) (?<fifthInput>.+)"),
+    
+    /*not sure*/CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
+    ENTERPROFILEMENU("enter profile menu"),
     PICKQUESTION("question pick -q (?<questionNumber>\\d+) -a (?<answer>.+) -c (?<answerConfirm>.+)"),
     NEWCAPTCHA("show me a new captcha"),
-    /*not sure*/LOGIN("user login -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)( --stay-logged-in)?"),
+    /*not sure*/LOGIN("user login -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)( --stay-logged-in)?"),
     FORGOTPASSWORD("forgot my password -u (?<username>\\S+)"),
     LOGOUT("user logout"),
-    CHANGEINFO("profile change -(?<input[a-z]+) (?<input>.+)"),
-    CHANGEPASSWORD("profile change password -o (?<oldPassword>\\S+) -n (?<newPassword>\\S+)"),
+    CHANGEINFO("profile change -(?<option>[a-z]+) (?<input>.+)"),
+    CHANGEPASSWORD("profile change password -(?<option1>[a-z]+) (?<input1>\\S+) -(?<option2>[a-z]) (?<input2>\\S+)"),
     CHANGESLOGAN("profile change slogan -s (?<slogan>.+)"),
     DISPLAYINFO("profile display( (?<field>.+))?"),
     SHOWMAP("show map -x (?<x>\\d+) -y (?<y>\\d+)"),
@@ -62,12 +63,13 @@ public enum Commands {
     SHOWPRICELIST("show price list"),
     BUYORSELL("(?<activity>[(buy)|(sell)] -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)"),
     NEXTTURN("next turn"),
+    ENTERTRADEMENU("enter trade menu"),
     EXIT("exit"),
     BACK("back");
     
-
+    
     private final String regex;
-
+    
     private Commands(String regex) {
         this.regex = regex;
     }

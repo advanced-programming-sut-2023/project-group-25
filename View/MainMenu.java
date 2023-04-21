@@ -24,11 +24,17 @@ public class MainMenu {
                 return "logout";
             }
             
-            if ((matcher = Commands.getMatcher(input,Commands.SHOWMAP)).find()) {
-                return "mapMenu";
+            else if ((matcher = Commands.getMatcher(input,Commands.SHOWMAP)).find()) {
+                return "map menu";
             }
             
-            if
+            else if ((matcher = Commands.getMatcher(input,Commands.ENTERPROFILEMENU)).find()) {
+                return "profile menu";
+            }
+            
+            else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
+                return "trade menu";
+            }
         }
     }
 }

@@ -1,14 +1,24 @@
 package View;
 
+import Controller.ChangeMenuController;
+import Controller.TradeController;
+
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class TradeMenu {
-    private TradeController controller;
-    public TradeMenu(TradeController tradeController) {
-        this.controller = tradeController;
+    private final ChangeMenuController changeMenuController;
+    private final TradeController tradeController;
+    private Matcher matcher;
+    private String input;
+    
+    public TradeMenu(ChangeMenuController changeMenuController) {
+        this.changeMenuController = changeMenuController;
+        this.tradeController = changeMenuController.getTradeController();
     }
+    
     public String run(Scanner scanner) {
-        return null;
+    
     }
     
 }
