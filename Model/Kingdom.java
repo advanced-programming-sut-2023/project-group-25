@@ -6,7 +6,7 @@ public class Kingdom {
     private ArrayList<Building> kingBuildings = new ArrayList<>();
     private ArrayList<Product> kingProduct = new ArrayList<>();
     private ArrayList<Person> kingPeople = new ArrayList<>();
-    private ArrayList<PopularityFactor> kingPopularityFactors = new ArrayList<>();
+    //private ArrayList<PopularityFactor> kingPopularityFactors = new ArrayList<>();
     private ArrayList<AttackEquipment> kingAttackEquipments = new ArrayList<>();
     private  User king;
     private int inventory;
@@ -28,9 +28,9 @@ public class Kingdom {
         return kingPeople;
     }
     
-    public ArrayList<PopularityFactor> getKingPopularityFactors() {
+    /*public ArrayList<PopularityFactor> getKingPopularityFactors() {
         return kingPopularityFactors;
-    }
+    }*/
     
     public ArrayList<AttackEquipment> getKingAttackEquipments() {
         return kingAttackEquipments;

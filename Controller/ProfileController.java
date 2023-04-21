@@ -15,7 +15,7 @@ public class ProfileController {
         this.scanner = scanner;
     }
 
-    public String changeInfo(String field, String content) {
+    /*public String changeInfo(String field, String content) {
         if (content.length() == 0)
             return "This field is empty!";
         if (field.equals("username")) {
@@ -57,28 +57,28 @@ public class ProfileController {
     public String removeSlogan() {
         currentUser.setSlogan("");
         return "Slogan field is now empty.";
-    }
+    }*/
 
     public String displayProfile(Matcher matcher) {
         String field = matcher.group("field");
         StringBuilder result = new StringBuilder();
         if (field.equals("highscore"))
             result.append("Highscore: ").append(currentUser.getHighScore());
-        else if (field.equals("rank"))
-            result.append("Rank: ").append(getRank());
+        /*else if (field.equals("rank"))
+            result.append("Rank: ").append(getRank());*/
         else if (field.equals("slogan")) {
             if (currentUser.getSlogan().equals(""))
                 result.append("Slogan is empty!");
             else result.append("Slogan: ").append(currentUser.getSlogan());
         } else {
-            result.append("Highscore: ").append(currentUser.getHighScore()).append("\nRank: ").append(getRank());
+            //result.append("Highscore: ").append(currentUser.getHighScore()).append("\nRank: ").append(getRank());
             if (!currentUser.getSlogan().equals(""))
                 result.append("\nSlogan: ").append(currentUser.getSlogan()).append('\n');
         }
         return result.toString();
     }
 
-    public int getRank() {
+    /*public int getRank() {
         ArrayList<User> sortedUsers = new ArrayList<User>(User.getUsers());
         Comparator<User> highScoreComparator = Comparator
                 .comparing(User::getHighScore);
@@ -92,5 +92,5 @@ public class ProfileController {
             rank++;
         }
         return -1;
-    }
+    }*/
 }

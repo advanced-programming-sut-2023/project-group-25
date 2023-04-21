@@ -1,13 +1,13 @@
 package View;
 
-import Controller.RegisterLoginMenuController;
+import Controller.RegisterLoginController;
 
 import java.util.Scanner;
 
 public class RegisterLoginMenu {
-    private final RegisterLoginMenuController controller;
+    private final RegisterLoginController controller;
 
-    public RegisterLoginMenu(RegisterLoginMenuController controller) {
+    public RegisterLoginMenu(RegisterLoginController controller) {
         this.controller = controller;
     }
 
