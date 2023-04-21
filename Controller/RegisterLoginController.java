@@ -95,5 +95,4 @@ public class RegisterLoginController {
         else
             return false;
     }
-
 }
