@@ -19,6 +19,11 @@ public class ProfileMenu {
     }
     
     public String run(Scanner scanner) {
-        
+        while (true) {
+            input = scanner.nextLine();
+            if ((matcher = Commands.getMatcher(input,Commands.BACK)).find()) {
+                return "main menu";
+            }
+        }
     }
 }

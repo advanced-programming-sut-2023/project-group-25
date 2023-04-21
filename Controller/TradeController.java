@@ -1,2 +1,5 @@
-package Controller;public class TradeController {
+package Controller;
+
+public class TradeController {
+
 }

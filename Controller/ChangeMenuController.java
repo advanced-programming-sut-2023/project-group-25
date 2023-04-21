@@ -8,12 +8,14 @@ public class ChangeMenuController {
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);
     private final GameMenu gameMenu = new GameMenu(this);
-//    private final ProfileMenu profileMenu = new ProfileMenu(this);
-//    private final TradeMenu tradeMenu = new TradeMenu(this);
+    private final ProfileMenu profileMenu = new ProfileMenu(this);
+    private final TradeMenu tradeMenu = new TradeMenu(this);
     private final MapMenu mapMenu = new MapMenu(this);
     private final RegisterLoginController registerLoginController = new RegisterLoginController();
     private final MainController mainController = new MainController();
     private final GameController gameController = new GameController();
+    private final ProfileController profileController = new ProfileController();
+    private final TradeController tradeController = new TradeController();
     
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
@@ -27,6 +29,14 @@ public class ChangeMenuController {
         return gameController;
     }
     
+    public ProfileController getProfileController() {
+        return profileController;
+    }
+    
+    public TradeController getTradeController() {
+        return tradeController;
+    }
+    
     public void run(Scanner scanner) {
         if (registerLoginMenu.run(scanner).equals("exit")) return;
         //registerLoginMenu has returned mainMenu.
@@ -34,13 +44,17 @@ public class ChangeMenuController {
             case "logout":
                 if (registerLoginMenu.run(scanner).equals("exit")) return;
                 break;
-            case "gameMenu":
+            case "game menu":
                 gameMenu.run(scanner);
                 break;
-            case "mapMenu":
+            case "map menu":
                 mapMenu.run(scanner);
                 break;
-            case "profileMenu":
+            case "profile menu":
+                profileMenu.run(scanner);
+                break;
+            case "trade menu":
+            
         }
     }
 }

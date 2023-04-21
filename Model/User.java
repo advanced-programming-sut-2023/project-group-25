@@ -25,50 +25,6 @@ public class User {
         this.securityAnswer = securityAnswer;
     }
     
-    public String getUsername() {
-        return username;
-    }
-    
-    public String getPassword() {
-        return password;
-    }
-    
-    public String getNickname() {
-        return nickname;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public String getSlogan() {
-        return slogan;
-    }
-    
-    public int getHighScore() {
-        return highScore;
-    }
-    
-    public String getSecurityQuestion() {
-        return securityQuestion;
-    }
-    
-    public String getSecurityAnswer() {
-        return securityAnswer;
-    }
-    
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-    
     public static boolean isUserNameUnique(String username) {
         for (User user : users) {
             if (user.username.equals(username)) return false;
@@ -83,7 +39,6 @@ public class User {
         return true;
     }
     
-    
     public static void addUser(User user) {
         users.add(user);
     }
@@ -93,6 +48,62 @@ public class User {
             if (user.username.equals(username)) return user;
         }
         return null;
+    }
+    
+    public String getUsername() {
+        return username;
+    }
+    
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    public String getNickname() {
+        return nickname;
+    }
+    
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getSlogan() {
+        return slogan;
+    }
+    
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
+    
+    public void setSlogan(String slogan) {
+        this.slogan = slogan;
+    }
+    
+    public int getHighScore() {
+        return highScore;
+    }
+    
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+    
+    public String getSecurityAnswer() {
+        return securityAnswer;
     }
     
     public boolean isPasswordCorrect(String password) {
