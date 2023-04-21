@@ -2,10 +2,7 @@ package Controller;
 
 import Model.User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class RegisterLoginController {
@@ -82,6 +79,7 @@ public class RegisterLoginController {
         }
         return null;
     }
+    
 
     /*public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
@@ -94,5 +92,5 @@ public class RegisterLoginController {
             return true;
         else
             return false;
-    }/*
+    }*/
 }

@@ -165,4 +165,7 @@ public class CaptchaGenerator {
             System.out.println(line[i]);
         }
     }
+    
+    public static class MapMenu {
+    }
 }

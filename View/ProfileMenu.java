@@ -1,11 +1,15 @@
 package View;
 
+import Controller.ChangeMenuController;
+import Controller.MainController;
+
 import java.util.Scanner;
 
 public class ProfileMenu {
-    private MainController controller;
-    public ProfileMenu(MainController controller) {
-        this.controller = controller;
+    private final ChangeMenuController changeMenuController;
+    public ProfileMenu(ChangeMenuController changeMenuController) {
+        this.changeMenuController = changeMenuController;
+        
     }
     
     public String run(Scanner scanner) {

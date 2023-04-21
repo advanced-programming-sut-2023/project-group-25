@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public enum Commands {
 
-    /*not sure*/CREATEUSER("user create -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+) -(?<thirdInputIdentifier[a-z]+) (?<thirdInput>.+) -(?<fourthInputIdentifier[a-z]+) (?<fourthInput>.+) -(?<fifthInputIdentifier[a-z]+) (?<fifthInput>.+)"),
+    /*not sure*/CREATEUSER("user create -(?<option1[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+) -(?<thirdInputIdentifier[a-z]+) (?<thirdInput>.+) -(?<fourthInputIdentifier[a-z]+) (?<fourthInput>.+) -(?<fifthInputIdentifier[a-z]+) (?<fifthInput>.+)"),
     PICKQUESTION("question pick -q (?<questionNumber>\\d+) -a (?<answer>.+) -c (?<answerConfirm>.+)"),
     NEWCAPTCHA("show me a new captcha"),
     /*not sure*/LOGIN("user login -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)( --stay-logged-in)?"),
@@ -61,7 +61,10 @@ public enum Commands {
     TRADEHISTORY("trade history"),
     SHOWPRICELIST("show price list"),
     BUYORSELL("(?<activity>[(buy)|(sell)] -(?<firstInputIdentifier[a-z]+) (?<firstInput>.+) -(?<secondInputIdentifier[a-z]+) (?<secondInput>.+)"),
-    NEXTTURN("next turn");
+    NEXTTURN("next turn"),
+    EXIT("exit"),
+    BACK("back");
+    
 
     private final String regex;
 
