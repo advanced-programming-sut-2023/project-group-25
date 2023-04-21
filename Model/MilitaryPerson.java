@@ -65,4 +65,5 @@ public class MilitaryPerson extends Person {
     public String getMode() {
         return mode;
     }
+
 }

@@ -8,8 +8,8 @@ public class WorkerPerson extends Person {
         super(king, type, location);
         this.workerPlace = workerPlace;
     }
-
     public Building getWorkerPlace() {
         return workerPlace;
     }
+
 }

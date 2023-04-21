@@ -23,4 +23,5 @@ public class Person {
     public Cell getLocation() {
         return location;
     }
+
 }

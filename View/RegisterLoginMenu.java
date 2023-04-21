@@ -14,4 +14,5 @@ public class RegisterLoginMenu {
     public String run(Scanner scanner) {
         return null;
     }
+
 }
