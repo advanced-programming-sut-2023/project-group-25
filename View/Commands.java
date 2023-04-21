@@ -5,18 +5,18 @@ import java.util.regex.Pattern;
 
 public enum Commands {
     
-    /*not sure*/CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
+    CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
     ENTERPROFILEMENU("enter profile menu"),
-    PICKQUESTION("question pick -q (?<questionNumber>\\d+) -a (?<answer>.+) -c (?<answerConfirm>.+)"),
+    PICKQUESTION("question pick -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)"),
     NEWCAPTCHA("show me a new captcha"),
-    /*not sure*/LOGIN("user login -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)( --stay-logged-in)?"),
+    LOGIN("user login -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)( --stay-logged-in)?"),
     FORGOTPASSWORD("forgot my password -u (?<username>\\S+)"),
     LOGOUT("user logout"),
     CHANGEINFO("profile change -(?<option>[a-z]+) (?<input>.+)"),
     CHANGEPASSWORD("profile change password -(?<option1>[a-z]+) (?<input1>\\S+) -(?<option2>[a-z]) (?<input2>\\S+)"),
     CHANGESLOGAN("profile change slogan -s (?<slogan>.+)"),
     DISPLAYINFO("profile display( (?<field>.+))?"),
-    SHOWMAP("show map -x (?<x>\\d+) -y (?<y>\\d+)"),
+    SHOWMAP("show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<option2>\\d+)"),
     MOVEONMAP("map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)"),
     SHOWDETAILS("show details -x (?<x>\\d+) -y (?<y>\\d+)"),
     SHOWPOPULARITYFACTORS("show popularity factors"),
