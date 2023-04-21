@@ -60,4 +60,14 @@ public class RegisterLoginController {
             password += specialCharacters[random.nextInt(32)];
         return password;
     }
+
+    public String generateRandomSlogan() {
+        String[] preparedSlogans = {"Through adversity comes strength!", "Don’t be afraid to fail!", "Compete with yourself!",
+                "Play for fun, not stakes beyond your control!", "Keep calm and check mate the king!", "It’s your world!",
+                "There’s never been a better time to game!", "Race in the ultimate automotive playground!", "Build and Explore!",
+                "Are you ready for a new level of excitement?", "Nothing is impossible, it just a matter of perspective!", "A level up!",
+        "Hone your skills!", "Play with anyone, anywhere, on any device!", "A game is never over until it’s over!", "Get invited to play!"};
+        Random random = new Random();
+        return preparedSlogans[random.nextInt(16)];
+    }
 }
