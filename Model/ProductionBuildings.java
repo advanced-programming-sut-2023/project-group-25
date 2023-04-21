@@ -12,4 +12,5 @@ public class ProductionBuildings extends Building{
     public int getRate() {
         return rate;
     }
+
 }

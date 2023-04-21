@@ -33,4 +33,5 @@ public class FightingBuildings extends Building{
     public int getMaxHitPoint() {
         return maxHitPoint;
     }
+
 }

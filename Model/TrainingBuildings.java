@@ -13,4 +13,5 @@ public class TrainingBuildings extends Building {
     public ArrayList<MilitaryPerson> getOutputMilitaryPeople() {
         return outputMilitaryPeople;
     }
+
 }

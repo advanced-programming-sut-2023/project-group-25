@@ -14,4 +14,5 @@ public class OtherBuildings extends Building {
     public boolean isWorking() {
         return isWorking;
     }
+
 }

@@ -11,4 +11,5 @@ public class GameMenu {
     public String run(Scanner scanner) {
         return null;
     }
+
 }

@@ -83,7 +83,7 @@ public class RegisterLoginController {
         return null;
     }
 
-    public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
+    /*public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
         for(int i = 0; i<allOptions.size();i++) {
             matcherExistingOptions.add(matcher.group(("option" + (i+1))));
@@ -94,5 +94,5 @@ public class RegisterLoginController {
             return true;
         else
             return false;
-    }
+    }/*
 }

@@ -32,4 +32,5 @@ public class StorageBuildings extends Building {
     public String getStorageCategory() {
         return storageCategory;
     }
+
 }

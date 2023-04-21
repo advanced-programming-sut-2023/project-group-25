@@ -3,7 +3,6 @@ package Model;
 import java.util.ArrayList;
 
 public class Building {
-    //testing
     private static final ArrayList<Building> allBuildings = new ArrayList<>();
     private String type;
     private String category;
@@ -70,4 +69,5 @@ public class Building {
     public User getKing() {
         return king;
     }
+
 }
