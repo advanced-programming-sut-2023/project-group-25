@@ -114,7 +114,10 @@ public class RegisterLoginController {
         }
         else {
             password = passwordGroup.split("\\s")[0];
-            passwordConfirm = passwordGroup.split("\\s")[1];
+            if(passwordGroup.split("\\s").length > 1)
+                passwordConfirm = passwordGroup.split("\\s")[1];
+            else
+                passwordConfirm = "";
         }
         if(slogan.equals("random")) {
             slogan = generateRandomSlogan();

@@ -121,7 +121,7 @@ public class RegisterLoginMenu {
                     System.out.print("Please re-enter the password correctly: ");
             }
         }
-        return null;
+        return "";
     }
 
     public String captchaRun(Scanner scanner) {
