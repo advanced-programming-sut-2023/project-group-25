@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 
 public class RegisterLoginController {
     private static User currentUser;
-    
+    private static User registeringUser;
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -79,9 +79,8 @@ public class RegisterLoginController {
         }
         return null;
     }
-    
 
-    /*public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
+    public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
         for(int i = 0; i<allOptions.size();i++) {
             matcherExistingOptions.add(matcher.group(("option" + (i+1))));
@@ -92,5 +91,57 @@ public class RegisterLoginController {
             return true;
         else
             return false;
-    }*/
+    }
+
+    public void getRegisterOptions(Matcher matcher) {
+        String password, passwordConfirm;
+        String username = getOptionsFromMatcher(matcher,"u",5);
+        String nickname = getOptionsFromMatcher(matcher,"n",5);
+        String email = getOptionsFromMatcher(matcher,"e",5);
+        String passwordGroup = getOptionsFromMatcher(matcher,"p",5);
+        String slogan = getOptionsFromMatcher(matcher,"s",5);
+        if(passwordGroup.equals("random")) {
+            password = generateRandomPassword();
+            passwordConfirm = password;
+        }
+        else {
+            password = passwordGroup.split("\\s")[0];
+            passwordConfirm = passwordGroup.split("\\s")[1];
+        }
+        if(slogan.equals("random")) {
+            slogan = generateRandomSlogan();
+        }
+        registeringUser = new User(username,password,passwordConfirm,nickname,email,slogan);
+    }
+
+    public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
+        String resultMessage;
+        if(!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            getRegisterOptions(matcher);
+            if(registeringUser.getUsername().matches("\\s*") || registeringUser.getNickname().equals("") ||
+                    registeringUser.getEmail().equals("") || registeringUser.getPassword().equals("") ||
+                    registeringUser.getPasswordConfirmation().equals("") || registeringUser.getSlogan().equals(""))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if(!isUsernameValid(registeringUser.getUsername()))
+                resultMessage = "This username is not valid!";
+            else if(!User.isUserNameUnique(registeringUser.getUsername()))
+                resultMessage = "This username already exists!";
+            else if(!isPasswordWeak(registeringUser.getPassword()).equals("success"))
+                resultMessage = ("This password is not valid; " + isPasswordWeak(registeringUser.getPassword()));
+            else if(!registeringUser.getPassword().equals(registeringUser.getPasswordConfirmation()))
+                resultMessage = "The password confirmation doesn't match the original one!";
+            else if(!User.isEmailUnique(registeringUser.getEmail()))
+                resultMessage = "This email already exists!";
+            else if(!isEmailValid(registeringUser.getEmail()))
+                resultMessage = "This email is not valid!";
+            else {
+                User.addUser(registeringUser);
+                resultMessage = "success";
+            }
+
+        }
+        return resultMessage;
+    }
 }

@@ -4,12 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Commands {
-    
-    CREATEUSER("^user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)$"),
+
+    CREATE_USER("^user create -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)" +
+            " -(?<option4>.+) (?<input4>.+) -(?<option5>.+) (?<input5>.+)$"),
     ENTERPROFILEMENU("^enter profile menu"),
-    PICKQUESTION("^question pick -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)$"),
+    PICK_QUESTION("^question pick -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)$"),
     NEWCAPTCHA("^show me a new captcha$"),
-    LOGIN("^user login -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)( --stay-logged-in)?$"),
+    LOGIN("^user login -(?<option1>[a-z]+) (?<input1>.+) -(?<option2>[a-z]+) (?<input2>.+)( --stay-logged-in)?$"),
     FORGOTPASSWORD("^forgot my password -u (?<username>\\S+)$"),
     LOGOUT("^user logout$"),
     CHANGEINFO("^profile change -(?<option>[a-z]+) (?<input>.+)$"),

@@ -6,6 +6,7 @@ public class User {
     private static ArrayList<User> users = new ArrayList<>();
     private String username;
     private String password;
+    private String passwordConfirmation;
     private String nickname;
     private String email;
     private String slogan;
@@ -13,18 +14,24 @@ public class User {
     private String securityQuestion;
     private String securityAnswer;
     
-    public User(String username, String password, String nickname, String email,
-                String slogan, int highScore, String securityQuestion, String securityAnswer) {
+    public User(String username, String password, String passwordConfirmation, String nickname, String email, String slogan) {
         this.username = username;
         this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
         this.nickname = nickname;
         this.email = email;
         this.slogan = slogan;
-        this.highScore = highScore;
+        this.highScore = 0;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
         this.securityQuestion = securityQuestion;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
     }
-    
+
     public static boolean isUserNameUnique(String username) {
         for (User user : users) {
             if (user.username.equals(username)) return false;
@@ -97,7 +104,11 @@ public class User {
     public int getHighScore() {
         return highScore;
     }
-    
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
     public String getSecurityQuestion() {
         return securityQuestion;
     }
