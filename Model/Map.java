@@ -1,7 +1,7 @@
 package Model;
 
 public class Map {
-    private Map[3]templateMaps;
+    private Map[] templateMaps=new Map[3];
     private Cell[][] cells;
 
 
@@ -17,12 +17,9 @@ public class Map {
         return cells;
     }
 
-    public int getHeight() {
-        return height;
+    public void setTemplateMaps(Map[] templateMaps) {
+        this.templateMaps = templateMaps;
     }
 
-    public int getWidth() {
-        return width;
-    }
 
 }
