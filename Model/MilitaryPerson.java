@@ -36,6 +36,7 @@ public class MilitaryPerson extends Person {
         for (MilitaryPerson person : allMilitaryPerson)
             if (person.getType().equals(type))
                 return person;
+        return null;
     }
 
     public static ArrayList<MilitaryPerson> getAllMilitaryPerson() {
