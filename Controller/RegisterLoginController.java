@@ -95,6 +95,7 @@ public class RegisterLoginController {
 
     public void getRegisterOptions(Matcher matcher) {
         String password, passwordConfirm;
+        boolean isPasswordRandom = false, isSloganRandom = false;
         String username = getOptionsFromMatcher(matcher,"u",5);
         String nickname = getOptionsFromMatcher(matcher,"n",5);
         String email = getOptionsFromMatcher(matcher,"e",5);
@@ -103,6 +104,7 @@ public class RegisterLoginController {
         if(passwordGroup.equals("random")) {
             password = generateRandomPassword();
             passwordConfirm = password;
+            isPasswordRandom = true;
         }
         else {
             password = passwordGroup.split("\\s")[0];
@@ -110,8 +112,11 @@ public class RegisterLoginController {
         }
         if(slogan.equals("random")) {
             slogan = generateRandomSlogan();
+            isSloganRandom = true;
         }
         registeringUser = new User(username,password,passwordConfirm,nickname,email,slogan);
+        registeringUser.setPasswordRandom(isPasswordRandom);
+        registeringUser.setSloganRandom(isSloganRandom);
     }
 
     public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {

@@ -33,17 +33,14 @@ public class RegisterLoginMenu {
                     add("n");
                     add("s");
                 }};
-                String resultMessage = registerLoginController.register(matcher, allOptions,true);
-                if(resultMessage.equals("success")) {
-                    resultMessage = pickSecurityRun(scanner);
-                    if(resultMessage.equals("exit"))
+                String resultMessage = registerLoginController.register(matcher, allOptions, true);
+                if (resultMessage.equals("success")) {
+                    randomPasswordRun(scanner);
+                    resultMessage = pickSecurityQuestionRun(scanner);
+                    if (resultMessage.equals("exit"))
                         return "exit";
-                    System.out.println("User register succeeded!");
-                    System.out.println("Username: " + RegisterLoginController.getCurrentUser().getUsername() +
-                            "SecurityQ: " + RegisterLoginController.getCurrentUser().getSecurityQuestion()  +
-                            "Ans: " + RegisterLoginController.getCurrentUser().getSecurityAnswer() );
-                }
-                else {
+                    System.out.println("User registered successfully!");
+                } else {
                     System.out.println(resultMessage);
                 }
             } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null) {
@@ -53,10 +50,10 @@ public class RegisterLoginMenu {
         }
     }
 
-    public String pickSecurityRun(Scanner scanner) {
+    public String pickSecurityQuestionRun(Scanner scanner) {
         ArrayList<String> questions = registerLoginController.showSecurityQuestions();
         System.out.println("Pick a security question from the following list:");
-        for(String question : questions) {
+        for (String question : questions) {
             System.out.println(question);
         }
         while (true) {
@@ -67,17 +64,32 @@ public class RegisterLoginMenu {
             }};
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.PICK_QUESTION)) != null) {
-                String resultMessage = registerLoginController.pickQuestion(matcher,allOptions);
-                if(resultMessage.equals("success")) {
+                String resultMessage = registerLoginController.pickQuestion(matcher, allOptions);
+                if (resultMessage.equals("success")) {
                     return "success";
-                }
-                else {
+                } else {
                     System.out.println(resultMessage);
                 }
             } else if ((matcher = Commands.getMatcher(input, Commands.EXIT)) != null) {
                 return "exit";
-            }  else {
+            } else {
                 System.out.println("Invalid command format; Please pick a security question:");
+            }
+        }
+    }
+
+    public void randomPasswordRun(Scanner scanner) {
+        if (RegisterLoginController.getCurrentUser().isSloganRandom())
+            System.out.println("Your slogan is: \"" + RegisterLoginController.getCurrentUser().getSlogan() + "\"");
+        if (RegisterLoginController.getCurrentUser().isPasswordRandom()) {
+            System.out.println("Your random password is:" + RegisterLoginController.getCurrentUser().getPassword());
+            System.out.println("Please re-enter your password here:");
+            while (true) {
+                input = scanner.nextLine();
+                if(input.equals(RegisterLoginController.getCurrentUser().getPassword()))
+                    break;
+                else
+                    System.out.println("Please re-enter the password correctly!");
             }
         }
     }

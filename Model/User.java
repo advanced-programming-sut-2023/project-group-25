@@ -13,6 +13,8 @@ public class User {
     private int highScore;
     private String securityQuestion;
     private String securityAnswer;
+    private boolean isPasswordRandom;
+    private boolean isSloganRandom;
     
     public User(String username, String password, String passwordConfirmation, String nickname, String email, String slogan) {
         this.username = username;
@@ -22,6 +24,16 @@ public class User {
         this.email = email;
         this.slogan = slogan;
         this.highScore = 0;
+        isPasswordRandom = false;
+        isSloganRandom = false;
+    }
+
+    public void setPasswordRandom(boolean passwordRandom) {
+        isPasswordRandom = passwordRandom;
+    }
+
+    public void setSloganRandom(boolean sloganRandom) {
+        isSloganRandom = sloganRandom;
     }
 
     public void setSecurityQuestion(String securityQuestion) {
@@ -30,6 +42,14 @@ public class User {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    public boolean isPasswordRandom() {
+        return isPasswordRandom;
+    }
+
+    public boolean isSloganRandom() {
+        return isSloganRandom;
     }
 
     public static boolean isUserNameUnique(String username) {
