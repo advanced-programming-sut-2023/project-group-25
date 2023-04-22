@@ -5,8 +5,10 @@ import java.util.regex.Pattern;
 
 public enum Commands {
 
-    CREATE_USER("^user create -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)" +
+    CREATE_USER_WITH_SLOGAN("^user create -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)" +
             " -(?<option4>.+) (?<input4>.+) -(?<option5>.+) (?<input5>.+)$"),
+    CREATE_USER_WITHOUT_SLOGAN("^user create -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)" +
+            " -(?<option4>.+) (?<input4>.+)$"),
     ENTERPROFILEMENU("^enter profile menu"),
     PICK_QUESTION("^question pick -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)$"),
     NEWCAPTCHA("^show me a new captcha$"),

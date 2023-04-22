@@ -28,7 +28,7 @@ public class CaptchaGenerator {
     }
     
     
-    public static void asciiArt(String captcha) {
+    public static void generateCAPTCHA(String captcha) {
         
         int captchaLength = captcha.length();
         int captchaNumber = Integer.parseInt(captcha);
@@ -44,8 +44,7 @@ public class CaptchaGenerator {
             line[i] = "";
         }
         
-       
-        
+
         //noise
         int toBeNoisedLine1 = (4 + (int) (Math.random() * 5)) % 7 + 1;
         int toBeNoisedLine2 = (4 + (int) (Math.random() * 5)) % 7 + 1;
@@ -163,6 +162,112 @@ public class CaptchaGenerator {
         
         for (int i = 1; i < 8; i++) {
             System.out.println(line[i]);
+        }
+    }
+
+    public String[] asciiArt(int digit) {
+        String[] line = new String[8];
+        switch (digit) {
+            case 0: {
+                line[1] += " ******      ";
+                line[2] += "*      *     ";
+                line[3] += "*      *     ";
+                line[4] += "*      *     ";
+                line[5] += "*      *     ";
+                line[6] += "*      *     ";
+                line[7] += " ******      ";
+                break;
+            }
+            case 1: {
+                line[1] += "*     ";
+                line[2] += "*     ";
+                line[3] += "*     ";
+                line[4] += "*     ";
+                line[5] += "*     ";
+                line[6] += "*     ";
+                line[7] += "*     ";
+                break;
+            }
+            case 2: {
+                line[1] += "********     ";
+                line[2] += "       *     ";
+                line[3] += "       *     ";
+                line[4] += "********     ";
+                line[5] += "*            ";
+                line[6] += "*            ";
+                line[7] += "********     ";
+                break;
+            }
+            case 3: {
+                line[1] += "********     ";
+                line[2] += "       *     ";
+                line[3] += "       *     ";
+                line[4] += " *******     ";
+                line[5] += "       *     ";
+                line[6] += "       *     ";
+                line[7] += "********     ";
+                break;
+            }
+            case 4: {
+                line[1] += "*      *     ";
+                line[2] += "*      *     ";
+                line[3] += "********     ";
+                line[4] += "       *     ";
+                line[5] += "       *     ";
+                line[6] += "       *     ";
+                line[7] += "       *     ";
+                break;
+            }
+            case 5: {
+                line[1] += "********     ";
+                line[2] += "*            ";
+                line[3] += "*            ";
+                line[4] += "********     ";
+                line[5] += "       *     ";
+                line[6] += "       *     ";
+                line[7] += "********     ";
+                break;
+            }
+            case 6: {
+                line[1] += "********     ";
+                line[2] += "*            ";
+                line[3] += "*            ";
+                line[4] += "********     ";
+                line[5] += "*      *     ";
+                line[6] += "*      *     ";
+                line[7] += "********     ";
+                break;
+            }
+            case 7: {
+                line[1] += "********     ";
+                line[2] += "*      *     ";
+                line[3] += "*      *     ";
+                line[4] += "       *     ";
+                line[5] += "       *     ";
+                line[6] += "       *     ";
+                line[7] += "       *     ";
+                break;
+            }
+            case 8: {
+                line[1] += "********     ";
+                line[2] += "*      *     ";
+                line[3] += "*      *     ";
+                line[4] += "********     ";
+                line[5] += "*      *     ";
+                line[6] += "*      *     ";
+                line[7] += "********     ";
+                break;
+            }
+            case 9: {
+                line[1] += "********     ";
+                line[2] += "*      *     ";
+                line[3] += "*      *     ";
+                line[4] += "********     ";
+                line[5] += "       *     ";
+                line[6] += "       *     ";
+                line[7] += "********     ";
+                break;
+            }
         }
     }
     

@@ -21,11 +21,14 @@ public class RegisterLoginMenu {
     }
 
     public String run(Scanner scanner) {
+        String resultMessage = "";
+        Matcher tmpMatcher = null;
         while (true) {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.EXIT)) != null) {
                 return "exit";
-            } else if ((matcher = Commands.getMatcher(input, Commands.CREATE_USER)) != null) {
+            } else if ((matcher = Commands.getMatcher(input, Commands.CREATE_USER_WITH_SLOGAN)) != null ||
+                    (tmpMatcher = Commands.getMatcher(input, Commands.CREATE_USER_WITHOUT_SLOGAN)) != null) {
                 ArrayList<String> allOptions = new ArrayList<>() {{
                     add("u");
                     add("p");
@@ -33,7 +36,16 @@ public class RegisterLoginMenu {
                     add("n");
                     add("s");
                 }};
-                String resultMessage = registerLoginController.register(matcher, allOptions, true);
+                ArrayList<String> allOptionsWithoutSlogan = new ArrayList<>() {{
+                    add("u");
+                    add("p");
+                    add("e");
+                    add("n");
+                }};
+                if(matcher != null)
+                    resultMessage = registerLoginController.register(matcher, allOptions, true);
+                else if(tmpMatcher != null)
+                    resultMessage = registerLoginController.register(tmpMatcher, allOptionsWithoutSlogan, false);
                 if (resultMessage.equals("success")) {
                     randomPasswordRun(scanner);
                     resultMessage = pickSecurityQuestionRun(scanner);

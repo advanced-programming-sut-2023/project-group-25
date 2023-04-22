@@ -93,14 +93,20 @@ public class RegisterLoginController {
             return false;
     }
 
-    public void getRegisterOptions(Matcher matcher) {
-        String password, passwordConfirm;
+    public void getRegisterOptions(Matcher matcher, boolean hasSlogan) {
+        String password, passwordConfirm, slogan;
         boolean isPasswordRandom = false, isSloganRandom = false;
-        String username = getOptionsFromMatcher(matcher,"u",5);
-        String nickname = getOptionsFromMatcher(matcher,"n",5);
-        String email = getOptionsFromMatcher(matcher,"e",5);
-        String passwordGroup = getOptionsFromMatcher(matcher,"p",5);
-        String slogan = getOptionsFromMatcher(matcher,"s",5);
+        int numberOfOptions = 5;
+        if(!hasSlogan)
+            numberOfOptions--;
+        String username = getOptionsFromMatcher(matcher,"u",numberOfOptions);
+        String nickname = getOptionsFromMatcher(matcher,"n",numberOfOptions);
+        String email = getOptionsFromMatcher(matcher,"e",numberOfOptions);
+        String passwordGroup = getOptionsFromMatcher(matcher,"p",numberOfOptions);
+        if(hasSlogan)
+            slogan = getOptionsFromMatcher(matcher,"s",numberOfOptions);
+        else
+            slogan = "";
         if(passwordGroup.equals("random")) {
             password = generateRandomPassword();
             passwordConfirm = password;
@@ -124,10 +130,10 @@ public class RegisterLoginController {
         if(!checkAllOptionsExist(matcher, allOptions))
             resultMessage = "Please enter valid options!";
         else {
-            getRegisterOptions(matcher);
+            getRegisterOptions(matcher, hasSlogan);
             if(registeringUser.getUsername().matches("\\s+") || registeringUser.getNickname().matches("\\s+") ||
                     registeringUser.getEmail().matches("\\s+") || registeringUser.getPassword().matches("\\s+") ||
-                    registeringUser.getPasswordConfirmation().matches("\\s+") || registeringUser.getSlogan().matches("\\s+"))
+                    registeringUser.getPasswordConfirmation().matches("\\s+") || (hasSlogan && registeringUser.getSlogan().matches("\\s+")))
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
             else if(!isUsernameValid(registeringUser.getUsername()))
                 resultMessage = "This username is not valid!";
@@ -186,9 +192,13 @@ public class RegisterLoginController {
                 resultMessage = "The answer confirmation doesn't match the original one!";
             else {
                 int number = Integer.parseInt(questionNumber);
-                currentUser.setSecurityQuestion(questions.get(number - 1));
-                currentUser.setSecurityAnswer(answer);
-                resultMessage = "success";
+                if(number < 1 || number > 5)
+                    resultMessage = "Invalid question number; There is no question with this number!";
+                else {
+                    currentUser.setSecurityQuestion(questions.get(number - 1));
+                    currentUser.setSecurityAnswer(answer);
+                    resultMessage = "success";
+                }
             }
         }
         return resultMessage;
