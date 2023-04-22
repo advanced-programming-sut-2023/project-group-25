@@ -16,4 +16,5 @@ public enum Commands {
         Matcher matcher = Pattern.compile(commands.regex).matcher(input);
         return matcher.matches() ? matcher : null;
     }
+
 }

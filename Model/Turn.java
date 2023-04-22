@@ -7,4 +7,5 @@ public class Turn {
     public Turn(User currentKing) {
         this.currentKing = currentKing;
     }
+
 }

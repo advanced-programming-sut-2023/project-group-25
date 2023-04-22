@@ -14,4 +14,5 @@ public class Game {
     public void addKingdom(Kingdom kingdom){
         kingdoms.add(kingdom);
     }
+
 }
