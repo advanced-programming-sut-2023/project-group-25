@@ -11,11 +11,12 @@ public class ChangeMenuController {
     private final ProfileMenu profileMenu = new ProfileMenu(this);
     private final TradeMenu tradeMenu = new TradeMenu(this);
     private final MapMenu mapMenu = new MapMenu(this);
-    private final RegisterLoginController registerLoginController = new RegisterLoginController();
-    private final MainController mainController = new MainController();
-    private final GameController gameController = new GameController();
-    private final ProfileController profileController = new ProfileController();
-    private final TradeController tradeController = new TradeController();
+    private static RegisterLoginController registerLoginController = new RegisterLoginController();
+    private static MainController mainController = new MainController();
+    private static GameController gameController = new GameController();
+    private static ProfileController profileController = new ProfileController();
+    private static TradeController tradeController = new TradeController();
+    private static MapController mapController = new MapController();
     
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
