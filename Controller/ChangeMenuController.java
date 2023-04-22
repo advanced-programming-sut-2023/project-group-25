@@ -16,6 +16,10 @@ public class ChangeMenuController {
     private static GameController gameController = new GameController();
     private static ProfileController profileController = new ProfileController();
     private static TradeController tradeController = new TradeController();
+<<<<<<< HEAD
+=======
+    private static MapController mapController = new MapController();
+>>>>>>> 39b74a1157e0efba13342a3a03b774832c7ab250
     
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
