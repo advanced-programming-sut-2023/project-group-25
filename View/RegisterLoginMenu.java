@@ -35,7 +35,13 @@ public class RegisterLoginMenu {
                 }};
                 String resultMessage = registerLoginController.register(matcher, allOptions,true);
                 if(resultMessage.equals("success")) {
-                    System.out.println("Please pick up a security question:");
+                    resultMessage = pickSecurityRun(scanner);
+                    if(resultMessage.equals("exit"))
+                        return "exit";
+                    System.out.println("User register succeeded!");
+                    System.out.println("Username: " + RegisterLoginController.getCurrentUser().getUsername() +
+                            "SecurityQ: " + RegisterLoginController.getCurrentUser().getSecurityQuestion()  +
+                            "Ans: " + RegisterLoginController.getCurrentUser().getSecurityAnswer() );
                 }
                 else {
                     System.out.println(resultMessage);
@@ -47,12 +53,30 @@ public class RegisterLoginMenu {
         }
     }
 
-    public void pickSecurityRun(Scanner scanner) {
+    public String pickSecurityRun(Scanner scanner) {
+        ArrayList<String> questions = registerLoginController.showSecurityQuestions();
+        System.out.println("Pick a security question from the following list:");
+        for(String question : questions) {
+            System.out.println(question);
+        }
         while (true) {
+            ArrayList<String> allOptions = new ArrayList<>() {{
+                add("q");
+                add("a");
+                add("c");
+            }};
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.PICK_QUESTION)) != null) {
-                break;
-            } else {
+                String resultMessage = registerLoginController.pickQuestion(matcher,allOptions);
+                if(resultMessage.equals("success")) {
+                    return "success";
+                }
+                else {
+                    System.out.println(resultMessage);
+                }
+            } else if ((matcher = Commands.getMatcher(input, Commands.EXIT)) != null) {
+                return "exit";
+            }  else {
                 System.out.println("Invalid command format; Please pick a security question:");
             }
         }
