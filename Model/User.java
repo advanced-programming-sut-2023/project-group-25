@@ -65,6 +65,10 @@ public class User {
         }
         return true;
     }
+
+    public void removeUser() {
+        users.remove(this);
+    }
     
     public static void addUser(User user) {
         users.add(user);

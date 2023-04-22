@@ -5,6 +5,7 @@ import Controller.RegisterLoginController;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,10 +48,24 @@ public class RegisterLoginMenu {
                 else if(tmpMatcher != null)
                     resultMessage = registerLoginController.register(tmpMatcher, allOptionsWithoutSlogan, false);
                 if (resultMessage.equals("success")) {
-                    randomPasswordRun(scanner);
-                    resultMessage = pickSecurityQuestionRun(scanner);
-                    if (resultMessage.equals("exit"))
+                    resultMessage = randomPasswordRun(scanner);
+                    if (resultMessage.equals("exit")) {
+                        System.out.println("User register Canceled!");
+                        RegisterLoginController.getCurrentUser().removeUser();
                         return "exit";
+                    }
+                    resultMessage = pickSecurityQuestionRun(scanner);
+                    if (resultMessage.equals("exit")) {
+                        System.out.println("User register Canceled!");
+                        RegisterLoginController.getCurrentUser().removeUser();
+                        return "exit";
+                    }
+                    resultMessage = captchaRun(scanner);
+                    if (resultMessage.equals("exit")) {
+                        System.out.println("User register Canceled!");
+                        RegisterLoginController.getCurrentUser().removeUser();
+                        return "exit";
+                    }
                     System.out.println("User registered successfully!");
                 } else {
                     System.out.println(resultMessage);
@@ -90,19 +105,38 @@ public class RegisterLoginMenu {
         }
     }
 
-    public void randomPasswordRun(Scanner scanner) {
+    public String randomPasswordRun(Scanner scanner) {
         if (RegisterLoginController.getCurrentUser().isSloganRandom())
             System.out.println("Your slogan is: \"" + RegisterLoginController.getCurrentUser().getSlogan() + "\"");
         if (RegisterLoginController.getCurrentUser().isPasswordRandom()) {
-            System.out.println("Your random password is:" + RegisterLoginController.getCurrentUser().getPassword());
-            System.out.println("Please re-enter your password here:");
+            System.out.println("Your random password is: " + RegisterLoginController.getCurrentUser().getPassword());
+            System.out.print("Please re-enter your password here: ");
             while (true) {
                 input = scanner.nextLine();
                 if(input.equals(RegisterLoginController.getCurrentUser().getPassword()))
-                    break;
+                    return "success";
+                else if(input.equals("exit"))
+                    return "exit";
                 else
-                    System.out.println("Please re-enter the password correctly!");
+                    System.out.print("Please re-enter the password correctly: ");
             }
         }
+        return null;
+    }
+
+    public String captchaRun(Scanner scanner) {
+        String captcha = registerLoginController.generateCaptchaString();
+        registerLoginController.asciiArt(captcha);
+        System.out.print("To confirm the register, Enter the CAPTCHA: ");
+        while (true) {
+            input = scanner.nextLine();
+            if (input.equals(captcha)) {
+                return "success";
+            } else if(input.equals("exit"))
+                return "exit";
+            else
+                System.out.print("Invalid CAPTCHA; please re-enter the CAPTCHA correctly: ");
+        }
+
     }
 }
