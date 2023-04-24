@@ -9,14 +9,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class ProfileController {
-    Scanner scanner;
+    
     private RegisterLoginController registerLoginController = new RegisterLoginController();
     User currentUser = registerLoginController.getCurrentUser();
-
-    public ProfileController(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
+    
     public String changeInfo(String field, String content) {
         if (content.length() == 0)
             return "This field is empty!";
@@ -41,25 +37,26 @@ public class ProfileController {
             currentUser.setSlogan(content);
             return "Slogan changed successfully.";
         }
+        return null;
     }
-
+    
     public String changePassword(String oldPassword, String newPassword) {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (oldPassword.equals(newPassword))
                 return "Please enter a new password";
-            else if (!registerLoginController.isPasswordWeak(newPassword))
+            else if (!registerLoginController.isPasswordWeak(newPassword).equals("success"))
                 return "New password is weak!";
             currentUser.setPassword(newPassword);
             return "Password changed successfully.\nPlease enter your new password again";
         }
         return "Current password is incorrect!";
     }
-
+    
     public String removeSlogan() {
         currentUser.setSlogan("");
         return "Slogan field is now empty.";
     }
-
+    
     public String displayProfile(Matcher matcher) {
         String field = matcher.group("field");
         StringBuilder result = new StringBuilder();
@@ -78,14 +75,14 @@ public class ProfileController {
         }
         return result.toString();
     }
-
+    
     public int getRank() {
         ArrayList<User> sortedUsers = new ArrayList<User>(User.getUsers());
         Comparator<User> highScoreComparator = Comparator
                 .comparing(User::getHighScore);
         Comparator<User> fieldComparator = highScoreComparator;
         sortedUsers.sort(fieldComparator);
-
+        
         int rank = 1;
         for (User user : sortedUsers) {
             if (user.equals(currentUser))
@@ -94,5 +91,5 @@ public class ProfileController {
         }
         return -1;
     }
-
+    
 }
