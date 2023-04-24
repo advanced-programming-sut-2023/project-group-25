@@ -30,14 +30,14 @@ public class RegisterLoginMenu {
                 return "exit";
             } else if ((matcher = Commands.getMatcher(input, Commands.CREATE_USER_WITH_SLOGAN)) != null ||
                     (tmpMatcher = Commands.getMatcher(input, Commands.CREATE_USER_WITHOUT_SLOGAN)) != null) {
-                ArrayList<String> allOptions = new ArrayList<>() {{
+                ArrayList<String> allOptions = new ArrayList<String>() {{
                     add("u");
                     add("p");
                     add("e");
                     add("n");
                     add("s");
                 }};
-                ArrayList<String> allOptionsWithoutSlogan = new ArrayList<>() {{
+                ArrayList<String> allOptionsWithoutSlogan = new ArrayList<String>() {{
                     add("u");
                     add("p");
                     add("e");
@@ -84,7 +84,7 @@ public class RegisterLoginMenu {
             System.out.println(question);
         }
         while (true) {
-            ArrayList<String> allOptions = new ArrayList<>() {{
+            ArrayList<String> allOptions = new ArrayList<String>() {{
                 add("q");
                 add("a");
                 add("c");

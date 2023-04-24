@@ -4,26 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Commands {
-<<<<<<< HEAD
     
     CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
-    ENTERPROFILEMENU("enter profile menu"),
     PICKQUESTION("question pick -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)"),
-    NEWCAPTCHA("show me a new captcha"),
-    LOGIN("user login -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)( --stay-logged-in)?"),
-    FORGOTPASSWORD("forgot my password -u (?<username>\\S+)"),
-    LOGOUT("user logout"),
-    CHANGEINFO("profile change -(?<option>[a-z]+) (?<input>.+)"),
-    CHANGEPASSWORD("profile change password -(?<option1>[a-z]+) (?<input1>\\S+) -(?<option2>[a-z]) (?<input2>\\S+)"),
-    CHANGESLOGAN("profile change slogan -s (?<slogan>.+)"),
-    DISPLAYINFO("profile display( (?<field>.+))?"),
-    SHOWMAP("show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<option2>\\d+)"),
-    MOVEONMAP("map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)"),
-    SHOWDETAILS("show details -x (?<x>\\d+) -y (?<y>\\d+)"),
-    SHOWPOPULARITYFACTORS("show popularity factors"),
-    SHOWPOPULARITY("show popularity"),
-    SHOWFOODLIST("show food list"),
-=======
     CREATE_USER_WITH_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
             " -(?<option4>\\S+) (?<input4>.+) -(?<option5>\\S+) (?<input5>.+)$"),
     CREATE_USER_WITHOUT_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
@@ -44,7 +27,6 @@ public enum Commands {
     SHOWPOPULARITYFACTORS("^show popularity factors$"),
     SHOWPOPULARITY("^show popularity$"),
     SHOWFOODLIST("^show food list$"),
->>>>>>> 09b372cbc7944787873f7295591d25e079492173
     //the next two can be merged.
     RATEPOPULARITYFACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
     SHOWPOPULARITYFACTORRATE("food rate show"),
