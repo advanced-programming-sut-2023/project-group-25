@@ -7,7 +7,6 @@ import Model.Map;
 
 public class MapController {
     int length, weigh;
-
     public MapController(int x, int y) {
         this.length = x;
         this.weigh = y;
