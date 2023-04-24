@@ -44,6 +44,7 @@ public class MapController {
 
         initializeCastlesLocation(map);
         initializeIronLandsTemplate2(map);
+        initializeRockLandsTemplate2(map);
         for (int i = (3 * length) / 6 - 5; i < (3 * length) / 6 + 5; i++)
             for (int j = 0; j < (5 * weigh) / 6; j++)
                 map[i][j].setMaterial("sea");
@@ -62,6 +63,21 @@ public class MapController {
         for (int i = (3 * length) / 6 + 5; i < (4 * length) / 6; i++)
             for (int j = (4 * weigh) / 6; j < (5 * weigh) / 6; j++)
                 map[i][j].setMaterial("grass");
+    }
+
+    private void initializeRockLandsTemplate2(Cell[][] map) {
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - 5; i++)
+            for (int j = (2 * weigh) / 6; j < (3 * weigh) / 6 - 5; j++)
+                map[i][j].setMaterial("rockLand");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - 5; i++)
+            for (int j = (3 * weigh) / 6 + 5; j < (4 * weigh) / 6; j++)
+                map[i][j].setMaterial("rockLand");
+        for (int i = (3 * length) / 6 + 5; i < (4 * length) / 6; i++)
+            for (int j = (2 * weigh) / 6; j < (3 * weigh) / 6 - 5; j++)
+                map[i][j].setMaterial("rockLand");
+        for (int i = (3 * length) / 6 + 5; i < (4 * length) / 6; i++)
+            for (int j = (3 * weigh) / 6 + 5; j < (4 * weigh) / 6; j++)
+                map[i][j].setMaterial("rockLand");
     }
 
     private void initializeIronLandsTemplate2(Cell[][] map) {
