@@ -37,6 +37,7 @@ public class ProfileController {
             currentUser.setSlogan(content);
             return "Slogan changed successfully.";
         }
+        return null;
     }
     
     public String changePassword(String oldPassword, String newPassword) {
