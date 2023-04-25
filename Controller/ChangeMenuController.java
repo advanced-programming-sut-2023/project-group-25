@@ -29,7 +29,6 @@ public class ChangeMenuController {
 
     private static MapController mapController = new MapController();
 
->>>>>>> Hoora
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
     }
@@ -49,33 +48,11 @@ public class ChangeMenuController {
     public TradeController getTradeController() {
         return tradeController;
     }
-<<<<<<< HEAD
     
     public MapController getMapController() {
         return mapController;
     }
     
-    public void run(Scanner scanner) {
-        if (registerLoginMenu.run(scanner).equals("exit")) return;
-        //registerLoginMenu has returned mainMenu.
-        switch (mainMenu.run(scanner)) {
-            case "logout":
-                if (registerLoginMenu.run(scanner).equals("exit")) return;
-                break;
-            case "game menu":
-                gameMenu.run(scanner);
-                break;
-            case "map menu":
-                mapMenu.run(scanner);
-                break;
-            case "profile menu":
-                profileMenu.run(scanner);
-                break;
-            case "trade menu":
-                tradeMenu.run(scanner);
-                break;
-            
-=======
 
     public void run(Scanner scanner) throws NoSuchAlgorithmException {
         if (registerLoginMenu.run(scanner).equals("exit")) return;
@@ -97,7 +74,6 @@ public class ChangeMenuController {
                 case "trade menu":
 
             }
->>>>>>> Hoora
         }
     }
 }
