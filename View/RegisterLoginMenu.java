@@ -86,6 +86,48 @@ public class RegisterLoginMenu {
                     return "mainMenu";
                 else
                     System.out.println(resultMessage);
+            }  else if ((matcher = Commands.getMatcher(input, Commands.FORGOT_PASSWORD)) != null ) {
+                resultMessage = registerLoginController.forgotPasswordShowQuestion(matcher);
+                if(resultMessage.equals("fail")) {
+                    System.out.println("This username doesn't exist!");
+                }
+                else {
+                    System.out.println("Answer the following question to change password:");
+                    System.out.println(resultMessage);
+                    while (true) {
+                        input = scanner.nextLine();
+                        if(!registerLoginController.isAnswerCorrect(matcher.group("username"),input)) {
+                            System.out.println("Incorrect Answer; Please try again!");
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    System.out.print("Enter your new password: ");
+                    while (true) {
+                        input = scanner.nextLine();
+                        if(!registerLoginController.isPasswordWeak(input).equals("success")) {
+                            System.out.println("This password is not valid; " +
+                                    registerLoginController.isPasswordWeak(input));
+                            System.out.print("Enter your new password: ");
+                        }
+                        else
+                            break;
+                    }
+
+                    System.out.print("Please re-enter the new password: ");
+                    while (true) {
+                        String confirm = scanner.nextLine();
+                        if(!confirm.equals(input)) {
+                            System.out.print("Please re-enter the new password correctly: ");
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    registerLoginController.changePassword(matcher.group("username"),input);
+                    System.out.println("Password changed successfully!");
+                }
             }
         }
     }
