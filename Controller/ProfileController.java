@@ -88,7 +88,7 @@ public class ProfileController {
         
         int rank = 1;
         for (User user : sortedUsers) {
-            if (user.getUsername().equals(currentUser.getUsername())
+            if (user.getUsername().equals(currentUser.getUsername()))
                 return rank;
             rank++;
         }
