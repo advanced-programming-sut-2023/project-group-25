@@ -35,7 +35,7 @@ public class MapController {
                 map.getCells()[i][j].setMaterial("rockLand");
     }
 
-    public void initializeMapTemplate2() {
+    public void initializeMapTemplate2(int length, int width) {
         Map map = new Map(length,width);
 
         initializeCastlesLocation(map);
@@ -91,7 +91,7 @@ public class MapController {
                 map.getCells()[i][j].setMaterial("ironLand");
     }
 
-    public void initializeMapTemplate3() {
+    public void initializeMapTemplate3(int length, int width) {
         Map map = new Map(length,width);
 
         initializeCastlesLocation(map);
