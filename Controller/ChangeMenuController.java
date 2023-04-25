@@ -39,6 +39,10 @@ public class ChangeMenuController {
         return tradeController;
     }
     
+    public MapController getMapController() {
+        return mapController;
+    }
+    
     public void run(Scanner scanner) {
         if (registerLoginMenu.run(scanner).equals("exit")) return;
         //registerLoginMenu has returned mainMenu.

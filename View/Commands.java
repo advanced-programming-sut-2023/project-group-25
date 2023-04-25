@@ -22,6 +22,7 @@ public enum Commands {
     CHANGESLOGAN("^profile change slogan -s (?<slogan>.+)$"),
     DISPLAYINFO("^profile display( (?<field>.+))?$"),
     SHOWMAP("^show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<option2>\\d+)$"),
+    CHOOSE_MAP("choose map -n (?<number>\\d+)"),
     MOVEONMAP("^map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)$"),
     SHOWDETAILS("^show details -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
     SHOWPOPULARITYFACTORS("^show popularity factors$"),
