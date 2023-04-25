@@ -58,7 +58,7 @@ public class RegisterLoginController {
         User wantedUser;
         ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 1; i < (content.size() / 10); i++) {
-            if (content.get((10 * i) + 1).equals(username)) {
+            if (content.get(10 * i).equals(username)) {
                 wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
                         , content.get((10 * i) + 3), content.get((10 * i) + 4));
                 wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
@@ -101,7 +101,25 @@ public class RegisterLoginController {
         content.add(user.getSecurityAnswer());
         content.add("false");
         content.add("_____________________________________________________");
-        writeToFileContent("Users.txt",content,true);
+        writeToFileContent("Users.txt", content, true);
+    }
+
+    public boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
+        User user = getUserByUsername(username);
+        password = passwordToSHA(password);
+        if (user.getPassword().equals(password))
+            return true;
+        return false;
+    }
+
+    public void addStayLoggendInForUser(String username) {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.add(((10 * i) + 9), "true");
+            }
+        }
+        writeToFileContent("Users.txt", content, false);
     }
 
     //Check Validation Functions:
@@ -391,6 +409,29 @@ public class RegisterLoginController {
         return resultMessage;
     }
 
+    public String login(Matcher matcher, ArrayList<String> allOptions, boolean hasLoggedIn) throws NoSuchAlgorithmException {
+        String resultMessage;
+        if (!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            String username = getOptionsFromMatcher(matcher, "u", 2);
+            String password = getOptionsFromMatcher(matcher, "p", 2);
+            if (username.matches("\\s+") || password.matches("\\s+"))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if (isUserNameUnique(username))
+                resultMessage = "This username doesn't exist!";
+            else if (!isPasswordCorrect(username, password))
+                resultMessage = ("Username and password didn't match!");
+            else {
+                if (hasLoggedIn)
+                    addStayLoggendInForUser(username);
+                currentUser = getUserByUsername(username);
+                resultMessage = "success";
+            }
+        }
+        return resultMessage;
+    }
+
     public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
         String resultMessage;
         ArrayList<String> questions = showSecurityQuestions();
@@ -453,10 +494,10 @@ public class RegisterLoginController {
     public String showCurrentMenuName(String menuName) {
         int nameLength = menuName.toCharArray().length;
         String result = "";
-        for(int i = 0; i<nameLength + 6; i++)
+        for (int i = 0; i < nameLength + 6; i++)
             result += "-";
         result += ("\n|  " + menuName + "  |\n");
-        for(int i = 0; i<nameLength + 6; i++)
+        for (int i = 0; i < nameLength + 6; i++)
             result += "-";
         return result;
     }

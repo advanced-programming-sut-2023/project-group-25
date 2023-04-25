@@ -70,9 +70,20 @@ public class RegisterLoginMenu {
                 } else {
                     System.out.println(resultMessage);
                 }
-            } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null) {
-                //if login is successful:
-                return "mainMenu";
+            } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null ||
+                    (tmpMatcher = Commands.getMatcher(input, Commands.LOGIN_WITH_LOGGED_IN)) != null) {
+                ArrayList<String> allOptions = new ArrayList<String>() {{
+                    add("u");
+                    add("p");
+                }};
+                if(matcher != null)
+                    resultMessage = registerLoginController.login(matcher, allOptions, false);
+                else if(tmpMatcher != null)
+                    resultMessage = registerLoginController.login(tmpMatcher, allOptions, true);
+                if (resultMessage.equals("success"))
+                    return "mainMenu";
+                else
+                    System.out.println(resultMessage);
             }
         }
     }
