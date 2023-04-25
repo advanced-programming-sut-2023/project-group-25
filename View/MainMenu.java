@@ -35,6 +35,10 @@ public class MainMenu {
             else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
                 return "trade menu";
             }
+            
+            else if ((matcher = Commands.getMatcher(input,Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)).find()) {
+                return "map menu";
+            }
         }
     }
 }

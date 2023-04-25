@@ -15,11 +15,16 @@ public class MapMenu {
     }
     
     public String run(Scanner scanner) {
+        System.out.println("Enter the length and width of your map:");
+        int mapLength = scanner.nextInt();
+        int mapWidth = scanner.nextInt();
+        
         while (true) {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input,Commands.BACK)).find()) {
                 return "mainMenu";
             }
+            
         }
     }
 }

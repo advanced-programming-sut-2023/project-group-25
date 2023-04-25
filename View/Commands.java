@@ -21,6 +21,7 @@ public enum Commands {
     CHANGEPASSWORD("^profile change password -(?<option1>[a-z]+) (?<input1>\\S+) -(?<option2>[a-z]) (?<input2>\\S+)$"),
     CHANGESLOGAN("^profile change slogan -s (?<slogan>.+)$"),
     DISPLAYINFO("^profile display( (?<field>.+))?$"),
+    SHOW_MAP_BEFORE_STARTING_THE_GAME("^show map options$"),
     SHOWMAP("^show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<option2>\\d+)$"),
     MOVEONMAP("^map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)$"),
     SHOWDETAILS("^show details -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
@@ -52,7 +53,6 @@ public enum Commands {
     FETCHOIL("fetch oil"),//the engineer has already been selected
     BURNOIL("burn oil"),//might need to take in some other information
     SUFFUSEMOAT("suffuse moat -x (?<x>\\d+) -y (?<y>\\d+)"),
-    //problem: ready templates should be able to change according to the size of the map
     CHOOSEMAP("choose map -t (?<templateNumber>\\d+) -w (?<width>.+) -l (?<length>.+)"),
     BLOCKSETTEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
     RECTANGLESETTEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
@@ -61,9 +61,9 @@ public enum Commands {
     DROPROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z]"),
     DROPOBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
     CHOOSCOLOR("choose color -c (?<color>.+)"),
-    /*not sure*/TRADEREQUEST("trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)"),
+    TRADEREQUEST("trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)"),
     TRADELIST("trade list"),
-    /*not sure*/TRADEACCEPT("trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
+    TRADEACCEPT("trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     TRADEHISTORY("trade history"),
     SHOWPRICELIST("show price list"),
     BUYORSELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
