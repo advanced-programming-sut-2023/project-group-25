@@ -16,7 +16,7 @@ public enum Commands {
     LOGIN_WITH_LOGGED_IN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>\\S+) (--stay-logged-in)$"),
 
     ENTERPROFILEMENU("^enter profile menu"),
-    FORGOTPASSWORD("^forgot my password -u (?<username>\\S+)$"),
+    FORGOT_PASSWORD("^forgot my password -u (?<username>\\S+)$"),
     LOGOUT("^user logout$"),
     CHANGEINFO("^profile change -(?<option>[a-z]+) (?<input>.+)$"),
     CHANGEPASSWORD("^profile change password -(?<option1>[a-z]+) (?<input1>\\S+) -(?<option2>[a-z]) (?<input2>\\S+)$"),

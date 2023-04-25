@@ -23,6 +23,7 @@ public class RegisterLoginMenu {
     }
 
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
+        registerLoginController.initializeUsersFile();
         System.out.println(registerLoginController.showCurrentMenuName("REGISTER/LOGIN MENU"));
         String resultMessage = "";
         Matcher tmpMatcher = null;

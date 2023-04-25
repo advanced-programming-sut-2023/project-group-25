@@ -39,6 +39,25 @@ public class RegisterLoginController {
         return content;
     }
 
+    public void initializeUsersFile() {
+        File Users = new File("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
+        if(content.size() < 9) {
+            ArrayList<String> initial = new ArrayList<>();
+            initial.add("--USERNAME--");
+            initial.add("--PASSWORD--");
+            initial.add("--NICKNAME--");
+            initial.add("--EMAIL--");
+            initial.add("--SLOGAN--");
+            initial.add("--HIGHSCORE--");
+            initial.add("--SECURITY QUESTION--");
+            initial.add("--SECURITY ANSWER--");
+            initial.add("--STAY LOGGED IN? (boolean)--");
+            initial.add("_____________________________________________________");
+            writeToFileContent("Users.txt",initial,false);
+        }
+    }
+
     public void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
         File Users = new File(path);
         try {
