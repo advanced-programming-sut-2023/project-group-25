@@ -3,23 +3,26 @@ package Model;
 import java.util.ArrayList;
 
 public class Cell {
-    private String Material;
+    private String material;
     private Building building;
     private ArrayList<Person> people = new ArrayList<Person>();
     private ArrayList<NaturalBlock> naturalBlocks = new ArrayList<NaturalBlock>();
-    private boolean hasTunnel;
+    private boolean hasTunnel = false;
 
+    public Cell(String material) {
+        this.material = material;
+    }
 
     public void addPerson(Person person) {
         people.add(person);
     }
 
     public String getMaterial() {
-        return Material;
+        return material;
     }
 
     public void setMaterial(String material) {
-        Material = material;
+        this.material = material;
     }
 
     public Building getBuilding() {
