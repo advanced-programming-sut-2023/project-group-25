@@ -27,10 +27,14 @@ public class MapMenu {
         System.out.println("Enter your length and width:");
         int mapLength = scanner.nextInt();
         int mapWidth = scanner.nextInt();
+    
+        initializeTemplateMaps(15,15);
+    
         map = new Map(mapLength,mapWidth);
         
-        for (Map templateMap : map.getTemplateMaps()) {
-            System.out.println(mapController.showMap(templateMap) + "\n");
+        for (int i = 0;i< 3;i++) {
+            System.out.println(i + 1);
+            System.out.println(mapController.showMap(Map.getTemplateMaps()[i]) + "\n");
         }
         while (true) {
             input = scanner.nextLine();
@@ -40,9 +44,16 @@ public class MapMenu {
 
             else if ((matcher = Commands.getMatcher(input,Commands.CHOOSE_MAP)).find()) {
                 int chosenMapNumber = Integer.parseInt(matcher.group("number"));
-                map = map.getTemplateMaps()[chosenMapNumber];
-                game = new Game(map);
+                initializeTemplateMaps(mapLength,mapWidth);
+                map = Map.getTemplateMaps()[chosenMapNumber - 1];
+                //game = new Game(map);
             }
         }
+    }
+    
+    private void initializeTemplateMaps(int length,int width) {
+        mapController.initializeMapTemplate1(length,width);
+        mapController.initializeMapTemplate2(length,width);
+        mapController.initializeMapTemplate3(length,width);
     }
 }

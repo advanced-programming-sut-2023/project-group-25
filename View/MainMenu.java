@@ -4,6 +4,7 @@ import Controller.ChangeMenuController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -27,21 +28,22 @@ public class MainMenu {
                 registerLoginController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
             }
-            
-            else if ((matcher = Commands.getMatcher(input,Commands.SHOWMAP)).find()) {
+            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))).find()) {
+                System.out.println("..........................................");
+                return "map menu";
+            }
+            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.SHOWMAP))).find()) {
                 return "map menu";
             }
             
-            else if ((matcher = Commands.getMatcher(input,Commands.ENTERPROFILEMENU)).find()) {
+            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))).find()) {
                 return "profile menu";
             }
             
-            else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
+            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))).find()) {
                 return "trade menu";
             }
-            else if ((matcher = Commands.getMatcher(input,Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)).find()) {
-                return "map menu";
-            } else {
+             else {
                 System.out.println("Invalid command!");
             }
         }
