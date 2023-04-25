@@ -2,6 +2,7 @@ package Controller;
 
 import View.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class ChangeMenuController {
@@ -39,7 +40,7 @@ public class ChangeMenuController {
         return tradeController;
     }
     
-    public void run(Scanner scanner) {
+    public void run(Scanner scanner) throws NoSuchAlgorithmException {
         if (registerLoginMenu.run(scanner).equals("exit")) return;
         //registerLoginMenu has returned mainMenu.
         switch (mainMenu.run(scanner)) {

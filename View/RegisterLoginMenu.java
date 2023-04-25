@@ -3,6 +3,7 @@ package View;
 import Controller.ChangeMenuController;
 import Controller.RegisterLoginController;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
@@ -21,7 +22,8 @@ public class RegisterLoginMenu {
         this.registerLoginController = controller.getRegisterLoginController();
     }
 
-    public String run(Scanner scanner) {
+    public String run(Scanner scanner) throws NoSuchAlgorithmException {
+        System.out.println(registerLoginController.showCurrentMenuName("REGISTER/LOGIN MENU"));
         String resultMessage = "";
         Matcher tmpMatcher = null;
         while (true) {
@@ -51,21 +53,19 @@ public class RegisterLoginMenu {
                     resultMessage = randomPasswordRun(scanner);
                     if (resultMessage.equals("exit")) {
                         System.out.println("User register Canceled!");
-                        RegisterLoginController.getCurrentUser().removeUser();
                         return "exit";
                     }
                     resultMessage = pickSecurityQuestionRun(scanner);
                     if (resultMessage.equals("exit")) {
                         System.out.println("User register Canceled!");
-                        RegisterLoginController.getCurrentUser().removeUser();
                         return "exit";
                     }
                     resultMessage = captchaRun(scanner);
                     if (resultMessage.equals("exit")) {
                         System.out.println("User register Canceled!");
-                        RegisterLoginController.getCurrentUser().removeUser();
                         return "exit";
                     }
+                    registerLoginController.addUserToFile(RegisterLoginController.getCurrentUser());
                     System.out.println("User registered successfully!");
                 } else {
                     System.out.println(resultMessage);
