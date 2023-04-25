@@ -20,7 +20,11 @@ public class Map {
     public Cell[][] getCells() {
         return cells;
     }
-
+    
+    public Map[] getTemplateMaps() {
+        return templateMaps;
+    }
+    
     public void setTemplateMaps(Map[] templateMaps) {
         this.templateMaps = templateMaps;
     }
