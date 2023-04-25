@@ -41,7 +41,7 @@ public class MapController {
         
         Map.setTemplateMap(0,map);
     }
-<<<<<<< HEAD
+
     
     private static void setDefaultLand(int length, int width, Map map) {
         for (int i = 0; i< length; i++) {
@@ -52,11 +52,9 @@ public class MapController {
         }
     }
     
-    public void initializeMapTemplate2(int length,int width) {
-=======
+    
 
     public void initializeMapTemplate2(int length, int width) {
->>>>>>> b86102e6c15c15ee7f7fe5a1368316ec6a2d3259
         Map map = new Map(length,width);
         
         initializeCastlesLocation(map);
@@ -115,11 +113,7 @@ public class MapController {
             for (int j = (3 * width) / 6 + 5; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell("ironLand");
     }
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> b86102e6c15c15ee7f7fe5a1368316ec6a2d3259
     public void initializeMapTemplate3(int length, int width) {
         Map map = new Map(length,width);
         
