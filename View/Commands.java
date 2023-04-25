@@ -4,6 +4,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Commands {
+    
+    CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
+    PICKQUESTION("question pick -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)"),
     CREATE_USER_WITH_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
             " -(?<option4>\\S+) (?<input4>.+) -(?<option5>\\S+) (?<input5>.+)$"),
     CREATE_USER_WITHOUT_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
@@ -24,50 +27,49 @@ public enum Commands {
     SHOWPOPULARITY("^show popularity$"),
     SHOWFOODLIST("^show food list$"),
     //the next two can be merged.
-    RATEPOPULARITYFACTOR("^(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)$"),
-    SHOWPOPULARITYFACTORRATE("^food rate show$"),
-    DROPBUILDING("^dropbuilding -(?<option1>[a-z]+) (?<input1>.+) -(?<option2>[a-z]+) (?<input2>.+) -(?<option3>[a-z]+) (?<input3>.+)$"),
-    SELECTBUILDING("^select building -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    CREATEUNIT("^createunit -(?<option1>[a-z]) (?<input1>.+) -(?<option2>[a-z]) (?<input2>.+)$"),
-    REPAIR("^repair$"),
-    SELECTUNIT("^select unit -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    MOVEUNIT("^move unit to -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    PATROL("^patrol unit -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+) -(?<option3>[a-z]) (?<input3>\\d+) -(?<option3>[a-z]) (?<input3>\\d+)$"),
-    SETMODE("^set -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+) -(?<option3>[a-z]+) (?<input3>.+)$"),
+    RATEPOPULARITYFACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
+    SHOWPOPULARITYFACTORRATE("food rate show"),
+    DROPBUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
+    SELECTBUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
+    CREATEUNIT("createunit -t (?<type>.+) -c (?<count>.+)"),
+    REPAIR("repair"),
+    SELECTUNIT("select unit -x (?<x>\\d+) -y (?<y>\\d+)"),
+    MOVEUNIT("move unit to -x (?<x>\\d+) -y (?<y>\\d+)"),
+    PATROL("patrol unit -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
+    SETMODE("set -x (?<x>\\d+) -y (?<y>\\d+) -s (?<mode>.+)"),
     //the next two can be merged
-    ATTACKENEMY("^attack -e (?<enemy>.+)$"),
-    AERIALATTACK("^attack -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    POUROIL("^pour oil -d (?<direction>.+)$"),
-    DIGTUNNEL("^dig tunnel -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    BUILDEQUIPMENT("^build -q (?<equipmentName>.+)$"),
-    MOVEEQUIPMENT("^move equipment -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+) -(?<option3>[a-z]) (?<input3>\\d+) -(?<option4>[a-z]) (?<input4>\\d+)$"),
-    DISBAND("^disband unit$"),
-    DIGMOAT("^dig moat -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),//the unit has already been selected
-    CANCELDIGGINGMOAT("^cancel digging moat$"),
-    DISABLEMOAT("^disable moat -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
-    FETCHOIL("^fetch oil"),//the engineer has already been selected
-    BURNOIL("^burn oil"),//might need to take in some other information
-    SUFFUSEMOAT("^suffuse moat -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
+    ATTACKENEMY("attack -e (?<enemy>.+)"),
+    AERIALATTACK("ATTACK -x (?<x>\\d+) -y (?<y>\\d+)"),
+    POUROIL("pour oil -d (?<direction>.+)"),
+    DIGTUNNEL("dig tunnel -x (?<x>\\d+) -y (?<y>\\d+)"),
+    BUILDEQUIPMENT("build -q (?<equipmentName>.+)"),
+    MOVEEQUIPMENT("move equipment -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
+    DISBAND("disband unit"),
+    DIGMOAT("dig moat -x (?<x>\\d+) -y (?<y>\\d+)"),//the unit has already been selected
+    CANCELDIGGINGMOAT("cancel digging moat"),
+    DISABLEMOAT("disable moat -x (?<x>\\d+) -y (?<y>\\d+)"),
+    FETCHOIL("fetch oil"),//the engineer has already been selected
+    BURNOIL("burn oil"),//might need to take in some other information
+    SUFFUSEMOAT("suffuse moat -x (?<x>\\d+) -y (?<y>\\d+)"),
     //problem: ready templates should be able to change according to the size of the map
-    CHOOSEMAP("^choose map -(?<option1>[a-z]) (?<input1>.+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)$"),
-    BLOCKSETTEXTURE("^settexture -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+) -(?<option3>[a-z]) (?<input3>.+)$"),
-    RECTANGLESETTEXTURE("^settexture -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+) -(?<option3>[a-z]) (?<input3>\\d+) -(?<option4>[a-z]) (?<input4>\\d+)$"),
-    CLEARBLOCK("^clear -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
+    CHOOSEMAP("choose map -t (?<templateNumber>\\d+) -w (?<width>.+) -l (?<length>.+)"),
+    BLOCKSETTEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
+    RECTANGLESETTEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
+    CLEARBLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
     //next ones can be merged or separated
-    DROPROCK("^droprock -(?<option1>[a-z]) (?<input1>.+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)$"),
-    DROPOBJECT("^drop(?<object>.+) -(?<option1>[a-z]) (?<input1>.+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)$"),
-    DROPUNIT("^dropunit -(?<option1>[a-z]) (?<input1>.+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+) -(?<option4>.+) (?<input4>.+)$"),
-    CHOOSCOLOR("^choose color -c (?<color>.+)$"),
-    TRADEREQUEST("^trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)$"),
-    TRADELIST("^trade list$"),
-    TRADEACCEPT("^trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)$"),
-    TRADEHISTORY("^trade history$"),
-    SHOWPRICELIST("^show price list$"),
-    BUYORSELL("^(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)$"),
-    NEXTTURN("^next turn$"),
-    ENTERTRADEMENU("^enter trade menu$"),
-    EXIT("^exit$"),
-    BACK("^back$");
+    DROPROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z]"),
+    DROPOBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
+    CHOOSCOLOR("choose color -c (?<color>.+)"),
+    /*not sure*/TRADEREQUEST("trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)"),
+    TRADELIST("trade list"),
+    /*not sure*/TRADEACCEPT("trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
+    TRADEHISTORY("trade history"),
+    SHOWPRICELIST("show price list"),
+    BUYORSELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
+    NEXTTURN("next turn"),
+    ENTERTRADEMENU("enter trade menu"),
+    EXIT("exit"),
+    BACK("back");
     
     
     private final String regex;

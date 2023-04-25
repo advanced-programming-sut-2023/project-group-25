@@ -1,16 +1,11 @@
 package Model;
 
 public class Map {
-<<<<<<< HEAD
+
     private Map[] templateMaps = new Map[3];
     private Cell[][] cells;
-=======
-//    private Map[3]templateMaps;
-    private final Cell[][] cells;
     private int length;
     private int width;
->>>>>>> 39b74a1157e0efba13342a3a03b774832c7ab250
-
 
     public Map(int length, int width) {
         this.length = length;
@@ -26,15 +21,14 @@ public class Map {
         return cells;
     }
 
-<<<<<<< HEAD
-=======
+    public void setTemplateMaps(Map[] templateMaps) {
+        this.templateMaps = templateMaps;
+    }
     public int getLength() {
         return length;
     }
-
+    
     public int getWidth() {
         return width;
     }
-
->>>>>>> 39b74a1157e0efba13342a3a03b774832c7ab250
 }
