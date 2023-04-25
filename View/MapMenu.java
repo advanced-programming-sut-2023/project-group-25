@@ -22,6 +22,8 @@ public class MapMenu {
     }
     
     public String run(Scanner scanner) {
+
+
         System.out.println("Enter your length and width:");
         int mapLength = scanner.nextInt();
         int mapWidth = scanner.nextInt();
@@ -35,11 +37,11 @@ public class MapMenu {
             if ((matcher = Commands.getMatcher(input, Commands.BACK)).find()) {
                 return "mainMenu";
             }
+
             else if ((matcher = Commands.getMatcher(input,Commands.CHOOSE_MAP)).find()) {
                 int chosenMapNumber = Integer.parseInt(matcher.group("number"));
                 map = map.getTemplateMaps()[chosenMapNumber];
                 game = new Game(map);
-                
             }
         }
     }

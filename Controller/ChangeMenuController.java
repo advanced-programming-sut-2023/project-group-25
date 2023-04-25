@@ -5,19 +5,18 @@ import View.*;
 import java.util.Scanner;
 
 public class ChangeMenuController {
+    private static RegisterLoginController registerLoginController = new RegisterLoginController();
+    private static MainController mainController = new MainController();
+    private static GameController gameController = new GameController();
+    private static ProfileController profileController = new ProfileController();
+    private static TradeController tradeController = new TradeController();
+    private static MapController mapController = new MapController();
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);
     private final GameMenu gameMenu = new GameMenu(this);
     private final ProfileMenu profileMenu = new ProfileMenu(this);
     private final TradeMenu tradeMenu = new TradeMenu(this);
     private final MapMenu mapMenu = new MapMenu(this);
-    private static RegisterLoginController registerLoginController = new RegisterLoginController();
-    private static MainController mainController = new MainController();
-    private static GameController gameController = new GameController();
-    private static ProfileController profileController = new ProfileController();
-    private static TradeController tradeController = new TradeController();
-
-    private static MapController mapController = new MapController();
     
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
@@ -60,6 +59,8 @@ public class ChangeMenuController {
                 profileMenu.run(scanner);
                 break;
             case "trade menu":
+                tradeMenu.run(scanner);
+                break;
             
         }
     }
