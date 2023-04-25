@@ -2,20 +2,128 @@ package Controller;
 
 import Model.User;
 
+import java.io.*;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Matcher;
 
 public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
+
     public static User getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
+    //File Functions:
+
+    public ArrayList<String> readFileContent(String path) {
+        ArrayList<String> content = new ArrayList<>();
+        File Users = new File(path);
+        try {
+            FileReader fileReader = new FileReader(Users);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                content.add(line);
+                line = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        return content;
     }
 
+    public void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
+        File Users = new File(path);
+        try {
+            FileWriter fileWriter = new FileWriter(Users, isAppend);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            PrintWriter writer = new PrintWriter(bufferedWriter);
+            for (int i = 0; i < content.size(); i++) {
+                writer.println(content.get(i));
+            }
+            writer.close();
+        } catch (Exception e) {
+        }
+    }
+
+    //User Functions:
+    public User getUserByUsername(String username) {
+        User wantedUser;
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
+                        , content.get((10 * i) + 3), content.get((10 * i) + 4));
+                wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
+                wantedUser.setSecurityQuestion(content.get((10 * i) + 7));
+                return wantedUser;
+            }
+        }
+        return null;
+    }
+
+    public boolean isUserNameUnique(String username) {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEmailUnique(String email) {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get((10 * i) + 3).equals(email)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void addUserToFile(User user) throws NoSuchAlgorithmException {
+        ArrayList<String> content = new ArrayList<>();
+        content.add(user.getUsername());
+        content.add(passwordToSHA(user.getPassword()));
+        content.add(user.getNickname());
+        content.add(user.getEmail());
+        content.add(user.getSlogan());
+        content.add(String.valueOf(user.getHighScore()));
+        content.add(user.getSecurityQuestion());
+        content.add(user.getSecurityAnswer());
+        content.add("false");
+        content.add("_____________________________________________________");
+        writeToFileContent("Users.txt", content, true);
+    }
+
+    public boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
+        User user = getUserByUsername(username);
+        password = passwordToSHA(password);
+        if (user.getPassword().equals(password))
+            return true;
+        return false;
+    }
+
+    public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove((10 * i) + 8);
+                content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
+            }
+        }
+        writeToFileContent("Users.txt", content, false);
+    }
+
+    //Check Validation Functions:
     public boolean isUsernameValid(String username) {
         if (username.matches("^[a-zA-Z0-9_]+$"))
             return true;
@@ -23,7 +131,6 @@ public class RegisterLoginController {
             return false;
     }
 
-    //return Sentence is the reason for being weak!
     public String isPasswordWeak(String password) {
         if (password.length() < 6)
             return "The password is too short!";
@@ -45,6 +152,8 @@ public class RegisterLoginController {
         else
             return false;
     }
+
+    //Generate randoms(Password, Slogan, CAPTCHA):
 
     public String generateRandomPassword() {
         char[] specialCharacters = {'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-',
@@ -72,6 +181,7 @@ public class RegisterLoginController {
         return preparedSlogans[random.nextInt(16)];
     }
 
+<<<<<<< HEAD
     public String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
         for (int i = 0; i < numberOfOptions; i++) {
             if (matcher.group(("option" + (i + 1))).equals(option))
@@ -238,6 +348,8 @@ public class RegisterLoginController {
         return resultMessage;
     }
 
+=======
+>>>>>>> Hoora
     public String generateCaptchaString() {
         Random random = new Random();
         int captchaLength = 4 + random.nextInt(5);
@@ -265,7 +377,7 @@ public class RegisterLoginController {
         //noise
         int toBeNoisedLine1 = (4 + (int) (Math.random() * 5)) % 7 + 1;
         int toBeNoisedLine2 = (4 + (int) (Math.random() * 5)) % 7 + 1;
-        while(toBeNoisedLine2 == toBeNoisedLine1) {
+        while (toBeNoisedLine2 == toBeNoisedLine1) {
             toBeNoisedLine2 = (4 + (int) (Math.random() * 5)) % 7 + 1;
         }
         line[toBeNoisedLine1] += " ";
@@ -377,5 +489,186 @@ public class RegisterLoginController {
         for (int i = 1; i < 8; i++) {
             System.out.println(line[i]);
         }
+    }
+
+    //Option Functions:
+
+    public String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
+        for (int i = 0; i < numberOfOptions; i++) {
+            if (matcher.group(("option" + (i + 1))).equals(option))
+                return matcher.group(("input" + (i + 1)));
+        }
+        return null;
+    }
+
+    public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
+        ArrayList<String> matcherExistingOptions = new ArrayList<>();
+        for (int i = 0; i < allOptions.size(); i++) {
+            matcherExistingOptions.add(matcher.group(("option" + (i + 1))));
+        }
+        Collections.sort(matcherExistingOptions);
+        Collections.sort(allOptions);
+        if (matcherExistingOptions.equals(allOptions))
+            return true;
+        else
+            return false;
+    }
+
+    public void getRegisterOptions(Matcher matcher, boolean hasSlogan) {
+        String password, passwordConfirm, slogan;
+        boolean isPasswordRandom = false, isSloganRandom = false;
+        int numberOfOptions = 5;
+        if (!hasSlogan)
+            numberOfOptions--;
+        String username = getOptionsFromMatcher(matcher, "u", numberOfOptions);
+        String nickname = getOptionsFromMatcher(matcher, "n", numberOfOptions);
+        String email = getOptionsFromMatcher(matcher, "e", numberOfOptions);
+        String passwordGroup = getOptionsFromMatcher(matcher, "p", numberOfOptions);
+        if (hasSlogan)
+            slogan = getOptionsFromMatcher(matcher, "s", numberOfOptions);
+        else
+            slogan = "";
+        if (passwordGroup.equals("random")) {
+            password = generateRandomPassword();
+            passwordConfirm = password;
+            isPasswordRandom = true;
+        } else {
+            password = passwordGroup.split("\\s")[0];
+            if (passwordGroup.split("\\s").length > 1)
+                passwordConfirm = passwordGroup.split("\\s")[1];
+            else
+                passwordConfirm = "";
+        }
+        if (slogan.equals("random")) {
+            slogan = generateRandomSlogan();
+            isSloganRandom = true;
+        }
+        registeringUser = new User(username, password, passwordConfirm, nickname, email, slogan);
+        registeringUser.setPasswordRandom(isPasswordRandom);
+        registeringUser.setSloganRandom(isSloganRandom);
+    }
+
+    //Main Functions:
+    public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
+        String resultMessage;
+        if (!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            getRegisterOptions(matcher, hasSlogan);
+            if (registeringUser.getUsername().matches("\\s+") || registeringUser.getNickname().matches("\\s+") ||
+                    registeringUser.getEmail().matches("\\s+") || registeringUser.getPassword().matches("\\s+") ||
+                    registeringUser.getPasswordConfirmation().matches("\\s+") || (hasSlogan && registeringUser.getSlogan().matches("\\s+")))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if (!isUsernameValid(registeringUser.getUsername()))
+                resultMessage = "This username is not valid!";
+            else if (!isUserNameUnique(registeringUser.getUsername()))
+                resultMessage = "This username already exists!";
+            else if (!isPasswordWeak(registeringUser.getPassword()).equals("success"))
+                resultMessage = ("This password is not valid; " + isPasswordWeak(registeringUser.getPassword()));
+            else if (!registeringUser.getPassword().equals(registeringUser.getPasswordConfirmation()))
+                resultMessage = "The password confirmation doesn't match the original one!";
+            else if (!isEmailUnique(registeringUser.getEmail()))
+                resultMessage = "This email already exists!";
+            else if (!isEmailValid(registeringUser.getEmail()))
+                resultMessage = "This email is not valid!";
+            else {
+                currentUser = registeringUser;
+                resultMessage = "success";
+            }
+        }
+        return resultMessage;
+    }
+
+    public String login(Matcher matcher, ArrayList<String> allOptions, boolean hasLoggedIn) throws NoSuchAlgorithmException {
+        String resultMessage;
+        if (!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            String username = getOptionsFromMatcher(matcher, "u", 2);
+            String password = getOptionsFromMatcher(matcher, "p", 2);
+            if (username.matches("\\s+") || password.matches("\\s+"))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if (isUserNameUnique(username))
+                resultMessage = "This username doesn't exist!";
+            else if (!isPasswordCorrect(username, password))
+                resultMessage = ("Username and password didn't match!");
+            else {
+                if (hasLoggedIn)
+                    addStayLoggedInForUser(username, true);
+                currentUser = getUserByUsername(username);
+                resultMessage = "success";
+            }
+        }
+        return resultMessage;
+    }
+
+    public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
+        String resultMessage;
+        ArrayList<String> questions = showSecurityQuestions();
+        String questionNumber = getOptionsFromMatcher(matcher, "q", 3);
+        String answer = getOptionsFromMatcher(matcher, "a", 3);
+        String answerConfirm = getOptionsFromMatcher(matcher, "c", 3);
+        if (!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            if (questionNumber.matches("\\s*") || answer.matches("\\s*") || answerConfirm.matches("\\s*"))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if (!isNumber(questionNumber))
+                resultMessage = "Invalid question number; Please enter a number!";
+            else if (!answer.equals(answerConfirm))
+                resultMessage = "The answer confirmation doesn't match the original one!";
+            else {
+                int number = Integer.parseInt(questionNumber);
+                if (number < 1 || number > 5)
+                    resultMessage = "Invalid question number; There is no question with this number!";
+                else {
+                    currentUser.setSecurityQuestion(questions.get(number - 1));
+                    currentUser.setSecurityAnswer(answer);
+                    resultMessage = "success";
+                }
+            }
+        }
+        return resultMessage;
+    }
+
+    //Other Functions:
+
+    public boolean isNumber(String num) {
+        try {
+            Integer.parseInt(num);
+            return true;
+        } catch (NumberFormatException var2) {
+            return false;
+        }
+    }
+
+    public String passwordToSHA(String password) throws NoSuchAlgorithmException {
+        MessageDigest crypt = MessageDigest.getInstance("SHA-256");
+        crypt.update(password.getBytes(StandardCharsets.UTF_8));
+        byte[] bytes = crypt.digest();
+        BigInteger bi = new BigInteger(1, bytes);
+        String encryptedPassword = String.format("%0" + (bytes.length << 1) + "x", bi);
+        return encryptedPassword;
+    }
+
+    public ArrayList<String> showSecurityQuestions() {
+        ArrayList<String> questions = new ArrayList<>();
+        questions.add("1- What city were you born in?");
+        questions.add("2- What is your oldest sibling’s middle name?");
+        questions.add("3- In what city or town did your parents meet?");
+        questions.add("4- What is your mother’s last name?");
+        questions.add("5- What was your first pet’s name?");
+        return questions;
+    }
+
+    public String showCurrentMenuName(String menuName) {
+        int nameLength = menuName.toCharArray().length;
+        String result = "";
+        for (int i = 0; i < nameLength + 6; i++)
+            result += "-";
+        result += ("\n|  " + menuName + "  |\n");
+        for (int i = 0; i < nameLength + 6; i++)
+            result += "-";
+        return result;
     }
 }

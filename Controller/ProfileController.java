@@ -19,7 +19,7 @@ public class ProfileController {
         if (field.equals("username")) {
             if (!registerLoginController.isUsernameValid(content))
                 return "Invalid username format!";
-            else if (!currentUser.isUserNameUnique(content))
+            else if (!registerLoginController.isUserNameUnique(content))
                 return "This username is already used!";
             currentUser.setUsername(content);
             return "Username changed successfully.";
@@ -27,7 +27,7 @@ public class ProfileController {
             currentUser.setNickname(content);
             return "Nickname changed successfully.";
         } else if (field.equals("email")) {
-            if (!currentUser.isEmailUnique(content))
+            if (!registerLoginController.isEmailUnique(content))
                 return "This email is already used!";
             else if (!registerLoginController.isEmailValid(content))
                 return "Invalid email format!";

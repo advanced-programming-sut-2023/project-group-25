@@ -5,15 +5,20 @@ import java.util.regex.Pattern;
 
 public enum Commands {
     
-    CREATEUSER("user create -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+) -(?<option5[a-z]+) (?<input5>.+)"),
-    PICKQUESTION("question pick -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>.+) -(?<option3>[a-z]) (?<input3>.+)"),
     CREATE_USER_WITH_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
             " -(?<option4>\\S+) (?<input4>.+) -(?<option5>\\S+) (?<input5>.+)$"),
     CREATE_USER_WITHOUT_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
             " -(?<option4>\\S+) (?<input4>.+)$"),
-    ENTERPROFILEMENU("^enter profile menu"),
     PICK_QUESTION("^question pick -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)$"),
+<<<<<<< HEAD
     LOGIN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)( --stay-logged-in)?$"),
+=======
+    LOGIN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>\\S+)$"),
+
+    LOGIN_WITH_LOGGED_IN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>\\S+) (--stay-logged-in)$"),
+
+    ENTERPROFILEMENU("^enter profile menu"),
+>>>>>>> Hoora
     FORGOTPASSWORD("^forgot my password -u (?<username>\\S+)$"),
     LOGOUT("^user logout$"),
     CHANGEINFO("^profile change -(?<option>[a-z]+) (?<input>.+)$"),
