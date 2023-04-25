@@ -28,19 +28,19 @@ public class MainMenu {
                 registerLoginController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
             }
-            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))).find()) {
-                System.out.println("..........................................");
+            else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))) != null) {
+
                 return "map menu";
             }
-            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.SHOWMAP))).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.SHOWMAP))) != null) {
                 return "map menu";
             }
             
-            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";
             }
             
-            else if ((Objects.requireNonNull(matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
                 return "trade menu";
             }
              else {

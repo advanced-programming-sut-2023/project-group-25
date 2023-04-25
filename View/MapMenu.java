@@ -22,38 +22,35 @@ public class MapMenu {
     }
     
     public String run(Scanner scanner) {
-
-
-        System.out.println("Enter your length and width:");
-        int mapLength = scanner.nextInt();
-        int mapWidth = scanner.nextInt();
-    
-        initializeTemplateMaps(15,15);
-    
-        map = new Map(mapLength,mapWidth);
         
-        for (int i = 0;i< 3;i++) {
+        initializeTemplateMaps(40, 40);
+        
+        for (int i = 0; i < 3; i++) {
             System.out.println(i + 1);
             System.out.println(mapController.showMap(Map.getTemplateMaps()[i]) + "\n");
         }
+        
+        System.out.println("Enter your length and width:");
+        int mapLength = scanner.nextInt();
+        int mapWidth = scanner.nextInt();
+        map = new Map(mapLength, mapWidth);
+        
         while (true) {
             input = scanner.nextLine();
-            if ((matcher = Commands.getMatcher(input, Commands.BACK)).find()) {
+            if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null) {
                 return "mainMenu";
-            }
-
-            else if ((matcher = Commands.getMatcher(input,Commands.CHOOSE_MAP)).find()) {
+            } else if ((matcher = Commands.getMatcher(input, Commands.CHOOSE_MAP)) != null) {
                 int chosenMapNumber = Integer.parseInt(matcher.group("number"));
-                initializeTemplateMaps(mapLength,mapWidth);
+                initializeTemplateMaps(mapLength, mapWidth);
                 map = Map.getTemplateMaps()[chosenMapNumber - 1];
                 //game = new Game(map);
             }
         }
     }
     
-    private void initializeTemplateMaps(int length,int width) {
-        mapController.initializeMapTemplate1(length,width);
-        mapController.initializeMapTemplate2(length,width);
-        mapController.initializeMapTemplate3(length,width);
+    private void initializeTemplateMaps(int length, int width) {
+        mapController.initializeMapTemplate1(length, width);
+        mapController.initializeMapTemplate2(length, width);
+        mapController.initializeMapTemplate3(length, width);
     }
 }
