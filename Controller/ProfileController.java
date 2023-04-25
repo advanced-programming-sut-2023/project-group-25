@@ -2,6 +2,7 @@ package Controller;
 
 import Model.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.regex.Matcher;
@@ -49,7 +50,7 @@ public class ProfileController {
         return "Current password is incorrect!";
     }
 
-    public void setFinalPassword(User currentUser, String newPassword){
+    public void setFinalPassword(User currentUser, String newPassword) throws NoSuchAlgorithmException {
         registerLoginController.changePassword(currentUser.getUsername(),newPassword);
     }
     
@@ -79,7 +80,7 @@ public class ProfileController {
     }
     
     public int getRank(User currentUser) {
-        ArrayList<User> sortedUsers = new ArrayList<User>(registerLoginController.getAllUsers());
+        ArrayList<User> sortedUsers = new ArrayList<User>(registerLoginController.getAllUsers("Users.txt"));
         Comparator<User> highScoreComparator = Comparator
                 .comparing(User::getHighScore);
         Comparator<User> fieldComparator = highScoreComparator;

@@ -6,6 +6,7 @@ import Controller.ProfileController;
 import Controller.RegisterLoginController;
 import Model.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -21,7 +22,7 @@ public class ProfileMenu {
         this.profileController = changeMenuController.getProfileController();
     }
 
-    public String run(Scanner scanner) {
+    public String run(Scanner scanner) throws NoSuchAlgorithmException {
         User currentUser=registerLoginController.getCurrentUser();
         while (true) {
             input = scanner.nextLine();
