@@ -76,21 +76,30 @@ public class RegisterLoginController {
     public User getUserByUsername(String username) {
         User wantedUser;
         ArrayList<String> content = readFileContent("Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
+        for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
                         , content.get((10 * i) + 3), content.get((10 * i) + 4));
                 wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
-                wantedUser.setSecurityQuestion(content.get((10 * i) + 7));
+                wantedUser.setSecurityAnswer(content.get((10 * i) + 7));
                 return wantedUser;
             }
         }
         return null;
     }
 
+    public ArrayList<User> getAllUsers(String path){
+        ArrayList<User> allUsers = new ArrayList<>();
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            allUsers.add(getUserByUsername(content.get(10*i)));
+        }
+        return allUsers;
+    }
+
     public boolean isUserNameUnique(String username) {
         ArrayList<String> content = readFileContent("Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
+        for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 return false;
             }
@@ -100,7 +109,7 @@ public class RegisterLoginController {
 
     public boolean isEmailUnique(String email) {
         ArrayList<String> content = readFileContent("Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
+        for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 3).equals(email)) {
                 return false;
             }
@@ -131,12 +140,30 @@ public class RegisterLoginController {
         return false;
     }
 
+    public boolean isAnswerCorrect(String username, String answer) {
+        User user = getUserByUsername(username);
+        if(user.getSecurityAnswer().equals(answer))
+            return true;
+        return false;
+    }
+
     public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
         ArrayList<String> content = readFileContent("Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
+        for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 8);
                 content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
+            }
+        }
+        writeToFileContent("Users.txt", content, false);
+    }
+
+    public void changePassword(String username, String password) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove((10 * i) + 1);
+                content.add(((10 * i) + 1), passwordToSHA(password));
             }
         }
         writeToFileContent("Users.txt", content, false);
@@ -481,6 +508,14 @@ public class RegisterLoginController {
         return resultMessage;
     }
 
+    public String forgotPasswordShowQuestion(Matcher matcher) {
+        User user = getUserByUsername(matcher.group("username"));
+        if(user == null)
+            return "fail";
+        else {
+            return user.getSecurityQuestion();
+        }
+    }
     //Other Functions:
 
     public boolean isNumber(String num) {
