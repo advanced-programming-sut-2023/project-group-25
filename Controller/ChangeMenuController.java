@@ -19,45 +19,47 @@ public class ChangeMenuController {
     private static TradeController tradeController = new TradeController();
 
     private static MapController mapController = new MapController();
-    
+
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;
     }
-    
+
     public MainController getMainController() {
         return mainController;
     }
-    
+
     public GameController getGameController() {
         return gameController;
     }
-    
+
     public ProfileController getProfileController() {
         return profileController;
     }
-    
+
     public TradeController getTradeController() {
         return tradeController;
     }
-    
+
     public void run(Scanner scanner) throws NoSuchAlgorithmException {
         if (registerLoginMenu.run(scanner).equals("exit")) return;
         //registerLoginMenu has returned mainMenu.
-        switch (mainMenu.run(scanner)) {
-            case "logout":
-                if (registerLoginMenu.run(scanner).equals("exit")) return;
-                break;
-            case "game menu":
-                gameMenu.run(scanner);
-                break;
-            case "map menu":
-                mapMenu.run(scanner);
-                break;
-            case "profile menu":
-                profileMenu.run(scanner);
-                break;
-            case "trade menu":
-            
+        while (true) {
+            switch (mainMenu.run(scanner)) {
+                case "logout":
+                    if (registerLoginMenu.run(scanner).equals("exit")) return;
+                    break;
+                case "game menu":
+                    gameMenu.run(scanner);
+                    break;
+                case "map menu":
+                    mapMenu.run(scanner);
+                    break;
+                case "profile menu":
+                    profileMenu.run(scanner);
+                    break;
+                case "trade menu":
+
+            }
         }
     }
 }

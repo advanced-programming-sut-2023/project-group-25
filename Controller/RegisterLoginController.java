@@ -112,11 +112,12 @@ public class RegisterLoginController {
         return false;
     }
 
-    public void addStayLoggendInForUser(String username) {
+    public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
         ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 1; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
-                content.add(((10 * i) + 9), "true");
+                content.remove((10 * i) + 8);
+                content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
             }
         }
         writeToFileContent("Users.txt", content, false);
@@ -424,7 +425,7 @@ public class RegisterLoginController {
                 resultMessage = ("Username and password didn't match!");
             else {
                 if (hasLoggedIn)
-                    addStayLoggendInForUser(username);
+                    addStayLoggedInForUser(username, true);
                 currentUser = getUserByUsername(username);
                 resultMessage = "success";
             }

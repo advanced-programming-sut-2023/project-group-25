@@ -23,8 +23,8 @@ public class MainMenu {
         System.out.println(registerLoginController.showCurrentMenuName("MAIN MENU"));
         while (true) {
             input = scanner.nextLine();
-    
-            if ((matcher = Commands.getMatcher(input,Commands.LOGOUT)).find()) {
+            if ((matcher = Commands.getMatcher(input,Commands.LOGOUT)) != null) {
+                registerLoginController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
             }
             
@@ -38,6 +38,9 @@ public class MainMenu {
             
             else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
                 return "trade menu";
+            }
+            else {
+                System.out.println("Invalid command!");
             }
         }
     }
