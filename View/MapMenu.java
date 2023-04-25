@@ -2,6 +2,7 @@ package View;
 
 import Controller.ChangeMenuController;
 import Controller.MapController;
+import Controller.RegisterLoginController;
 import Model.Game;
 import Model.Map;
 
@@ -10,6 +11,7 @@ import java.util.regex.Matcher;
 
 public class MapMenu {
     private final ChangeMenuController changeMenuController;
+    private final RegisterLoginController registerLoginController;
     private final MapController mapController;
     private Matcher matcher;
     private String input;
@@ -19,10 +21,12 @@ public class MapMenu {
     public MapMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.mapController = changeMenuController.getMapController();
+        this.registerLoginController = changeMenuController.getRegisterLoginController();
     }
     
     public String run(Scanner scanner) {
-        
+        System.out.println(registerLoginController.showCurrentMenuName("MAP MENU"));
+
         initializeTemplateMaps(40, 40);
         
         for (int i = 0; i < 3; i++) {

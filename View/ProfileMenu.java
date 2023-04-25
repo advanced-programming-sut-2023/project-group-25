@@ -20,10 +20,12 @@ public class ProfileMenu {
     public ProfileMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.profileController = changeMenuController.getProfileController();
+        this.registerLoginController = changeMenuController.getRegisterLoginController();
     }
 
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
         User currentUser=registerLoginController.getCurrentUser();
+        System.out.println(registerLoginController.showCurrentMenuName("PROFILE MENU"));
         while (true) {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.BACK))!=null)

@@ -2,6 +2,7 @@ package View;
 
 import Controller.ChangeMenuController;
 import Controller.RegisterLoginController;
+import Model.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class RegisterLoginMenu {
 
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
         registerLoginController.initializeUsersFile();
+        User user = registerLoginController.getFirstStayLoggedIn();
+        if(user != null) {
+            RegisterLoginController.setCurrentUser(user);
+            return "mainMenu";
+        }
         System.out.println(registerLoginController.showCurrentMenuName("REGISTER/LOGIN MENU"));
         String resultMessage = "";
         Matcher tmpMatcher = null;

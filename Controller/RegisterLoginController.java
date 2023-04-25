@@ -117,6 +117,16 @@ public class RegisterLoginController {
         return true;
     }
 
+    public User getFirstStayLoggedIn() {
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get((10 * i) + 8).equals("true")) {
+                return getUserByUsername(content.get(10 * i));
+            }
+        }
+        return null;
+    }
+
     public void addUserToFile(User user) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
         content.add(user.getUsername());
@@ -555,5 +565,9 @@ public class RegisterLoginController {
         for (int i = 0; i < nameLength + 6; i++)
             result += "-";
         return result;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        RegisterLoginController.currentUser = currentUser;
     }
 }
