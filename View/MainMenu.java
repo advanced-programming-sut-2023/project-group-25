@@ -4,6 +4,7 @@ import Controller.ChangeMenuController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -27,21 +28,22 @@ public class MainMenu {
                 registerLoginController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
             }
-            
-            else if ((matcher = Commands.getMatcher(input,Commands.SHOWMAP)).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))) != null) {
+
+                return "map menu";
+            }
+            else if (((matcher = Commands.getMatcher(input, Commands.SHOWMAP))) != null) {
                 return "map menu";
             }
             
-            else if ((matcher = Commands.getMatcher(input,Commands.ENTERPROFILEMENU)).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";
             }
             
-            else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
+            else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
                 return "trade menu";
             }
-            else if ((matcher = Commands.getMatcher(input,Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)).find()) {
-                return "map menu";
-            } else {
+             else {
                 System.out.println("Invalid command!");
             }
         }
