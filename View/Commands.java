@@ -10,15 +10,12 @@ public enum Commands {
     CREATE_USER_WITHOUT_SLOGAN("^user create -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+)" +
             " -(?<option4>\\S+) (?<input4>.+)$"),
     PICK_QUESTION("^question pick -(?<option1>.+) (?<input1>.+) -(?<option2>.+) (?<input2>.+) -(?<option3>.+) (?<input3>.+)$"),
-<<<<<<< HEAD
-    LOGIN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)( --stay-logged-in)?$"),
-=======
+
     LOGIN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>\\S+)$"),
 
     LOGIN_WITH_LOGGED_IN("^user login -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>\\S+) (--stay-logged-in)$"),
 
     ENTERPROFILEMENU("^enter profile menu"),
->>>>>>> Hoora
     FORGOTPASSWORD("^forgot my password -u (?<username>\\S+)$"),
     LOGOUT("^user logout$"),
     CHANGEINFO("^profile change -(?<option>[a-z]+) (?<input>.+)$"),
