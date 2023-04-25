@@ -1,19 +1,16 @@
 package Controller;
 
 import Model.User;
-import View.RegisterLoginMenu;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class ProfileController {
     
     private RegisterLoginController registerLoginController = new RegisterLoginController();
-    User currentUser = registerLoginController.getCurrentUser();
     
-    public String changeInfo(String field, String content) {
+    public String changeInfo(User currentUser, String field, String content) {
         if (content.length() == 0)
             return "This field is empty!";
         if (field.equals("username")) {
@@ -40,44 +37,49 @@ public class ProfileController {
         return null;
     }
     
-    public String changePassword(String oldPassword, String newPassword) {
+    public String changePassword(User currentUser, String oldPassword, String newPassword) {
         if (currentUser.getPassword().equals(oldPassword)) {
             if (oldPassword.equals(newPassword))
-                return "Please enter a new password";
+                return "enter new password";
             else if (!registerLoginController.isPasswordWeak(newPassword).equals("success"))
-                return "New password is weak!";
-            currentUser.setPassword(newPassword);
-            return "Password changed successfully.\nPlease enter your new password again";
+                return ("This password is not valid; " + registerLoginController.isPasswordWeak(currentUser.getPassword()));
+
+            return "success";
         }
         return "Current password is incorrect!";
     }
+
+    public void setFinalPassword(User currentUser, String newPassword){
+        registerLoginController.changePassword(currentUser.getUsername(),newPassword);
+    }
     
-    public String removeSlogan() {
-        currentUser.setSlogan("");
+    public String removeSlogan(User currentUser) {
+       currentUser.setSlogan("");
         return "Slogan field is now empty.";
     }
     
-    public String displayProfile(Matcher matcher) {
+    public String displayProfile(User currentUser, Matcher matcher) {
         String field = matcher.group("field");
         StringBuilder result = new StringBuilder();
-        if (field.equals("highscore"))
+        if(field==null){
+            result.append("Highscore: ").append(currentUser.getHighScore()).append("\nRank: ").append(getRank(currentUser));
+            if (!currentUser.getSlogan().equals(""))
+                result.append("\nSlogan: ").append(currentUser.getSlogan()).append('\n');
+        }
+        else if (field.equals("highscore"))
             result.append("Highscore: ").append(currentUser.getHighScore());
         else if (field.equals("rank"))
-            result.append("Rank: ").append(getRank());
+            result.append("Rank: ").append(getRank(currentUser));
         else if (field.equals("slogan")) {
             if (currentUser.getSlogan().equals(""))
                 result.append("Slogan is empty!");
             else result.append("Slogan: ").append(currentUser.getSlogan());
-        } else {
-            result.append("Highscore: ").append(currentUser.getHighScore()).append("\nRank: ").append(getRank());
-            if (!currentUser.getSlogan().equals(""))
-                result.append("\nSlogan: ").append(currentUser.getSlogan()).append('\n');
         }
         return result.toString();
     }
     
-    public int getRank() {
-        ArrayList<User> sortedUsers = new ArrayList<User>(User.getUsers());
+    public int getRank(User currentUser) {
+        ArrayList<User> sortedUsers = new ArrayList<User>(registerLoginController.getAllUsers());
         Comparator<User> highScoreComparator = Comparator
                 .comparing(User::getHighScore);
         Comparator<User> fieldComparator = highScoreComparator;
