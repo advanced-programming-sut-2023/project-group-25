@@ -7,12 +7,8 @@ import Model.Map;
 public class MapController {
     int length, width;
 
-    public MapController(int length, int width) {
-        this.length = length;
-        this.width = width;
-    }
 
-    public void initializeMapTemplate1() {
+    public void initializeMapTemplate1(int length, int width) {
         Map map = new Map(length,width);
 
         initializeCastlesLocation(map);
