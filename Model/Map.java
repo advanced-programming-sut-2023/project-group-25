@@ -12,7 +12,6 @@ public class Map {
         this.width = width;
         cells=new Cell[length][width];
     }
-
     public Cell getCellByLocation(int x, int y) {
         return cells[x][y];
     }
@@ -20,19 +19,18 @@ public class Map {
     public Cell[][] getCells() {
         return cells;
     }
-    
-    public Map[] getTemplateMaps() {
-        return templateMaps;
-    }
-    
     public void setTemplateMaps(Map[] templateMaps) {
         this.templateMaps = templateMaps;
     }
     public int getLength() {
         return length;
     }
-    
+
     public int getWidth() {
         return width;
+    }
+
+    public Map[] getTemplateMaps() {
+        return templateMaps;
     }
 }
