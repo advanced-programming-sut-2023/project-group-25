@@ -18,16 +18,6 @@ public class ChangeMenuController {
     private final ProfileMenu profileMenu = new ProfileMenu(this);
     private final TradeMenu tradeMenu = new TradeMenu(this);
     private final MapMenu mapMenu = new MapMenu(this);
-<<<<<<< HEAD
-    
-=======
-    private static RegisterLoginController registerLoginController = new RegisterLoginController();
-    private static MainController mainController = new MainController();
-    private static GameController gameController = new GameController();
-    private static ProfileController profileController = new ProfileController();
-    private static TradeController tradeController = new TradeController();
-
-    private static MapController mapController = new MapController();
 
     public RegisterLoginController getRegisterLoginController() {
         return registerLoginController;

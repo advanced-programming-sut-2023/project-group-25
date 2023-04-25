@@ -70,11 +70,7 @@ public class RegisterLoginMenu {
                 } else {
                     System.out.println(resultMessage);
                 }
-<<<<<<< HEAD
-            } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null) {
 
-                return "mainMenu";
-=======
             } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null ||
                     (tmpMatcher = Commands.getMatcher(input, Commands.LOGIN_WITH_LOGGED_IN)) != null) {
                 ArrayList<String> allOptions = new ArrayList<String>() {{
@@ -89,7 +85,6 @@ public class RegisterLoginMenu {
                     return "mainMenu";
                 else
                     System.out.println(resultMessage);
->>>>>>> Hoora
             }
         }
     }

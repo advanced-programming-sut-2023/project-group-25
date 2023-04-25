@@ -39,14 +39,10 @@ public class MainMenu {
             else if ((matcher = Commands.getMatcher(input,Commands.ENTERTRADEMENU)).find()) {
                 return "trade menu";
             }
-<<<<<<< HEAD
-            
             else if ((matcher = Commands.getMatcher(input,Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)).find()) {
                 return "map menu";
-=======
-            else {
+            } else {
                 System.out.println("Invalid command!");
->>>>>>> Hoora
             }
         }
     }
