@@ -71,7 +71,7 @@ public class RegisterLoginMenu {
                     System.out.println(resultMessage);
                 }
             } else if ((matcher = Commands.getMatcher(input, Commands.LOGIN)) != null) {
-                //if login is successful:
+
                 return "mainMenu";
             }
         }

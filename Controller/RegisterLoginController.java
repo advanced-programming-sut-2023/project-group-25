@@ -159,6 +159,37 @@ public class RegisterLoginController {
         return resultMessage;
     }
 
+    public String login(Matcher matcher, ArrayList<String> allOptions) {
+        String resultMessage;
+        if(!checkAllOptionsExist(matcher, allOptions))
+            resultMessage = "Please enter valid options!";
+        else {
+            getRegisterOptions(matcher, hasSlogan);
+            if(registeringUser.getUsername().matches("\\s+") || registeringUser.getNickname().matches("\\s+") ||
+                    registeringUser.getEmail().matches("\\s+") || registeringUser.getPassword().matches("\\s+") ||
+                    registeringUser.getPasswordConfirmation().matches("\\s+") || (hasSlogan && registeringUser.getSlogan().matches("\\s+")))
+                resultMessage = "Empty Field Exists; Please enter all options completely!";
+            else if(!isUsernameValid(registeringUser.getUsername()))
+                resultMessage = "This username is not valid!";
+            else if(!User.isUserNameUnique(registeringUser.getUsername()))
+                resultMessage = "This username already exists!";
+            else if(!isPasswordWeak(registeringUser.getPassword()).equals("success"))
+                resultMessage = ("This password is not valid; " + isPasswordWeak(registeringUser.getPassword()));
+            else if(!registeringUser.getPassword().equals(registeringUser.getPasswordConfirmation()))
+                resultMessage = "The password confirmation doesn't match the original one!";
+            else if(!User.isEmailUnique(registeringUser.getEmail()))
+                resultMessage = "This email already exists!";
+            else if(!isEmailValid(registeringUser.getEmail()))
+                resultMessage = "This email is not valid!";
+            else {
+                User.addUser(registeringUser);
+                currentUser = registeringUser;
+                resultMessage = "success";
+            }
+        }
+        return resultMessage;
+    }
+
     public boolean isNumber(String num) {
         try {
             Integer.parseInt(num);
