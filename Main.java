@@ -1,9 +1,6 @@
 import Controller.ChangeMenuController;
-import Controller.RegisterLoginController;
-import Model.User;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {

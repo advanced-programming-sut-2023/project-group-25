@@ -25,6 +25,7 @@ public enum Commands {
     SHOW_MAP_BEFORE_STARTING_THE_GAME("^show map options$"),
     SHOWMAP("^show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
     CHOOSE_MAP("choose map -n (?<number>\\d+)"),
+    ENTER_LENGTH_AND_WIDTH("initialize map size -l (?<length>\\d+) -w (?<width>\\d+)"),
     MOVEONMAP("^map (?<verticalNumber>\\d+) (?<verticalDirection>.+) (?<horizontalNumber>\\d+) (?<horizontalDirection>.+)$"),
     SHOWDETAILS("^show details -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
     SHOWPOPULARITYFACTORS("^show popularity factors$"),
