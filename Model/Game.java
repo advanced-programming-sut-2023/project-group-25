@@ -17,8 +17,23 @@ public class Game {
         this.map = map;
     }
 
+    public Kingdom getKingdomByKing(User king){
+        for (Kingdom kingdom: kingdoms) {
+            if(kingdom.getKing().equals(king))
+                return kingdom;
+        }
+        return null;
+    }
+
     public void addKingdom(Kingdom kingdom){
         kingdoms.add(kingdom);
     }
 
+    public Map getMap() {
+        return map;
+    }
+
+    public int getMapTemplateNumber() {
+        return mapTemplateNumber;
+    }
 }
