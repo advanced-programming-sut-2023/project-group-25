@@ -3,7 +3,9 @@ package Controller;
 import Model.Cell;
 import Model.Game;
 import Model.Map;
+import Model.NaturalBlock;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 
 public class GameController {
@@ -19,6 +21,7 @@ public class GameController {
 
     public void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
+        map = currentGame.getMap();
     }
 
     public Game getCurrentGame() {
@@ -59,5 +62,21 @@ public class GameController {
         }
         return "You can't change the texture of a cell with a building on it!";
     }
+
+    public String clearCell(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        cell = map.getCellByLocation(x, y);
+        int templateNumber = currentGame.getMapTemplateNumber();
+        Map originalMap = Map.getTemplateMaps()[templateNumber];
+        String originalMaterial = originalMap.getCellByLocation(x, y).getMaterial();
+        cell.setBuilding(null);
+        cell.getPeople().removeAll(cell.getPeople());
+        cell.getNaturalBlocks().removeAll(cell.getNaturalBlocks());
+        cell.setMaterial(originalMaterial);
+        return "Cell cleared successfully";
+    }
+
+    
 
 }
