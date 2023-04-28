@@ -10,6 +10,7 @@ public class GameController {
     private int numberOfPlayers = 2;
     private Map map;
     private Cell cell;
+    private Turn turn;
 
 
     public int getNumberOfPlayers() {
@@ -99,7 +100,7 @@ public class GameController {
         String type = matcher.group("type");
         cell = map.getCellByLocation(x, y);
         if (matcher.group("object").equals("tree")) {
-            result = dropTree(x,y,cell, type);
+            result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
             result = dropBuilding(cell, type);
         } else if (matcher.group("object").equals("unit")) {
@@ -127,6 +128,45 @@ public class GameController {
         return null;
     }
 
+    public String showDetails(Matcher matcher) {
+        int x, y;
+        StringBuilder result = new StringBuilder();
+        if (matcher.group("option1").equals("x")) {
+            x = Integer.parseInt(matcher.group("input1"));
+            y = Integer.parseInt(matcher.group("input2"));
+        } else {
+            y = Integer.parseInt(matcher.group("input1"));
+            x = Integer.parseInt(matcher.group("input2"));
+        }
 
+        cell = map.getCellByLocation(x, y);
+        result.append("Texture: ").append(cell.getMaterial()).append("\nBuilding: ").append(cell.getBuilding())
+                .append("\nNumber of units: ").append(cell.getPeople().size()).append("\n");
+        for (Person person : cell.getPeople()) {
+            result.append(person.getType());
+        }
+        return result.toString();
+    }
+
+    public String showPopularityFactors() {
+        StringBuilder result = new StringBuilder();
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        result.append("PopularityFactors: \n");
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            result.append(popularityFactor).append("\n");
+        }
+        return result.toString();
+    }
+
+    public String showPopularity() {
+        int result = 0;
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            result += popularityFactor.getRate();
+        }
+        return "Popularity: " + result;
+    }
+
+    
 
 }
