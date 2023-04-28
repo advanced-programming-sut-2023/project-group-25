@@ -167,6 +167,6 @@ public class GameController {
         return "Popularity: " + result;
     }
 
-    
+
 
 }
