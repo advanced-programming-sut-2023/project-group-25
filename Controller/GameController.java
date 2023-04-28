@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Cell;
-import Model.Game;
-import Model.Map;
-import Model.NaturalBlock;
+import Model.*;
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -77,6 +74,59 @@ public class GameController {
         return "Cell cleared successfully";
     }
 
-    
+    public String dropRock(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        cell = map.getCellByLocation(x, y);
+        String direction = matcher.group("direction");
+        NaturalBlock naturalBlock = new NaturalBlock("Rock", "Rock");
+        if (x < 0 || y < 0 || !direction.matches("^[n|r|s|e|w]$"))
+            return "Invalid input!";
+        if (direction.matches("r")) {
+            String chars = "swen";
+            Random rnd = new Random();
+            direction = String.valueOf(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        naturalBlock.setDirection(direction);
+        cell.addNaturalBlocks(naturalBlock);
+        return "Rock added successfully";
+    }
+
+    public String dropObject(Matcher matcher) {
+        String result = null;
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        String type = matcher.group("type");
+        cell = map.getCellByLocation(x, y);
+        if (matcher.group("object").equals("tree")) {
+            result = dropTree(x,y,cell, type);
+        } else if (matcher.group("object").equals("building")) {
+            result = dropBuilding(cell, type);
+        } else if (matcher.group("object").equals("unit")) {
+            result = dropUnit(cell, type, matcher.group("count"));
+        }
+        return result;
+    }
+
+    public String dropTree(int x, int y, Cell cell, String type) {
+        NaturalBlock naturalBlock = new NaturalBlock(type, "Tree");
+        if (x < 0 || y < 0)
+            return "Invalid input!";
+        if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea"))
+            return "You can't drop a tree in this location!";
+        cell.addNaturalBlocks(naturalBlock);
+        return type + " added successfully";
+    }
+
+
+    public String dropBuilding(Cell cell, String type) {
+        return null;
+    }
+
+    public String dropUnit(Cell cell, String type, String count) {
+        return null;
+    }
+
+
 
 }
