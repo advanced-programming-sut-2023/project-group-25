@@ -41,7 +41,11 @@ public class Cell {
         return naturalBlocks;
     }
 
-    public boolean isHasTunnel() {
+    public void addNaturalBlocks(NaturalBlock naturalBlock) {
+        naturalBlocks.add(naturalBlock);
+    }
+
+    public boolean hasCellTunnel() {
         return hasTunnel;
     }
 
