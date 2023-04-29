@@ -42,6 +42,8 @@ public class MainMenu {
             
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
                 return "trade menu";
+            } else if(((matcher = Commands.getMatcher(input,Commands.NEW_GAME))) != null) {
+                return "game menu";
             }
              else {
                 System.out.println("Invalid command!");
