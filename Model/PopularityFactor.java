@@ -16,6 +16,10 @@ public class PopularityFactor {
         return rate;
     }
 
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
     public int getPopularityAmount() {
         return popularityAmount;
     }
