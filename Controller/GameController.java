@@ -2,26 +2,19 @@ package Controller;
 
 import Model.*;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
-=======
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
->>>>>>> 5b69c4b439edbac0f43c0d3fec2493dfb2bc61b8
 
 public class GameController {
     private Game currentGame;
     private int numberOfPlayers = 2;
-<<<<<<< HEAD
     private Map map;
     private Cell cell;
     private Turn turn;
 
-
-=======
 
     private final RegisterLoginController registerLoginController = new RegisterLoginController();
     private final MainController mainController = new MainController();
@@ -130,7 +123,6 @@ public class GameController {
         return resultMessage;
     }
     
->>>>>>> 5b69c4b439edbac0f43c0d3fec2493dfb2bc61b8
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
