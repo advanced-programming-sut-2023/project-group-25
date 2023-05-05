@@ -1,23 +1,27 @@
 package View;
 
 import Controller.ChangeMenuController;
+import Controller.GameController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainMenu {
     private ChangeMenuController changeMenuController;
     private RegisterLoginController registerLoginController;
     private MainController maincontroller;
+    private GameController gameController;
     private Matcher matcher;
     private String input;
     public MainMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.maincontroller = changeMenuController.getMainController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
+        this.gameController = changeMenuController.getGameController();
     }
     
     public String run(Scanner scanner) {
@@ -42,6 +46,13 @@ public class MainMenu {
             
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
                 return "trade menu";
+            } else if(((matcher = Commands.getMatcher(input,Commands.NEW_GAME))) != null) {
+                System.out.println("Please enter the players' usernames separated with [-]:");
+                input = scanner.nextLine();
+                String resultMessage = gameController.newGame(input);
+                System.out.println(resultMessage);
+                if(Pattern.compile("^New game created successfully!").matcher(resultMessage).find())
+                    return "map menu";
             }
              else {
                 System.out.println("Invalid command!");

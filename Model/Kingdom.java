@@ -11,11 +11,19 @@ public class Kingdom {
     private  User king;
     private int inventory;
     private int joblessCounter;
+    private int gameId;
     
-    public Kingdom(User king) {
+    public Kingdom(User king, int gameId) {
         this.king = king;
+        this.inventory = 0;
+        this.joblessCounter = 8;
+        this.gameId = gameId;
     }
-    
+
+    public int getGameId() {
+        return gameId;
+    }
+
     public ArrayList<Building> getKingBuildings() {
         return kingBuildings;
     }

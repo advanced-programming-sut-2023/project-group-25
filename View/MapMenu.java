@@ -45,7 +45,7 @@ public class MapMenu {
                 else {
                     initializeTemplateMaps(mapLength, mapWidth);
                     map = Map.getTemplateMaps()[chosenMapNumber - 1];
-                    gameController.setCurrentGame(new Game(map));
+                    //gameController.setCurrentGame(new Game(map));
                 }
             }
         }

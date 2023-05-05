@@ -73,7 +73,8 @@ public enum Commands {
     NEXTTURN("next turn"),
     ENTERTRADEMENU("enter trade menu"),
     EXIT("exit"),
-    BACK("back");
+    BACK("back"),
+    NEW_GAME("^start new game$");
     
     
     private final String regex;
