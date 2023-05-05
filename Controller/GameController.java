@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.regex.Matcher;
 
@@ -153,7 +154,7 @@ public class GameController {
         Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
         result.append("PopularityFactors: \n");
         for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
-            result.append(popularityFactor).append("\n");
+            result.append(popularityFactor.getName()).append("\n");
         }
         return result.toString();
     }
@@ -167,6 +168,24 @@ public class GameController {
         return "Popularity: " + result;
     }
 
+    public String showFoodList(){
+        StringBuilder result = new StringBuilder();
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        ArrayList<Product> products=new ArrayList<>(currentKing.getKingProduct());
+        result.append("Apple: ").append(showEachFood(products,"apple"));
+        result.append("Apple: ").append(showEachFood(products,"meat"));
+        result.append("Apple: ").append(showEachFood(products,"bread"));
+        result.append("Apple: ").append(showEachFood(products,"cheese"));
+        return result.toString();
+    }
 
+    private int showEachFood(ArrayList<Product> products, String food) {
+        int count=0;
+        for (Product product: products) {
+            if(product.getName().equals(food))
+                count++;
+        }
+        return count;
+    }
 
 }
