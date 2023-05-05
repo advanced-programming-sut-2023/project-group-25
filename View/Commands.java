@@ -32,8 +32,8 @@ public enum Commands {
     SHOW_POPULARITY("^show popularity$"),
     SHOW_FOOD_LIST("^show food list$"),
     //the next two can be merged.
-    RATEPOPULARITYFACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
-    SHOWPOPULARITYFACTORRATE("food rate show"),
+    RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
+    SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     DROPBUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECTBUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
     CREATEUNIT("createunit -t (?<type>.+) -c (?<count>.+)"),

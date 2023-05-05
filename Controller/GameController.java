@@ -163,29 +163,82 @@ public class GameController {
         int result = 0;
         Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
-            result += popularityFactor.getRate();
+            result += popularityFactor.getPopularityAmount();
         }
         return "Popularity: " + result;
     }
 
-    public String showFoodList(){
+    public String showFoodList() {
         StringBuilder result = new StringBuilder();
         Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
-        ArrayList<Product> products=new ArrayList<>(currentKing.getKingProduct());
-        result.append("Apple: ").append(showEachFood(products,"apple"));
-        result.append("Apple: ").append(showEachFood(products,"meat"));
-        result.append("Apple: ").append(showEachFood(products,"bread"));
-        result.append("Apple: ").append(showEachFood(products,"cheese"));
+        ArrayList<Product> products = new ArrayList<>(currentKing.getKingProduct());
+        result.append("Apple: ").append(showEachFood(products, "apple"));
+        result.append("Apple: ").append(showEachFood(products, "meat"));
+        result.append("Apple: ").append(showEachFood(products, "bread"));
+        result.append("Apple: ").append(showEachFood(products, "cheese"));
         return result.toString();
     }
 
     private int showEachFood(ArrayList<Product> products, String food) {
-        int count=0;
-        for (Product product: products) {
-            if(product.getName().equals(food))
+        int count = 0;
+        for (Product product : products) {
+            if (product.getName().equals(food))
                 count++;
         }
         return count;
     }
 
+    public void ratePopularityFactor(Matcher matcher) {
+        if (matcher.group("popularityFactor").equals("food"))
+            rateFood(matcher.group("rateNumber"));
+        if (matcher.group("popularityFactor").equals("fear"))
+            rateFear(matcher.group("rateNumber"));
+        if (matcher.group("popularityFactor").equals("tax"))
+            rateTax(matcher.group("rateNumber"));
+    }
+
+    private void rateTax(String rateNumber) {
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals("tax")) {
+                if (Integer.parseInt(rateNumber) <= 0)
+                    popularityFactor.setRate(Integer.parseInt(rateNumber) * (-2) + 1);
+                else if (Integer.parseInt(rateNumber) <= 4)
+                    popularityFactor.setRate(Integer.parseInt(rateNumber) * (-2));
+                else if (Integer.parseInt(rateNumber) <= 8)
+                    popularityFactor.setRate(Integer.parseInt(rateNumber) * (-4) + 8);
+            }
+        }
+    }
+
+    private void rateFear(String rateNumber) {
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals("fear"))
+                popularityFactor.setRate(Integer.parseInt(rateNumber));
+        }
+    }
+
+    private void rateFood(String rateNumber) {
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals("food"))
+                popularityFactor.setRate(Integer.parseInt(rateNumber) * 4);
+            //TO DO:give 0.5x + 1 amount of food to people
+        }
+    }
+
+    public String showPopularityFactorRate(Matcher matcher) {
+        StringBuilder result = new StringBuilder();
+        int rate = 0;
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals(matcher.group("popularityFactor"))) {
+                rate = popularityFactor.getRate();
+                break;
+            }
+        }
+        result.append(matcher.group("popularityFactor")).append(": ").append(String.valueOf(rate));
+        return result.toString();
+    }
 }
