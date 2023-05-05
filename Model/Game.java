@@ -27,10 +27,9 @@ public class Game {
         kingdoms.add(kingdom);
     }
 
-<<<<<<< HEAD
     public Map getMap() {
         return map;
-=======
+    }
     public Game(int gameId, ArrayList<Kingdom> allKingdoms) {
         this.gameId = gameId;
         this.kingdoms = allKingdoms;
@@ -51,7 +50,6 @@ public class Game {
 
     public int getGameId() {
         return gameId;
->>>>>>> 5b69c4b439edbac0f43c0d3fec2493dfb2bc61b8
     }
 
     public int getMapTemplateNumber() {
