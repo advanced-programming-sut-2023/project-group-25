@@ -12,7 +12,11 @@ public class Game {
     
     private Map map;
     private int mapTemplateNumber;
-
+    
+    public Map getMap() {
+        return map;
+    }
+    
     public Game(Map map) {
         this.map = map;
     }

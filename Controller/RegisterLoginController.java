@@ -379,8 +379,8 @@ public class RegisterLoginController {
     }
 
     //Option Functions:
-
-    public String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
+    
+    public static String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
         for (int i = 0; i < numberOfOptions; i++) {
             if (matcher.group(("option" + (i + 1))).equals(option))
                 return matcher.group(("input" + (i + 1)));
