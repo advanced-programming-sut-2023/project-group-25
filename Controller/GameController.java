@@ -224,7 +224,7 @@ public class GameController {
         for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("food"))
                 popularityFactor.setRate(Integer.parseInt(rateNumber) * 4);
-            //TO DO:give 0.5x + 1 amount of food to people
+            //TODO:give 0.5x + 1 amount of food to people
         }
     }
 
