@@ -48,5 +48,7 @@ public class Kingdom {
         return joblessCounter;
     }
     
-    
+    public void removePerson(Person person) {
+        this.kingPeople.remove(person);
+    }
 }

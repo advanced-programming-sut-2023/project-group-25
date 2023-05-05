@@ -12,6 +12,7 @@ import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
     private MilitaryPerson selectedUnit;
+    //TODO: make selected unit null after changing the player.
     private Game currentGame;
     private int numberOfPlayers = 2;
     private int shownMapX;
@@ -202,13 +203,43 @@ public class GameController {
         for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
             if (!person.getKing().equals(getCurrentUser())) {
                 String toGetMatcher = "move unit to -x " + enemyX + " -y " + enemyY;
-                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success")) return "success";
+                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success")) {
+                    //TODO: make it clear that it is different from moving.
+                    return "success";
+                }
                 else return "can't go";
             }
         }
         return "no enemy";
     }
     
+    public String aerialAttack(Matcher matcher) {
+        int enemyX = Integer.parseInt(matcher.group("x"));
+        int enemyY = Integer.parseInt(matcher.group("y"));
+        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
+            if (!person.getKing().equals(getCurrentUser())) {
+                if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen") || selectedUnit.getType().equals("Archer Bow")) {
+                    if (selectedUnit.getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
+                        //TODO:...
+                        return "success";
+                    } else return "out of range";
+                } else return "no shooter";
+            }
+        }
+        return "no enemy";
+    }
     
+    public void fight(MilitaryPerson unit1, MilitaryPerson unit2) {
+        if (unit1.getFirePower() > unit2.getDefendPower())
+            Objects.requireNonNull(getKingdomByKing(unit2.getKing())).removePerson(unit2);
+        if (unit2.getFirePower() > unit1.getDefendPower())
+            Objects.requireNonNull(getKingdomByKing(unit1.getKing())).removePerson(unit1);
+    }
     
+    private Kingdom getKingdomByKing(User king) {
+        for (Kingdom kingdom : currentGame.getKingdoms()) {
+            if (kingdom.getKing().equals(king)) return kingdom;
+        }
+        return null;
+    }
 }

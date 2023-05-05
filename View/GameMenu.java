@@ -10,14 +10,12 @@ import java.util.regex.Matcher;
 import static View.Commands.getMatcher;
 
 public class GameMenu {
-    private final ChangeMenuController changeMenuController;
     private final GameController gamecontroller;
     private User currentUser;
     private Matcher matcher;
     private String input;
     
     public GameMenu(ChangeMenuController changeMenuController) {
-        this.changeMenuController = changeMenuController;
         this.gamecontroller = changeMenuController.getGameController();
     }
     
@@ -68,7 +66,18 @@ public class GameMenu {
                 }
             } else if ((matcher = getMatcher(input,Commands.AERIAL_ATTACK)) != null) {
                 switch (gamecontroller.aerialAttack(matcher)) {
-                
+                    case "no shooter":
+                        System.out.println("Selected unit is not able to shoot!");
+                        break;
+                    case "out of range":
+                        System.out.println("The enemy you want to attack is out of range of the selected unit!");
+                        break;
+                    case "no enemy":
+                        System.out.println("There is no enemy in this location!");
+                        break;
+                    case "success":
+                        System.out.println("You made the aerial attack successfully!");
+                        break;
                 }
             } else if ((matcher = getMatcher(input, Commands.SHOW_MAP)) != null) {
                 String result = gamecontroller.showAPartOfMap(matcher);

@@ -24,5 +24,8 @@ public class Game {
     public void addKingdom(Kingdom kingdom){
         kingdoms.add(kingdom);
     }
-
+    
+    public ArrayList<Kingdom> getKingdoms() {
+        return kingdoms;
+    }
 }

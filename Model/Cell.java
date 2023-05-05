@@ -68,9 +68,4 @@ public class Cell {
     public ArrayList<NaturalBlock> getNaturalBlocks() {
         return naturalBlocks;
     }
-
-    public boolean isHasTunnel() {
-        return hasTunnel;
-    }
-
 }
