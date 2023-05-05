@@ -64,7 +64,6 @@ public class GameController {
     }
     
     public boolean isLocationValid(int x, int y) {
-        
         return x >= 0 && y >= 0 && x <= currentGame.getMap().getLength() && y <= currentGame.getMap().getWidth();
     }
     
@@ -146,28 +145,8 @@ public class GameController {
         return "success";
     }
     
-    public String fillMoat(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x, y)) return "invalid location";
-        if (currentGame.getMap().getCells()[x][y].hasMoat()) {
-            currentGame.getMap().getCells()[x][y].setHasMoat(false);
-            return "success";
-        }
-        return "no moat";
-    }
     
-    public String digMoat(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x, y)) return "invalid location";
-        if (currentGame.getMap().getCells()[x][y].hasMoat()) return "has moat";
-        if (currentGame.getMap().getCells()[x][y].getBuilding() != null) return "has building";
-        //TODO: defining all the materials like all kinds of water
-        if (currentGame.getMap().getCells()[x][y].getMaterial().equals("water")) return "has water";
-        currentGame.getMap().getCells()[x][y].setHasMoat(true);
-        return "success";
-    }
+    
     
     public String setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));

@@ -95,36 +95,6 @@ public class GameMenu {
                 if (gamecontroller.digTunnel(matcher).equals("invalid location"))
                     System.out.println("You have entered invalid location!");
                 else System.out.println("Tunnel has been dug successfully!");
-            } else if ((matcher = getMatcher(input, Commands.FILL_MOAT)) != null) {
-                switch (gamecontroller.fillMoat(matcher)) {
-                    case "success":
-                        System.out.println("Moat has been filled successfully!");
-                        break;
-                    case "invalid location":
-                        System.out.println("You have entered invalid location!");
-                        break;
-                    case "no moat":
-                        System.out.println("There is no moat in this location!");
-                        break;
-                }
-            } else if ((matcher = getMatcher(input, Commands.DIG_MOAT)) != null) {
-                switch (gamecontroller.digMoat(matcher)) {
-                    case "invalid location":
-                        System.out.println("You have entered invalid location!");
-                        break;
-                    case "has moat":
-                        System.out.println("A moat already exists in this cell!");
-                        break;
-                    case "has building":
-                        System.out.println("You can't dig a moat under a building!");
-                        break;
-                    case "has water":
-                        System.out.println("You can't dig a moat under water!");
-                        break;
-                    case "success":
-                        System.out.println("The moat has been dug successfully!");
-                        break;
-                }
             } else if ((matcher = getMatcher(input, Commands.SET_MODE)) != null) {
                 switch (gamecontroller.setMode(matcher)) {
                     case "invalid location":

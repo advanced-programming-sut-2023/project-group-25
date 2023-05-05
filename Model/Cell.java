@@ -9,13 +9,7 @@ public class Cell {
     private ArrayList<NaturalBlock> naturalBlocks = new ArrayList<NaturalBlock>();
     private boolean hasOil = false;
     private boolean hasTunnel = false;
-    private boolean hasMoat = false;
-    public boolean hasMoat() {
-        return hasMoat;
-    }
-    public void setHasMoat(boolean hasMoat) {
-        this.hasMoat = hasMoat;
-    }
+    
     
     public boolean hasOil() {
         return hasOil;
