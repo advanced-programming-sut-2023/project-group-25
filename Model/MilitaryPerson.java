@@ -12,8 +12,8 @@ public class MilitaryPerson extends Person {
     private int shootingRange;
     private String mode;
     
-    public MilitaryPerson(User king, String type, Cell location, MilitaryPerson militaryPerson) {
-        super(king, type, location);
+    public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {
+        super(king, type);
         this.firePower = militaryPerson.firePower;
         this.defendPower = militaryPerson.defendPower;
         this.speed = militaryPerson.speed;
@@ -21,9 +21,9 @@ public class MilitaryPerson extends Person {
         this.mode = militaryPerson.mode;
     }
     
-    public MilitaryPerson(User king, String type, Cell location, ArrayList<Product> neededProducts,
+    public MilitaryPerson(User king, String type, ArrayList<Product> neededProducts,
                           int firePower, int defendPower, int speed, int trainingCost, String mode) {
-        super(king, type, location);
+        super(king, type);
         this.neededProducts = neededProducts;
         this.firePower = firePower;
         this.defendPower = defendPower;

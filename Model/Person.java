@@ -6,10 +6,10 @@ public class Person {
     private Cell location;
 
 
-    public Person(User king, String type, Cell location) {
+    public Person(User king, String type) {
         this.king = king;
         this.type = type;
-        this.location = location;
+
     }
 
     public User getKing() {

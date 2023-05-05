@@ -4,7 +4,6 @@ import Model.*;
 import View.Commands;
 
 import java.util.Objects;
-import java.util.Random;
 import java.util.regex.Matcher;
 
 import static Controller.RegisterLoginController.getCurrentUser;
@@ -69,9 +68,40 @@ public class GameController {
     
     public String createUnit(Matcher matcher) {
         String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
+        //TODO FOR HOORA: checking validity of type
         int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
-        
-        return null;
+        MilitaryPerson givenUnit;
+        if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getInventory())
+            return "not enough coins";
+        boolean haveProducts = haveNeededProductsForUnit(givenUnit, count);
+        if (!haveProducts) return "not enough products";
+        if (count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingFreePeopleNumber())
+            return "not enough people";
+        //TODO: checking if we're in the appropriate building
+        createUnitWithGivenUnit(givenUnit);
+        return "success";
+    }
+    
+    private boolean haveNeededProductsForUnit(MilitaryPerson givenUnit, int count) {
+        for (Product neededProduct : givenUnit.getNeededProducts()) {
+            boolean weHaveTheProduct = false;
+            for (Product kingProduct : Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingProducts()) {
+                if (kingProduct.getName().equals(neededProduct.getName()) && kingProduct.getCount() >= count) {
+                    weHaveTheProduct = true;
+                    break;
+                }
+            }
+            if (!weHaveTheProduct) return false;
+        }
+        return true;
+    }
+    
+    
+    private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
+        MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit.getNeededProducts(), givenUnit.getFirePower(),
+                givenUnit.getDefendPower(), givenUnit.getSpeed(), givenUnit.getTrainingCost(), "standing");
+        Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
+        //TODO: defining location of the building it should be in
     }
     
     public String showAPartOfMap(Matcher matcher) {
@@ -146,8 +176,6 @@ public class GameController {
     }
     
     
-    
-    
     public String setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -185,8 +213,7 @@ public class GameController {
                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success")) {
                     //TODO: make it clear that it is different from moving.
                     return "success";
-                }
-                else return "can't go";
+                } else return "can't go";
             }
         }
         return "no enemy";

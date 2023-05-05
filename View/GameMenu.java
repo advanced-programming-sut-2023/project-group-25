@@ -50,7 +50,21 @@ public class GameMenu {
                 }
             } else if ((matcher = getMatcher(input, Commands.CREATE_UNIT)) != null) {
                 switch (gamecontroller.createUnit(matcher)) {
-                    //TODO: complete method
+                    case "not enough coins":
+                        System.out.println("You don't have enough coins!");
+                        break;
+                    case "not enough products":
+                        System.out.println("You don't have needed products to create this unit!");
+                        break;
+                    case "not enough people":
+                        System.out.println("You don't have enough number of people to be trained!");
+                        break;
+                    case "invalid type for building":
+                        System.out.println("You can't create this unit in this building!");
+                        break;
+                    case "success":
+                        System.out.println("Unit created successfully!");
+                        break;
                 }
             } else if ((matcher = getMatcher(input, Commands.ATTACK_ENEMY)) != null) {
                 switch (gamecontroller.attackEnemy(matcher)) {
