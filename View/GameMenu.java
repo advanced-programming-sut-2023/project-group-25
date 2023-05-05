@@ -78,7 +78,7 @@ public class GameMenu {
                         System.out.println("There's no enemy in this location!");
                         break;
                 }
-            } else if ((matcher = getMatcher(input,Commands.AERIAL_ATTACK)) != null) {
+            } else if ((matcher = getMatcher(input, Commands.AERIAL_ATTACK)) != null) {
                 switch (gamecontroller.aerialAttack(matcher)) {
                     case "no shooter":
                         System.out.println("Selected unit is not able to shoot!");
@@ -122,8 +122,16 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.DISBAND)) != null) {
-                if (gamecontroller.disbandUnit().equals("can't go")) System.out.println("You can't dis band this unit!");
+                if (gamecontroller.disbandUnit().equals("can't go"))
+                    System.out.println("You can't dis band this unit!");
                 else System.out.println("Unit is disbanded successfully!");
+            } else if ((matcher = getMatcher(input, Commands.BUILD_EQUIPMENT)) != null) {
+                switch (gamecontroller.buildEquipment(matcher)) {
+                    case "success":
+                        System.out.println("Equipment is built successfully!");
+                        break;
+                        
+                }
             }
         }
     }

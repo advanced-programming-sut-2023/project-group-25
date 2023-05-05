@@ -63,4 +63,8 @@ public class Kingdom {
         }
         return count;
     }
+    
+    public void addAttackEquipment(AttackEquipment attackEquipment) {
+        kingAttackEquipments.add(attackEquipment);
+    }
 }

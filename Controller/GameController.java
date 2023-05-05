@@ -248,4 +248,25 @@ public class GameController {
         }
         return null;
     }
+    
+    public String buildEquipment(Matcher matcher) {
+        String equipmentName = matcher.group("equipmentName");
+        AttackEquipment attackEquipment;
+        if (!selectedUnit.getType().equals("engineer")) return "not engineer";
+        for (Product neededMaterials : attackEquipment.getUsedMaterials()) {
+            boolean weHaveNeededMaterials = false;
+            for (Product kingProduct : Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingProducts()) {
+                if (neededMaterials.getCount() <= kingProduct.getCount()) weHaveNeededMaterials = true;
+            }
+            if (!weHaveNeededMaterials) return "don't have materials";
+        }
+        createEquipmentWithGivenEquipment(attackEquipment);
+        return "success";
+    }
+    
+    private void createEquipmentWithGivenEquipment(AttackEquipment gitvenEquipment) {
+        AttackEquipment attackEquipment = new AttackEquipment(gitvenEquipment.getName(),
+                gitvenEquipment.getUsedMaterials(), getCurrentUser(), selectedUnit);
+        getKingdomByKing(getCurrentUser()).addAttackEquipment(attackEquipment);
+    }
 }
