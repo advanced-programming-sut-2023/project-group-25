@@ -1,21 +1,37 @@
 package Controller;
 
 import Model.*;
+import View.Commands;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
-import java.io.File;
-import java.security.NoSuchAlgorithmException;
+
+import static Controller.RegisterLoginController.getCurrentUser;
+import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
+<<<<<<< HEAD
     private final RegisterLoginController registerLoginController = new RegisterLoginController();
     private final MainController mainController = new MainController();
+=======
+    private MilitaryPerson selectedUnit;
+    //TODO: make selected unit null after changing the player.
+>>>>>>> 9b2df3dd4c9215c81755ac65a93c2c3efc119b23
     private Game currentGame;
     private int numberOfPlayers = 2;
     private Map map;
     private Cell cell;
     private Turn turn;
+<<<<<<< HEAD
+=======
+    private int shownMapX;
+    private int shownMapY;
+    private final RegisterLoginController registerLoginController = new RegisterLoginController();
+    private final MainController mainController = new MainController();
+>>>>>>> 9b2df3dd4c9215c81755ac65a93c2c3efc119b23
 
     public void initializeGamesFile() {
         File Games = new File("Games.txt");
@@ -371,5 +387,192 @@ public class GameController {
         }
         result.append(matcher.group("popularityFactor")).append(": ").append(String.valueOf(rate));
         return result.toString();
+    }
+    public void setSelectedUnit(MilitaryPerson selectedUnit) {
+        this.selectedUnit = selectedUnit;
+    }
+    
+    public String selectUnit(Matcher matcher) {
+        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        if (!isLocationValid(x, y)) return "invalid location";
+        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
+            if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
+                selectedUnit = (MilitaryPerson) person;
+                return "success";
+            }
+        }
+        return "don't have";
+    }
+    
+    public String moveUnit(Matcher matcher) {
+        //TODO: specify materials where units can't go; in their way or in the destination
+        //TODO: specify how long can the unit go
+        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        if (!isLocationValid(x, y)) return "invalid location";
+        if (selectedUnit == null) return "no selected unit";
+        selectedUnit.getLocation().removePerson(selectedUnit);
+        currentGame.getMap().getCells()[x - 1][y - 1].addPerson(selectedUnit);
+        return "success";
+    }
+    
+    public boolean isLocationValid(int x, int y) {
+        return x >= 0 && y >= 0 && x <= currentGame.getMap().getLength() && y <= currentGame.getMap().getWidth();
+    }
+    
+    public String createUnit(Matcher matcher) {
+        String type = getOptionsFromMatcher(matcher, "t", 2);
+        int count = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "c", 2)));
+        
+        return null;
+    }
+    
+    public String showAPartOfMap(Matcher matcher) {
+        shownMapX = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
+        shownMapY = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        if (!isLocationValid(shownMapX, shownMapY)) return "invalid location";
+        Map smallMap = makeSmallMap(currentGame.getMap(), shownMapX, shownMapY);
+        return MapController.showMap(smallMap);
+    }
+    
+    private Map makeSmallMap(Map bigMap, int x, int y) {
+        Map smallMap = new Map(3, 3);
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++)
+                smallMap.getCells()[i + 1][j + 1] = currentGame.getMap().getCells()[shownMapX + i][shownMapY + i];
+        return smallMap;
+    }
+    
+    public String moveOnMap(Matcher matcher) {
+        int dx = Integer.parseInt(matcher.group("verticalNumber"));
+        int dy = Integer.parseInt(matcher.group("horizontalNumber"));
+        String verticalDirection = matcher.group("verticalDirection");
+        String horizontalDirection = matcher.group("horizontalDirection");
+        if (verticalDirection.equals("up")) dx = -dx;
+        if (horizontalDirection.equals("left")) dy = -dy;
+        if (!isLocationValid(shownMapX + dx, shownMapY + dy)) return "invalid location";
+        shownMapY = shownMapY + dy;
+        shownMapX = shownMapX + dx;
+        return MapController.showMap(makeSmallMap(currentGame.getMap(), shownMapX, shownMapY));
+    }
+    
+    public String pourOil(Matcher matcher) {
+        String direction = matcher.group();
+        int dx = getDXByDirection(direction), dy = getDYByDirection(direction);
+        int x = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'x');
+        int y = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'y');
+        if (!isLocationValid(x + dx, y + dy)) return "invalid location";
+        currentGame.getMap().getCells()[x][y].setHasOil(true);
+        currentGame.getMap().getCells()[x + dx][y + dy].setHasOil(true);
+        return "success";
+    }
+    
+    private int getLocationXOrY(Map map, Cell location, char ch) {
+        Cell[][] mapCells = map.getCells();
+        for (int i = 0; i < mapCells.length; i++)
+            for (int j = 0; j < mapCells.length; j++)
+                if (mapCells[i][j].equals(location)) {
+                    if (ch == 'x') return i;
+                    return j;
+                }
+        return -1;
+    }
+    
+    private int getDXByDirection(String direction) {
+        if (direction.equals("up")) return -1;
+        if (direction.equals("down")) return 1;
+        return 0;
+    }
+    
+    private int getDYByDirection(String direction) {
+        if (direction.equals("left")) return -1;
+        if (direction.equals("right")) return 1;
+        return 0;
+    }
+    
+    public String digTunnel(Matcher matcher) {
+        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        if (!isLocationValid(x, y)) return "invalid location";
+        currentGame.getMap().getCells()[x][y].setHasTunnel(true);
+        return "success";
+    }
+    
+    
+    
+    
+    public String setMode(Matcher matcher) {
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        if (!isLocationValid(x, y)) return "invalid location";
+        for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
+            if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
+                MilitaryPerson militaryPerson = (MilitaryPerson) person;
+                militaryPerson.setMode(matcher.group("mode"));
+                return "success";
+            }
+        }
+        return "no person";
+    }
+    
+    public String disbandUnit() {
+        Cell[][] mapCells = currentGame.getMap().getCells();
+        for (int i = 0; i < mapCells.length; i++) {
+            for (int j = 0; j < mapCells[i].length; j++) {
+                if (mapCells[i][j].getBuilding().getType().equals("house") && mapCells[i][j].getBuilding().getKing().getUsername().equals(getCurrentUser().getUsername())) {
+                    String toGetMatcher = "move unit to -x " + i + " -y " + j;
+                    if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success"))
+                        return "success";
+                }
+            }
+        }
+        return "can't go";
+    }
+    
+    public String attackEnemy(Matcher matcher) {
+        int enemyX = Integer.parseInt(matcher.group("x"));
+        int enemyY = Integer.parseInt(matcher.group("y"));
+        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
+            if (!person.getKing().equals(getCurrentUser())) {
+                String toGetMatcher = "move unit to -x " + enemyX + " -y " + enemyY;
+                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success")) {
+                    //TODO: make it clear that it is different from moving.
+                    return "success";
+                }
+                else return "can't go";
+            }
+        }
+        return "no enemy";
+    }
+    
+    public String aerialAttack(Matcher matcher) {
+        int enemyX = Integer.parseInt(matcher.group("x"));
+        int enemyY = Integer.parseInt(matcher.group("y"));
+        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
+            if (!person.getKing().equals(getCurrentUser())) {
+                if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen") || selectedUnit.getType().equals("Archer Bow")) {
+                    if (selectedUnit.getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
+                        //TODO:...
+                        return "success";
+                    } else return "out of range";
+                } else return "no shooter";
+            }
+        }
+        return "no enemy";
+    }
+    
+    public void fight(MilitaryPerson unit1, MilitaryPerson unit2) {
+        if (unit1.getFirePower() > unit2.getDefendPower())
+            Objects.requireNonNull(getKingdomByKing(unit2.getKing())).removePerson(unit2);
+        if (unit2.getFirePower() > unit1.getDefendPower())
+            Objects.requireNonNull(getKingdomByKing(unit1.getKing())).removePerson(unit1);
+    }
+    
+    private Kingdom getKingdomByKing(User king) {
+        for (Kingdom kingdom : currentGame.getKingdoms()) {
+            if (kingdom.getKing().equals(king)) return kingdom;
+        }
+        return null;
     }
 }

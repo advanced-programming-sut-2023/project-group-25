@@ -185,8 +185,13 @@ public class MapController {
 //    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
 //    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
 //    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
+<<<<<<< HEAD
 
     public String showMap(Map map) {
+=======
+    
+    public static String showMap(Map map) {
+>>>>>>> 9b2df3dd4c9215c81755ac65a93c2c3efc119b23
         int mapLength = map.getLength();
         int mapWidth = map.getWidth();
         StringBuilder mapView = new StringBuilder();

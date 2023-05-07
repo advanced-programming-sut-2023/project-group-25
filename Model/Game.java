@@ -5,22 +5,23 @@ import java.util.ArrayList;
 public class Game {
     private ArrayList<Kingdom> kingdoms = new ArrayList<Kingdom>();
     private int numberOfPlayers = 4;
-
     private int gameId;
-    
+    private int mapTemplateNumber;
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
     
     private Map map;
-    private int mapTemplateNumber = 1;
-
-    public Kingdom getKingdomByKing(User king){
-        for (Kingdom kingdom: kingdoms) {
-            if(kingdom.getKing().equals(king))
+    public Kingdom getKingdomByKing(User king) {
+        for (Kingdom kingdom : kingdoms) {
+            if (kingdom.getKing().equals(king))
                 return kingdom;
         }
         return null;
+    }
+    
+    public Game(Map map) {
+        this.map = map;
     }
 
     public void addKingdom(Kingdom kingdom){
@@ -40,10 +41,6 @@ public class Game {
         this.map = map;
     }
 
-    public ArrayList<Kingdom> getKingdoms() {
-        return kingdoms;
-    }
-
     public void setMapTemplateNumber(int mapTemplateNumber) {
         this.mapTemplateNumber = mapTemplateNumber;
     }
@@ -54,5 +51,9 @@ public class Game {
 
     public int getMapTemplateNumber() {
         return mapTemplateNumber;
+    }
+
+    public ArrayList<Kingdom> getKingdoms() {
+        return kingdoms;
     }
 }

@@ -4,17 +4,39 @@ import java.util.ArrayList;
 
 public class Cell {
     private String material;
-    private Building building;
+    private Building building = null;
     private ArrayList<Person> people = new ArrayList<Person>();
     private ArrayList<NaturalBlock> naturalBlocks = new ArrayList<NaturalBlock>();
+    private boolean hasOil = false;
     private boolean hasTunnel = false;
-
+    
+    
+    public boolean hasOil() {
+        return hasOil;
+    }
+    
+    public void setHasOil(boolean hasOil) {
+        this.hasOil = hasOil;
+    }
+    
+    public boolean hasTunnel() {
+        return hasTunnel;
+    }
+    
+    public void setHasTunnel(boolean hasTunnel) {
+        this.hasTunnel = hasTunnel;
+    }
+    
     public Cell(String material) {
         this.material = material;
     }
 
     public void addPerson(Person person) {
         people.add(person);
+    }
+    
+    public void removePerson(Person person) {
+        people.remove(person);
     }
 
     public String getMaterial() {
@@ -48,5 +70,4 @@ public class Cell {
     public boolean hasCellTunnel() {
         return hasTunnel;
     }
-
 }
