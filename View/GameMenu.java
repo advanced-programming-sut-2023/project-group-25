@@ -99,7 +99,8 @@ public class GameMenu {
                 else System.out.println(result);
             } else if ((matcher = getMatcher(input, Commands.MOVE_ON_MAP)) != null) {
                 String result = gamecontroller.moveOnMap(matcher);
-                if (result.equals("invalid location")) System.out.println("You have entered invalid location!");
+                if (result.equals("haven't chosen")) System.out.println("You haven't chosen a location yet!");
+                else if (result.equals("invalid location")) System.out.println("You have entered invalid location!");
                 else System.out.println(result);
             } else if ((matcher = getMatcher(input, Commands.POUR_OIL)) != null) {
                 if (gamecontroller.pourOil(matcher).equals("invalid location"))

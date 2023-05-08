@@ -107,7 +107,11 @@ public class GameController {
     public String showAPartOfMap(Matcher matcher) {
         shownMapX = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "x", 2)));
         shownMapY = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(shownMapX, shownMapY)) return "invalid location";
+        if (!isLocationValid(shownMapX, shownMapY)) {
+            shownMapX = 0;
+            shownMapY = 0;
+            return "invalid location";
+        }
         Map smallMap = makeSmallMap(currentGame.getMap(), shownMapX, shownMapY);
         return MapController.showMap(smallMap);
     }
@@ -121,6 +125,7 @@ public class GameController {
     }
     
     public String moveOnMap(Matcher matcher) {
+        if (shownMapX ==0 && shownMapY == 0) return "haven't chosen";
         int dx = Integer.parseInt(matcher.group("verticalNumber"));
         int dy = Integer.parseInt(matcher.group("horizontalNumber"));
         String verticalDirection = matcher.group("verticalDirection");

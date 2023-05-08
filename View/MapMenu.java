@@ -35,6 +35,7 @@ public class MapMenu {
             if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null) {
                 return "mainMenu";
             } else if ((matcher = Commands.getMatcher(input, Commands.ENTER_LENGTH_AND_WIDTH)) != null) {
+                System.out.println("Map size is initialized successfully!");
                 mapLength = Integer.parseInt(matcher.group("length"));
                 mapWidth = Integer.parseInt(matcher.group("width"));
             } else if ((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)) != null) {
@@ -45,7 +46,10 @@ public class MapMenu {
                 else {
                     initializeTemplateMaps(mapLength, mapWidth);
                     map = Map.getTemplateMaps()[chosenMapNumber - 1];
-                    gameController.setCurrentGame(new Game(map));
+                    Game game = new Game(map);
+                    game.setMapTemplateNumber(chosenMapNumber - 1);
+                    gameController.setCurrentGame(game);
+                    System.out.println("Your map is built successfully!");
                 }
             }
         }
@@ -55,7 +59,7 @@ public class MapMenu {
         initializeTemplateMaps(12, 12);
         for (int i = 0; i < 3; i++) {
             System.out.println(i + 1 + ".");
-            System.out.println(mapController.showMap(Map.getTemplateMaps()[i]) + "\n");
+            System.out.println(MapController.showMap(Map.getTemplateMaps()[i]) + "\n");
         }
     }
     

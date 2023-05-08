@@ -28,4 +28,8 @@ public class Game {
     public ArrayList<Kingdom> getKingdoms() {
         return kingdoms;
     }
+    
+    public void setMapTemplateNumber(int mapTemplateNumber) {
+        this.mapTemplateNumber = mapTemplateNumber;
+    }
 }
