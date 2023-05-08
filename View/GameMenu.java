@@ -4,6 +4,7 @@ import Controller.ChangeMenuController;
 import Controller.GameController;
 import Controller.RegisterLoginController;
 import Model.User;
+
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -15,12 +16,12 @@ public class GameMenu {
     private User currentUser;
     private Matcher matcher;
     private String input;
-    
+
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gamecontroller = changeMenuController.getGameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
     }
-    
+
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
@@ -69,7 +70,7 @@ public class GameMenu {
                         System.out.println("There's no enemy in this location!");
                         break;
                 }
-            } else if ((matcher = getMatcher(input,Commands.AERIAL_ATTACK)) != null) {
+            } else if ((matcher = getMatcher(input, Commands.AERIAL_ATTACK)) != null) {
                 switch (gamecontroller.aerialAttack(matcher)) {
                     case "no shooter":
                         System.out.println("Selected unit is not able to shoot!");
@@ -113,10 +114,35 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.DISBAND)) != null) {
-                if (gamecontroller.disbandUnit().equals("can't go")) System.out.println("You can't dis band this unit!");
+                if (gamecontroller.disbandUnit().equals("can't go"))
+                    System.out.println("You can't disband this unit!");
                 else System.out.println("Unit is disbanded successfully!");
-            }
+            } else if ((matcher = getMatcher(input, Commands.BLOCK_SET_TEXTURE)) != null) {
+                System.out.println(gamecontroller.setCellMaterial(matcher));
+            } else if ((matcher = getMatcher(input, Commands.RECTANGLE_SET_TEXTURE)) != null) {
+                System.out.println(gamecontroller.setCellBlockMaterial(matcher));
+            } else if ((matcher = getMatcher(input, Commands.CLEAR_BLOCK)) != null) {
+                System.out.println(gamecontroller.clearCell(matcher));
+            } else if ((matcher = getMatcher(input, Commands.DROP_ROCK)) != null) {
+                System.out.println(gamecontroller.dropRock(matcher));
+            } else if ((matcher = getMatcher(input, Commands.DROP_OBJECT)) != null) {
+                System.out.println(gamecontroller.dropObject(matcher));
+            } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
+                System.out.println(gamecontroller.selectBuilding(matcher));
+            } else if ((matcher = getMatcher(input, Commands.SHOW_DETAILS)) != null) {
+                System.out.println(gamecontroller.showDetails(matcher));
+            } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
+                System.out.println(gamecontroller.showPopularityFactors());
+            } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
+                System.out.println(gamecontroller.showPopularity());
+            } else if ((matcher = getMatcher(input, Commands.SHOW_FOOD_LIST)) != null) {
+                System.out.println(gamecontroller.showFoodList());
+            } else if ((matcher = getMatcher(input, Commands.RATE_POPULARITY_FACTOR)) != null) {
+                gamecontroller.ratePopularityFactor(matcher);
+            } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTOR_RATE)) != null) {
+                System.out.println(gamecontroller.showPopularityFactorRate(matcher));
+            } //else if ((matcher = getMatcher(input,Commands.REPAIR))!=null) {
+            //System.out.println(gamecontroller.repair());
         }
     }
-    
 }
