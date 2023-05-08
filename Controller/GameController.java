@@ -19,7 +19,6 @@ public class GameController {
     //TODO: make selected unit null after changing the player.
     private Game currentGame;
     private int numberOfPlayers;
-    private Map map;
     private Cell cell;
     private Turn turn;
 
@@ -131,15 +130,6 @@ public class GameController {
         return resultMessage;
     }
 
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
-    public void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-        map = currentGame.getMap();
-    }
-
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -151,7 +141,7 @@ public class GameController {
     public String setCellMaterial(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         if (x < 0 || y < 0)
             return "Invalid location!";
         else if (cell.getBuilding() != null)
@@ -170,7 +160,7 @@ public class GameController {
             return "Invalid location!";
         for (int i = x1; i <= x2; i++)
             for (int j = y1; j <= y2; j++)
-                if (map.getCellByLocation(i, j).getBuilding() != null)
+                if (currentGame.getMap().getCellByLocation(i, j).getBuilding() != null)
                     hasBuilding = true;
         if (!hasBuilding) {
             cell.setMaterial(matcher.group("type"));
@@ -182,7 +172,7 @@ public class GameController {
     public String clearCell(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         int templateNumber = currentGame.getMapTemplateNumber();
         Map originalMap = Map.getTemplateMaps()[templateNumber];
         String originalMaterial = originalMap.getCellByLocation(x, y).getMaterial();
@@ -196,7 +186,7 @@ public class GameController {
     public String dropRock(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         String direction = matcher.group("direction");
         NaturalBlock naturalBlock = new NaturalBlock("Rock", "Rock");
         if (x < 0 || y < 0 || !direction.matches("^[n|r|s|e|w]$"))
@@ -216,7 +206,7 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
@@ -260,7 +250,7 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         if (x < 0 || y < 0)
             return "Invalid input!";
         if(cell.getBuilding()==null)
@@ -282,7 +272,7 @@ public class GameController {
             x = Integer.parseInt(matcher.group("input2"));
         }
 
-        cell = map.getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x, y);
         result.append("Texture: ").append(cell.getMaterial()).append("\nBuilding: ").append(cell.getBuilding())
                 .append("\nNumber of units: ").append(cell.getPeople().size()).append("\n");
         for (Person person : cell.getPeople()) {

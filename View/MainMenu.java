@@ -21,7 +21,7 @@ public class MainMenu {
         this.changeMenuController = changeMenuController;
         this.maincontroller = changeMenuController.getMainController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getgameController();
     }
     
     public String run(Scanner scanner) {

@@ -22,7 +22,7 @@ public class MapMenu {
     public MapMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getgameController();
         this.mapController = changeMenuController.getMapController();
     }
     

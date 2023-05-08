@@ -27,7 +27,7 @@ public class ChangeMenuController {
         return mainController;
     }
 
-    public GameController getGameController() {
+    public GameController getgameController() {
         return gameController;
     }
 
