@@ -13,6 +13,8 @@ import static Controller.RegisterLoginController.getCurrentUser;
 import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
+    private final RegisterLoginController registerLoginController = new RegisterLoginController();
+    private final MainController mainController = new MainController();
     private MilitaryPerson selectedUnit;
     //TODO: make selected unit null after changing the player.
     private Game currentGame;
@@ -20,21 +22,20 @@ public class GameController {
     private Map map;
     private Cell cell;
     private Turn turn;
+
     private int shownMapX;
     private int shownMapY;
-    private final RegisterLoginController registerLoginController = new RegisterLoginController();
-    private final MainController mainController = new MainController();
 
     public void initializeGamesFile() {
         File Games = new File("Games.txt");
         ArrayList<String> content = mainController.readFileContent("Games.txt");
-        if(content.size() < 4) {
+        if (content.size() < 4) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--GAME ID--");
             initial.add("--ALL PLAYERS(separated with ,)--");
             initial.add("--MAP TEMPLATE NUMBER--");
             initial.add("_____________________________________________________");
-            mainController.writeToFileContent("Games.txt",initial,false);
+            mainController.writeToFileContent("Games.txt", initial, false);
         }
     }
 
@@ -43,7 +44,7 @@ public class GameController {
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(game.getGameId()));
         String usernames = "";
-        for(int i = 0; i<game.getKingdoms().size(); i++) {
+        for (int i = 0; i < game.getKingdoms().size(); i++) {
             usernames += (game.getKingdoms().get(i).getKing().getUsername() + "-");
         }
         content.add(usernames);
@@ -55,7 +56,7 @@ public class GameController {
     public void initializeKingdomsFile() {
         File Kingdoms = new File("Kingdoms.txt");
         ArrayList<String> content = mainController.readFileContent("Kingdoms.txt");
-        if(content.size() < 9) {
+        if (content.size() < 9) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--GAME ID--");
             initial.add("--KING'S USERNAME--");
@@ -67,7 +68,7 @@ public class GameController {
             initial.add("--KING'S POPULARITY FACTORS {factor1:amount, }--");
             initial.add("--KING'S ATTACK EQUIPMENTS(SEPARATED WITH ,)--");
             initial.add("_____________________________________________________");
-            mainController.writeToFileContent("Kingdoms.txt",initial,false);
+            mainController.writeToFileContent("Kingdoms.txt", initial, false);
         }
     }
 
@@ -108,22 +109,23 @@ public class GameController {
     public String newGame(String line) {
         String resultMessage = "";
         String[] usernames = line.split("-");
-        for(int i = 0; i<usernames.length; i++) {
-            if(registerLoginController.getUserByUsername(usernames[i]) == null)
+        for (int i = 0; i < usernames.length; i++) {
+            if (registerLoginController.getUserByUsername(usernames[i]) == null)
                 resultMessage = ("New game creation failed! Username [" + usernames[i] + "] does not exist!");
         }
-        if(resultMessage.equals("")) {
+        if (resultMessage.equals("")) {
             File Games = new File("Games.txt");
             ArrayList<String> content = mainController.readFileContent("Games.txt");
-            int gameId = content.size()/4 + 1;
+            int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            for(int i = 0; i<usernames.length; i++) {
+            for (int i = 0; i < usernames.length; i++) {
                 Kingdom newKingdom = new Kingdom(registerLoginController.getUserByUsername(usernames[i]), gameId);
                 addKingdomToFile(newKingdom);
                 kingdoms.add(newKingdom);
             }
             Game game = new Game(gameId,kingdoms);
             currentGame = game;
+            addGameToFile(game);
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
@@ -218,9 +220,9 @@ public class GameController {
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
-            result = dropBuilding(cell, type);
+            result = dropBuilding(x, y, cell, type);
         } else if (matcher.group("object").equals("unit")) {
-            result = dropUnit(cell, type, matcher.group("count"));
+            result = dropUnit(x, y, cell, type, matcher.group("count"));
         }
         return result;
     }
@@ -236,11 +238,36 @@ public class GameController {
     }
 
 
-    public String dropBuilding(Cell cell, String type) {
+    public String dropBuilding(int x, int y, Cell cell, String type) {
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        //Building building = new Building(savedBuilding,cell,currentKing);
+        //TODO:read saved building info from file by Type of the building
+        if (x < 0 || y < 0)
+            return "Invalid input!";
+        if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea")||cell.getBuilding()==null)
+            return "You can't have a building in this location!";
+        //TODO:some building are for specific grounds, CHECK IT
+       // cell.setBuilding(building);
+        return type + " added successfully";
+    }
+
+    public String dropUnit(int x, int y, Cell cell, String type, String count) {
+        //TODO:
         return null;
     }
 
-    public String dropUnit(Cell cell, String type, String count) {
+    public String selectBuilding(Matcher matcher){
+        int x = Integer.parseInt(matcher.group("x"));
+        int y = Integer.parseInt(matcher.group("y"));
+        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        cell = map.getCellByLocation(x, y);
+        if (x < 0 || y < 0)
+            return "Invalid input!";
+        if(cell.getBuilding()==null)
+            return "There is no building in this location";
+        if(!cell.getBuilding().getKing().equals(currentKing))
+            return "This building doesn't belong to you";
+        //TODO: save the selected building to do sth in it
         return null;
     }
 
