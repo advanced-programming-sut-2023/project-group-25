@@ -154,7 +154,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectBuilding(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_DETAILS)) != null) {
-                System.out.println(gameController.showDetails(matcher));
+                System.out.print(gameController.showDetails(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
                 System.out.println(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
