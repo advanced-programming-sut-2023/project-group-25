@@ -26,27 +26,25 @@ public enum Commands {
     SHOW_MAP("^show map -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
     CHOOSE_MAP("choose map -n (?<number>\\d+)"),
     ENTER_LENGTH_AND_WIDTH("initialize map size -l (?<length>\\d+) -w (?<width>\\d+)"),
-    MOVE_ON_MAP("^map (?<verticalNumber>\\d+) (?<verticalDirection>(up)|(down)) (?<horizontalNumber>\\d+) (?<horizontalDirection>(right)|(left))))$"),
+    MOVE_ON_MAP("^map (?<verticalNumber>\\d+) (?<verticalDirection>(up)|(down)) (?<horizontalNumber>\\d+) (?<horizontalDirection>(right)|(left))$"),
     SHOW_DETAILS("^show details -(?<option1>[a-z]) (?<input1>\\d+) -(?<option2>[a-z]) (?<input2>\\d+)$"),
     SHOW_POPULARITY_FACTORS("^show popularity factors$"),
     SHOW_POPULARITY("^show popularity$"),
     SHOW_FOOD_LIST("^show food list$"),
-    //the next two can be merged.
     RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
-    SHOW_POPULARITY_FACTOR_RATE("food rate show"),
+    SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     DROP_BUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
-    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>\\d+) -(?<option2>c|t) (?<input1>\\d+)"),
+    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>\\d+) -(?<option2>c|t) (?<input2>\\d+)"),
     REPAIR("repair"),
-    SELECT_UNIT("select unit -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input1>\\d+)"),
-    MOVE_UNIT("move unit to -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input1>\\d+)"),
+    SELECT_UNIT("select unit -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
+    MOVE_UNIT("move unit to -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
     PATROL("patrol unit -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
     SET_MODE("set -x (?<x>\\d+) -y (?<y>\\d+) -s (?<mode>.+)"),
-    //the next two can be merged
     ATTACK_ENEMY("attack -e (?<x>\\d+) (?<y>\\d+)"),
     AERIAL_ATTACK("ATTACK -x (?<x>\\d+) -y (?<y>\\d+)"),
     POUR_OIL("pour oil -d (?<direction>.+)"),
-    DIG_TUNNEL("dig tunnel -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input1>\\d+)"),
+    DIG_TUNNEL("dig tunnel -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
     BUILD_EQUIPMENT("build -q (?<equipmentName>.+)"),
     MOVE_EQUIPMENT("move equipment -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
     DISBAND("disband unit"),
@@ -55,8 +53,8 @@ public enum Commands {
     BLOCK_SET_TEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
     RECTANGLE_SET_TEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
     CLEAR_BLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
-    //next ones can be merged or separated
-    DROP_ROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z]"),
+    DROP_ROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z])"),
+    DROP_Object("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
     DROP_OBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
     CHOOSE_COLOR("choose color -c (?<color>.+)"),
     TRADE_REQUEST("trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)"),
@@ -68,7 +66,8 @@ public enum Commands {
     NEXT_TURN("next turn"),
     ENTERTRADEMENU("enter trade menu"),
     EXIT("exit"),
-    BACK("back");
+    BACK("back"),
+    NEW_GAME("^start new game$");
     
     
     private final String regex;

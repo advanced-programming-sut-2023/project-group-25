@@ -62,6 +62,10 @@ public class Building {
         return hitPoint;
     }
 
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
+    }
+
     public Cell getLocation() {
         return location;
     }

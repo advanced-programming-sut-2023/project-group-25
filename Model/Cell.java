@@ -62,4 +62,12 @@ public class Cell {
     public ArrayList<NaturalBlock> getNaturalBlocks() {
         return naturalBlocks;
     }
+
+    public void addNaturalBlocks(NaturalBlock naturalBlock) {
+        naturalBlocks.add(naturalBlock);
+    }
+
+    public boolean hasCellTunnel() {
+        return hasTunnel;
+    }
 }

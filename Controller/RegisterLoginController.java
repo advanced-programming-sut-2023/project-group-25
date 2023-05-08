@@ -15,33 +15,16 @@ public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
 
+    private final MainController mainController = new MainController();
+
     public static User getCurrentUser() {
         return currentUser;
     }
 
     //File Functions:
-
-    public ArrayList<String> readFileContent(String path) {
-        ArrayList<String> content = new ArrayList<>();
-        File Users = new File(path);
-        try {
-            FileReader fileReader = new FileReader(Users);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                content.add(line);
-                line = bufferedReader.readLine();
-            }
-            bufferedReader.close();
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
-        return content;
-    }
-
     public void initializeUsersFile() {
         File Users = new File("Users.txt");
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = mainController.readFileContent("Users.txt");
         if(content.size() < 9) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--USERNAME--");
@@ -54,28 +37,14 @@ public class RegisterLoginController {
             initial.add("--SECURITY ANSWER--");
             initial.add("--STAY LOGGED IN? (boolean)--");
             initial.add("_____________________________________________________");
-            writeToFileContent("Users.txt",initial,false);
-        }
-    }
-
-    public void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
-        File Users = new File(path);
-        try {
-            FileWriter fileWriter = new FileWriter(Users, isAppend);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            PrintWriter writer = new PrintWriter(bufferedWriter);
-            for (int i = 0; i < content.size(); i++) {
-                writer.println(content.get(i));
-            }
-            writer.close();
-        } catch (Exception e) {
+            mainController.writeToFileContent("Users.txt",initial,false);
         }
     }
 
     //User Functions:
     public User getUserByUsername(String username) {
         User wantedUser;
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
@@ -90,7 +59,7 @@ public class RegisterLoginController {
 
     public ArrayList<User> getAllUsers(String path){
         ArrayList<User> allUsers = new ArrayList<>();
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             allUsers.add(getUserByUsername(content.get(10*i)));
         }
@@ -98,7 +67,7 @@ public class RegisterLoginController {
     }
 
     public boolean isUserNameUnique(String username) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 return false;
@@ -108,7 +77,7 @@ public class RegisterLoginController {
     }
 
     public boolean isEmailUnique(String email) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 3).equals(email)) {
                 return false;
@@ -118,7 +87,7 @@ public class RegisterLoginController {
     }
 
     public User getFirstStayLoggedIn() {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 8).equals("true")) {
                 return getUserByUsername(content.get(10 * i));
@@ -139,7 +108,7 @@ public class RegisterLoginController {
         content.add(user.getSecurityAnswer());
         content.add("false");
         content.add("_____________________________________________________");
-        writeToFileContent("Users.txt", content, true);
+        mainController.writeToFileContent("Users.txt", content, true);
     }
 
     public boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
@@ -158,25 +127,25 @@ public class RegisterLoginController {
     }
 
     public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 8);
                 content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
             }
         }
-        writeToFileContent("Users.txt", content, false);
+        mainController.writeToFileContent("Users.txt", content, false);
     }
 
     public void changePassword(String username, String password) throws NoSuchAlgorithmException {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content =  mainController.readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 1);
                 content.add(((10 * i) + 1), passwordToSHA(password));
             }
         }
-        writeToFileContent("Users.txt", content, false);
+        mainController.writeToFileContent("Users.txt", content, false);
     }
 
     //Check Validation Functions:

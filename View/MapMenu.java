@@ -22,13 +22,13 @@ public class MapMenu {
     public MapMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getgameController();
         this.mapController = changeMenuController.getMapController();
     }
     
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("MAP MENU"));
-        mapController.setNumberOfCastles(gameController.getNumberOfPlayers());
+        mapController.setNumberOfCastles(gameController.getCurrentGame().getKingdoms().size());
         int mapLength = -1, mapWidth = -1;
         while (true) {
             input = scanner.nextLine();
@@ -46,11 +46,16 @@ public class MapMenu {
                 else {
                     initializeTemplateMaps(mapLength, mapWidth);
                     map = Map.getTemplateMaps()[chosenMapNumber - 1];
-                    Game game = new Game(map);
-                    game.setMapTemplateNumber(chosenMapNumber - 1);
-                    gameController.setCurrentGame(game);
                     System.out.println("Your map is built successfully!");
+                    gameController.getCurrentGame().setMap(map);
+                    gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
+                    gameController.addGameToFile(gameController.getCurrentGame());
+                    return "main menu";
                 }
+            }
+
+            else {
+                System.out.println("invalid command!");
             }
         }
     }

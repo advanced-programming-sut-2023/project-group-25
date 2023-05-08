@@ -9,7 +9,6 @@ public class Person {
     public Person(User king, String type) {
         this.king = king;
         this.type = type;
-
     }
 
     public User getKing() {

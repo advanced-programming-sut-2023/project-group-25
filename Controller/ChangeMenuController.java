@@ -27,7 +27,7 @@ public class ChangeMenuController {
         return mainController;
     }
 
-    public GameController getGameController() {
+    public GameController getgameController() {
         return gameController;
     }
 
@@ -57,6 +57,7 @@ public class ChangeMenuController {
                     break;
                 case "map menu":
                     mapMenu.run(scanner);
+                    gameMenu.run(scanner);
                     break;
                 case "profile menu":
                     profileMenu.run(scanner);

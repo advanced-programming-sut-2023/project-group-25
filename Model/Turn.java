@@ -8,4 +8,11 @@ public class Turn {
         this.currentKing = currentKing;
     }
 
+    public static int getTurnCounter() {
+        return TurnCounter;
+    }
+
+    public User getCurrentKing() {
+        return currentKing;
+    }
 }

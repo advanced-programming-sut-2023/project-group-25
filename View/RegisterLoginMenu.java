@@ -26,7 +26,7 @@ public class RegisterLoginMenu {
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
         registerLoginController.initializeUsersFile();
         User user = registerLoginController.getFirstStayLoggedIn();
-        if(user != null) {
+        if (user != null) {
             RegisterLoginController.setCurrentUser(user);
             return "mainMenu";
         }
@@ -52,9 +52,9 @@ public class RegisterLoginMenu {
                     add("e");
                     add("n");
                 }};
-                if(matcher != null)
+                if (matcher != null)
                     resultMessage = registerLoginController.register(matcher, allOptions, true);
-                else if(tmpMatcher != null)
+                else if (tmpMatcher != null)
                     resultMessage = registerLoginController.register(tmpMatcher, allOptionsWithoutSlogan, false);
                 if (resultMessage.equals("success")) {
                     resultMessage = randomPasswordRun(scanner);
@@ -84,57 +84,59 @@ public class RegisterLoginMenu {
                     add("u");
                     add("p");
                 }};
-                if(matcher != null)
+                if (matcher != null)
                     resultMessage = registerLoginController.login(matcher, allOptions, false);
-                else if(tmpMatcher != null)
+                else if (tmpMatcher != null)
                     resultMessage = registerLoginController.login(tmpMatcher, allOptions, true);
-                if (resultMessage.equals("success"))
+                if (resultMessage.equals("success")) {
+                    resultMessage = captchaRun(scanner);
+                    if (resultMessage.equals("exit")) {
+                        System.out.println("User register Canceled!");
+                        return "exit";
+                    }
                     return "mainMenu";
-                else
+                } else
                     System.out.println(resultMessage);
-            }  else if ((matcher = Commands.getMatcher(input, Commands.FORGOT_PASSWORD)) != null ) {
+            } else if ((matcher = Commands.getMatcher(input, Commands.FORGOT_PASSWORD)) != null) {
                 resultMessage = registerLoginController.forgotPasswordShowQuestion(matcher);
-                if(resultMessage.equals("fail")) {
+                if (resultMessage.equals("fail")) {
                     System.out.println("This username doesn't exist!");
-                }
-                else {
+                } else {
                     System.out.println("Answer the following question to change password:");
                     System.out.println(resultMessage);
                     while (true) {
                         input = scanner.nextLine();
-                        if(!registerLoginController.isAnswerCorrect(matcher.group("username"),input)) {
+                        if (!registerLoginController.isAnswerCorrect(matcher.group("username"), input)) {
                             System.out.println("Incorrect Answer; Please try again!");
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
                     System.out.print("Enter your new password: ");
                     while (true) {
                         input = scanner.nextLine();
-                        if(!registerLoginController.isPasswordWeak(input).equals("success")) {
+                        if (!registerLoginController.isPasswordWeak(input).equals("success")) {
                             System.out.println("This password is not valid; " +
                                     registerLoginController.isPasswordWeak(input));
                             System.out.print("Enter your new password: ");
-                        }
-                        else
+                        } else
                             break;
                     }
 
                     System.out.print("Please re-enter the new password: ");
                     while (true) {
                         String confirm = scanner.nextLine();
-                        if(!confirm.equals(input)) {
+                        if (!confirm.equals(input)) {
                             System.out.print("Please re-enter the new password correctly: ");
-                        }
-                        else {
+                        } else {
                             break;
                         }
                     }
-                    registerLoginController.changePassword(matcher.group("username"),input);
+                    registerLoginController.changePassword(matcher.group("username"), input);
                     System.out.println("Password changed successfully!");
                 }
-            }
+            } else
+                System.out.println("Invalid command!");
         }
     }
 
@@ -174,9 +176,9 @@ public class RegisterLoginMenu {
             System.out.print("Please re-enter your password here: ");
             while (true) {
                 input = scanner.nextLine();
-                if(input.equals(RegisterLoginController.getCurrentUser().getPassword()))
+                if (input.equals(RegisterLoginController.getCurrentUser().getPassword()))
                     return "success";
-                else if(input.equals("exit"))
+                else if (input.equals("exit"))
                     return "exit";
                 else
                     System.out.print("Please re-enter the password correctly: ");
@@ -193,7 +195,7 @@ public class RegisterLoginMenu {
             input = scanner.nextLine();
             if (input.equals(captcha)) {
                 return "success";
-            } else if(input.equals("exit"))
+            } else if (input.equals("exit"))
                 return "exit";
             else
                 System.out.print("Invalid CAPTCHA; please re-enter the CAPTCHA correctly: ");
