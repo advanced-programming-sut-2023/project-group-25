@@ -25,7 +25,7 @@ public class MapController {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
                 if (map.getCells()[i][j] != null) continue;
-                map.getCells()[i][j] = new Cell("land");
+                map.getCells()[i][j] = new Cell(i,j,"land");
             }
         }
     }
@@ -40,25 +40,25 @@ public class MapController {
         initializeCastlesLocation(map, length, width);
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = length / 6; i < (2 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (4 * length) / 6; i < (5 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = 0; i < length / 6; i++)
-            for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+            for (int j = (2 * width) / 7; j < (3 * width) / 7; j++)
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = (5 * length) / 6; i < length; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = 0; j < width / 6; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (5 * width) / 6; j < width; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
 
         setDefaultLand(length, width, map);
         Map.setTemplateMap(0, map);
@@ -72,22 +72,22 @@ public class MapController {
         initializeRockLandsTemplate2(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = width / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = length / 6; i < (5 * length) / 6; i++)
             for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
 
 
         setDefaultLand(length, width, map);
@@ -97,31 +97,31 @@ public class MapController {
     private void initializeRockLandsTemplate2(Map map, int length, int width) {
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (3 * width) / 6 + length / 8; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (3 * width) / 6 + width / 8; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
     }
 
     private void initializeIronLandsTemplate2(Map map, int length, int width) {
         for (int i = length / 6; i < (2 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = length / 6; i < (2 * length) / 6; i++)
             for (int j = (3 * width) / 6 + width / 8; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = (4 * length) / 6; i < (5 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = (4 * length) / 6; i < (5 * length) / 6; i++)
             for (int j = (3 * width) / 6 + width / 8; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
     }
 
     public void initializeMapTemplate3(int length, int width) {
@@ -130,25 +130,25 @@ public class MapController {
         initializeCastlesLocation(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = 0; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = (4 * width) / 6; j < width; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("lowWater");
+                map.getCells()[i][j] = new Cell(i,j,"lowWater");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = 0; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (4 * width) / 6; j < width; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = 0; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < width; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
 
         setDefaultLand(length, width, map);
 
@@ -175,7 +175,7 @@ public class MapController {
         castlePositions[7][1] = width - 1;
 
         for (int i = 0; i < numberOfCastles; i++)
-            map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell("castle");
+            map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0],castlePositions[i][1],"castle");
     }
 
     //extra colors:
@@ -185,13 +185,7 @@ public class MapController {
 //    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
 //    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
 //    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
-<<<<<<< HEAD
-
-    public String showMap(Map map) {
-=======
-    
     public static String showMap(Map map) {
->>>>>>> 9b2df3dd4c9215c81755ac65a93c2c3efc119b23
         int mapLength = map.getLength();
         int mapWidth = map.getWidth();
         StringBuilder mapView = new StringBuilder();
