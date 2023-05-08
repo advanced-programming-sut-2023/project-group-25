@@ -9,8 +9,23 @@ public class Cell {
     private ArrayList<NaturalBlock> naturalBlocks = new ArrayList<NaturalBlock>();
     private boolean hasOil = false;
     private boolean hasTunnel = false;
-    
-    
+    private int x;
+    private int y;
+
+    public Cell(int x, int y,String material) {
+        this.x = x;
+        this.y = y;
+        this.material = material;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public boolean hasOil() {
         return hasOil;
     }
@@ -25,10 +40,6 @@ public class Cell {
     
     public void setHasTunnel(boolean hasTunnel) {
         this.hasTunnel = hasTunnel;
-    }
-    
-    public Cell(String material) {
-        this.material = material;
     }
 
     public void addPerson(Person person) {
