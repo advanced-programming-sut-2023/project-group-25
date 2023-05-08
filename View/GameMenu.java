@@ -2,6 +2,7 @@ package View;
 
 import Controller.ChangeMenuController;
 import Controller.GameController;
+import Controller.MapController;
 import Controller.RegisterLoginController;
 import Model.User;
 import java.util.Scanner;
@@ -11,26 +12,26 @@ import static View.Commands.getMatcher;
 
 public class GameMenu {
     private final RegisterLoginController registerLoginController;
-    private final GameController gamecontroller;
+    private final GameController gameController;
+    private final MapController mapController;
     private User currentUser;
     private Matcher matcher;
     private String input;
     
     public GameMenu(ChangeMenuController changeMenuController) {
-        this.gamecontroller = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getGameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
+        this.mapController = changeMenuController.getMapController();
     }
     
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
             input = scanner.nextLine();
-            if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null)
-                return "main menu";
             if ((matcher = getMatcher(input, Commands.BACK)) != null) {
                 return "mainMenu";
             } else if ((matcher = getMatcher(input, Commands.SELECT_UNIT)) != null) {
-                switch (gamecontroller.selectUnit(matcher)) {
+                switch (gameController.selectUnit(matcher)) {
                     case "success":
                         System.out.println("Unit is selected successfully!");
                         break;
@@ -42,7 +43,7 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.MOVE_UNIT)) != null) {
-                switch (gamecontroller.moveUnit(matcher)) {
+                switch (gameController.moveUnit(matcher)) {
                     case "success":
                         System.out.println("Unit has been moved successfully!");
                         break;
@@ -54,11 +55,11 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.CREATE_UNIT)) != null) {
-                switch (gamecontroller.createUnit(matcher)) {
+                switch (gameController.createUnit(matcher)) {
                     //TODO: complete method
                 }
             } else if ((matcher = getMatcher(input, Commands.ATTACK_ENEMY)) != null) {
-                switch (gamecontroller.attackEnemy(matcher)) {
+                switch (gameController.attackEnemy(matcher)) {
                     case "success":
                         System.out.println("Selected unit attacked successfully!");
                         break;
@@ -70,7 +71,7 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input,Commands.AERIAL_ATTACK)) != null) {
-                switch (gamecontroller.aerialAttack(matcher)) {
+                switch (gameController.aerialAttack(matcher)) {
                     case "no shooter":
                         System.out.println("Selected unit is not able to shoot!");
                         break;
@@ -85,23 +86,23 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.SHOW_MAP)) != null) {
-                String result = gamecontroller.showAPartOfMap(matcher);
+                String result = gameController.showAPartOfMap(matcher);
                 if (result.equals("invalid location")) System.out.println("You have entered invalid location!");
                 else System.out.println(result);
             } else if ((matcher = getMatcher(input, Commands.MOVE_ON_MAP)) != null) {
-                String result = gamecontroller.moveOnMap(matcher);
+                String result = gameController.moveOnMap(matcher);
                 if (result.equals("invalid location")) System.out.println("You have entered invalid location!");
                 else System.out.println(result);
             } else if ((matcher = getMatcher(input, Commands.POUR_OIL)) != null) {
-                if (gamecontroller.pourOil(matcher).equals("invalid location"))
+                if (gameController.pourOil(matcher).equals("invalid location"))
                     System.out.println("You have entered invalid direction!");
                 else System.out.println("Oil has been poured successfully!");
             } else if ((matcher = getMatcher(input, Commands.DIG_TUNNEL)) != null) {
-                if (gamecontroller.digTunnel(matcher).equals("invalid location"))
+                if (gameController.digTunnel(matcher).equals("invalid location"))
                     System.out.println("You have entered invalid location!");
                 else System.out.println("Tunnel has been dug successfully!");
             } else if ((matcher = getMatcher(input, Commands.SET_MODE)) != null) {
-                switch (gamecontroller.setMode(matcher)) {
+                switch (gameController.setMode(matcher)) {
                     case "invalid location":
                         System.out.println("You have entered invalid location!");
                         break;
@@ -113,9 +114,13 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.DISBAND)) != null) {
-                if (gamecontroller.disbandUnit().equals("can't go")) System.out.println("You can't dis band this unit!");
+                if (gameController.disbandUnit().equals("can't go")) System.out.println("You can't dis band this unit!");
                 else System.out.println("Unit is disbanded successfully!");
             }
+            else if (input.matches("show map")) {
+                System.out.println(mapController.showMap(gameController.getCurrentGame().getMap()));
+            }
+            else System.out.println("invalid command!");
         }
     }
     

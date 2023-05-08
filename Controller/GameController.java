@@ -16,7 +16,7 @@ public class GameController {
     private MilitaryPerson selectedUnit;
     //TODO: make selected unit null after changing the player.
     private Game currentGame;
-    private int numberOfPlayers = 2;
+    private int numberOfPlayers;
     private Map map;
     private Cell cell;
     private Turn turn;
@@ -123,7 +123,7 @@ public class GameController {
                 kingdoms.add(newKingdom);
             }
             Game game = new Game(gameId,kingdoms);
-            addGameToFile(game);
+            currentGame = game;
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
@@ -401,14 +401,17 @@ public class GameController {
         shownMapY = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(shownMapX, shownMapY)) return "invalid location";
         Map smallMap = makeSmallMap(currentGame.getMap(), shownMapX, shownMapY);
+        if (smallMap == null) return "invalid location";
         return MapController.showMap(smallMap);
     }
     
     private Map makeSmallMap(Map bigMap, int x, int y) {
         Map smallMap = new Map(3, 3);
         for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                smallMap.getCells()[i + 1][j + 1] = currentGame.getMap().getCells()[shownMapX + i][shownMapY + i];
+            for (int j = -1; j <= 1; j++){
+                if (!isLocationValid(shownMapX + i, shownMapY + j)) return null;
+                smallMap.getCells()[i + 1][j + 1] = currentGame.getMap().getCells()[shownMapX + i][shownMapY + j];
+            }
         return smallMap;
     }
     

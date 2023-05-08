@@ -28,7 +28,7 @@ public class MapMenu {
     
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("MAP MENU"));
-        mapController.setNumberOfCastles(gameController.getNumberOfPlayers());
+        mapController.setNumberOfCastles(gameController.getCurrentGame().getKingdoms().size());
         int mapLength = -1, mapWidth = -1;
         while (true) {
             input = scanner.nextLine();
@@ -45,8 +45,15 @@ public class MapMenu {
                 else {
                     initializeTemplateMaps(mapLength, mapWidth);
                     map = Map.getTemplateMaps()[chosenMapNumber - 1];
-                    //gameController.setCurrentGame(new Game(map));
+                    gameController.getCurrentGame().setMap(map);
+                    gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
+                    gameController.addGameToFile(gameController.getCurrentGame());
+                    return "main menu";
                 }
+            }
+
+            else {
+                System.out.println("invalid command!");
             }
         }
     }

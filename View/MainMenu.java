@@ -36,9 +36,6 @@ public class MainMenu {
 
                 return "map menu";
             }
-//            else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP))) != null) {
-//                return "map menu";
-//            }
             
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";
