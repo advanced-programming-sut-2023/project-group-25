@@ -6,13 +6,14 @@ public class AttackEquipment {
     private String name;
     private ArrayList<Product> usedMaterials = new ArrayList<>();
     private User king;
-    private ArrayList<MilitaryPerson> engineers = new ArrayList<>();
+    private MilitaryPerson engineer;
+//    private ArrayList<MilitaryPerson> engineers = new ArrayList<>();
     
-    public AttackEquipment(String name, ArrayList<Product> usedMaterials, User king, ArrayList<MilitaryPerson> engineers) {
+    public AttackEquipment(String name, ArrayList<Product> usedMaterials, User king, MilitaryPerson engineer) {
         this.name = name;
         this.usedMaterials = usedMaterials;
         this.king = king;
-        this.engineers = engineers;
+        this.engineer = engineer;
     }
     
     public String getName() {
@@ -27,7 +28,7 @@ public class AttackEquipment {
         return king;
     }
     
-    public ArrayList<MilitaryPerson> getEngineers() {
-        return engineers;
+    public MilitaryPerson getEngineer() {
+        return engineer;
     }
 }

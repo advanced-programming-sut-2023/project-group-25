@@ -4,8 +4,8 @@ public class WorkerPerson extends Person {
     private Building workerPlace;
 
 
-    public WorkerPerson(User king, String type, Cell location, Building workerPlace) {
-        super(king, type, location);
+    public WorkerPerson(User king, String type, Building workerPlace) {
+        super(king, type);
         this.workerPlace = workerPlace;
     }
     public Building getWorkerPlace() {

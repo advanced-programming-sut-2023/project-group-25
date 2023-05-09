@@ -22,19 +22,20 @@ public class MapMenu {
     public MapMenu(ChangeMenuController changeMenuController) {
         this.changeMenuController = changeMenuController;
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getgameController();
         this.mapController = changeMenuController.getMapController();
     }
     
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("MAP MENU"));
-        mapController.setNumberOfCastles(gameController.getNumberOfPlayers());
+        mapController.setNumberOfCastles(gameController.getCurrentGame().getKingdoms().size());
         int mapLength = -1, mapWidth = -1;
         while (true) {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null) {
                 return "mainMenu";
             } else if ((matcher = Commands.getMatcher(input, Commands.ENTER_LENGTH_AND_WIDTH)) != null) {
+                System.out.println("Map size is initialized successfully!");
                 mapLength = Integer.parseInt(matcher.group("length"));
                 mapWidth = Integer.parseInt(matcher.group("width"));
             } else if ((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME)) != null) {
@@ -45,8 +46,16 @@ public class MapMenu {
                 else {
                     initializeTemplateMaps(mapLength, mapWidth);
                     map = Map.getTemplateMaps()[chosenMapNumber - 1];
-                    //gameController.setCurrentGame(new Game(map));
+                    System.out.println("Your map is built successfully!");
+                    gameController.getCurrentGame().setMap(map);
+                    gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
+                    gameController.addGameToFile(gameController.getCurrentGame());
+                    return "main menu";
                 }
+            }
+
+            else {
+                System.out.println("invalid command!");
             }
         }
     }
@@ -55,7 +64,7 @@ public class MapMenu {
         initializeTemplateMaps(12, 12);
         for (int i = 0; i < 3; i++) {
             System.out.println(i + 1 + ".");
-            System.out.println(mapController.showMap(Map.getTemplateMaps()[i]) + "\n");
+            System.out.println(MapController.showMap(Map.getTemplateMaps()[i]) + "\n");
         }
     }
     

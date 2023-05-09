@@ -144,4 +144,5 @@ public class User {
     public boolean isPasswordCorrect(String password) {
         return password.equals(this.password);
     }
+    
 }

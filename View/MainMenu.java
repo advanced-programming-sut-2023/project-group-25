@@ -21,7 +21,7 @@ public class MainMenu {
         this.changeMenuController = changeMenuController;
         this.maincontroller = changeMenuController.getMainController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getGameController();
+        this.gameController = changeMenuController.getgameController();
     }
     
     public String run(Scanner scanner) {
@@ -36,9 +36,6 @@ public class MainMenu {
 
                 return "map menu";
             }
-//            else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP))) != null) {
-//                return "map menu";
-//            }
             
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Kingdom {
     private ArrayList<Building> kingBuildings = new ArrayList<>();
-    private ArrayList<Product> kingProduct = new ArrayList<>();
+    private ArrayList<Product> kingProducts = new ArrayList<>();
     private ArrayList<Person> kingPeople = new ArrayList<>();
     private ArrayList<PopularityFactor> kingPopularityFactors = new ArrayList<>();
     private ArrayList<AttackEquipment> kingAttackEquipments = new ArrayList<>();
@@ -28,8 +28,8 @@ public class Kingdom {
         return kingBuildings;
     }
     
-    public ArrayList<Product> getKingProduct() {
-        return kingProduct;
+    public ArrayList<Product> getKingProducts() {
+        return kingProducts;
     }
     
     public ArrayList<Person> getKingPeople() {
@@ -58,5 +58,21 @@ public class Kingdom {
     
     public void removePerson(Person person) {
         this.kingPeople.remove(person);
+    }
+    
+    public void addPerson(Person person) {
+        this.kingPeople.add(person);
+    }
+    
+    public int getKingFreePeopleNumber() {
+        int count = 0;
+        for (Person person : kingPeople) {
+            if (!(person instanceof MilitaryPerson)) count++;
+        }
+        return count;
+    }
+    
+    public void addAttackEquipment(AttackEquipment attackEquipment) {
+        kingAttackEquipments.add(attackEquipment);
     }
 }
