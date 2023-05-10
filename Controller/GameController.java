@@ -145,6 +145,24 @@ public class GameController {
         return null;
     }
 
+    public MilitaryPerson getMilitaryPersonByType(String Type) {
+        ArrayList<String> content =  mainController.readFileContent("MilitaryPerson.txt");
+        for (int i = 0; i < (content.size() / 5); i++) {
+            if (content.get(5 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for(int j = 0; j<content.get(5 * i + 4).split(",").length; j++) {
+                    Product product = Product.getProductByName(content.get(5 * i + 4).split(",")[j]);
+                    if(product!= null)
+                        neededProduct.add(product);
+                }
+                MilitaryPerson militaryPerson = new MilitaryPerson(content.get(5 * i), neededProduct, Integer.parseInt(content.get(5 * i + 1)),
+                        Integer.parseInt(content.get(5 * i + 2)), Integer.parseInt(content.get(5 * i + 3)));
+                return militaryPerson;
+            }
+        }
+        return null;
+    }
+
     /*public User getGameByID(String id) {
         Game wantedGame;
         ArrayList<String> content =  mainController.readFileContent("Games.txt");
