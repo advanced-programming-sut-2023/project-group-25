@@ -18,6 +18,10 @@ public class Cell {
         this.material = material;
     }
 
+    public Cell(String material) {
+        this.material = material;
+    }
+    
     public int getX() {
         return x;
     }
