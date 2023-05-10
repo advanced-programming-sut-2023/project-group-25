@@ -14,7 +14,7 @@ public class Game {
     private Map map;
     public Kingdom getKingdomByKing(User king) {
         for (Kingdom kingdom : kingdoms) {
-            if (kingdom.getKing().equals(king))
+            if (kingdom.getKing().getUsername().equals(king.getUsername()))
                 return kingdom;
         }
         return null;

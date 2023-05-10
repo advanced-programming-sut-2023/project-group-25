@@ -5,9 +5,12 @@ import java.util.ArrayList;
 public class TrainingBuildings extends Building {
     private ArrayList<MilitaryPerson> outputMilitaryPeople;
 
-    public TrainingBuildings(Building building, Cell location, User king, ArrayList<MilitaryPerson> outputMilitaryPeople) {
-        super(building, location, king);
+    private int cost;
+
+    public TrainingBuildings(Building building, ArrayList<MilitaryPerson> outputMilitaryPeople, int cost) {
+        super(building);
         this.outputMilitaryPeople = outputMilitaryPeople;
+        this.cost = cost;
     }
 
     public ArrayList<MilitaryPerson> getOutputMilitaryPeople() {

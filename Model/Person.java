@@ -6,8 +6,7 @@ public class Person {
     private Cell location;
 
 
-    public Person(User king, String type) {
-        this.king = king;
+    public Person(String type) {
         this.type = type;
     }
 
