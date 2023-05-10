@@ -18,13 +18,13 @@ public class GameMenu {
     private User currentUser;
     private Matcher matcher;
     private String input;
-    
+
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
         this.mapController = changeMenuController.getMapController();
     }
-    
+
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
@@ -137,7 +137,7 @@ public class GameMenu {
                     case "success":
                         System.out.println("Equipment is built successfully!");
                         break;
-                    
+
                 }
             } else if (input.matches("show map")) {
                 System.out.println(MapController.showMap(gameController.getCurrentGame().getMap()));
@@ -151,10 +151,12 @@ public class GameMenu {
                 System.out.println(gameController.dropRock(matcher));
             } else if ((matcher = getMatcher(input, Commands.DROP_OBJECT)) != null) {
                 System.out.println(gameController.dropObject(matcher));
-            } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
-                System.out.println(gameController.selectBuilding(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_DETAILS)) != null) {
                 System.out.print(gameController.showDetails(matcher));
+            } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
+                System.out.println(gameController.selectBuilding(matcher));
+            } else if ((matcher = getMatcher(input, Commands.REPAIR)) != null) {
+                System.out.println(gameController.repair());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
                 System.out.println(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
@@ -165,9 +167,7 @@ public class GameMenu {
                 gameController.ratePopularityFactor(matcher);
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTOR_RATE)) != null) {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
-            } //else if ((matcher = getMatcher(input,Commands.REPAIR))!=null) {
-            //System.out.println(gameController.repair());
-            else System.out.println("invalid command!");
+            } else System.out.println("invalid command!");
         }
     }
 }
