@@ -24,6 +24,7 @@ public class GameController {
     
     private int shownMapX;
     private int shownMapY;
+    public String[] legalColors = {"yellow","purple","pink","orange","white","black","cyan","red"};
     
     public void initializeGamesFile() {
         File Games = new File("Games.txt");
@@ -613,7 +614,10 @@ public class GameController {
         for (Product neededMaterials : attackEquipment.getUsedMaterials()) {
             boolean weHaveNeededMaterials = false;
             for (Product kingProduct : Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingProducts()) {
-                if (neededMaterials.getCount() <= kingProduct.getCount()) weHaveNeededMaterials = true;
+                if (neededMaterials.getCount() <= kingProduct.getCount()) {
+                    weHaveNeededMaterials = true;
+                    break;
+                }
             }
             if (!weHaveNeededMaterials) return "don't have materials";
         }
@@ -625,5 +629,32 @@ public class GameController {
         AttackEquipment attackEquipment = new AttackEquipment(gitvenEquipment.getName(),
                 gitvenEquipment.getUsedMaterials(), getCurrentUser(), selectedUnit);
         getKingdomByKing(getCurrentUser()).addAttackEquipment(attackEquipment);
+    }
+    
+    public String setKingdomColors(String colorsStr) {
+        String[] colors = colorsStr.split("-");
+        if (colors.length < currentGame.getKingdoms().size()) return "few colors";
+        if (colors.length > currentGame.getKingdoms().size()) return "too many colors";
+        
+        for (int i = 0; i < colors.length; i++) {
+            if (!colorIsLegal(colors[i])) return "bad color";
+            currentGame.setColorOfKingdom(i, colors[i]);
+        }
+        return "success";
+    }
+    
+    private boolean colorIsLegal(String color) {
+        for (String legalColor : legalColors) {
+            if (color.equals(legalColor)) return true;
+        }
+        return false;
+    }
+    private boolean isAColorRepeated(String[] colors) {
+        for (int i=0;i<colors.length;i++) {
+            for (int j = i+1;j<colors.length;j++) {
+                if (colors[i].equals(colors[j])) return false;
+            }
+        }
+        return true;
     }
 }

@@ -6,12 +6,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class ChangeMenuController {
-    private static RegisterLoginController registerLoginController = new RegisterLoginController();
-    private static MainController mainController = new MainController();
-    private static GameController gameController = new GameController();
-    private static ProfileController profileController = new ProfileController();
-    private static TradeController tradeController = new TradeController();
-    private static MapController mapController = new MapController();
+    private static final RegisterLoginController registerLoginController = new RegisterLoginController();
+    private static final MainController mainController = new MainController();
+    private static final GameController gameController = new GameController();
+    private static final ProfileController profileController = new ProfileController();
+    private static final TradeController tradeController = new TradeController();
+    private static final MapController mapController = new MapController(gameController);
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);
     private final GameMenu gameMenu = new GameMenu(this);

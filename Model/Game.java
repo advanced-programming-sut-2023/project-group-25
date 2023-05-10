@@ -52,4 +52,7 @@ public class Game {
     public ArrayList<Kingdom> getKingdoms() {
         return kingdoms;
     }
+    public void setColorOfKingdom(int index, String color) {
+        kingdoms.get(index).setColor(color);
+    }
 }

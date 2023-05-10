@@ -2,23 +2,38 @@ package Controller;
 
 
 import Model.Cell;
-import Model.Game;
 import Model.Map;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 
 public class MapController {
-    public static final String BACKGROUND_RESET = "\033[0m";             //reset
-    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";   // LIGHT BLUE
-    public static final String RED_BACKGROUND = "\033[41m";    // RED
-    public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// LIGHT RED
-    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";// LIGHT GREEN
-    public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";// LIGHT YELLOW
-    public static final String YELLOW_BACKGROUND = "\033[43m"; // YELLOW
-    public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
-    public static final String BLUE_BACKGROUND = "\033[44m";   // BLUE
-    public static final String GREEN_BACKGROUND = "\033[42m";  // GREEN
-    public static final String PURPLE_BACKGROUND = "\033[45m"; // PURPLE
+    
+    private static GameController gameController = null;
+    public static final String BACKGROUND_RESET = "\033[0m";                //reset
+    public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";      // LIGHT BLUE
+    public static final String RED_BACKGROUND = "\033[48;5;88m";            // DARK RED
+    public static final String RED_BACKGROUND_BRIGHT = "\033[48;5;9m";       // LIGHT RED
+    public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";     // LIGHT GREEN
+    public static final String BROWN_BACKGROUND_BRIGHT = "\033[0;103m";     // LIGHT BROWN
+    public static final String BROWN_BACKGROUND = "\033[43m";               // DARK BROWN
+    public static final String GRAY_BACKGROUND = "\033[48;5;8m";            // GRAY
+    public static final String BLUE_BACKGROUND = "\033[44m";                // DARK BLUE
+    public static final String GREEN_BACKGROUND = "\033[42m";               // DARK GREEN
+    public static final String PURPLE_BACKGROUND = "\033[48;5;93m";         // PURPLE
+    public static final String BLACK_BACKGROUND = "\033[48;5;16m";          // BLACK
+    private static final String CYAN_BACKGROUND = "\033[46m";               // CYAN
+    private static final String WHITE_BACKGROUND = "\033[15m";              // WHITE
+    private static final String YELLOW_BACKGROUND_BRIGHT = "\033[48;5;226m";//YELLOW BRIGHT
+    private static final String PINK_BACKGROUND = "\033[48;5;213m";          //PINK
+    private static final String ORANGE_BACKGROUND = "\033[48;5;208m";       //ORANGE
+    private static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";     // BRIGHT CYAN
+
     int numberOfCastles;
+    
+    public MapController(GameController gameController) {
+        MapController.gameController = gameController;
+    }
+    
     
     private static void setDefaultLand(int length, int width, Map map) {
         for (int i = 0; i < length; i++) {
@@ -37,12 +52,13 @@ public class MapController {
         for (int i = 0; i < mapLength; i++) {
             for (int k = 0; k < 2; k++) {
                 for (int j = 0; j < mapWidth; j++) {
-                    switch (map.getCells()[i][j].getMaterial()) {
+                    String material = map.getCells()[i][j].getMaterial();
+                    switch (material) {
                         case "ironLand":
                             mapView.append(RED_BACKGROUND + "#####|" + BACKGROUND_RESET);
                             break;
                         case "rockLand":
-                            mapView.append(BLACK_BACKGROUND_BRIGHT + "#####|" + BACKGROUND_RESET);
+                            mapView.append(GRAY_BACKGROUND + "#####|" + BACKGROUND_RESET);
                             break;
                         case "sea":
                             mapView.append(BLUE_BACKGROUND + "#####|" + BACKGROUND_RESET);
@@ -56,15 +72,17 @@ public class MapController {
                         case "jolge":
                             mapView.append(GREEN_BACKGROUND + "#####|" + BACKGROUND_RESET);
                             break;
-                        case "castle":
-                            mapView.append(PURPLE_BACKGROUND + "#####|" + BACKGROUND_RESET);
+                        case "land":
+                            mapView.append(BROWN_BACKGROUND + "#####|" + BACKGROUND_RESET);
                             break;
                         case "beach":
-                            mapView.append(YELLOW_BACKGROUND_BRIGHT + "#####|" + BACKGROUND_RESET);
+                            mapView.append(BROWN_BACKGROUND_BRIGHT + "#####|" + BACKGROUND_RESET);
                             break;
                         default:
-                            mapView.append(YELLOW_BACKGROUND + "#####|" + BACKGROUND_RESET);
+                            mapView.append(getBackGroundColorString(material.replace("castle", "")))
+                                    .append("#####|").append(BACKGROUND_RESET);
                             break;
+                            
                     }
                 }
                 mapView.append("\n");
@@ -72,6 +90,30 @@ public class MapController {
         }
         
         return mapView.toString();
+    }
+    
+    private static String getBackGroundColorString(String indexStr) {
+        int index = Integer.parseInt(indexStr);
+        switch (gameController.getCurrentGame().getKingdoms().get(index).getColor()) {
+            case "yellow":
+                return YELLOW_BACKGROUND_BRIGHT;
+            case "purple":
+                return PURPLE_BACKGROUND;
+            case "pink":
+                return PINK_BACKGROUND;
+            case "orange":
+                return ORANGE_BACKGROUND;
+            case "white":
+                return WHITE_BACKGROUND;
+            case "black":
+                return BLACK_BACKGROUND;
+            case "cyan":
+                return CYAN_BACKGROUND;
+            case "red":
+                return RED_BACKGROUND_BRIGHT;
+            default:
+                return BACKGROUND_RESET;
+        }
     }
     
     public void setNumberOfCastles(int numberOfCastles) {
@@ -88,20 +130,20 @@ public class MapController {
         for (int i = length / 3; i <= length / 3; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell("grass");
-        for (int i = (4* length) / 6; i <= (4 * length) / 6; i++)
+        for (int i = (4 * length) / 6; i <= (4 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell("grass");
         for (int i = length / 6; i < length / 3; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell("ironLand");
-        for (int i = (4 * length) / 6+1; i < 4*length / 6 + 3; i++)
+        for (int i = (4 * length) / 6 + length / 8; i < 4 * length / 6 + length / 8 * 3; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell("ironLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = width / 6; j < width / 4; j++)
                 map.getCells()[i][j] = new Cell("rockLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
-            for (int j = (3 * width) / 4; j < 5*width/6; j++)
+            for (int j = (3 * width) / 4; j < 5 * width / 6; j++)
                 map.getCells()[i][j] = new Cell("rockLand");
         
         setDefaultLand(length, width, map);
@@ -198,13 +240,6 @@ public class MapController {
         
         Map.setTemplateMap(2, map);
     }
-    
-    //extra colors:
-//    public static final String BLACK_BACKGROUND = "\033[40m";   // BLACK
-//    public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN
-//    public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
-//    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
-//    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
 //    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
     
     public void initializeCastlesLocation(Map map, int length, int width) {
@@ -227,6 +262,6 @@ public class MapController {
         castlePositions[7][1] = width - 1;
         
         for (int i = 0; i < numberOfCastles; i++)
-            map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell("castle");
+            map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell("castle"+ i);
     }
 }

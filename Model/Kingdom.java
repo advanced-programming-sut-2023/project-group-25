@@ -12,6 +12,7 @@ public class Kingdom {
     private int inventory;
     private int joblessCounter;
     private int gameId;
+    private String color;
     
     public Kingdom(User king, int gameId) {
         this.king = king;
@@ -19,7 +20,15 @@ public class Kingdom {
         this.joblessCounter = 8;
         this.gameId = gameId;
     }
-
+    
+    public String getColor() {
+        return color;
+    }
+    
+    public void setColor(String color) {
+        this.color = color;
+    }
+    
     public int getGameId() {
         return gameId;
     }
