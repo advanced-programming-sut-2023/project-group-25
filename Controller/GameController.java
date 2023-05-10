@@ -87,6 +87,64 @@ public class GameController {
         mainController.writeToFileContent("Kingdoms.txt", content, true);
     }
 
+    public ShopBuildings getShopBuildingByType(String Type) {
+        ArrayList<String> content =  mainController.readFileContent("ShopBuilding.txt");
+        for (int i = 0; i < (content.size() / 5); i++) {
+            if (content.get(5 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for(int j = 0; j<content.get(5 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-")[j]);
+                    if(product!= null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(5 * i),content.get(5 * i + 1),neededProduct,
+                        Integer.parseInt(content.get(5 * i + 3)),  Integer.parseInt(content.get(5 * i + 4)));
+                ShopBuildings shopBuilding = new ShopBuildings(tmp);
+                return shopBuilding;
+            }
+        }
+        return null;
+    }
+
+    public TrainingBuildings getTrainingBuildingByType(String Type) {
+        ArrayList<String> content =  mainController.readFileContent("TrainingBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for(int j = 0; j<content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if(product!= null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i),content.get(6 * i + 1),neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)),  Integer.parseInt(content.get(6 * i + 4)));
+                //TODO: output military people not available in the file!
+                TrainingBuildings trainingBuilding = new TrainingBuildings(tmp,null,Integer.parseInt(content.get(6 * i + 5)));
+                return trainingBuilding;
+            }
+        }
+        return null;
+    }
+
+    public ProductionBuildings getProductionBuildingByType(String Type) {
+        ArrayList<String> content =  mainController.readFileContent("ProductionBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for(int j = 0; j<content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if(product!= null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i),content.get(6 * i + 1),neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)),  Integer.parseInt(content.get(6 * i + 4)));
+                ProductionBuildings productionBuilding = new ProductionBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
+                return productionBuilding;
+            }
+        }
+        return null;
+    }
+
     /*public User getGameByID(String id) {
         Game wantedGame;
         ArrayList<String> content =  mainController.readFileContent("Games.txt");
@@ -290,10 +348,11 @@ public class GameController {
     
     public String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
-        Kingdom currentKing = currentGame.getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKing = currentGame.getKingdomByKing(getCurrentUser());
         result.append("PopularityFactors: \n");
+
         for (PopularityFactor popularityFactor : currentKing.getKingPopularityFactors()) {
-            result.append(popularityFactor.getName()).append("\n");
+            result.append(popularityFactor.getName()).append(": ").append(popularityFactor.getPopularityAmount()).append("\n");
         }
         return result.toString();
     }

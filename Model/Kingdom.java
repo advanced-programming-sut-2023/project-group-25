@@ -18,6 +18,10 @@ public class Kingdom {
         this.inventory = 0;
         this.joblessCounter = 8;
         this.gameId = gameId;
+        this.kingPopularityFactors.add(new PopularityFactor("food"));
+        this.kingPopularityFactors.add(new PopularityFactor("tax"));
+        this.kingPopularityFactors.add(new PopularityFactor("religion"));
+        this.kingPopularityFactors.add(new PopularityFactor("fear"));
     }
 
     public int getGameId() {

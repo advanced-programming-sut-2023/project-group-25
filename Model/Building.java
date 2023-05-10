@@ -18,7 +18,7 @@ public class Building {
         this.workerCounter = workerCounter;
         this.hitPoint = hitPoint;
     }
-    public Building(Building building, Cell location, User king) {
+    public Building(Building building) {
         this.type = building.type;
         this.category = building.category;
         this.buildingCosts = building.buildingCosts;
@@ -74,4 +74,11 @@ public class Building {
         return king;
     }
 
+    public void setKing(User king) {
+        this.king = king;
+    }
+
+    public void setLocation(Cell location) {
+        this.location = location;
+    }
 }

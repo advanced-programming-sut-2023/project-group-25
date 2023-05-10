@@ -4,9 +4,10 @@ public class PopularityFactor {
     private String name;
     private int rate;
     private int popularityAmount;
-    public PopularityFactor(int rate,String name) {
-        this.rate = rate;
+    public PopularityFactor(String name) {
+        this.rate = 0;
         this.name=name;
+        this.popularityAmount = 0;
     }
     public void addPopularityAmount(int amount) {
         this.popularityAmount += amount;
