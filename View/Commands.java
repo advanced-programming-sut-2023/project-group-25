@@ -35,7 +35,7 @@ public enum Commands {
     SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     DROP_BUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
-    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>\\d+) -(?<option2>c|t) (?<input2>\\d+)"),
+    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>.+) -(?<option2>c|t) (?<input2>\\d+)"),
     REPAIR("repair"),
     SELECT_UNIT("select unit -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
     MOVE_UNIT("move unit to -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),

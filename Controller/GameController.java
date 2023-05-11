@@ -156,9 +156,8 @@ public class GameController {
                     if(product!= null)
                         neededProduct.add(product);
                 }
-                MilitaryPerson militaryPerson = new MilitaryPerson(content.get(5 * i), neededProduct, Integer.parseInt(content.get(5 * i + 1)),
-                        Integer.parseInt(content.get(5 * i + 2)), Integer.parseInt(content.get(5 * i + 3)));
-                return militaryPerson;
+                return new MilitaryPerson(content.get(5 * i), neededProduct, Integer.parseInt(content.get(5 * i + 1)),
+                        Integer.parseInt(content.get(5 * i + 2)), Integer.parseInt(content.get(5 * i + 3)), content.get(5*i + 4));
             }
         }
         return null;
@@ -494,18 +493,24 @@ public class GameController {
     
     public String createUnit(Matcher matcher) {
         String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
-        //TODO FOR HOORA: checking validity of type
         int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
-        MilitaryPerson givenUnit;
-//        if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getInventory())
-//            return "not enough coins";
-//        boolean haveProducts = haveNeededProductsForUnit(givenUnit, count);
-//        if (!haveProducts) return "not enough products";
-//        if (count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingFreePeopleNumber())
-//            return "not enough people";
-//        //TODO: checking if we're in the appropriate building
-//        createUnitWithGivenUnit(givenUnit);
+        MilitaryPerson givenUnit = getMilitaryPersonByType(type);
+        if (givenUnit == null) return "invalid type";
+        if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getInventory())
+            return "not enough coins";
+        boolean haveProducts = haveNeededProductsForUnit(givenUnit, count);
+        if (!haveProducts) return "not enough products";
+        if (count > Objects.requireNonNull(getKingdomByKing(getCurrentUser())).getKingFreePeopleNumber())
+            return "not enough people";
+        //TODO: checking if we're in the appropriate building
+        createUnitWithGivenUnit(givenUnit);
         return "success";
+    }
+    
+    private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
+        MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit);
+        Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
+        //TODO: defining location of the building it should be in
     }
     
     private boolean haveNeededProductsForUnit(MilitaryPerson givenUnit, int count) {
@@ -523,12 +528,7 @@ public class GameController {
     }
     
     
-    private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
-        MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit.getNeededProducts(), givenUnit.getFirePower(),
-                givenUnit.getDefendPower(), givenUnit.getSpeed(), givenUnit.getTrainingCost(), "standing");
-        Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
-        //TODO: defining location of the building it should be in
-    }
+    
     
     public String showAPartOfMap(Matcher matcher) {
         shownMapX = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "x", 2)));
@@ -565,7 +565,7 @@ public class GameController {
         if (!isLocationValid(shownMapX + dx, shownMapY + dy)) return "invalid location";
         shownMapY = shownMapY + dy;
         shownMapX = shownMapX + dx;
-        return MapController.showMap(makeSmallMap(currentGame.getMap(), shownMapX, shownMapY));
+        return MapController.showMap(Objects.requireNonNull(makeSmallMap(currentGame.getMap(), shownMapX, shownMapY)));
     }
     
     public String pourOil(Matcher matcher) {
@@ -712,15 +712,15 @@ public class GameController {
         String[] colors = colorsStr.split("-");
         if (colors.length < currentGame.getKingdoms().size()) return "few colors";
         if (colors.length > currentGame.getKingdoms().size()) return "too many colors";
-        
+        if (!isAColorRepeated(colors)) return "repeated color";
         for (int i = 0; i < colors.length; i++) {
-            if (!colorIsLegal(colors[i])) return "bad color";
+            if (!isColorLegal(colors[i])) return "bad color";
             currentGame.setColorOfKingdom(i, colors[i]);
         }
         return "success";
     }
     
-    private boolean colorIsLegal(String color) {
+    private boolean isColorLegal(String color) {
         for (String legalColor : legalColors) {
             if (color.equals(legalColor)) return true;
         }

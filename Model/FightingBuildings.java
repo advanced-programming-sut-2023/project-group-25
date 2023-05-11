@@ -9,7 +9,7 @@ public class FightingBuildings extends Building{
     private int maxHitPoint;
 
     public FightingBuildings(Building building, Cell location, User king, int fireRange, int defendRange) {
-        super(building, location, king);
+        super(building);
         this.fireRange = fireRange;
         this.defendRange = defendRange;
         this.maxHitPoint = building.getHitPoint();

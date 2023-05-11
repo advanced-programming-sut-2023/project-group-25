@@ -11,6 +11,15 @@ public class MilitaryPerson extends Person {
     private int trainingCost;
     private int shootingRange;
     private String mode;
+    private String nationality;
+    
+    public String getNationality() {
+        return nationality;
+    }
+    
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
     
     public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {
         super(type);
@@ -22,13 +31,13 @@ public class MilitaryPerson extends Person {
     }
     
     public MilitaryPerson(String type, ArrayList<Product> neededProducts,
-                          int firePower, int defendPower, int speed) {
+                          int firePower, int defendPower, int speed, String nationality) {
         super(type);
         this.neededProducts = neededProducts;
         this.firePower = firePower;
         this.defendPower = defendPower;
         this.speed = speed;
-        this.trainingCost = trainingCost;
+        this.nationality = nationality;
     }
     
     public static ArrayList<MilitaryPerson> getAllMilitaryPerson() {

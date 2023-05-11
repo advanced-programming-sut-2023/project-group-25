@@ -66,6 +66,9 @@ public class GameMenu {
                     case "not enough people":
                         System.out.println("You don't have enough number of people to be trained!");
                         break;
+                    case "invalid type":
+                        System.out.println("You have entered an invalid type of unit!");
+                        break;
                     case "invalid type for building":
                         System.out.println("You can't create this unit in this building!");
                         break;

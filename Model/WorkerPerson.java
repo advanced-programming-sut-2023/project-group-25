@@ -5,7 +5,7 @@ public class WorkerPerson extends Person {
 
 
     public WorkerPerson(User king, String type, Building workerPlace) {
-        super(king, type);
+        super(type);
         this.workerPlace = workerPlace;
     }
     public Building getWorkerPlace() {

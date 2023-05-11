@@ -8,7 +8,7 @@ public class StorageBuildings extends Building {
     private String storageCategory;
 
     public StorageBuildings(Building building, Cell location, User king, int capacity, String storageCategory) {
-        super(building, location, king);
+        super(building);
         this.capacity = capacity;
         this.storageCategory = storageCategory;
     }

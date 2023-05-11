@@ -23,29 +23,7 @@ public class MapMenu {
     public String run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("MAP MENU"));
         mapController.setNumberOfCastles(gameController.getCurrentGame().getKingdoms().size());
-        
-        System.out.println("Please enter the colors of the players in order separated with '-' from the list below:");
-        for (int i = 0; i < gameController.legalColors.length - 1; i++) {
-            System.out.print(gameController.legalColors[i] + "-");
-        }
-        System.out.println(gameController.legalColors[gameController.legalColors.length - 1]);
-        
-        String colorsStr = scanner.nextLine();
-        switch (gameController.setKingdomColors(colorsStr)) {
-            case "few colors":
-                System.out.println("The number of colors you entered is fewer than needed!");
-                break;
-            case "too many colors":
-                System.out.println("The number of colors you entered is too many!");
-                break;
-            case "bad color":
-                System.out.println("You have entered an invalid color!");
-                break;
-            case "success":
-                System.out.println("Colors are assigned to players successfully!");
-                break;
-        }
-        
+        chooseColorRun(scanner);
         int mapLength = -1, mapWidth = -1;
         while (true) {
             String input = scanner.nextLine();
@@ -72,6 +50,36 @@ public class MapMenu {
                 }
             } else {
                 System.out.println("invalid command!");
+            }
+        }
+    }
+    
+    private void chooseColorRun(Scanner scanner) {
+        System.out.println("Please enter the colors of the players in order separated with '-' from the list below:");
+        for (int i = 0; i < gameController.legalColors.length - 1; i++) {
+            System.out.print(gameController.legalColors[i] + "-");
+        }
+        System.out.println(gameController.legalColors[gameController.legalColors.length - 1]);
+        
+        String colorsStr;
+        outer: while (true) {
+            colorsStr = scanner.nextLine();
+            switch (gameController.setKingdomColors(colorsStr)) {
+                case "few colors":
+                    System.out.println("The number of colors you entered is fewer than needed! Try again:");
+                    break;
+                case "too many colors":
+                    System.out.println("The number of colors you entered is too many! Try again:");
+                    break;
+                case "bad color":
+                    System.out.println("You have entered an invalid color! Try again:");
+                    break;
+                case "repeated color":
+                    System.out.println("You cannot assign one color to two or more kingdoms! Try again:");
+                    break;
+                case "success":
+                    System.out.println("Colors are assigned to players successfully!");
+                    break outer;
             }
         }
     }
