@@ -77,13 +77,14 @@ public class Kingdom {
         this.kingPeople.add(person);
     }
     
-    public int getKingFreePeopleNumber() {
-        int count = 0;
-        for (Person person : kingPeople) {
-            if (!(person instanceof MilitaryPerson)) count++;
-        }
-        return count;
-    }
+//    public int getKingFreePeopleNumber() {
+//        int count = 0;
+//        for (Person person : kingPeople) {
+//            if (!(person instanceof MilitaryPerson)) count++;
+//        }
+//        return count;
+//    }
+    
     
     public void addAttackEquipment(AttackEquipment attackEquipment) {
         kingAttackEquipments.add(attackEquipment);

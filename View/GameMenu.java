@@ -55,6 +55,11 @@ public class GameMenu {
                         System.out.println("You have entered invalid location!");
                         break;
                 }
+            } else if ((matcher = getMatcher(input, Commands.PATROL)) != null) {
+                switch (patrol(matcher)) {
+                    case "success":
+                        System.out.println("The unit patrolling!");
+                }
             } else if ((matcher = getMatcher(input, Commands.CREATE_UNIT)) != null) {
                 switch (gameController.createUnit(matcher)) {
                     case "not enough coins":
@@ -65,6 +70,9 @@ public class GameMenu {
                         break;
                     case "not enough people":
                         System.out.println("You don't have enough number of people to be trained!");
+                        break;
+                    case "no selected building":
+                        System.out.println("You should first select the related building to create a unit!");
                         break;
                     case "invalid type":
                         System.out.println("You have entered an invalid type of unit!");
@@ -140,7 +148,7 @@ public class GameMenu {
                     case "success":
                         System.out.println("Equipment is built successfully!");
                         break;
-
+    
                 }
             } else if (input.matches("show map")) {
                 System.out.println(MapController.showMap(gameController.getCurrentGame().getMap()));
@@ -159,7 +167,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectBuilding(matcher));
             } else if ((matcher = getMatcher(input, Commands.REPAIR)) != null) {
-                System.out.println(gameController.repair());
+//                System.out.println(gameController.repair());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
                 System.out.println(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
