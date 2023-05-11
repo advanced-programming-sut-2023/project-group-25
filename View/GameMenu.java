@@ -56,9 +56,19 @@ public class GameMenu {
                         break;
                 }
             } else if ((matcher = getMatcher(input, Commands.PATROL)) != null) {
-                switch (patrol(matcher)) {
+                switch (gameController.patrol(matcher)) {
+                    case "invalid location":
+                        System.out.println("You have entered invalid location!");
+                        break;
+                    case "haven't selected unit":
+                        System.out.println("You should first select a unit to patrol!");
+                        break;
+                    case "out of moving range":
+                        System.out.println("The distance is out of the unit's moving range!");
+                        break;
                     case "success":
                         System.out.println("The unit patrolling!");
+                        break;
                 }
             } else if ((matcher = getMatcher(input, Commands.CREATE_UNIT)) != null) {
                 switch (gameController.createUnit(matcher)) {
@@ -148,7 +158,7 @@ public class GameMenu {
                     case "success":
                         System.out.println("Equipment is built successfully!");
                         break;
-    
+                    //TODO...
                 }
             } else if (input.matches("show map")) {
                 System.out.println(MapController.showMap(gameController.getCurrentGame().getMap()));

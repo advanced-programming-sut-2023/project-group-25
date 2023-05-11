@@ -17,7 +17,9 @@ public class GameController {
     private final MainController mainController = new MainController();
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
     private MilitaryPerson selectedUnit;
-    //TODO: make selected unit null after changing the player.
+    private MilitaryPerson patrollingUnit;
+    private boolean isPatrollingStopped = false;
+    //TODO: make selected unit and building and patrolling unit null and isPatrollingStopped false after changing the player.
     private Game currentGame;
     private int numberOfPlayers;
     private Cell cell;
@@ -324,9 +326,20 @@ public class GameController {
         return type + " added successfully";
     }
     
-    public String dropUnit(int x, int y, Cell cell, String type, String count) {
-        //TODO:
-        return null;
+    public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
+        int count = Integer.parseInt(countStr);
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
+        for (Person kingPerson : Objects.requireNonNull(getKingdomByKing(turn.getCurrentKing())).getKingPeople()) {
+            if (kingPerson.getType().equals(type)) {
+                cell.addPerson(kingPerson);
+                kingPerson.setLocation(cell);
+                //TODO: king's unused people must be stored differently from others.
+                count--;
+                if (count == 0) break;
+            }
+        }
+        if (count > 0) return "You don't have enough " + type + "s!";
+        return "Unit added successfully!";
     }
     
     public String selectBuilding(Matcher matcher) {
@@ -488,8 +501,8 @@ public class GameController {
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "invalid location";
         if (selectedUnit == null) return "no selected unit";
-        selectedUnit.getLocation().removePerson(selectedUnit);
-        currentGame.getMap().getCells()[x - 1][y - 1].addPerson(selectedUnit);
+        if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
+        removeAndAddInMoving(selectedUnit, x, y);
         return "success";
     }
     
@@ -748,6 +761,27 @@ public class GameController {
             }
         }
         return true;
+    }
+    
+    public String patrol(Matcher matcher) {
+        int x1 = Integer.parseInt(matcher.group("x1"));
+        int y1 = Integer.parseInt(matcher.group("y1"));
+        int x2 = Integer.parseInt(matcher.group("x2"));
+        int y2 = Integer.parseInt(matcher.group("y2"));
+        if (!isLocationValid(x1, y1) || !isLocationValid(x2, y2)) return "invalid location";
+        patrollingUnit = selectedUnit;
+        if (patrollingUnit == null) return "haven't selected unit";
+        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > selectedUnit.getMovingRange()) return "out of moving range";
+        while (!isPatrollingStopped) {
+            removeAndAddInMoving(patrollingUnit, x2, y2);
+            removeAndAddInMoving(patrollingUnit, x1, y1);
+        }
+        return "success";
+    }
+    
+    private void removeAndAddInMoving(MilitaryPerson patrollingUnit, int x, int y) {
+        patrollingUnit.getLocation().removePerson(patrollingUnit);
+        currentGame.getMap().getCells()[x - 1][y - 1].addPerson(patrollingUnit);
     }
 
 

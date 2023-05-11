@@ -11,6 +11,18 @@ public class Person {
         this.type = type;
     }
     
+    public void setKing(User king) {
+        this.king = king;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public void setLocation(Cell location) {
+        this.location = location;
+    }
+    
     public Person(String type) {
         this.type = type;
     }

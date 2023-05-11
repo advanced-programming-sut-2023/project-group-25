@@ -8,18 +8,14 @@ public class MilitaryPerson extends Person {
     private int firePower;
     private int defendPower;
     private int speed;
+    private int movingRange;
+    
+    
     private int trainingCost;
     private int shootingRange;
     private String mode;
     private String nationality;
     
-    public String getNationality() {
-        return nationality;
-    }
-    
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
     
     public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {
         super(king, type);
@@ -28,13 +24,7 @@ public class MilitaryPerson extends Person {
         this.speed = militaryPerson.speed;
         initializeTrainingCost();
         this.mode = militaryPerson.mode;
-    }
-    
-    private void initializeTrainingCost() {
-        this.trainingCost = 500;
-        for (Product neededProduct : neededProducts) {
-            trainingCost += neededProduct.getCost();
-        }
+        this.movingRange = speed * 2;
     }
     
     public MilitaryPerson(String type, ArrayList<Product> neededProducts,
@@ -46,10 +36,30 @@ public class MilitaryPerson extends Person {
         this.speed = speed;
         this.nationality = nationality;
         initializeTrainingCost();
+        this.movingRange = speed * 2;
     }
     
     public static ArrayList<MilitaryPerson> getAllMilitaryPerson() {
         return allMilitaryPerson;
+    }
+    
+    public int getMovingRange() {
+        return movingRange;
+    }
+    
+    public String getNationality() {
+        return nationality;
+    }
+    
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+    
+    private void initializeTrainingCost() {
+        this.trainingCost = 500;
+        for (Product neededProduct : neededProducts) {
+            trainingCost += neededProduct.getCost();
+        }
     }
     
     public int getShootingRange() {
