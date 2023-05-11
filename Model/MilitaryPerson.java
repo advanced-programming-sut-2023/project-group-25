@@ -13,7 +13,7 @@ public class MilitaryPerson extends Person {
     private String mode;
     
     public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {
-        super(king, type);
+        super(type);
         this.firePower = militaryPerson.firePower;
         this.defendPower = militaryPerson.defendPower;
         this.speed = militaryPerson.speed;
@@ -21,15 +21,14 @@ public class MilitaryPerson extends Person {
         this.mode = militaryPerson.mode;
     }
     
-    public MilitaryPerson(User king, String type, ArrayList<Product> neededProducts,
-                          int firePower, int defendPower, int speed, int trainingCost, String mode) {
-        super(king, type);
+    public MilitaryPerson(String type, ArrayList<Product> neededProducts,
+                          int firePower, int defendPower, int speed) {
+        super(type);
         this.neededProducts = neededProducts;
         this.firePower = firePower;
         this.defendPower = defendPower;
         this.speed = speed;
         this.trainingCost = trainingCost;
-        this.mode = mode;
     }
     
     public static ArrayList<MilitaryPerson> getAllMilitaryPerson() {
