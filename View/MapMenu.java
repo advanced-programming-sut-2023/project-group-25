@@ -5,6 +5,7 @@ import Controller.GameController;
 import Controller.MapController;
 import Controller.RegisterLoginController;
 import Model.Map;
+import Model.Turn;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -13,6 +14,10 @@ public class MapMenu {
     private final RegisterLoginController registerLoginController;
     private final GameController gameController;
     private final MapController mapController;
+    private Turn turn;
+    private Matcher matcher;
+    private String input;
+    private Map map;
     
     public MapMenu(ChangeMenuController changeMenuController) {
         this.registerLoginController = changeMenuController.getRegisterLoginController();
@@ -46,6 +51,8 @@ public class MapMenu {
                     gameController.getCurrentGame().setMap(map);
                     gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
                     gameController.addGameToFile(gameController.getCurrentGame());
+                    Turn.setTurnCounter(0);
+                    turn.setCurrentKing(RegisterLoginController.getCurrentUser());
                     return "main menu";
                 }
             } else {

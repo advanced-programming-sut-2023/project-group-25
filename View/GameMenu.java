@@ -188,6 +188,8 @@ public class GameMenu {
                 gameController.ratePopularityFactor(matcher);
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTOR_RATE)) != null) {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
+            } else if ((matcher = getMatcher(input,Commands.NEXT_TURN))!=null) {
+                gameController.nextTurn();
             } else System.out.println("invalid command!");
         }
     }

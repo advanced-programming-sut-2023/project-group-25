@@ -787,11 +787,10 @@ public class GameController {
         currentGame.getMap().getCells()[x - 1][y - 1].addPerson(patrollingUnit);
     }
 
-
 //    public String repair() {
 //        Building savedBuilding; //read from file
 //        Kingdom kingdom = getKingdomByKing(turn.getCurrentKing());
-//        if(selectedBuilding==null)
+//        if (selectedBuilding == null)
 //            return "You haven't selected a building yet";
 //        if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
 //            for (Product product : kingdom.getKingProducts()) {
@@ -819,7 +818,17 @@ public class GameController {
 //            return selectedBuilding.getType() + " doesn't need to be repaired";
 //        }
 //        selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
-//        selectedBuilding=null;
+//        selectedBuilding = null;
 //        return "You have repaired " + selectedBuilding.getType();
 //    }
+
+    public void nextTurn() {
+        ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
+        turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());
+        Turn.setTurnCounter(Turn.getTurnCounter() + 1);
+        selectedBuilding = null;
+        selectedUnit = null;
+        patrollingUnit = null;
+        isPatrollingStopped = false;
+    }
 }
