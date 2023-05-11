@@ -6,12 +6,18 @@ public class Kingdom {
     private ArrayList<Building> kingBuildings = new ArrayList<>();
     private ArrayList<Product> kingProducts = new ArrayList<>();
     private ArrayList<Person> kingPeople = new ArrayList<>();
+    private ArrayList<Person> kingUnusedUnits = new ArrayList<>();
     private ArrayList<PopularityFactor> kingPopularityFactors = new ArrayList<>();
     private ArrayList<AttackEquipment> kingAttackEquipments = new ArrayList<>();
     private  User king;
     private int inventory;
     private int joblessCounter;
-    private int gameId;
+    
+    public void reduceJoblessCounter() {
+        this.joblessCounter--;
+    }
+    
+    private final int gameId;
     private String color;
     
     public Kingdom(User king, int gameId) {
@@ -88,5 +94,8 @@ public class Kingdom {
     
     public void addAttackEquipment(AttackEquipment attackEquipment) {
         kingAttackEquipments.add(attackEquipment);
+    }
+    public void addUnusedUnit(MilitaryPerson unit) {
+        kingUnusedUnits.add(unit);
     }
 }

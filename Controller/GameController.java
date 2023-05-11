@@ -19,7 +19,6 @@ public class GameController {
     private MilitaryPerson selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
-    //TODO: make selected unit and building and patrolling unit null and isPatrollingStopped false after changing the player.
     private Game currentGame;
     private int numberOfPlayers;
     private Cell cell;
@@ -525,7 +524,10 @@ public class GameController {
             return "not enough people";
         if (selectedBuilding == null) return "no selected building";
         if (!unitMatchesSelectedBuilding(givenUnit)) return "invalid type for building";
-        createUnitWithGivenUnit(givenUnit);
+        for (int i = 0; i < count; i++) {
+            createUnitWithGivenUnit(givenUnit);
+            kingdom.reduceJoblessCounter();
+        }
         return "success";
     }
     
@@ -538,6 +540,7 @@ public class GameController {
     private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
         MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit);
         Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
+        Objects.requireNonNull(getKingdomByKing(turn.getCurrentKing())).addUnusedUnit(militaryPerson);
         //TODO: defining location of the building it should be in
     }
     
