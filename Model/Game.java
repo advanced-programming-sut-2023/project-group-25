@@ -6,6 +6,7 @@ public class Game {
     private ArrayList<Kingdom> kingdoms = new ArrayList<Kingdom>();
     private int numberOfPlayers = 4;
     private int gameId;
+    public Turn turn;
     private int mapTemplateNumber;
     public int getNumberOfPlayers() {
         return numberOfPlayers;

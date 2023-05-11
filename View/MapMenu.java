@@ -14,7 +14,6 @@ public class MapMenu {
     private final RegisterLoginController registerLoginController;
     private final GameController gameController;
     private final MapController mapController;
-    private Turn turn;
     private Matcher matcher;
     private String input;
     private Map map;
@@ -52,7 +51,7 @@ public class MapMenu {
                     gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
                     gameController.addGameToFile(gameController.getCurrentGame());
                     Turn.setTurnCounter(0);
-                    turn.setCurrentKing(RegisterLoginController.getCurrentUser());
+                    gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
                     return "main menu";
                 }
             } else {

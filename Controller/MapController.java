@@ -3,7 +3,6 @@ package Controller;
 
 import Model.Cell;
 import Model.Map;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
 
 public class MapController {
@@ -25,7 +24,6 @@ public class MapController {
     private static final String YELLOW_BACKGROUND_BRIGHT = "\033[48;5;226m";//YELLOW BRIGHT
     private static final String PINK_BACKGROUND = "\033[48;5;213m";          //PINK
     private static final String ORANGE_BACKGROUND = "\033[48;5;208m";       //ORANGE
-    private static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";     // BRIGHT CYAN
     private static GameController gameController = null;
     int numberOfCastles;
     
@@ -243,7 +241,6 @@ public class MapController {
         
         Map.setTemplateMap(2, map);
     }
-//    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
     
     public void initializeCastlesLocation(Map map, int length, int width) {
         int[][] castlePositions = new int[8][2];

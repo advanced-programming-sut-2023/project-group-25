@@ -179,7 +179,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.REPAIR)) != null) {
 //                System.out.println(gameController.repair());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
-                System.out.println(gameController.showPopularityFactors());
+                System.out.print(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
                 System.out.println(gameController.showPopularity());
             } else if ((matcher = getMatcher(input, Commands.SHOW_FOOD_LIST)) != null) {

@@ -22,7 +22,7 @@ public class Kingdom {
     
     public Kingdom(User king, int gameId) {
         this.king = king;
-        this.inventory = 0;
+        this.inventory = 4000;
         this.joblessCounter = 8;
         this.gameId = gameId;
         this.kingPopularityFactors.add(new PopularityFactor("food"));

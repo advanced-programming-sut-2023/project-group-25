@@ -4,6 +4,15 @@ public class PopularityFactor {
     private String name;
     private int rate;
     private int popularityAmount;
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setPopularityAmount(int popularityAmount) {
+        this.popularityAmount = popularityAmount;
+    }
+    
     public PopularityFactor(String name) {
         this.rate = 0;
         this.name=name;

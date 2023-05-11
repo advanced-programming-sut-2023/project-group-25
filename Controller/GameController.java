@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static Controller.RegisterLoginController.getCurrentUser;
 import static Controller.RegisterLoginController.getOptionsFromMatcher;
@@ -22,7 +23,6 @@ public class GameController {
     private Game currentGame;
     private int numberOfPlayers;
     private Cell cell;
-    private Turn turn;
     private int shownMapX;
     private int shownMapY;
     private Building selectedBuilding;
@@ -241,7 +241,7 @@ public class GameController {
                 if (currentGame.getMap().getCellByLocation(i, j).getBuilding() != null)
                     hasBuilding = true;
         if (!hasBuilding) {
-            cell.setMaterial(matcher.group("type"));
+            cell = new Cell(matcher.group("type"));
             return "Cells texture changed successfully";
         }
         return "You can't change the texture of a cell with a building on it!";
@@ -307,7 +307,7 @@ public class GameController {
     
     
     public String dropBuilding(int x, int y, Cell cell, String type) {
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         //Building building = new Building(savedBuilding, cell, currentKingdom);
         //TODO:read saved building info from file by Type of the building
         if (isLocationValid(x, y))
@@ -328,7 +328,7 @@ public class GameController {
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
-        for (Person kingPerson : Objects.requireNonNull(getKingdomByKing(turn.getCurrentKing())).getKingPeople()) {
+        for (Person kingPerson : Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople()) {
             if (kingPerson.getType().equals(type)) {
                 cell.addPerson(kingPerson);
                 kingPerson.setLocation(cell);
@@ -344,13 +344,14 @@ public class GameController {
     public String selectBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
         cell = currentGame.getMap().getCellByLocation(x, y);
         if (!isLocationValid(x, y))
             return "Invalid input!";
+        if (Pattern.compile("castle\\d").matcher(cell.getMaterial()).find())
+            return "You cannot select a castle!";
         if (cell.getBuilding() == null)
             return "There is no building in this location";
-        if (!cell.getBuilding().getKing().equals(currentKingdom.getKing()))
+        if (!cell.getBuilding().getKing().equals(currentGame.turn.getCurrentKing()))
             return "This building doesn't belong to you";
         selectedBuilding = cell.getBuilding();
         return "selected";
@@ -385,7 +386,7 @@ public class GameController {
     
     public String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         result.append("PopularityFactors: \n");
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             result.append(popularityFactor.getName()).append("\n");
@@ -395,7 +396,7 @@ public class GameController {
     
     public String showPopularity() {
         int result = 0;
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             result += popularityFactor.getPopularityAmount();
         }
@@ -404,12 +405,12 @@ public class GameController {
     
     public String showFoodList() {
         StringBuilder result = new StringBuilder();
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         ArrayList<Product> products = new ArrayList<>(currentKingdom.getKingProducts());
-        result.append("Apple: ").append(showEachFood(products, "apple"));
-        result.append("Apple: ").append(showEachFood(products, "meat"));
-        result.append("Apple: ").append(showEachFood(products, "bread"));
-        result.append("Apple: ").append(showEachFood(products, "cheese"));
+        result.append("Apple: ").append(showEachFood(products, "apple")).append("\n");
+        result.append("Meat: ").append(showEachFood(products, "meat")).append("\n");
+        result.append("Bread: ").append(showEachFood(products, "bread")).append("\n");
+        result.append("Cheese: ").append(showEachFood(products, "cheese"));
         return result.toString();
     }
     
@@ -432,7 +433,7 @@ public class GameController {
     }
     
     private void rateTax(String rateNumber) {
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("tax")) {
                 if (Integer.parseInt(rateNumber) <= 0)
@@ -446,7 +447,7 @@ public class GameController {
     }
     
     private void rateFear(String rateNumber) {
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("fear"))
                 popularityFactor.setRate(Integer.parseInt(rateNumber));
@@ -454,18 +455,22 @@ public class GameController {
     }
     
     private void rateFood(String rateNumber) {
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        int rate = Integer.parseInt(rateNumber);
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
-            if (popularityFactor.getName().equals("food"))
-                popularityFactor.setRate(Integer.parseInt(rateNumber) * 4);
+            if (popularityFactor.getName().equals("food")) {
+                popularityFactor.setPopularityAmount(rate * 4);
+                popularityFactor.setRate(rate);
+            }
             //TODO:give 0.5x + 1 amount of food to people
+            //TODO:give error to invalid numbers
         }
     }
     
     public String showPopularityFactorRate(Matcher matcher) {
         StringBuilder result = new StringBuilder();
         int rate = 0;
-        Kingdom currentKingdom = getKingdomByKing(turn.getCurrentKing());
+        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals(matcher.group("popularityFactor"))) {
                 rate = popularityFactor.getRate();
@@ -540,7 +545,7 @@ public class GameController {
     private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
         MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit);
         Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
-        Objects.requireNonNull(getKingdomByKing(turn.getCurrentKing())).addUnusedUnit(militaryPerson);
+        Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).addUnusedUnit(militaryPerson);
         //TODO: defining location of the building it should be in
     }
     
@@ -824,7 +829,7 @@ public class GameController {
 
     public void nextTurn() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
-        turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());
+        currentGame.turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());
         Turn.setTurnCounter(Turn.getTurnCounter() + 1);
         selectedBuilding = null;
         selectedUnit = null;
