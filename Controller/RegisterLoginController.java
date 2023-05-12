@@ -15,140 +15,12 @@ public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
 
-    private final MainController mainController = new MainController();
+    private final FileController fileController = new FileController();
 
     public static User getCurrentUser() {
         return currentUser;
     }
 
-    //File Functions:
-    public void initializeUsersFile() {
-        File Users = new File("Users.txt");
-        ArrayList<String> content = mainController.readFileContent("Users.txt");
-        if(content.size() < 9) {
-            ArrayList<String> initial = new ArrayList<>();
-            initial.add("--USERNAME--");
-            initial.add("--PASSWORD--");
-            initial.add("--NICKNAME--");
-            initial.add("--EMAIL--");
-            initial.add("--SLOGAN--");
-            initial.add("--HIGHSCORE--");
-            initial.add("--SECURITY QUESTION--");
-            initial.add("--SECURITY ANSWER--");
-            initial.add("--STAY LOGGED IN? (boolean)--");
-            initial.add("_____________________________________________________");
-            mainController.writeToFileContent("Users.txt",initial,false);
-        }
-    }
-
-    //User Functions:
-    public User getUserByUsername(String username) {
-        User wantedUser;
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
-                        , content.get((10 * i) + 3), content.get((10 * i) + 4));
-                wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
-                wantedUser.setSecurityAnswer(content.get((10 * i) + 7));
-                return wantedUser;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<User> getAllUsers(String path){
-        ArrayList<User> allUsers = new ArrayList<>();
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            allUsers.add(getUserByUsername(content.get(10*i)));
-        }
-        return allUsers;
-    }
-
-    public boolean isUserNameUnique(String username) {
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean isEmailUnique(String email) {
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get((10 * i) + 3).equals(email)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public User getFirstStayLoggedIn() {
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get((10 * i) + 8).equals("true")) {
-                return getUserByUsername(content.get(10 * i));
-            }
-        }
-        return null;
-    }
-
-    public void addUserToFile(User user) throws NoSuchAlgorithmException {
-        ArrayList<String> content = new ArrayList<>();
-        content.add(user.getUsername());
-        content.add(passwordToSHA(user.getPassword()));
-        content.add(user.getNickname());
-        content.add(user.getEmail());
-        content.add(user.getSlogan());
-        content.add(String.valueOf(user.getHighScore()));
-        content.add(user.getSecurityQuestion());
-        content.add(user.getSecurityAnswer());
-        content.add("false");
-        content.add("_____________________________________________________");
-        mainController.writeToFileContent("Users.txt", content, true);
-    }
-
-    public boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
-        User user = getUserByUsername(username);
-        password = passwordToSHA(password);
-        if (user.getPassword().equals(password))
-            return true;
-        return false;
-    }
-
-    public boolean isAnswerCorrect(String username, String answer) {
-        User user = getUserByUsername(username);
-        if(user.getSecurityAnswer().equals(answer))
-            return true;
-        return false;
-    }
-
-    public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 8);
-                content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
-            }
-        }
-        mainController.writeToFileContent("Users.txt", content, false);
-    }
-
-    public void changePassword(String username, String password) throws NoSuchAlgorithmException {
-        ArrayList<String> content =  mainController.readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 1);
-                content.add(((10 * i) + 1), passwordToSHA(password));
-            }
-        }
-        mainController.writeToFileContent("Users.txt", content, false);
-    }
-
-    //Check Validation Functions:
     public boolean isUsernameValid(String username) {
         if (username.matches("^[a-zA-Z0-9_]+$"))
             return true;
@@ -417,13 +289,13 @@ public class RegisterLoginController {
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
             else if (!isUsernameValid(registeringUser.getUsername()))
                 resultMessage = "This username is not valid!";
-            else if (!isUserNameUnique(registeringUser.getUsername()))
+            else if (!fileController.isUserNameUnique(registeringUser.getUsername()))
                 resultMessage = "This username already exists!";
             else if (!isPasswordWeak(registeringUser.getPassword()).equals("success"))
                 resultMessage = ("This password is not valid; " + isPasswordWeak(registeringUser.getPassword()));
             else if (!registeringUser.getPassword().equals(registeringUser.getPasswordConfirmation()))
                 resultMessage = "The password confirmation doesn't match the original one!";
-            else if (!isEmailUnique(registeringUser.getEmail()))
+            else if (!fileController.isEmailUnique(registeringUser.getEmail()))
                 resultMessage = "This email already exists!";
             else if (!isEmailValid(registeringUser.getEmail()))
                 resultMessage = "This email is not valid!";
@@ -444,14 +316,14 @@ public class RegisterLoginController {
             String password = getOptionsFromMatcher(matcher, "p", 2);
             if (username.matches("\\s+") || password.matches("\\s+"))
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
-            else if (isUserNameUnique(username))
+            else if (fileController.isUserNameUnique(username))
                 resultMessage = "This username doesn't exist!";
-            else if (!isPasswordCorrect(username, password))
+            else if (!fileController.isPasswordCorrect(username, password))
                 resultMessage = ("Username and password didn't match!");
             else {
                 if (hasLoggedIn)
-                    addStayLoggedInForUser(username, true);
-                currentUser = getUserByUsername(username);
+                    fileController.addStayLoggedInForUser(username, true);
+                currentUser = fileController.getUserByUsername(username);
                 resultMessage = "success";
             }
         }
@@ -488,7 +360,7 @@ public class RegisterLoginController {
     }
 
     public String forgotPasswordShowQuestion(Matcher matcher) {
-        User user = getUserByUsername(matcher.group("username"));
+        User user = fileController.getUserByUsername(matcher.group("username"));
         if(user == null)
             return "fail";
         else {

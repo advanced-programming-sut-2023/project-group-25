@@ -1,6 +1,7 @@
 package View;
 
 import Controller.ChangeMenuController;
+import Controller.FileController;
 import Controller.RegisterLoginController;
 import Model.User;
 
@@ -15,17 +16,19 @@ import java.util.regex.Pattern;
 public class RegisterLoginMenu {
     private final ChangeMenuController changeMenuController;
     private final RegisterLoginController registerLoginController;
+    private final FileController fileController;
     private Matcher matcher;
     private String input;
 
     public RegisterLoginMenu(ChangeMenuController controller) {
         this.changeMenuController = controller;
         this.registerLoginController = controller.getRegisterLoginController();
+        this.fileController = controller.getFileController();
     }
 
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
-        registerLoginController.initializeUsersFile();
-        User user = registerLoginController.getFirstStayLoggedIn();
+        fileController.initializeUsersFile();
+        User user = fileController.getFirstStayLoggedIn();
         if (user != null) {
             RegisterLoginController.setCurrentUser(user);
             return "mainMenu";
@@ -72,7 +75,7 @@ public class RegisterLoginMenu {
                         System.out.println("User register Canceled!");
                         return "exit";
                     }
-                    registerLoginController.addUserToFile(RegisterLoginController.getCurrentUser());
+                    fileController.addUserToFile(RegisterLoginController.getCurrentUser());
                     System.out.println("User registered successfully!");
                 } else {
                     System.out.println(resultMessage);
@@ -106,7 +109,7 @@ public class RegisterLoginMenu {
                     System.out.println(resultMessage);
                     while (true) {
                         input = scanner.nextLine();
-                        if (!registerLoginController.isAnswerCorrect(matcher.group("username"), input)) {
+                        if (!fileController.isAnswerCorrect(matcher.group("username"), input)) {
                             System.out.println("Incorrect Answer; Please try again!");
                         } else {
                             break;
@@ -132,7 +135,7 @@ public class RegisterLoginMenu {
                             break;
                         }
                     }
-                    registerLoginController.changePassword(matcher.group("username"), input);
+                    fileController.changePassword(matcher.group("username"), input);
                     System.out.println("Password changed successfully!");
                 }
             } else

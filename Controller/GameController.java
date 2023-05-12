@@ -27,69 +27,6 @@ public class GameController {
     private int shownMapY;
     private Building selectedBuilding;
 
-
-    public void initializeGamesFile() {
-        File Games = new File("Games.txt");
-        ArrayList<String> content = mainController.readFileContent("Games.txt");
-        if (content.size() < 4) {
-            ArrayList<String> initial = new ArrayList<>();
-            initial.add("--GAME ID--");
-            initial.add("--ALL PLAYERS(separated with ,)--");
-            initial.add("--MAP TEMPLATE NUMBER--");
-            initial.add("_____________________________________________________");
-            mainController.writeToFileContent("Games.txt", initial, false);
-        }
-    }
-
-    public void addGameToFile(Game game) {
-        initializeGamesFile();
-        ArrayList<String> content = new ArrayList<>();
-        content.add(String.valueOf(game.getGameId()));
-        String usernames = "";
-        for (int i = 0; i < game.getKingdoms().size(); i++) {
-            usernames += (game.getKingdoms().get(i).getKing().getUsername() + "-");
-        }
-        content.add(usernames);
-        content.add(String.valueOf(game.getMapTemplateNumber()));
-        content.add("_____________________________________________________");
-        mainController.writeToFileContent("Games.txt", content, true);
-    }
-
-    public void initializeKingdomsFile() {
-        File Kingdoms = new File("Kingdoms.txt");
-        ArrayList<String> content = mainController.readFileContent("Kingdoms.txt");
-        if (content.size() < 9) {
-            ArrayList<String> initial = new ArrayList<>();
-            initial.add("--GAME ID--");
-            initial.add("--KING'S USERNAME--");
-            initial.add("--INVENTORY--");
-            initial.add("--JOBLESS COUNTER--");
-            initial.add("--KING'S BUILDINGS WITH LOCATION {testBuilding|x:X-y:Y,}--");
-            initial.add("--KING'S PRODUCTS(SEPARATED WITH ,)--");
-            initial.add("--KING'S PEOPLE WITH LOCATION {testPerson|x:X-y:Y,}--");
-            initial.add("--KING'S POPULARITY FACTORS {factor1:amount, }--");
-            initial.add("--KING'S ATTACK EQUIPMENTS(SEPARATED WITH ,)--");
-            initial.add("_____________________________________________________");
-            mainController.writeToFileContent("Kingdoms.txt", initial, false);
-        }
-    }
-
-    public void addKingdomToFile(Kingdom kingdom) {
-        initializeKingdomsFile();
-        ArrayList<String> content = new ArrayList<>();
-        content.add(String.valueOf(kingdom.getGameId()));
-        content.add(kingdom.getKing().getUsername());
-        content.add(String.valueOf(kingdom.getInventory()));
-        content.add(String.valueOf(kingdom.getJoblessCounter()));
-        content.add("null");
-        content.add("null");
-        content.add("null");
-        content.add("null");
-        content.add("null");
-        content.add("_____________________________________________________");
-        mainController.writeToFileContent("Kingdoms.txt", content, true);
-    }
-
     public ShopBuildings getShopBuildingByType(String Type) {
         ArrayList<String> content = mainController.readFileContent("ShopBuilding.txt");
         for (int i = 0; i < (content.size() / 5); i++) {
