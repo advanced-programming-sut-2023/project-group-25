@@ -123,28 +123,25 @@ public class MapController {
         initializeCastlesLocation(map, length, width);
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = length / 3; i <= length / 3; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (4 * length) / 6; i <= (4 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = length / 6; i < length / 3; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("ironLand");
+                map.getCells()[i][j] = new Cell(i,j,"ironLand");
         for (int i = (4 * length) / 6 + length / 8; i < 4 * length / 6 + length / 8 * 3; i++)
-            
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "ironLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
-            
             for (int j = width / 6; j < width / 4; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (3 * width) / 4; j < 5 * width / 6; j++)
-                map.getCells()[i][j] = new Cell("rockLand");
+                map.getCells()[i][j] = new Cell(i,j,"rockLand");
         
         
         setDefaultLand(length, width, map);
@@ -217,25 +214,25 @@ public class MapController {
         initializeCastlesLocation(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = (4 * width) / 6; j < width - width / 6; j++)
-                map.getCells()[i][j] = new Cell("sea");
+                map.getCells()[i][j] = new Cell(i,j,"sea");
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = (2 * width) / 6; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "lowWater");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (4 * width) / 6; j < width - width / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < width - width / 6; j++)
-                map.getCells()[i][j] = new Cell("grass");
+                map.getCells()[i][j] = new Cell(i,j,"grass");
         
         setDefaultLand(length, width, map);
         
