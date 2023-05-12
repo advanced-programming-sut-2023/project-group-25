@@ -14,11 +14,12 @@ import java.util.regex.Matcher;
 public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
+    
     public static User getCurrentUser() {
         return currentUser;
     }
-
-
+    
+    
     public static void setCurrentUser(User currentUser) {
         RegisterLoginController.currentUser = currentUser;
     }
@@ -30,7 +31,24 @@ public class RegisterLoginController {
         }
         return null;
     }
-
+    
+    public static String passwordToSHA(String password) throws NoSuchAlgorithmException {
+        MessageDigest crypt = MessageDigest.getInstance("SHA-256");
+        crypt.update(password.getBytes(StandardCharsets.UTF_8));
+        byte[] bytes = crypt.digest();
+        BigInteger bi = new BigInteger(1, bytes);
+        String encryptedPassword = String.format("%0" + (bytes.length << 1) + "x", bi);
+        return encryptedPassword;
+    }
+    
+    //Generate randoms(Password, Slogan, CAPTCHA):
+    
+    private static void assignCaptchaDigits(int captchaLength, int captchaNumber, int[] captchaDigits) {
+        for (int i = captchaLength - 1; i >= 0; i--) {
+            captchaDigits[i] = captchaNumber % 10;
+            captchaNumber /= 10;
+        }
+    }
     
     //Check Validation Functions:
     public boolean isUsernameValid(String username) {
@@ -39,8 +57,6 @@ public class RegisterLoginController {
         else
             return false;
     }
-    
-    //Generate randoms(Password, Slogan, CAPTCHA):
     
     public String isPasswordWeak(String password) {
         if (password.length() < 6)
@@ -102,17 +118,10 @@ public class RegisterLoginController {
     }
     
     public void asciiArt(String captcha) {
-        String[] line = new String[8];
-        for (int i = 1; i < 8; i++) {
-            line[i] = "";
-        }
-        int captchaLength = captcha.length();
-        int captchaNumber = Integer.parseInt(captcha);
+        String[] line = {"", "", "", "", "", "", "", ""};
+        int captchaLength = captcha.length(), captchaNumber = Integer.parseInt(captcha);
         int[] captchaDigits = new int[captchaLength];
-        for (int i = captchaLength - 1; i >= 0; i--) {
-            captchaDigits[i] = captchaNumber % 10;
-            captchaNumber /= 10;
-        }
+        assignCaptchaDigits(captchaLength, captchaNumber, captchaDigits);
         //noise
         int toBeNoisedLine1 = (4 + (int) (Math.random() * 5)) % 7 + 1;
         int toBeNoisedLine2 = (4 + (int) (Math.random() * 5)) % 7 + 1;
@@ -122,107 +131,8 @@ public class RegisterLoginController {
         line[toBeNoisedLine1] += " ";
         line[toBeNoisedLine2] += " ";
         for (int i = 0; i < captchaLength; i++) {
-            switch (captchaDigits[i]) {
-                case 0: {
-                    line[1] += " *****      ";
-                    line[2] += "*     *     ";
-                    line[3] += "*     *     ";
-                    line[4] += "*     *     ";
-                    line[5] += "*     *     ";
-                    line[6] += "*     *     ";
-                    line[7] += " *****      ";
-                    break;
-                }
-                case 1: {
-                    line[1] += "*     ";
-                    line[2] += "*     ";
-                    line[3] += "*     ";
-                    line[4] += "*     ";
-                    line[5] += "*     ";
-                    line[6] += "*     ";
-                    line[7] += "*     ";
-                    break;
-                }
-                case 2: {
-                    line[1] += "*******     ";
-                    line[2] += "      *     ";
-                    line[3] += "      *     ";
-                    line[4] += "*******     ";
-                    line[5] += "*           ";
-                    line[6] += "*           ";
-                    line[7] += "*******     ";
-                    break;
-                }
-                case 3: {
-                    line[1] += "*******     ";
-                    line[2] += "      *     ";
-                    line[3] += "      *     ";
-                    line[4] += " ******     ";
-                    line[5] += "      *     ";
-                    line[6] += "      *     ";
-                    line[7] += "*******     ";
-                    break;
-                }
-                case 4: {
-                    line[1] += "*     *     ";
-                    line[2] += "*     *     ";
-                    line[3] += "*******     ";
-                    line[4] += "      *     ";
-                    line[5] += "      *     ";
-                    line[6] += "      *     ";
-                    line[7] += "      *     ";
-                    break;
-                }
-                case 5: {
-                    line[1] += "*******     ";
-                    line[2] += "*           ";
-                    line[3] += "*           ";
-                    line[4] += "*******     ";
-                    line[5] += "      *     ";
-                    line[6] += "      *     ";
-                    line[7] += "*******     ";
-                    break;
-                }
-                case 6: {
-                    line[1] += "*******     ";
-                    line[2] += "*           ";
-                    line[3] += "*           ";
-                    line[4] += "*******     ";
-                    line[5] += "*     *     ";
-                    line[6] += "*     *     ";
-                    line[7] += "*******     ";
-                    break;
-                }
-                case 7: {
-                    line[1] += "*******     ";
-                    line[2] += "*     *     ";
-                    line[3] += "*     *     ";
-                    line[4] += "      *     ";
-                    line[5] += "      *     ";
-                    line[6] += "      *     ";
-                    line[7] += "      *     ";
-                    break;
-                }
-                case 8: {
-                    line[1] += "*******     ";
-                    line[2] += "*     *     ";
-                    line[3] += "*     *     ";
-                    line[4] += "*******     ";
-                    line[5] += "*     *     ";
-                    line[6] += "*     *     ";
-                    line[7] += "*******     ";
-                    break;
-                }
-                case 9: {
-                    line[1] += "*******     ";
-                    line[2] += "*     *     ";
-                    line[3] += "*     *     ";
-                    line[4] += "*******     ";
-                    line[5] += "      *     ";
-                    line[6] += "      *     ";
-                    line[7] += "*******     ";
-                    break;
-                }
+            for (int j = 1; j <= 7; j++) {
+                callFillingLineMethods(captchaDigits[i], j, line);
             }
         }
         for (int i = 1; i < 8; i++) {
@@ -230,20 +140,30 @@ public class RegisterLoginController {
         }
     }
     
-    /*private void fillCaptchaLine1(int number, String[] lines) {
-        if (number == 0) lines[1] += "*    ";
-        else if (number == 1) lines[1] += " *****      ";
+    private void callFillingLineMethods(int digit, int lineNumber, String[] lines) {
+        if (lineNumber == 1) fillCaptchaLine1(digit, lines);
+        else if (lineNumber == 2) fillCaptchaLine2(digit, lines);
+        else if (lineNumber == 3) fillCaptchaLine3(digit, lines);
+        else if (lineNumber == 4) fillCaptchaLine4(digit, lines);
+        else if (lineNumber == 5) fillCaptchaLine5(digit, lines);
+        else if (lineNumber == 6) fillCaptchaLine6(digit, lines);
+        else if (lineNumber == 7) fillCaptchaLine7(digit, lines);
+    }
+    
+    private void fillCaptchaLine1(int number, String[] lines) {
+        if (number == 0) lines[1] += " *****      ";
+        else if (number == 1) lines[1] += "*     ";
         else if (number == 4) lines[1] += "*     *     ";
         else lines[1] += "*******     ";
     }
-
+    
     private void fillCaptchaLine2(int number, String[] lines) {
         if (number == 1) lines[2] += "*     ";
         else if (number == 2 || number == 3) lines[2] += "      *     ";
         else if (number == 5 || number == 6) lines[2] += "*           ";
         else lines[2] += "*     *     ";
     }
-
+    
     private void fillCaptchaLine3(int number, String[] lines) {
         if (number == 0) lines[3] += "*     *     ";
         else if (number == 1) lines[3] += "*     ";
@@ -252,40 +172,38 @@ public class RegisterLoginController {
         else if (number == 5 || number == 6) lines[3] += "*           ";
         else lines[3] += "*     *     ";
     }
-
+    
     private void fillCaptchaLine4(int number, String[] lines) {
         if (number == 0) lines[4] += "*     *     ";
         else if (number == 1) lines[4] += "*     ";
         else if (number == 3) lines[4] += " ******     ";
-        else if (number == 4 || number == 5 || number == 7) lines[4] += "      *     ";
-        else lines[3] += "*******     ";
+        else if (number == 4 || number == 7) lines[4] += "      *     ";
+        else lines[4] += "*******     ";
     }
-
+    
     private void fillCaptchaLine5(int number, String[] lines) {
         if (number == 0 || number == 6 || number == 8) lines[5] += "*     *     ";
         else if (number == 1) lines[5] += "*     ";
         else if (number == 2) lines[5] += "*           ";
         else lines[5] += "      *     ";
     }
-
+    
     private void fillCaptchaLine6(int number, String[] lines) {
         if (number == 0 || number == 6 || number == 8) lines[6] += "*     *     ";
         else if (number == 1) lines[6] += "*     ";
         else if (number == 2) lines[6] += "*           ";
         else lines[6] += "      *     ";
     }
-
+    
     private void fillCaptchaLine7(int number, String[] lines) {
-        if      (number == 0) lines[7] += " *****      ";
+        if (number == 0) lines[7] += " *****      ";
         else if (number == 1) lines[7] += "*     ";
         else if (number == 4 || number == 7) lines[7] += "      *     ";
         else lines[7] += "*******     ";
     }
-    */
+    
     
     //Option Functions:
-    
-    
     public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
         for (int i = 0; i < allOptions.size(); i++) {
@@ -386,6 +304,7 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
+    //Other Functions:
     
     public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
         String resultMessage;
@@ -415,11 +334,10 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-    //Other Functions:
     
     public String forgotPasswordShowQuestion(Matcher matcher) {
         User user = FileController.getUserByUsername(matcher.group("username"));
-        if(user == null)
+        if (user == null)
             return "fail";
         else {
             return user.getSecurityQuestion();
@@ -433,15 +351,6 @@ public class RegisterLoginController {
         } catch (NumberFormatException var2) {
             return false;
         }
-    }
-
-    public static String passwordToSHA(String password) throws NoSuchAlgorithmException {
-        MessageDigest crypt = MessageDigest.getInstance("SHA-256");
-        crypt.update(password.getBytes(StandardCharsets.UTF_8));
-        byte[] bytes = crypt.digest();
-        BigInteger bi = new BigInteger(1, bytes);
-        String encryptedPassword = String.format("%0" + (bytes.length << 1) + "x", bi);
-        return encryptedPassword;
     }
     
     public ArrayList<String> showSecurityQuestions() {

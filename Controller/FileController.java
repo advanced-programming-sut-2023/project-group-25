@@ -230,26 +230,6 @@ public class FileController {
 
     public ShopBuildings getShopBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("ShopBuilding.txt");
-        for (int i = 0; i < (content.size() / 5); i++) {
-            if (content.get(5 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(5 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(5 * i + 2).split("-?[a-zA-Z]+:")[j]));
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(5 * i), content.get(5 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(5 * i + 3)), Integer.parseInt(content.get(5 * i + 4)));
-                ShopBuildings shopBuilding = new ShopBuildings(tmp);
-                return shopBuilding;
-            }
-        }
-        return null;
-    }
-
-    public TrainingBuildings getTrainingBuildingByType(String Type) {
-        ArrayList<String> content = readFileContent("TrainingBuilding.txt");
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
@@ -261,6 +241,26 @@ public class FileController {
                 }
                 Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
                         Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                ShopBuildings shopBuilding = new ShopBuildings(tmp);
+                return shopBuilding;
+            }
+        }
+        return null;
+    }
+
+    public TrainingBuildings getTrainingBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("TrainingBuilding.txt");
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
                 //TODO: output military people not available in the file!
                 TrainingBuildings trainingBuilding = new TrainingBuildings(tmp, null, Integer.parseInt(content.get(6 * i + 5)));
                 return trainingBuilding;
@@ -271,66 +271,6 @@ public class FileController {
 
     public ProductionBuildings getProductionBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("ProductionBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                ProductionBuildings productionBuilding = new ProductionBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
-                return productionBuilding;
-            }
-        }
-        return null;
-    }
-
-    public StorageBuildings getStorageBuildingByType(String Type) {
-        ArrayList<String> content = readFileContent("StorageBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                StorageBuildings storageBuildings = new StorageBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
-                return storageBuildings;
-            }
-        }
-        return null;
-    }
-
-    public OtherBuildings getOtherBuildingByType(String Type) {
-        ArrayList<String> content = readFileContent("OtherBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                OtherBuildings otherBuilding = new OtherBuildings(tmp, Boolean.valueOf(content.get(6 * i + 5)));
-                return otherBuilding;
-            }
-        }
-        return null;
-    }
-
-    public FightingBuildings getFightingBuildingByType(String Type) {
-        ArrayList<String> content = readFileContent("FightingBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
@@ -342,7 +282,67 @@ public class FileController {
                 }
                 Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
                         Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
-                FightingBuildings fightingBuilding = new FightingBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)), Integer.parseInt(content.get(7 * i + 6)));
+                ProductionBuildings productionBuilding = new ProductionBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)));
+                return productionBuilding;
+            }
+        }
+        return null;
+    }
+
+    public StorageBuildings getStorageBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("StorageBuilding.txt");
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
+                StorageBuildings storageBuildings = new StorageBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)));
+                return storageBuildings;
+            }
+        }
+        return null;
+    }
+
+    public OtherBuildings getOtherBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("OtherBuilding.txt");
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(7 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
+                OtherBuildings otherBuilding = new OtherBuildings(tmp, Boolean.valueOf(content.get(7 * i + 5)));
+                return otherBuilding;
+            }
+        }
+        return null;
+    }
+
+    public FightingBuildings getFightingBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("FightingBuilding.txt");
+        for (int i = 0; i < (content.size() / 8); i++) {
+            if (content.get(8 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(8 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(8 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(8 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(8 * i), content.get(8 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(8 * i + 3)), Integer.parseInt(content.get(8 * i + 4)));
+                FightingBuildings fightingBuilding = new FightingBuildings(tmp, Integer.parseInt(content.get(8 * i + 5)), Integer.parseInt(content.get(8 * i + 6)));
                 return fightingBuilding;
             }
         }
