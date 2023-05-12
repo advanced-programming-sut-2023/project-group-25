@@ -228,7 +228,7 @@ public class FileController {
         writeToFileContent("Kingdoms.txt", content, true);
     }
 
-    public ShopBuildings getShopBuildingByType(String Type) {
+    public static ShopBuildings getShopBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("ShopBuilding.txt");
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
@@ -248,7 +248,7 @@ public class FileController {
         return null;
     }
 
-    public TrainingBuildings getTrainingBuildingByType(String Type) {
+    public static TrainingBuildings getTrainingBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("TrainingBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(6 * i).equals(Type)) {
@@ -269,7 +269,7 @@ public class FileController {
         return null;
     }
 
-    public ProductionBuildings getProductionBuildingByType(String Type) {
+    public static ProductionBuildings getProductionBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("ProductionBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
@@ -289,7 +289,7 @@ public class FileController {
         return null;
     }
 
-    public StorageBuildings getStorageBuildingByType(String Type) {
+    public static StorageBuildings getStorageBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("StorageBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(6 * i).equals(Type)) {
@@ -309,7 +309,7 @@ public class FileController {
         return null;
     }
 
-    public OtherBuildings getOtherBuildingByType(String Type) {
+    public static OtherBuildings getOtherBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("OtherBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
@@ -329,7 +329,7 @@ public class FileController {
         return null;
     }
 
-    public FightingBuildings getFightingBuildingByType(String Type) {
+    public static FightingBuildings getFightingBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("FightingBuilding.txt");
         for (int i = 0; i < (content.size() / 8); i++) {
             if (content.get(8 * i).equals(Type)) {
@@ -349,7 +349,7 @@ public class FileController {
         return null;
     }
 
-    public String getBuildingCategoryByType(String type) {
+    public static String getBuildingCategoryByType(String type) {
         String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
         String[] ProductionBuilding = new String[]{",ill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
                 "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "diary farmer", "hops farmer",
