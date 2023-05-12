@@ -400,29 +400,29 @@ public class GameController {
     public String selectUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x, y)) return "invalid location";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
         for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 selectedUnit = (MilitaryPerson) person;
-                return "success";
+                return "Unit is selected successfully!";
             }
         }
-        return "don't have";
+        return "You don't have any people in this location!";
     }
 
     public String moveUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x, y)) return "invalid location";
-        if (selectedUnit == null) return "no selected unit";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
+        if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
         List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCellByLocation(x, y), currentGame.getMap());
-        if (pathCells.size() == 1) return "block";
-        if (pathCells.size() > selectedUnit.getMovingRange()) return "out of range";
+        if (pathCells.size() == 1) return "The path is blocked!";
+        if (pathCells.size() > selectedUnit.getMovingRange()) return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
-        return "success";
+        return "Unit has been moved successfully!";
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -433,22 +433,22 @@ public class GameController {
         String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
-        if (givenUnit == null) return "invalid type";
+        if (givenUnit == null) return "You have entered an invalid type of unit!";
         Kingdom kingdom = getKingdomByKing(getCurrentUser());
         if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(kingdom).getInventory())
-            return "not enough coins";
+            return "You don't have enough coins!";
         boolean haveProducts = haveNeededProductsForUnit(givenUnit, count);
-        if (!haveProducts) return "not enough products";
+        if (!haveProducts) return "You don't have needed products to create this unit!";
 
         if (count > Objects.requireNonNull(kingdom).getJoblessCounter())
-            return "not enough people";
-        if (selectedBuilding == null) return "no selected building";
-        if (!unitMatchesSelectedBuilding(givenUnit)) return "invalid type for building";
+            return "You don't have enough number of people to be trained!";
+        if (selectedBuilding == null) return "You should first select the related building to create a unit!";
+        if (!unitMatchesSelectedBuilding(givenUnit)) return "You can't create this unit in this building!";
         for (int i = 0; i < count; i++) {
             createUnitWithGivenUnit(givenUnit);
             kingdom.reduceJoblessCounter();
         }
-        return "success";
+        return "Unit created successfully!";
     }
 
     private boolean unitMatchesSelectedBuilding(MilitaryPerson givenUnit) {
@@ -486,12 +486,11 @@ public class GameController {
         if (!isLocationValid(shownMapX, shownMapY)) {
             shownMapX = 0;
             shownMapY = 0;
-            return "invalid location";
+            return "You have entered invalid location!";
         }
-        String type = getOptionsFromMatcher(matcher, "t", 2);
-        int count = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "c", 2)));
-
-        return null;
+        Map smallMap = makeSmallMap(currentGame.getMap(), shownMapX, shownMapY);
+        assert smallMap != null;
+        return MapController.showMap(smallMap);
     }
 
     private Map makeSmallMap(Map bigMap, int x, int y) {
@@ -505,14 +504,14 @@ public class GameController {
     }
 
     public String moveOnMap(Matcher matcher) {
-        if (shownMapX == 0 && shownMapY == 0) return "haven't chosen";
+        if (shownMapX == 0 && shownMapY == 0) return "You haven't chosen a location yet!";
         int dx = Integer.parseInt(matcher.group("verticalNumber"));
         int dy = Integer.parseInt(matcher.group("horizontalNumber"));
         String verticalDirection = matcher.group("verticalDirection");
         String horizontalDirection = matcher.group("horizontalDirection");
         if (verticalDirection.equals("up")) dx = -dx;
         if (horizontalDirection.equals("left")) dy = -dy;
-        if (!isLocationValid(shownMapX + dx, shownMapY + dy)) return "invalid location";
+        if (!isLocationValid(shownMapX + dx, shownMapY + dy)) return "You have entered invalid location!";
         shownMapY = shownMapY + dy;
         shownMapX = shownMapX + dx;
         return MapController.showMap(Objects.requireNonNull(makeSmallMap(currentGame.getMap(), shownMapX, shownMapY)));
@@ -523,10 +522,10 @@ public class GameController {
         int dx = getDXByDirection(direction), dy = getDYByDirection(direction);
         int x = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'x');
         int y = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'y');
-        if (!isLocationValid(x + dx, y + dy)) return "invalid location";
+        if (!isLocationValid(x + dx, y + dy)) return "You have entered invalid direction!";
         currentGame.getMap().getCells()[x][y].setHasOil(true);
         currentGame.getMap().getCells()[x + dx][y + dy].setHasOil(true);
-        return "success";
+        return "Oil has been poured successfully!";
     }
 
     private int getLocationXOrY(Map map, Cell location, char ch) {
@@ -555,24 +554,24 @@ public class GameController {
     public String digTunnel(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x, y)) return "invalid location";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
         currentGame.getMap().getCells()[x][y].setHasTunnel(true);
-        return "success";
+        return "Tunnel has been dug successfully!";
     }
 
 
     public String setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        if (!isLocationValid(x, y)) return "invalid location";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
         for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 MilitaryPerson militaryPerson = (MilitaryPerson) person;
                 militaryPerson.setMode(matcher.group("mode"));
-                return "success";
+                return "Changed mode successfully!";
             }
         }
-        return "no person";
+        return "You have no military person in this location!";
     }
 
     public String disbandUnit() {
@@ -596,12 +595,11 @@ public class GameController {
             if (!person.getKing().equals(getCurrentUser())) {
                 String toGetMatcher = "move unit to -x " + enemyX + " -y " + enemyY;
                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("success")) {
-                    //TODO: make it clear that it is different from moving.
-                    return "success";
-                } else return "can't go";
+                    return "Selected unit attacked successfully!";
+                } else return "Selected unit can't got to this location!";
             }
         }
-        return "no enemy";
+        return "There's no enemy in this location!";
     }
 
     public String aerialAttack(Matcher matcher) {
@@ -611,13 +609,13 @@ public class GameController {
             if (!person.getKing().equals(getCurrentUser())) {
                 if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen") || selectedUnit.getType().equals("Archer Bow")) {
                     if (selectedUnit.getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
-                        //TODO:...
-                        return "success";
-                    } else return "out of range";
-                } else return "no shooter";
+                        currentGame.getMap().getCells()[enemyX][enemyY].addToKingdomsWithArrows(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()));
+                        return "You made the aerial attack successfully!";
+                    } else return "The enemy you want to attack is out of range of the selected unit!";
+                } else return "Selected unit is not able to shoot!";
             }
         }
-        return "no enemy";
+        return "There is no enemy in this location!";
     }
 
     public void fight(MilitaryPerson unit1, MilitaryPerson unit2) {
@@ -691,15 +689,15 @@ public class GameController {
         int y1 = Integer.parseInt(matcher.group("y1"));
         int x2 = Integer.parseInt(matcher.group("x2"));
         int y2 = Integer.parseInt(matcher.group("y2"));
-        if (!isLocationValid(x1, y1) || !isLocationValid(x2, y2)) return "invalid location";
+        if (!isLocationValid(x1 -1, y1-1) || !isLocationValid(x2-1, y2-1)) return "You have entered invalid location!";
         patrollingUnit = selectedUnit;
-        if (patrollingUnit == null) return "haven't selected unit";
-        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > selectedUnit.getMovingRange()) return "out of moving range";
+        if (patrollingUnit == null) return "You should first select a unit to patrol!";
+        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > selectedUnit.getMovingRange()) return "The distance is out of the unit's moving range!";
         while (!isPatrollingStopped) {
-            removeAndAddInMoving(patrollingUnit, x2, y2);
-            removeAndAddInMoving(patrollingUnit, x1, y1);
+            removeAndAddInMoving(patrollingUnit, x2-1, y2-1);
+            removeAndAddInMoving(patrollingUnit, x1-1, y1-1);
         }
-        return "success";
+        return "The unit patrolling!";
     }
 
     private void removeAndAddInMoving(MilitaryPerson unit, int x, int y) {
