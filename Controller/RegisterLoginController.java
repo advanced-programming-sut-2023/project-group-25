@@ -14,15 +14,22 @@ import java.util.regex.Matcher;
 public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
+
     public static User getCurrentUser() {
         return currentUser;
     }
+
+    private String tryingToLoginUsername = "";
+    private int numberOfTries = 0;
+
+    long timeOrigin = 1000;
+    int timeToWait = 0;
 
 
     public static void setCurrentUser(User currentUser) {
         RegisterLoginController.currentUser = currentUser;
     }
-    
+
     public static String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
         for (int i = 0; i < numberOfOptions; i++) {
             if (matcher.group(("option" + (i + 1))).equals(option))
@@ -31,7 +38,7 @@ public class RegisterLoginController {
         return null;
     }
 
-    
+
     //Check Validation Functions:
     public boolean isUsernameValid(String username) {
         if (username.matches("^[a-zA-Z0-9_]+$"))
@@ -39,9 +46,9 @@ public class RegisterLoginController {
         else
             return false;
     }
-    
+
     //Generate randoms(Password, Slogan, CAPTCHA):
-    
+
     public String isPasswordWeak(String password) {
         if (password.length() < 6)
             return "The password is too short!";
@@ -56,14 +63,14 @@ public class RegisterLoginController {
         else
             return "success";
     }
-    
+
     public boolean isEmailValid(String email) {
         if (email.matches("^(?<firstGroup>\\S+)@(?<secondGroup>\\S+)\\.(?<thirdGroup>\\S+)$"))
             return true;
         else
             return false;
     }
-    
+
     public String generateRandomPassword() {
         char[] specialCharacters = {'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-',
                 '_', '=', '+', '[', '{', ']', '}', '\\', '|', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?'};
@@ -79,7 +86,7 @@ public class RegisterLoginController {
             password += specialCharacters[random.nextInt(32)];
         return password;
     }
-    
+
     public String generateRandomSlogan() {
         String[] preparedSlogans = {"Through adversity comes strength!", "Don’t be afraid to fail!", "Compete with yourself!",
                 "Play for fun, not stakes beyond your control!", "Keep calm and check mate the king!", "It’s your world!",
@@ -89,7 +96,7 @@ public class RegisterLoginController {
         Random random = new Random();
         return preparedSlogans[random.nextInt(16)];
     }
-    
+
     public String generateCaptchaString() {
         Random random = new Random();
         int captchaLength = 4 + random.nextInt(5);
@@ -100,7 +107,7 @@ public class RegisterLoginController {
         }
         return captchaBuilder.toString();
     }
-    
+
     public void asciiArt(String captcha) {
         String[] line = new String[8];
         for (int i = 1; i < 8; i++) {
@@ -282,10 +289,10 @@ public class RegisterLoginController {
         else lines[7] += "*******     ";
     }
     */
-    
+
     //Option Functions:
-    
-    
+
+
     public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
         for (int i = 0; i < allOptions.size(); i++) {
@@ -298,7 +305,7 @@ public class RegisterLoginController {
         else
             return false;
     }
-    
+
     public void getRegisterOptions(Matcher matcher, boolean hasSlogan) {
         String password, passwordConfirm, slogan;
         boolean isPasswordRandom = false, isSloganRandom = false;
@@ -332,7 +339,7 @@ public class RegisterLoginController {
         registeringUser.setPasswordRandom(isPasswordRandom);
         registeringUser.setSloganRandom(isSloganRandom);
     }
-    
+
     //Main Functions:
     public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
         String resultMessage;
@@ -363,7 +370,7 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-    
+
     public String login(Matcher matcher, ArrayList<String> allOptions, boolean hasLoggedIn) throws NoSuchAlgorithmException {
         String resultMessage;
         if (!checkAllOptionsExist(matcher, allOptions))
@@ -375,18 +382,38 @@ public class RegisterLoginController {
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
             else if (FileController.isUserNameUnique(username))
                 resultMessage = "This username doesn't exist!";
-            else if (!FileController.isPasswordCorrect(username, password))
+            else if (tryingToLoginUsername.equals(username) && System.currentTimeMillis() < (timeOrigin + timeToWait * 1000))
+                resultMessage = ("You have to wait [" + timeToWait + "] seconds to login with this username again!");
+            else if (!FileController.isPasswordCorrect(username, password)) {
                 resultMessage = ("Username and password didn't match!");
-            else {
+                stopWrongPassword(username);
+                resultMessage += ("\nYou have entered your password [" + numberOfTries + "] times wrong!");
+            } else {
                 if (hasLoggedIn)
                     FileController.addStayLoggedInForUser(username, true);
                 currentUser = FileController.getUserByUsername(username);
                 resultMessage = "success";
+                timeOrigin = 1000;
+                tryingToLoginUsername = null;
             }
         }
         return resultMessage;
     }
-    
+
+    public void stopWrongPassword(String username) {
+        String resultMessage;
+        if (tryingToLoginUsername.equals(username)) {
+            numberOfTries++;
+        } else {
+            tryingToLoginUsername = username;
+            numberOfTries = 1;
+        }
+        if (numberOfTries >= 5) {
+            timeToWait = (numberOfTries - 4) * 5;
+        }
+        timeOrigin = System.currentTimeMillis();
+    }
+
     public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
         String resultMessage;
         ArrayList<String> questions = showSecurityQuestions();
@@ -416,16 +443,16 @@ public class RegisterLoginController {
         return resultMessage;
     }
     //Other Functions:
-    
+
     public String forgotPasswordShowQuestion(Matcher matcher) {
         User user = FileController.getUserByUsername(matcher.group("username"));
-        if(user == null)
+        if (user == null)
             return "fail";
         else {
             return user.getSecurityQuestion();
         }
     }
-    
+
     public boolean isNumber(String num) {
         try {
             Integer.parseInt(num);
@@ -443,7 +470,7 @@ public class RegisterLoginController {
         String encryptedPassword = String.format("%0" + (bytes.length << 1) + "x", bi);
         return encryptedPassword;
     }
-    
+
     public ArrayList<String> showSecurityQuestions() {
         ArrayList<String> questions = new ArrayList<>();
         questions.add("1- What city were you born in?");
@@ -453,7 +480,7 @@ public class RegisterLoginController {
         questions.add("5- What was your first pet’s name?");
         return questions;
     }
-    
+
     public String showCurrentMenuName(String menuName) {
         int nameLength = menuName.toCharArray().length;
         String result = "";
