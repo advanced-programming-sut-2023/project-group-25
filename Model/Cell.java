@@ -7,6 +7,7 @@ public class Cell {
     private Building building = null;
     private ArrayList<Person> people = new ArrayList<Person>();
     private ArrayList<NaturalBlock> naturalBlocks = new ArrayList<NaturalBlock>();
+    private ArrayList<Kingdom> kingdomsWithArrowsHere = new ArrayList<>();
     private boolean hasOil = false;
     private boolean hasTunnel = false;
     private int x;
@@ -84,5 +85,41 @@ public class Cell {
 
     public boolean hasCellTunnel() {
         return hasTunnel;
+    }
+    
+    public void setPeople(ArrayList<Person> people) {
+        this.people = people;
+    }
+    
+    public void setNaturalBlocks(ArrayList<NaturalBlock> naturalBlocks) {
+        this.naturalBlocks = naturalBlocks;
+    }
+    
+    public ArrayList<Kingdom> getKingdomsWithArrowsHere() {
+        return kingdomsWithArrowsHere;
+    }
+    
+    public void setKingdomsWithArrowsHere(ArrayList<Kingdom> kingdomsWithArrowsHere) {
+        this.kingdomsWithArrowsHere = kingdomsWithArrowsHere;
+    }
+    
+    public boolean isHasOil() {
+        return hasOil;
+    }
+    
+    public boolean isHasTunnel() {
+        return hasTunnel;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+    
+    public void addToKingdomsWithArrows(Kingdom kingdom) {
+        kingdomsWithArrowsHere.add(kingdom);
     }
 }
