@@ -403,4 +403,23 @@ public class FileController {
         }
         return null;
     }
+
+    public static Product getProductByName(String name) {
+        ArrayList<String> content = readFileContent("Product.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(name)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 4).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(6 * i + 4).split("-?[a-zA-Z]+:")[j]));
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Product product = new Product(content.get(6 * i),Integer.parseInt(content.get(6 * i + 1)),
+                        Integer.parseInt(content.get(6 * i + 2)), content.get(6 * i + 3), neededProduct);
+                return product;
+            }
+        }
+        return null;
+    }
 }
