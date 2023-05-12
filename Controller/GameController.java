@@ -18,7 +18,6 @@ import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
-    private FileController fileController;
     private MilitaryPerson selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
@@ -160,7 +159,7 @@ public class GameController {
 
     public String dropBuilding(int x, int y, Cell cell, String type) {
         Building savedBuilding = null;
-        String category = fileController.getBuildingCategoryByType(type);
+        String category = FileController.getBuildingCategoryByType(type);
         savedBuilding = getBuilding(type, savedBuilding, category);
         Building building = new Building(savedBuilding);
 
@@ -191,17 +190,17 @@ public class GameController {
 
     private Building getBuilding(String type, Building savedBuilding, String category) {
         if (category.equals("TrainingBuildings")) {
-            savedBuilding = fileController.getTrainingBuildingByType(type);
+            savedBuilding = FileController.getTrainingBuildingByType(type);
         } else if (category.equals("ProductionBuildings")) {
-            savedBuilding = fileController.getProductionBuildingByType(type);
+            savedBuilding = FileController.getProductionBuildingByType(type);
         } else if (category.equals("StorageBuildings")) {
-            savedBuilding = fileController.getStorageBuildingByType(type);
+            savedBuilding = FileController.getStorageBuildingByType(type);
         } else if (category.equals("OtherBuildings")) {
-            savedBuilding = fileController.getOtherBuildingByType(type);
+            savedBuilding = FileController.getOtherBuildingByType(type);
         } else if (category.equals("FightingBuildings")) {
-            savedBuilding = fileController.getFightingBuildingByType(type);
+            savedBuilding = FileController.getFightingBuildingByType(type);
         } else if (category.equals("ShopBuildings")) {
-            savedBuilding = fileController.getShopBuildingByType(type);
+            savedBuilding = FileController.getShopBuildingByType(type);
         }
         return savedBuilding;
     }
@@ -697,7 +696,7 @@ public class GameController {
 
     public String repair() {
         Building savedBuilding = null;
-        String category = fileController.getBuildingCategoryByType(selectedBuilding.getType());
+        String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
         savedBuilding = getBuilding(selectedBuilding.getType(), savedBuilding, category);
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         if (selectedBuilding == null)
