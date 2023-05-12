@@ -254,6 +254,11 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         int templateNumber = currentGame.getMapTemplateNumber();
+        int length = currentGame.getMap().getLength();
+        int width = currentGame.getMap().getWidth();
+        MapController.initializeMapTemplate1(length, width);
+        MapController.initializeMapTemplate2(length, width);
+        MapController.initializeMapTemplate3(length, width);
         Map originalMap = Map.getTemplateMaps()[templateNumber];
         String originalMaterial = originalMap.getCellByLocation(x, y).getMaterial();
         currentGame.getMap().getCells()[x][y] = new Cell(x, y, originalMaterial);
@@ -434,6 +439,7 @@ public class GameController {
             return rateFear(matcher.group("rateNumber"));
         if (matcher.group("popularityFactor").equals("tax"))
             return rateTax(matcher.group("rateNumber"));
+        return null;
     }
 
     private String rateTax(String rateNumber) {
@@ -807,19 +813,13 @@ public class GameController {
         }
         return "success";
     }
-<<<<<<< HEAD
-
-    private void removeAndAddInMoving(MilitaryPerson patrollingUnit, int x, int y) {
-        patrollingUnit.getLocation().removePerson(patrollingUnit);
-        currentGame.getMap().getCells()[x - 1][y - 1].addPerson(patrollingUnit);
-=======
     
     private void removeAndAddInMoving(MilitaryPerson unit, int x, int y) {
         patrollingUnit.getLocation().removePerson(unit);
         Cell destination = currentGame.getMap().getCells()[x][y];
         destination.addPerson(unit);
         unit.setLocation(destination);
->>>>>>> 61b7ee44a0ddc926672de381f1ef86d1dfaa9968
+
     }
 
 //    public String repair() {
