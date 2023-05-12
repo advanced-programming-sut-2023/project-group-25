@@ -357,18 +357,21 @@ public class RegisterLoginController {
             System.out.println(line[i]);
         }
     }
-    private void fillCaptchaLine1(int number, String[] lines) {
+    
+    /*private void fillCaptchaLine1(int number, String[] lines) {
         if (number == 0) lines[1] += "*    ";
         else if (number == 1) lines[1] += " *****      ";
         else if (number == 4) lines[1] += "*     *     ";
         else lines[1] += "*******     ";
     }
+
     private void fillCaptchaLine2(int number, String[] lines) {
         if (number == 1) lines[2] += "*     ";
         else if (number == 2 || number == 3) lines[2] += "      *     ";
         else if (number == 5 || number == 6) lines[2] += "*           ";
         else lines[2] += "*     *     ";
     }
+
     private void fillCaptchaLine3(int number, String[] lines) {
         if (number == 0) lines[3] += "*     *     ";
         else if (number == 1) lines[3] += "*     ";
@@ -377,25 +380,38 @@ public class RegisterLoginController {
         else if (number == 5 || number == 6) lines[3] += "*           ";
         else lines[3] += "*     *     ";
     }
+
     private void fillCaptchaLine4(int number, String[] lines) {
-        if      (number == 0) lines[4] += "*     *     ";
+        if (number == 0) lines[4] += "*     *     ";
         else if (number == 1) lines[4] += "*     ";
         else if (number == 3) lines[4] += " ******     ";
         else if (number == 4 || number == 5 || number == 7) lines[4] += "      *     ";
         else lines[3] += "*******     ";
     }
+
     private void fillCaptchaLine5(int number, String[] lines) {
-        if      (number == 0) lines[5] += "*     *     ";
+        if (number == 0 || number == 6 || number == 8) lines[5] += "*     *     ";
         else if (number == 1) lines[5] += "*     ";
         else if (number == 2) lines[5] += "*           ";
+        else lines[5] += "      *     ";
     }
- 
-    
-    
-    
+
+    private void fillCaptchaLine6(int number, String[] lines) {
+        if (number == 0 || number == 6 || number == 8) lines[6] += "*     *     ";
+        else if (number == 1) lines[6] += "*     ";
+        else if (number == 2) lines[6] += "*           ";
+        else lines[6] += "      *     ";
+    }
+
+    private void fillCaptchaLine7(int number, String[] lines) {
+        if      (number == 0) lines[7] += " *****      ";
+        else if (number == 1) lines[7] += "*     ";
+        else if (number == 4 || number == 7) lines[7] += "      *     ";
+        else lines[7] += "*******     ";
+    }
+    */
     
     //Option Functions:
-    
     
     
     public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
