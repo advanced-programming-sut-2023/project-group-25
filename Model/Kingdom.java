@@ -20,6 +20,46 @@ public class Kingdom {
     private final int gameId;
     private String color;
     
+    public void setKingBuildings(ArrayList<Building> kingBuildings) {
+        this.kingBuildings = kingBuildings;
+    }
+    
+    public void setKingProducts(ArrayList<Product> kingProducts) {
+        this.kingProducts = kingProducts;
+    }
+    
+    public void setKingPeople(ArrayList<Person> kingPeople) {
+        this.kingPeople = kingPeople;
+    }
+    
+    public ArrayList<Person> getKingUnusedUnits() {
+        return kingUnusedUnits;
+    }
+    
+    public void setKingUnusedUnits(ArrayList<Person> kingUnusedUnits) {
+        this.kingUnusedUnits = kingUnusedUnits;
+    }
+    
+    public void setKingPopularityFactors(ArrayList<PopularityFactor> kingPopularityFactors) {
+        this.kingPopularityFactors = kingPopularityFactors;
+    }
+    
+    public void setKingAttackEquipments(ArrayList<AttackEquipment> kingAttackEquipments) {
+        this.kingAttackEquipments = kingAttackEquipments;
+    }
+    
+    public void setKing(User king) {
+        this.king = king;
+    }
+    
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+    
+    public void setJoblessCounter(int joblessCounter) {
+        this.joblessCounter = joblessCounter;
+    }
+    
     public Kingdom(User king, int gameId) {
         this.king = king;
         this.inventory = 4000;
