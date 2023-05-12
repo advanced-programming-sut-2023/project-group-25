@@ -384,6 +384,11 @@ public class RegisterLoginController {
         else if (number == 4 || number == 5 || number == 7) lines[4] += "      *     ";
         else lines[3] += "*******     ";
     }
+    private void fillCaptchaLine5(int number, String[] lines) {
+        if      (number == 0) lines[5] += "*     *     ";
+        else if (number == 1) lines[5] += "*     ";
+        else if (number == 2) lines[5] += "*           ";
+    }
  
     
     
