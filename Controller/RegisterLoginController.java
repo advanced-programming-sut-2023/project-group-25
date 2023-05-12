@@ -15,8 +15,6 @@ public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
 
-    private final FileController fileController = new FileController();
-
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -289,13 +287,13 @@ public class RegisterLoginController {
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
             else if (!isUsernameValid(registeringUser.getUsername()))
                 resultMessage = "This username is not valid!";
-            else if (!fileController.isUserNameUnique(registeringUser.getUsername()))
+            else if (!FileController.isUserNameUnique(registeringUser.getUsername()))
                 resultMessage = "This username already exists!";
             else if (!isPasswordWeak(registeringUser.getPassword()).equals("success"))
                 resultMessage = ("This password is not valid; " + isPasswordWeak(registeringUser.getPassword()));
             else if (!registeringUser.getPassword().equals(registeringUser.getPasswordConfirmation()))
                 resultMessage = "The password confirmation doesn't match the original one!";
-            else if (!fileController.isEmailUnique(registeringUser.getEmail()))
+            else if (!FileController.isEmailUnique(registeringUser.getEmail()))
                 resultMessage = "This email already exists!";
             else if (!isEmailValid(registeringUser.getEmail()))
                 resultMessage = "This email is not valid!";
@@ -316,14 +314,14 @@ public class RegisterLoginController {
             String password = getOptionsFromMatcher(matcher, "p", 2);
             if (username.matches("\\s+") || password.matches("\\s+"))
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
-            else if (fileController.isUserNameUnique(username))
+            else if (FileController.isUserNameUnique(username))
                 resultMessage = "This username doesn't exist!";
-            else if (!fileController.isPasswordCorrect(username, password))
+            else if (!FileController.isPasswordCorrect(username, password))
                 resultMessage = ("Username and password didn't match!");
             else {
                 if (hasLoggedIn)
-                    fileController.addStayLoggedInForUser(username, true);
-                currentUser = fileController.getUserByUsername(username);
+                    FileController.addStayLoggedInForUser(username, true);
+                currentUser = FileController.getUserByUsername(username);
                 resultMessage = "success";
             }
         }
@@ -360,7 +358,7 @@ public class RegisterLoginController {
     }
 
     public String forgotPasswordShowQuestion(Matcher matcher) {
-        User user = fileController.getUserByUsername(matcher.group("username"));
+        User user = FileController.getUserByUsername(matcher.group("username"));
         if(user == null)
             return "fail";
         else {
@@ -378,7 +376,7 @@ public class RegisterLoginController {
         }
     }
 
-    public String passwordToSHA(String password) throws NoSuchAlgorithmException {
+    public static String passwordToSHA(String password) throws NoSuchAlgorithmException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-256");
         crypt.update(password.getBytes(StandardCharsets.UTF_8));
         byte[] bytes = crypt.digest();

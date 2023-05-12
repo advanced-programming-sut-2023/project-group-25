@@ -1,9 +1,6 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.GameController;
-import Controller.MainController;
-import Controller.RegisterLoginController;
+import Controller.*;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -29,7 +26,7 @@ public class MainMenu {
         while (true) {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input,Commands.LOGOUT)) != null) {
-                registerLoginController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
+                FileController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
             }
             else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))) != null) {

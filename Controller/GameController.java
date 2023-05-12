@@ -14,8 +14,6 @@ import static Controller.RegisterLoginController.getCurrentUser;
 import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
-    private final RegisterLoginController registerLoginController = new RegisterLoginController();
-    private final MainController mainController = new MainController();
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
     private MilitaryPerson selectedUnit;
     private MilitaryPerson patrollingUnit;
@@ -27,214 +25,27 @@ public class GameController {
     private int shownMapY;
     private Building selectedBuilding;
 
-    public ShopBuildings getShopBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("ShopBuilding.txt");
-        for (int i = 0; i < (content.size() / 5); i++) {
-            if (content.get(5 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(5 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(5 * i), content.get(5 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(5 * i + 3)), Integer.parseInt(content.get(5 * i + 4)));
-                ShopBuildings shopBuilding = new ShopBuildings(tmp);
-                return shopBuilding;
-            }
-        }
-        return null;
-    }
-
-    public TrainingBuildings getTrainingBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("TrainingBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                //TODO: output military people not available in the file!
-                TrainingBuildings trainingBuilding = new TrainingBuildings(tmp, null, Integer.parseInt(content.get(6 * i + 5)));
-                return trainingBuilding;
-            }
-        }
-        return null;
-    }
-
-    public ProductionBuildings getProductionBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("ProductionBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                ProductionBuildings productionBuilding = new ProductionBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
-                return productionBuilding;
-            }
-        }
-        return null;
-    }
-
-    public StorageBuildings getStorageBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("StorageBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                StorageBuildings storageBuildings = new StorageBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
-                return storageBuildings;
-            }
-        }
-        return null;
-    }
-
-    public OtherBuildings getOtherBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("OtherBuilding.txt");
-        for (int i = 0; i < (content.size() / 6); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
-                OtherBuildings otherBuilding = new OtherBuildings(tmp, Boolean.valueOf(content.get(6 * i + 5)));
-                return otherBuilding;
-            }
-        }
-        return null;
-    }
-
-    public FightingBuildings getFightingBuildingByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("FightingBuilding.txt");
-        for (int i = 0; i < (content.size() / 7); i++) {
-            if (content.get(7 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
-                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
-                FightingBuildings fightingBuilding = new FightingBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)), Integer.parseInt(content.get(7 * i + 6)));
-                return fightingBuilding;
-            }
-        }
-        return null;
-    }
-
-    public String getBuildingCategoryByType(String type) {
-        String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
-        String[] ProductionBuilding = new String[]{",ill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
-                "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "diary farmer", "hops farmer",
-                "hunter post", "wheat farmer", "bakery", "brewer"};
-        String[] StorageBuilding = new String[]{"armoury", "stockpile", "granary"};
-        String[] OtherBuilding = new String[]{"small stone gatehouse", "large stone gatehouse", "drawbridge", "inn",
-                "hovel", "church", "catheral", "caged war dogs"};
-        String[] FightingBuilding = new String[]{"lookout tower", "perimeter tower", "defence turret", "square tower",
-                "round tower"};
-        String[] ShopBuilding = new String[]{"market"};
-        for (String s : TrainingBuilding) {
-            if (s.equals(type))
-                return "TrainingBuilding";
-        }
-        for (String s : ProductionBuilding) {
-            if (s.equals(type))
-                return "ProductionBuilding";
-        }
-        for (String s : StorageBuilding) {
-            if (s.equals(type))
-                return "StorageBuilding";
-        }
-        for (String s : OtherBuilding) {
-            if (s.equals(type))
-                return "OtherBuilding";
-        }
-        for (String s : FightingBuilding) {
-            if (s.equals(type))
-                return "FightingBuilding";
-        }
-        for (String s : ShopBuilding) {
-            if (s.equals(type))
-                return "ShopBuilding";
-        }
-        return null;
-    }
-
-    public MilitaryPerson getMilitaryPersonByType(String Type) {
-        ArrayList<String> content = mainController.readFileContent("MilitaryPerson.txt");
-        for (int i = 0; i < (content.size() / 5); i++) {
-            if (content.get(6 * i).equals(Type)) {
-                ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 4).split(",").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 4).split(",")[j]);
-                    if (product != null)
-                        neededProduct.add(product);
-                }
-                return new MilitaryPerson(content.get(6 * i), neededProduct, Integer.parseInt(content.get(6 * i + 1)),
-                        Integer.parseInt(content.get(6 * i + 2)), Integer.parseInt(content.get(6 * i + 3)), content.get(6 * i + 4));
-            }
-        }
-        return null;
-    }
-
-    /*public User getGameByID(String id) {
-        Game wantedGame;
-        ArrayList<String> content =  mainController.readFileContent("Games.txt");
-        for (int i = 0; i < (content.size() / 4); i++) {
-            if (content.get(4 * i).equals(id)) {
-                String[] allPlayersUsername = content.get((10 * i) + 1).split(",");
-
-                ArrayList<Kingdom>
-                wantedGame = new Game(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
-                        , content.get((10 * i) + 3), content.get((10 * i) + 4));
-                wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
-                wantedUser.setSecurityAnswer(content.get((10 * i) + 7));
-                return wantedUser;
-            }
-        }
-        return null;
-    }*/
 
     public String newGame(String line) {
         String resultMessage = "";
         String[] usernames = line.split("-");
         for (int i = 0; i < usernames.length; i++) {
-            if (registerLoginController.getUserByUsername(usernames[i]) == null)
+            if (FileController.getUserByUsername(usernames[i]) == null)
                 resultMessage = ("New game creation failed! Username [" + usernames[i] + "] does not exist!");
         }
         if (resultMessage.equals("")) {
             File Games = new File("Games.txt");
-            ArrayList<String> content = mainController.readFileContent("Games.txt");
+            ArrayList<String> content = FileController.readFileContent("Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
             for (int i = 0; i < usernames.length; i++) {
-                Kingdom newKingdom = new Kingdom(registerLoginController.getUserByUsername(usernames[i]), gameId);
-                addKingdomToFile(newKingdom);
+                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames[i]), gameId);
+                FileController.addKingdomToFile(newKingdom);
                 kingdoms.add(newKingdom);
             }
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
-            addGameToFile(game);
+            FileController.addGameToFile(game);
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
@@ -549,7 +360,7 @@ public class GameController {
     public String createUnit(Matcher matcher) {
         String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
-        MilitaryPerson givenUnit = getMilitaryPersonByType(type);
+        MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
         if (givenUnit == null) return "invalid type";
         Kingdom kingdom = getKingdomByKing(getCurrentUser());
         if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(kingdom).getInventory())

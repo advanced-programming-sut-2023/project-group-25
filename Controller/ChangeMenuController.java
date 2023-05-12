@@ -13,7 +13,6 @@ public class ChangeMenuController {
     private static final ProfileController profileController = new ProfileController();
     private static final TradeController tradeController = new TradeController();
     private static final MapController mapController = new MapController(gameController);
-    private static final FileController fileController = new FileController();
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);
     private final GameMenu gameMenu = new GameMenu(this);
@@ -44,10 +43,6 @@ public class ChangeMenuController {
     public MapController getMapController() {
         return mapController;
     }
-    public FileController getFileController() {
-        return fileController;
-    }
-
 
     public void run(Scanner scanner) throws NoSuchAlgorithmException {
         if (registerLoginMenu.run(scanner).equals("exit")) return;

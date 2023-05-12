@@ -16,19 +16,17 @@ import java.util.regex.Pattern;
 public class RegisterLoginMenu {
     private final ChangeMenuController changeMenuController;
     private final RegisterLoginController registerLoginController;
-    private final FileController fileController;
     private Matcher matcher;
     private String input;
 
     public RegisterLoginMenu(ChangeMenuController controller) {
         this.changeMenuController = controller;
         this.registerLoginController = controller.getRegisterLoginController();
-        this.fileController = controller.getFileController();
     }
 
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
-        fileController.initializeUsersFile();
-        User user = fileController.getFirstStayLoggedIn();
+        FileController.initializeUsersFile();
+        User user = FileController.getFirstStayLoggedIn();
         if (user != null) {
             RegisterLoginController.setCurrentUser(user);
             return "mainMenu";
@@ -75,7 +73,7 @@ public class RegisterLoginMenu {
                         System.out.println("User register Canceled!");
                         return "exit";
                     }
-                    fileController.addUserToFile(RegisterLoginController.getCurrentUser());
+                    FileController.addUserToFile(RegisterLoginController.getCurrentUser());
                     System.out.println("User registered successfully!");
                 } else {
                     System.out.println(resultMessage);
@@ -109,7 +107,7 @@ public class RegisterLoginMenu {
                     System.out.println(resultMessage);
                     while (true) {
                         input = scanner.nextLine();
-                        if (!fileController.isAnswerCorrect(matcher.group("username"), input)) {
+                        if (!FileController.isAnswerCorrect(matcher.group("username"), input)) {
                             System.out.println("Incorrect Answer; Please try again!");
                         } else {
                             break;
@@ -135,7 +133,7 @@ public class RegisterLoginMenu {
                             break;
                         }
                     }
-                    fileController.changePassword(matcher.group("username"), input);
+                    FileController.changePassword(matcher.group("username"), input);
                     System.out.println("Password changed successfully!");
                 }
             } else

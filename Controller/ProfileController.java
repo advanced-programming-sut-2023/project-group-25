@@ -8,16 +8,17 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 
 public class ProfileController {
-    
+
+    private FileController fileController = new FileController();
     private RegisterLoginController registerLoginController = new RegisterLoginController();
-    
+
     public String changeInfo(User currentUser, String field, String content) {
         if (content.length() == 0)
             return "This field is empty!";
         if (field.equals("username")) {
             if (!registerLoginController.isUsernameValid(content))
                 return "Invalid username format!";
-            else if (!registerLoginController.isUserNameUnique(content))
+            else if (!fileController.isUserNameUnique(content))
                 return "This username is already used!";
             currentUser.setUsername(content);
             return "Username changed successfully.";
@@ -25,7 +26,7 @@ public class ProfileController {
             currentUser.setNickname(content);
             return "Nickname changed successfully.";
         } else if (field.equals("email")) {
-            if (!registerLoginController.isEmailUnique(content))
+            if (!fileController.isEmailUnique(content))
                 return "This email is already used!";
             else if (!registerLoginController.isEmailValid(content))
                 return "Invalid email format!";
@@ -51,7 +52,7 @@ public class ProfileController {
     }
 
     public void setFinalPassword(User currentUser, String newPassword) throws NoSuchAlgorithmException {
-        registerLoginController.changePassword(currentUser.getUsername(),newPassword);
+        fileController.changePassword(currentUser.getUsername(),newPassword);
     }
     
     public String removeSlogan(User currentUser) {
@@ -80,7 +81,7 @@ public class ProfileController {
     }
     
     public int getRank(User currentUser) {
-        ArrayList<User> sortedUsers = new ArrayList<User>(registerLoginController.getAllUsers("Users.txt"));
+        ArrayList<User> sortedUsers = new ArrayList<User>(fileController.getAllUsers("Users.txt"));
         Comparator<User> highScoreComparator = Comparator
                 .comparing(User::getHighScore);
         Comparator<User> fieldComparator = highScoreComparator;

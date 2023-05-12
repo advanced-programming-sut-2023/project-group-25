@@ -1,17 +1,14 @@
 package Controller;
 
-import Model.Game;
-import Model.Kingdom;
-import Model.User;
+import Model.*;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class FileController {
-    private final RegisterLoginController registerLoginController = new RegisterLoginController();
 
-    public ArrayList<String> readFileContent(String path) {
+    public static ArrayList<String> readFileContent(String path) {
         ArrayList<String> content = new ArrayList<>();
         File Users = new File(path);
         try {
@@ -30,7 +27,7 @@ public class FileController {
     }
 
 
-    public void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
+    public static void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
         File Users = new File(path);
         try {
             FileWriter fileWriter = new FileWriter(Users, isAppend);
@@ -44,7 +41,7 @@ public class FileController {
         }
     }
 
-    public void initializeUsersFile() {
+    public static void initializeUsersFile() {
         File Users = new File("Users.txt");
         ArrayList<String> content = readFileContent("Users.txt");
         if(content.size() < 9) {
@@ -63,7 +60,7 @@ public class FileController {
         }
     }
 
-    public User getUserByUsername(String username) {
+    public static User getUserByUsername(String username) {
         User wantedUser;
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -87,7 +84,7 @@ public class FileController {
         return allUsers;
     }
 
-    public boolean isUserNameUnique(String username) {
+    public static boolean isUserNameUnique(String username) {
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
@@ -97,7 +94,7 @@ public class FileController {
         return true;
     }
 
-    public boolean isEmailUnique(String email) {
+    public static boolean isEmailUnique(String email) {
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 3).equals(email)) {
@@ -107,7 +104,7 @@ public class FileController {
         return true;
     }
 
-    public User getFirstStayLoggedIn() {
+    public static User getFirstStayLoggedIn() {
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 8).equals("true")) {
@@ -117,10 +114,10 @@ public class FileController {
         return null;
     }
 
-    public void addUserToFile(User user) throws NoSuchAlgorithmException {
+    public static void addUserToFile(User user) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
         content.add(user.getUsername());
-        content.add(registerLoginController.passwordToSHA(user.getPassword()));
+        content.add(RegisterLoginController.passwordToSHA(user.getPassword()));
         content.add(user.getNickname());
         content.add(user.getEmail());
         content.add(user.getSlogan());
@@ -132,22 +129,22 @@ public class FileController {
         writeToFileContent("Users.txt", content, true);
     }
 
-    public boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
+    public static boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
         User user = getUserByUsername(username);
-        password = registerLoginController.passwordToSHA(password);
+        password = RegisterLoginController.passwordToSHA(password);
         if (user.getPassword().equals(password))
             return true;
         return false;
     }
 
-    public boolean isAnswerCorrect(String username, String answer) {
+    public static boolean isAnswerCorrect(String username, String answer) {
         User user = getUserByUsername(username);
         if(user.getSecurityAnswer().equals(answer))
             return true;
         return false;
     }
 
-    public void addStayLoggedInForUser(String username, boolean isLoggedIn) {
+    public static void addStayLoggedInForUser(String username, boolean isLoggedIn) {
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
@@ -158,18 +155,18 @@ public class FileController {
         writeToFileContent("Users.txt", content, false);
     }
 
-    public void changePassword(String username, String password) throws NoSuchAlgorithmException {
+    public static void changePassword(String username, String password) throws NoSuchAlgorithmException {
         ArrayList<String> content =  readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 1);
-                content.add(((10 * i) + 1), registerLoginController.passwordToSHA(password));
+                content.add(((10 * i) + 1), RegisterLoginController.passwordToSHA(password));
             }
         }
         writeToFileContent("Users.txt", content, false);
     }
 
-    public void initializeGamesFile() {
+    public static void initializeGamesFile() {
         File Games = new File("Games.txt");
         ArrayList<String> content = readFileContent("Games.txt");
         if (content.size() < 4) {
@@ -182,7 +179,7 @@ public class FileController {
         }
     }
 
-    public void addGameToFile(Game game) {
+    public static void addGameToFile(Game game) {
         initializeGamesFile();
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(game.getGameId()));
@@ -196,7 +193,7 @@ public class FileController {
         writeToFileContent("Games.txt", content, true);
     }
 
-    public void initializeKingdomsFile() {
+    public static void initializeKingdomsFile() {
         File Kingdoms = new File("Kingdoms.txt");
         ArrayList<String> content = readFileContent("Kingdoms.txt");
         if (content.size() < 9) {
@@ -215,7 +212,7 @@ public class FileController {
         }
     }
 
-    public void addKingdomToFile(Kingdom kingdom) {
+    public static void addKingdomToFile(Kingdom kingdom) {
         initializeKingdomsFile();
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(kingdom.getGameId()));
@@ -229,5 +226,175 @@ public class FileController {
         content.add("null");
         content.add("_____________________________________________________");
         writeToFileContent("Kingdoms.txt", content, true);
+    }
+
+    public ShopBuildings getShopBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("ShopBuilding.txt");
+        for (int i = 0; i < (content.size() / 5); i++) {
+            if (content.get(5 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(5 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(5 * i), content.get(5 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(5 * i + 3)), Integer.parseInt(content.get(5 * i + 4)));
+                ShopBuildings shopBuilding = new ShopBuildings(tmp);
+                return shopBuilding;
+            }
+        }
+        return null;
+    }
+
+    public TrainingBuildings getTrainingBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("TrainingBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                //TODO: output military people not available in the file!
+                TrainingBuildings trainingBuilding = new TrainingBuildings(tmp, null, Integer.parseInt(content.get(6 * i + 5)));
+                return trainingBuilding;
+            }
+        }
+        return null;
+    }
+
+    public ProductionBuildings getProductionBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("ProductionBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                ProductionBuildings productionBuilding = new ProductionBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
+                return productionBuilding;
+            }
+        }
+        return null;
+    }
+
+    public StorageBuildings getStorageBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("StorageBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                StorageBuildings storageBuildings = new StorageBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
+                return storageBuildings;
+            }
+        }
+        return null;
+    }
+
+    public OtherBuildings getOtherBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("OtherBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                OtherBuildings otherBuilding = new OtherBuildings(tmp, Boolean.valueOf(content.get(6 * i + 5)));
+                return otherBuilding;
+            }
+        }
+        return null;
+    }
+
+    public FightingBuildings getFightingBuildingByType(String Type) {
+        ArrayList<String> content = readFileContent("FightingBuilding.txt");
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(7 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
+                FightingBuildings fightingBuilding = new FightingBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)), Integer.parseInt(content.get(7 * i + 6)));
+                return fightingBuilding;
+            }
+        }
+        return null;
+    }
+
+    public String getBuildingCategoryByType(String type) {
+        String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
+        String[] ProductionBuilding = new String[]{",ill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
+                "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "diary farmer", "hops farmer",
+                "hunter post", "wheat farmer", "bakery", "brewer"};
+        String[] StorageBuilding = new String[]{"armoury", "stockpile", "granary"};
+        String[] OtherBuilding = new String[]{"small stone gatehouse", "large stone gatehouse", "drawbridge", "inn",
+                "hovel", "church", "catheral", "caged war dogs"};
+        String[] FightingBuilding = new String[]{"lookout tower", "perimeter tower", "defence turret", "square tower",
+                "round tower"};
+        String[] ShopBuilding = new String[]{"market"};
+        for (String s : TrainingBuilding) {
+            if (s.equals(type))
+                return "TrainingBuilding";
+        }
+        for (String s : ProductionBuilding) {
+            if (s.equals(type))
+                return "ProductionBuilding";
+        }
+        for (String s : StorageBuilding) {
+            if (s.equals(type))
+                return "StorageBuilding";
+        }
+        for (String s : OtherBuilding) {
+            if (s.equals(type))
+                return "OtherBuilding";
+        }
+        for (String s : FightingBuilding) {
+            if (s.equals(type))
+                return "FightingBuilding";
+        }
+        for (String s : ShopBuilding) {
+            if (s.equals(type))
+                return "ShopBuilding";
+        }
+        return null;
+    }
+
+    public static MilitaryPerson getMilitaryPersonByType(String Type) {
+        ArrayList<String> content = readFileContent("MilitaryPerson.txt");
+        for (int i = 0; i < (content.size() / 5); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 4).split(",").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 4).split(",")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                return new MilitaryPerson(content.get(6 * i), neededProduct, Integer.parseInt(content.get(6 * i + 1)),
+                        Integer.parseInt(content.get(6 * i + 2)), Integer.parseInt(content.get(6 * i + 3)), content.get(6 * i + 4));
+            }
+        }
+        return null;
     }
 }

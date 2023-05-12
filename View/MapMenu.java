@@ -1,9 +1,6 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.GameController;
-import Controller.MapController;
-import Controller.RegisterLoginController;
+import Controller.*;
 import Model.Map;
 import Model.Turn;
 
@@ -49,7 +46,7 @@ public class MapMenu {
                     System.out.println("Your map is built successfully!");
                     gameController.getCurrentGame().setMap(map);
                     gameController.getCurrentGame().setMapTemplateNumber(chosenMapNumber - 1);
-                    gameController.addGameToFile(gameController.getCurrentGame());
+                    FileController.addGameToFile(gameController.getCurrentGame());
                     Turn.setTurnCounter(0);
                     gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
                     return "main menu";
