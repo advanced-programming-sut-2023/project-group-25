@@ -7,10 +7,10 @@ public class StorageBuildings extends Building {
     private int capacity;
     private String storageCategory;
 
-    public StorageBuildings(Building building, Cell location, User king, int capacity, String storageCategory) {
+    public StorageBuildings(Building building, int capacity) {
         super(building);
         this.capacity = capacity;
-        this.storageCategory = storageCategory;
+        //this.storageCategory = storageCategory;
     }
 
     public void addProduct(Product product) {

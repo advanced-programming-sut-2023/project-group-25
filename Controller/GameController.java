@@ -147,6 +147,63 @@ public class GameController {
         }
         return null;
     }
+
+    public StorageBuildings getStorageBuildingByType(String Type) {
+        ArrayList<String> content = mainController.readFileContent("StorageBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                StorageBuildings storageBuildings = new StorageBuildings(tmp, Integer.parseInt(content.get(6 * i + 5)));
+                return storageBuildings;
+            }
+        }
+        return null;
+    }
+
+    public OtherBuildings getOtherBuildingByType(String Type) {
+        ArrayList<String> content = mainController.readFileContent("OtherBuilding.txt");
+        for (int i = 0; i < (content.size() / 6); i++) {
+            if (content.get(6 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(6 * i), content.get(6 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(6 * i + 3)), Integer.parseInt(content.get(6 * i + 4)));
+                OtherBuildings otherBuilding = new OtherBuildings(tmp, Boolean.valueOf(content.get(6 * i + 5)));
+                return otherBuilding;
+            }
+        }
+        return null;
+    }
+
+    public FightingBuildings getFightingBuildingByType(String Type) {
+        ArrayList<String> content = mainController.readFileContent("FightingBuilding.txt");
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(7 * i).equals(Type)) {
+                ArrayList<Product> neededProduct = new ArrayList<>();
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-")[j]);
+                    if (product != null)
+                        neededProduct.add(product);
+                }
+                Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
+                        Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
+                FightingBuildings fightingBuilding = new FightingBuildings(tmp, Integer.parseInt(content.get(7 * i + 5)), Integer.parseInt(content.get(7 * i + 6)));
+                return fightingBuilding;
+            }
+        }
+        return null;
+    }
     
     public MilitaryPerson getMilitaryPersonByType(String Type) {
         ArrayList<String> content = mainController.readFileContent("MilitaryPerson.txt");

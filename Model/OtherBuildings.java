@@ -2,7 +2,7 @@ package Model;
 
 public class OtherBuildings extends Building {
     private boolean isWorking;
-    public OtherBuildings(Building building, Cell location, User king, boolean isWorking) {
+    public OtherBuildings(Building building, boolean isWorking) {
         super(building);
         this.isWorking = isWorking;
     }
