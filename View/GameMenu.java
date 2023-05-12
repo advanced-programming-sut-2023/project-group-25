@@ -54,6 +54,12 @@ public class GameMenu {
                     case "invalid location":
                         System.out.println("You have entered invalid location!");
                         break;
+                    case "block":
+                        System.out.println("The path is blocked!");
+                        break;
+                    case "out of range":
+                        System.out.println("This move is out of the range of the unit!");
+                        break;
                 }
             } else if ((matcher = getMatcher(input, Commands.PATROL)) != null) {
                 switch (gameController.patrol(matcher)) {

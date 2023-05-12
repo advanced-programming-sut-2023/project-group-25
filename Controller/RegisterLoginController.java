@@ -14,18 +14,34 @@ import java.util.regex.Matcher;
 public class RegisterLoginController {
     private static User currentUser;
     private static User registeringUser;
-
     public static User getCurrentUser() {
         return currentUser;
     }
 
+
+    public static void setCurrentUser(User currentUser) {
+        RegisterLoginController.currentUser = currentUser;
+    }
+    
+    public static String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
+        for (int i = 0; i < numberOfOptions; i++) {
+            if (matcher.group(("option" + (i + 1))).equals(option))
+                return matcher.group(("input" + (i + 1)));
+        }
+        return null;
+    }
+
+    
+    //Check Validation Functions:
     public boolean isUsernameValid(String username) {
         if (username.matches("^[a-zA-Z0-9_]+$"))
             return true;
         else
             return false;
     }
-
+    
+    //Generate randoms(Password, Slogan, CAPTCHA):
+    
     public String isPasswordWeak(String password) {
         if (password.length() < 6)
             return "The password is too short!";
@@ -40,16 +56,14 @@ public class RegisterLoginController {
         else
             return "success";
     }
-
+    
     public boolean isEmailValid(String email) {
         if (email.matches("^(?<firstGroup>\\S+)@(?<secondGroup>\\S+)\\.(?<thirdGroup>\\S+)$"))
             return true;
         else
             return false;
     }
-
-    //Generate randoms(Password, Slogan, CAPTCHA):
-
+    
     public String generateRandomPassword() {
         char[] specialCharacters = {'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-',
                 '_', '=', '+', '[', '{', ']', '}', '\\', '|', ';', ':', '\'', '"', ',', '<', '.', '>', '/', '?'};
@@ -65,7 +79,7 @@ public class RegisterLoginController {
             password += specialCharacters[random.nextInt(32)];
         return password;
     }
-
+    
     public String generateRandomSlogan() {
         String[] preparedSlogans = {"Through adversity comes strength!", "Don’t be afraid to fail!", "Compete with yourself!",
                 "Play for fun, not stakes beyond your control!", "Keep calm and check mate the king!", "It’s your world!",
@@ -75,7 +89,7 @@ public class RegisterLoginController {
         Random random = new Random();
         return preparedSlogans[random.nextInt(16)];
     }
-
+    
     public String generateCaptchaString() {
         Random random = new Random();
         int captchaLength = 4 + random.nextInt(5);
@@ -86,8 +100,7 @@ public class RegisterLoginController {
         }
         return captchaBuilder.toString();
     }
-
-
+    
     public void asciiArt(String captcha) {
         String[] line = new String[8];
         for (int i = 1; i < 8; i++) {
@@ -121,13 +134,13 @@ public class RegisterLoginController {
                     break;
                 }
                 case 1: {
-                    line[1] += "*    ";
-                    line[2] += "*    ";
-                    line[3] += "*    ";
-                    line[4] += "*    ";
-                    line[5] += "*    ";
-                    line[6] += "*    ";
-                    line[7] += "*    ";
+                    line[1] += "*     ";
+                    line[2] += "*     ";
+                    line[3] += "*     ";
+                    line[4] += "*     ";
+                    line[5] += "*     ";
+                    line[6] += "*     ";
+                    line[7] += "*     ";
                     break;
                 }
                 case 2: {
@@ -216,17 +229,63 @@ public class RegisterLoginController {
             System.out.println(line[i]);
         }
     }
-
-    //Option Functions:
     
-    public static String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
-        for (int i = 0; i < numberOfOptions; i++) {
-            if (matcher.group(("option" + (i + 1))).equals(option))
-                return matcher.group(("input" + (i + 1)));
-        }
-        return null;
+    /*private void fillCaptchaLine1(int number, String[] lines) {
+        if (number == 0) lines[1] += "*    ";
+        else if (number == 1) lines[1] += " *****      ";
+        else if (number == 4) lines[1] += "*     *     ";
+        else lines[1] += "*******     ";
     }
 
+    private void fillCaptchaLine2(int number, String[] lines) {
+        if (number == 1) lines[2] += "*     ";
+        else if (number == 2 || number == 3) lines[2] += "      *     ";
+        else if (number == 5 || number == 6) lines[2] += "*           ";
+        else lines[2] += "*     *     ";
+    }
+
+    private void fillCaptchaLine3(int number, String[] lines) {
+        if (number == 0) lines[3] += "*     *     ";
+        else if (number == 1) lines[3] += "*     ";
+        else if (number == 2 || number == 3) lines[3] += "      *     ";
+        else if (number == 4) lines[3] += "*******     ";
+        else if (number == 5 || number == 6) lines[3] += "*           ";
+        else lines[3] += "*     *     ";
+    }
+
+    private void fillCaptchaLine4(int number, String[] lines) {
+        if (number == 0) lines[4] += "*     *     ";
+        else if (number == 1) lines[4] += "*     ";
+        else if (number == 3) lines[4] += " ******     ";
+        else if (number == 4 || number == 5 || number == 7) lines[4] += "      *     ";
+        else lines[3] += "*******     ";
+    }
+
+    private void fillCaptchaLine5(int number, String[] lines) {
+        if (number == 0 || number == 6 || number == 8) lines[5] += "*     *     ";
+        else if (number == 1) lines[5] += "*     ";
+        else if (number == 2) lines[5] += "*           ";
+        else lines[5] += "      *     ";
+    }
+
+    private void fillCaptchaLine6(int number, String[] lines) {
+        if (number == 0 || number == 6 || number == 8) lines[6] += "*     *     ";
+        else if (number == 1) lines[6] += "*     ";
+        else if (number == 2) lines[6] += "*           ";
+        else lines[6] += "      *     ";
+    }
+
+    private void fillCaptchaLine7(int number, String[] lines) {
+        if      (number == 0) lines[7] += " *****      ";
+        else if (number == 1) lines[7] += "*     ";
+        else if (number == 4 || number == 7) lines[7] += "      *     ";
+        else lines[7] += "*******     ";
+    }
+    */
+    
+    //Option Functions:
+    
+    
     public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
         ArrayList<String> matcherExistingOptions = new ArrayList<>();
         for (int i = 0; i < allOptions.size(); i++) {
@@ -239,7 +298,7 @@ public class RegisterLoginController {
         else
             return false;
     }
-
+    
     public void getRegisterOptions(Matcher matcher, boolean hasSlogan) {
         String password, passwordConfirm, slogan;
         boolean isPasswordRandom = false, isSloganRandom = false;
@@ -273,7 +332,7 @@ public class RegisterLoginController {
         registeringUser.setPasswordRandom(isPasswordRandom);
         registeringUser.setSloganRandom(isSloganRandom);
     }
-
+    
     //Main Functions:
     public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
         String resultMessage;
@@ -304,7 +363,7 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-
+    
     public String login(Matcher matcher, ArrayList<String> allOptions, boolean hasLoggedIn) throws NoSuchAlgorithmException {
         String resultMessage;
         if (!checkAllOptionsExist(matcher, allOptions))
@@ -327,7 +386,7 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-
+    
     public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
         String resultMessage;
         ArrayList<String> questions = showSecurityQuestions();
@@ -356,7 +415,8 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-
+    //Other Functions:
+    
     public String forgotPasswordShowQuestion(Matcher matcher) {
         User user = FileController.getUserByUsername(matcher.group("username"));
         if(user == null)
@@ -365,8 +425,7 @@ public class RegisterLoginController {
             return user.getSecurityQuestion();
         }
     }
-    //Other Functions:
-
+    
     public boolean isNumber(String num) {
         try {
             Integer.parseInt(num);
@@ -384,7 +443,7 @@ public class RegisterLoginController {
         String encryptedPassword = String.format("%0" + (bytes.length << 1) + "x", bi);
         return encryptedPassword;
     }
-
+    
     public ArrayList<String> showSecurityQuestions() {
         ArrayList<String> questions = new ArrayList<>();
         questions.add("1- What city were you born in?");
@@ -394,7 +453,7 @@ public class RegisterLoginController {
         questions.add("5- What was your first pet’s name?");
         return questions;
     }
-
+    
     public String showCurrentMenuName(String menuName) {
         int nameLength = menuName.toCharArray().length;
         String result = "";
@@ -404,9 +463,5 @@ public class RegisterLoginController {
         for (int i = 0; i < nameLength + 6; i++)
             result += "-";
         return result;
-    }
-
-    public static void setCurrentUser(User currentUser) {
-        RegisterLoginController.currentUser = currentUser;
     }
 }

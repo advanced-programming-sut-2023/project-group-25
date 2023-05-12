@@ -1,7 +1,11 @@
+package Controller;
+
 import Model.Cell;
 import Model.Map;
 
 import java.util.*;
+
+import static java.util.List.of;
 
 public class PathFinder {
     public static List<Cell> findPath(Cell start, Cell target, Map gameMap) {
