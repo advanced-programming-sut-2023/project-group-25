@@ -44,7 +44,7 @@ public class FileController {
     public static void initializeUsersFile() {
         File Users = new File("Users.txt");
         ArrayList<String> content = readFileContent("Users.txt");
-        if(content.size() < 9) {
+        if (content.size() < 9) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--USERNAME--");
             initial.add("--PASSWORD--");
@@ -56,13 +56,13 @@ public class FileController {
             initial.add("--SECURITY ANSWER--");
             initial.add("--STAY LOGGED IN? (boolean)--");
             initial.add("_____________________________________________________");
-            writeToFileContent("Users.txt",initial,false);
+            writeToFileContent("Users.txt", initial, false);
         }
     }
 
     public static User getUserByUsername(String username) {
         User wantedUser;
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
@@ -75,17 +75,17 @@ public class FileController {
         return null;
     }
 
-    public ArrayList<User> getAllUsers(String path){
+    public ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
-            allUsers.add(getUserByUsername(content.get(10*i)));
+            allUsers.add(getUserByUsername(content.get(10 * i)));
         }
         return allUsers;
     }
 
     public static boolean isUserNameUnique(String username) {
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 return false;
@@ -95,7 +95,7 @@ public class FileController {
     }
 
     public static boolean isEmailUnique(String email) {
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 3).equals(email)) {
                 return false;
@@ -105,7 +105,7 @@ public class FileController {
     }
 
     public static User getFirstStayLoggedIn() {
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 8).equals("true")) {
                 return getUserByUsername(content.get(10 * i));
@@ -139,13 +139,13 @@ public class FileController {
 
     public static boolean isAnswerCorrect(String username, String answer) {
         User user = getUserByUsername(username);
-        if(user.getSecurityAnswer().equals(answer))
+        if (user.getSecurityAnswer().equals(answer))
             return true;
         return false;
     }
 
     public static void addStayLoggedInForUser(String username, boolean isLoggedIn) {
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 8);
@@ -156,7 +156,7 @@ public class FileController {
     }
 
     public static void changePassword(String username, String password) throws NoSuchAlgorithmException {
-        ArrayList<String> content =  readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 1);
@@ -233,8 +233,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 5); i++) {
             if (content.get(5 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(5 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(5 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(5 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(5 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -252,8 +253,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -272,8 +274,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -291,8 +294,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -310,8 +314,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -329,8 +334,9 @@ public class FileController {
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-")[j]);
+                for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
+                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }

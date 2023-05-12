@@ -54,4 +54,8 @@ public class Product {
         }
         return null;
     }
+
+    public void increaseCount(int amount) {
+        this.count += amount;
+    }
 }

@@ -12,7 +12,6 @@ public class FightingBuildings extends Building{
         super(building);
         this.fireRange = fireRange;
         this.defendRange = defendRange;
-        this.maxHitPoint = building.getHitPoint();
     }
     public int calculateRepairCost(){
         return (1 - (this.getHitPoint() / this.getMaxHitPoint() * this.calculateBuildingCost()));
