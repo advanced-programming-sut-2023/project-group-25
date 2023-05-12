@@ -5,6 +5,7 @@ import View.Commands;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -491,7 +492,7 @@ public class GameController {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "invalid location";
-        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
+        for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 selectedUnit = (MilitaryPerson) person;
                 return "success";
@@ -501,14 +502,17 @@ public class GameController {
     }
     
     public String moveUnit(Matcher matcher) {
-        //TODO: specify materials where units can't go; in their way or in the destination
-        //TODO: specify how long can the unit go
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "invalid location";
         if (selectedUnit == null) return "no selected unit";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        removeAndAddInMoving(selectedUnit, x, y);
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(),currentGame.getMap().getCellByLocation(x,y),currentGame.getMap());
+        if (pathCells.size() == 1) return "block";
+        if (pathCells.size() > selectedUnit.getMovingRange()) return "out of range";
+        for (Cell cell : pathCells) {
+            removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
+        }
         return "success";
     }
     
@@ -789,9 +793,11 @@ public class GameController {
         return "success";
     }
     
-    private void removeAndAddInMoving(MilitaryPerson patrollingUnit, int x, int y) {
-        patrollingUnit.getLocation().removePerson(patrollingUnit);
-        currentGame.getMap().getCells()[x - 1][y - 1].addPerson(patrollingUnit);
+    private void removeAndAddInMoving(MilitaryPerson unit, int x, int y) {
+        patrollingUnit.getLocation().removePerson(unit);
+        Cell destination = currentGame.getMap().getCells()[x][y];
+        destination.addPerson(unit);
+        unit.setLocation(destination);
     }
 
 //    public String repair() {

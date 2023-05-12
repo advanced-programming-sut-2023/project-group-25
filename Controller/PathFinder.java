@@ -74,7 +74,7 @@ public class PathFinder {
             }
         } while (!open.isEmpty());
         //target is unreachable
-        return of(start);
+        return List.of(start);
     }
 
     private static List<Cell> extractPath(Node current) {
