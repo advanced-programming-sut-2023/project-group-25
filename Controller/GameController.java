@@ -328,11 +328,13 @@ public class GameController {
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
-        for (Person kingPerson : Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople()) {
-            if (kingPerson.getType().equals(type)) {
-                cell.addPerson(kingPerson);
-                kingPerson.setLocation(cell);
-                //TODO: king's unused people must be stored differently from others.
+        ArrayList<Person> unusedUnits = Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingUnusedUnits();
+        ArrayList<Person> unusedUnitsCopy = new ArrayList<>(unusedUnits);
+        for (Person unit : unusedUnitsCopy) {
+            if (unit.getType().equals(type)) {
+                cell.addPerson(unit);
+                unit.setLocation(cell);
+                unusedUnits.remove(unit);
                 count--;
                 if (count == 0) break;
             }
@@ -826,7 +828,7 @@ public class GameController {
 //        selectedBuilding = null;
 //        return "You have repaired " + selectedBuilding.getType();
 //    }
-
+    
     public void nextTurn() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
         currentGame.turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());
