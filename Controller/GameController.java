@@ -18,7 +18,6 @@ import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
-    private FileController fileController;
     private MilitaryPerson selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
@@ -160,10 +159,11 @@ public class GameController {
 
     public String dropBuilding(int x, int y, Cell cell, String type) {
         Building savedBuilding = null;
-        String category=fileController.getBuildingCategoryByType(type);
+        String category = FileController.getBuildingCategoryByType(type);
         savedBuilding = getBuilding(type, savedBuilding, category);
         Building building = new Building(savedBuilding);
-        if (isLocationValid(x, y))
+
+        if (!isLocationValid(x, y))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
             return "Invalid ground type for " + type;
@@ -174,29 +174,33 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
+        for (Product neededProduct : building.getBuildingNeededProducts()) {
+            for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+                if (neededProduct.getName().equals(product.getName())) {
+                    if (neededProduct.getCount() >= product.getCount()) {
+                        product.setCount(product.getCount() - neededProduct.getCount());
+                    } else return "You don't have enough products to drop " + type;
+                }
+            }
+        }
         cell.setBuilding(building);
         building.setKing(currentGame.turn.getCurrentKing());
         return type + " added successfully";
     }
 
     private Building getBuilding(String type, Building savedBuilding, String category) {
-        if(category.equals("TrainingBuildings")){
-            savedBuilding =fileController.getTrainingBuildingByType(type);
-        }
-         else if(category.equals("ProductionBuildings")){
-            savedBuilding =fileController.getProductionBuildingByType(type);
-        }
-        else if(category.equals("StorageBuildings")){
-            savedBuilding =fileController.getStorageBuildingByType(type);
-        }
-        else if(category.equals("OtherBuildings")){
-            savedBuilding =fileController.getOtherBuildingByType(type);
-        }
-        else if(category.equals("FightingBuildings")){
-            savedBuilding =fileController.getFightingBuildingByType(type);
-        }
-        else if(category.equals("ShopBuildings")){
-            savedBuilding =fileController.getShopBuildingByType(type);
+        if (category.equals("TrainingBuildings")) {
+            savedBuilding = FileController.getTrainingBuildingByType(type);
+        } else if (category.equals("ProductionBuildings")) {
+            savedBuilding = FileController.getProductionBuildingByType(type);
+        } else if (category.equals("StorageBuildings")) {
+            savedBuilding = FileController.getStorageBuildingByType(type);
+        } else if (category.equals("OtherBuildings")) {
+            savedBuilding = FileController.getOtherBuildingByType(type);
+        } else if (category.equals("FightingBuildings")) {
+            savedBuilding = FileController.getFightingBuildingByType(type);
+        } else if (category.equals("ShopBuildings")) {
+            savedBuilding = FileController.getShopBuildingByType(type);
         }
         return savedBuilding;
     }
@@ -692,7 +696,7 @@ public class GameController {
 
     public String repair() {
         Building savedBuilding = null;
-        String category=fileController.getBuildingCategoryByType(selectedBuilding.getType());
+        String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
         savedBuilding = getBuilding(selectedBuilding.getType(), savedBuilding, category);
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         if (selectedBuilding == null)
@@ -700,7 +704,7 @@ public class GameController {
         if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
             for (Product product : kingdom.getKingProducts()) {
                 if (product.getName().equals("stone")) {
-                    for (Product buildingCost : selectedBuilding.getBuildingCosts())
+                    for (Product buildingCost : selectedBuilding.getBuildingNeededProducts())
                         if (buildingCost.getName().equals("stone")) {
                             if (product.getCount() != buildingCost.getCount())
                                 return "You don't have enough stone!";
