@@ -6,7 +6,7 @@ public class Building {
     private static final ArrayList<Building> allBuildings = new ArrayList<>();
     private String type;
     private String category;
-    private ArrayList<Product> buildingCosts;
+    private ArrayList<Product> neededProducts;
     private int workerCounter;
     private int hitPoint;
     private Cell location;
@@ -14,14 +14,14 @@ public class Building {
     public Building(String type, String category, ArrayList<Product> buildingCosts,int workerCounter, int hitPoint) {
         this.type = type;
         this.category = category;
-        this.buildingCosts = buildingCosts;
+        this.neededProducts = buildingCosts;
         this.workerCounter = workerCounter;
         this.hitPoint = hitPoint;
     }
     public Building(Building building) {
         this.type = building.type;
         this.category = building.category;
-        this.buildingCosts = building.buildingCosts;
+        this.neededProducts = building.neededProducts;
         this.workerCounter = building.workerCounter;
         this.hitPoint = building.hitPoint;
         this.location = location;
@@ -36,8 +36,8 @@ public class Building {
     }
     public int calculateBuildingCost() {
         int price = 0;
-        for(int i = 0; i<this.buildingCosts.size(); i++) {
-            price += this.buildingCosts.get(i).getPrice();
+        for(int i = 0; i<this.neededProducts.size(); i++) {
+            price += this.neededProducts.get(i).getPrice();
         }
         return price;
     }
@@ -51,7 +51,7 @@ public class Building {
     }
 
     public ArrayList<Product> getBuildingCosts() {
-        return buildingCosts;
+        return neededProducts;
     }
 
     public int getWorkerCounter() {

@@ -4,6 +4,8 @@ import Model.*;
 import View.Commands;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import static Controller.RegisterLoginController.getOptionsFromMatcher;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
+    private FileController fileController;
     private MilitaryPerson selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
@@ -156,9 +159,10 @@ public class GameController {
 
 
     public String dropBuilding(int x, int y, Cell cell, String type) {
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
-        //Building building = new Building(savedBuilding, cell, currentKingdom);
-        //TODO:read saved building info from file by Type of the building
+        Building savedBuilding = null;
+        String category=fileController.getBuildingCategoryByType(type);
+        savedBuilding = getBuilding(type, savedBuilding, category);
+        Building building = new Building(savedBuilding);
         if (isLocationValid(x, y))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
@@ -170,8 +174,31 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
-        //cell.setBuilding(building);
+        cell.setBuilding(building);
+        building.setKing(currentGame.turn.getCurrentKing());
         return type + " added successfully";
+    }
+
+    private Building getBuilding(String type, Building savedBuilding, String category) {
+        if(category.equals("TrainingBuildings")){
+            savedBuilding =fileController.getTrainingBuildingByType(type);
+        }
+         else if(category.equals("ProductionBuildings")){
+            savedBuilding =fileController.getProductionBuildingByType(type);
+        }
+        else if(category.equals("StorageBuildings")){
+            savedBuilding =fileController.getStorageBuildingByType(type);
+        }
+        else if(category.equals("OtherBuildings")){
+            savedBuilding =fileController.getOtherBuildingByType(type);
+        }
+        else if(category.equals("FightingBuildings")){
+            savedBuilding =fileController.getFightingBuildingByType(type);
+        }
+        else if(category.equals("ShopBuildings")){
+            savedBuilding =fileController.getShopBuildingByType(type);
+        }
+        return savedBuilding;
     }
 
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
@@ -370,7 +397,7 @@ public class GameController {
         if (!isLocationValid(x, y)) return "invalid location";
         if (selectedUnit == null) return "no selected unit";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(),currentGame.getMap().getCellByLocation(x,y),currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCellByLocation(x, y), currentGame.getMap());
         if (pathCells.size() == 1) return "block";
         if (pathCells.size() > selectedUnit.getMovingRange()) return "out of range";
         for (Cell cell : pathCells) {
@@ -663,41 +690,43 @@ public class GameController {
         unit.setLocation(destination);
     }
 
-//    public String repair() {
-//        Building savedBuilding; //read from file
-//        Kingdom kingdom = getKingdomByKing(turn.getCurrentKing());
-//        if (selectedBuilding == null)
-//            return "You haven't selected a building yet";
-//        if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
-//            for (Product product : kingdom.getKingProducts()) {
-//                if (product.getName().equals("stone")) {
-//                    for (Product buildingCost : selectedBuilding.getBuildingCosts())
-//                        if (buildingCost.getName().equals("stone")) {
-//                            if (product.getCount() != buildingCost.getCount())
-//                                return "You don't have enough stone!";
-//                        }
-//                } else {
-//                    Cell selectedBuildingLocation = selectedBuilding.getLocation();
-//                    int x = selectedBuildingLocation.getX();
-//                    int y = selectedBuildingLocation.getY();
-//                    for (int i = x - 1; i < x + 1; i++) {
-//                        for (int j = y - 1; j < y + 1; j++) {
-//                            for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
-//                                if (!person.getKing().equals(turn.getCurrentKing()))
-//                                    return "You can't repair a building while being under attack";
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        } else if (selectedBuilding.getHitPoint() == savedBuilding.getHitPoint()) {
-//            return selectedBuilding.getType() + " doesn't need to be repaired";
-//        }
-//        selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
-//        selectedBuilding = null;
-//        return "You have repaired " + selectedBuilding.getType();
-//    }
-    
+    public String repair() {
+        Building savedBuilding = null;
+        String category=fileController.getBuildingCategoryByType(selectedBuilding.getType());
+        savedBuilding = getBuilding(selectedBuilding.getType(), savedBuilding, category);
+        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        if (selectedBuilding == null)
+            return "You haven't selected a building yet";
+        if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
+            for (Product product : kingdom.getKingProducts()) {
+                if (product.getName().equals("stone")) {
+                    for (Product buildingCost : selectedBuilding.getBuildingCosts())
+                        if (buildingCost.getName().equals("stone")) {
+                            if (product.getCount() != buildingCost.getCount())
+                                return "You don't have enough stone!";
+                        }
+                } else {
+                    Cell selectedBuildingLocation = selectedBuilding.getLocation();
+                    int x = selectedBuildingLocation.getX();
+                    int y = selectedBuildingLocation.getY();
+                    for (int i = x - 1; i < x + 1; i++) {
+                        for (int j = y - 1; j < y + 1; j++) {
+                            for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
+                                if (!person.getKing().equals(currentGame.turn.getCurrentKing()))
+                                    return "You can't repair a building while being under attack";
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (selectedBuilding.getHitPoint() == savedBuilding.getHitPoint()) {
+            return selectedBuilding.getType() + " doesn't need to be repaired";
+        }
+        selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
+        selectedBuilding = null;
+        return "You have repaired " + selectedBuilding.getType();
+    }
+
     public void nextTurn() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
         currentGame.turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());

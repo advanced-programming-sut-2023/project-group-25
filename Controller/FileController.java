@@ -356,27 +356,27 @@ public class FileController {
         String[] ShopBuilding = new String[]{"market"};
         for (String s : TrainingBuilding) {
             if (s.equals(type))
-                return "TrainingBuilding";
+                return "TrainingBuildings";
         }
         for (String s : ProductionBuilding) {
             if (s.equals(type))
-                return "ProductionBuilding";
+                return "ProductionBuildings";
         }
         for (String s : StorageBuilding) {
             if (s.equals(type))
-                return "StorageBuilding";
+                return "StorageBuildings";
         }
         for (String s : OtherBuilding) {
             if (s.equals(type))
-                return "OtherBuilding";
+                return "OtherBuildings";
         }
         for (String s : FightingBuilding) {
             if (s.equals(type))
-                return "FightingBuilding";
+                return "FightingBuildings";
         }
         for (String s : ShopBuilding) {
             if (s.equals(type))
-                return "ShopBuilding";
+                return "ShopBuildings";
         }
         return null;
     }

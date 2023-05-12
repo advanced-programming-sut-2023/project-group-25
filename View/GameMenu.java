@@ -183,7 +183,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectBuilding(matcher));
             } else if ((matcher = getMatcher(input, Commands.REPAIR)) != null) {
-//                System.out.println(gameController.repair());
+                System.out.println(gameController.repair());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
                 System.out.print(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
