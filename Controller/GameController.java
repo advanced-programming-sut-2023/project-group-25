@@ -13,8 +13,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Controller.RegisterLoginController.getCurrentUser;
-import static Controller.RegisterLoginController.getOptionsFromMatcher;
+import static Controller.RegisterLoginController.*;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
@@ -30,18 +29,24 @@ public class GameController {
 
     public String newGame(String line) {
         String resultMessage = "";
-        String[] usernames = line.split("-");
-        for (int i = 0; i < usernames.length; i++) {
-            if (FileController.getUserByUsername(usernames[i]) == null)
-                resultMessage = ("New game creation failed! Username [" + usernames[i] + "] does not exist!");
+        String[] lineUsernames = line.split("-");
+        ArrayList<String> usernames = new ArrayList<>();
+        for(String s: lineUsernames)
+            usernames.add(s);
+        usernames.add(RegisterLoginController.getCurrentUser().getUsername());
+        for (int i = 0; i < usernames.size(); i++) {
+            if (FileController.getUserByUsername(usernames.get(i)) == null)
+                resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; ; please try again!");
         }
-        if (resultMessage.equals("")) {
+        if(hasRepeatedUsername(usernames))
+            resultMessage = "You have repeated usernames in the list; please try again!";
+        else if (resultMessage.equals("")) {
             File Games = new File("Games.txt");
             ArrayList<String> content = FileController.readFileContent("Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            for (int i = 0; i < usernames.length; i++) {
-                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames[i]), gameId);
+            for (int i = 0; i < usernames.size(); i++) {
+                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
                 FileController.addKingdomToFile(newKingdom);
                 kingdoms.add(newKingdom);
             }
@@ -51,6 +56,16 @@ public class GameController {
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
+    }
+
+    public boolean hasRepeatedUsername(ArrayList<String> usernames) {
+        for(String s1 : usernames) {
+            for(String s2 : usernames) {
+                if(s2.equals(s1))
+                    return true;
+            }
+        }
+        return false;
     }
 
     public Game getCurrentGame() {

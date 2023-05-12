@@ -41,12 +41,14 @@ public class MainMenu {
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
                 return "trade menu";
             } else if(((matcher = Commands.getMatcher(input,Commands.NEW_GAME))) != null) {
-                System.out.println("Please enter the players' usernames separated with [-]:");
-                input = scanner.nextLine();
-                String resultMessage = gameController.newGame(input);
-                System.out.println(resultMessage);
-                if(Pattern.compile("^New game created successfully!").matcher(resultMessage).find())
-                    return "map menu";
+                System.out.println("Please enter the players' usernames separated with [-]: (except yourself)");
+                while (true) {
+                    input = scanner.nextLine();
+                    String resultMessage = gameController.newGame(input);
+                    System.out.println(resultMessage);
+                    if (Pattern.compile("^New game created successfully!").matcher(resultMessage).find())
+                        return "map menu";
+                }
             }
              else {
                 System.out.println("Invalid command!");
