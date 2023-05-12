@@ -50,7 +50,7 @@ public class Building {
         return category;
     }
 
-    public ArrayList<Product> getBuildingCosts() {
+    public ArrayList<Product> getBuildingNeededProducts() {
         return neededProducts;
     }
 
