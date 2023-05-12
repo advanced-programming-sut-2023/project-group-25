@@ -75,15 +75,6 @@ public class FileController {
         return null;
     }
 
-    public ArrayList<User> getAllUsers(String path) {
-        ArrayList<User> allUsers = new ArrayList<>();
-        ArrayList<String> content = readFileContent("Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            allUsers.add(getUserByUsername(content.get(10 * i)));
-        }
-        return allUsers;
-    }
-
     public static boolean isUserNameUnique(String username) {
         ArrayList<String> content = readFileContent("Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -234,8 +225,9 @@ public class FileController {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(6 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(6 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(6 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -251,11 +243,12 @@ public class FileController {
     public static TrainingBuildings getTrainingBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("TrainingBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
-            if (content.get(6 * i).equals(Type)) {
+            if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j + 1]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -275,8 +268,9 @@ public class FileController {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j + 1]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -292,11 +286,12 @@ public class FileController {
     public static StorageBuildings getStorageBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("StorageBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
-            if (content.get(6 * i).equals(Type)) {
+            if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -315,8 +310,9 @@ public class FileController {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -335,8 +331,9 @@ public class FileController {
             if (content.get(8 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(8 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(8 * i + 2).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(8 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                    Product product = getProductByName(content.get(8 * i + 2).split(":\\d-?")[j]);
+                    if (j < content.get(8 * i + 2).split(":\\d-?").length - 1)
+                        product.increaseCount(Integer.parseInt(content.get(8 * i + 2).split("-?[a-zA-Z]+:")[j + 1]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -351,12 +348,12 @@ public class FileController {
 
     public static String getBuildingCategoryByType(String type) {
         String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
-        String[] ProductionBuilding = new String[]{",ill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
+        String[] ProductionBuilding = new String[]{"mill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
                 "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "diary farmer", "hops farmer",
                 "hunter post", "wheat farmer", "bakery", "brewer"};
         String[] StorageBuilding = new String[]{"armoury", "stockpile", "granary"};
         String[] OtherBuilding = new String[]{"small stone gatehouse", "large stone gatehouse", "drawbridge", "inn",
-                "hovel", "church", "catheral", "caged war dogs"};
+                "hovel", "church", "catheral", "caged war dogs","siege tent","short wall","high wall","stairs",};
         String[] FightingBuilding = new String[]{"lookout tower", "perimeter tower", "defence turret", "square tower",
                 "round tower"};
         String[] ShopBuilding = new String[]{"market"};
@@ -393,7 +390,7 @@ public class FileController {
             if (content.get(6 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(6 * i + 4).split(",").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 4).split(",")[j]);
+                    Product product = getProductByName(content.get(6 * i + 4).split(",")[j]);
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -410,16 +407,26 @@ public class FileController {
             if (content.get(6 * i).equals(name)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(6 * i + 4).split(":\\d-?").length; j++) {
-                    Product product = Product.getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
-                    product.increaseCount(Integer.parseInt(content.get(6 * i + 4).split("-?[a-zA-Z]+:")[j]));
-                    if (product != null)
+                    Product product = getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
+                    if (product != null) {
+                        product.increaseCount(Integer.parseInt(content.get(6 * i + 4).split("-?[a-zA-Z]+:")[j]));
                         neededProduct.add(product);
+                    }
                 }
-                Product product = new Product(content.get(6 * i),Integer.parseInt(content.get(6 * i + 1)),
+                Product product = new Product(content.get(6 * i), Integer.parseInt(content.get(6 * i + 1)),
                         Integer.parseInt(content.get(6 * i + 2)), content.get(6 * i + 3), neededProduct);
                 return product;
             }
         }
         return null;
+    }
+
+    public ArrayList<User> getAllUsers(String path) {
+        ArrayList<User> allUsers = new ArrayList<>();
+        ArrayList<String> content = readFileContent("Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            allUsers.add(getUserByUsername(content.get(10 * i)));
+        }
+        return allUsers;
     }
 }
