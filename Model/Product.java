@@ -58,4 +58,8 @@ public class Product {
     public void increaseCount(int amount) {
         this.count += amount;
     }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 }
