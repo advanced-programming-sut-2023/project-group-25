@@ -43,8 +43,8 @@ public class GameController {
         if(hasRepeatedUsername(usernames) && resultMessage == "")
             resultMessage = "You have repeated usernames in the list; please try again!";
         else if (resultMessage.equals("")) {
-            File Games = new File("Games.txt");
-            ArrayList<String> content = FileController.readFileContent("Games.txt");
+            File Games = new File("src/main/java/Database/Games.txt");
+            ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
             for (int i = 0; i < usernames.size(); i++) {
