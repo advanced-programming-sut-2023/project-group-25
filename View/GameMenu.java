@@ -92,7 +92,13 @@ public class GameMenu {
             } else if((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
                 tradeMenu.run(scanner);
                 System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
-            } else System.out.println("invalid command!");
+            } else if ((matcher = getMatcher(input, Commands.FETCH_OIL)) != null) {
+                System.out.println(gameController.fetchOil());
+            }
+            else if ((matcher = getMatcher(input, Commands.BURN_OIL)) != null) {
+                System.out.println(gameController.burnOil(matcher));
+            }
+            else System.out.println("invalid command!");
         }
     }
 }

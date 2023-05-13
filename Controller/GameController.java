@@ -15,6 +15,7 @@ import static Controller.RegisterLoginController.*;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
+    public ArrayList<NaturalBlock> tree = new ArrayList<>();
     private Person selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
@@ -24,24 +25,19 @@ public class GameController {
     private int shownMapX;
     private int shownMapY;
     private Building selectedBuilding;
-
     
-    
-    public ArrayList<NaturalBlock> tree=new ArrayList<>();
-
-
     public String newGame(String line) {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
         ArrayList<String> usernames = new ArrayList<>();
-        for(String s: lineUsernames)
+        for (String s : lineUsernames)
             usernames.add(s);
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
         for (int i = 0; i < usernames.size(); i++) {
             if (FileController.getUserByUsername(usernames.get(i)) == null)
                 resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; please try again!");
         }
-        if(hasRepeatedUsername(usernames) && resultMessage == "")
+        if (hasRepeatedUsername(usernames) && resultMessage == "")
             resultMessage = "You have repeated usernames in the list; please try again!";
         else if (resultMessage.equals("")) {
             File Games = new File("src/main/java/Database/Games.txt");
@@ -60,19 +56,19 @@ public class GameController {
         }
         return resultMessage;
     }
-
-
+    
+    
     public boolean hasRepeatedUsername(ArrayList<String> usernames) {
-        for(int i = 0; i<usernames.size(); i++) {
-            for(int j = i+1; j<usernames.size(); j++) {
-                if(usernames.get(i).equals(usernames.get(j)))
+        for (int i = 0; i < usernames.size(); i++) {
+            for (int j = i + 1; j < usernames.size(); j++) {
+                if (usernames.get(i).equals(usernames.get(j)))
                     return true;
             }
         }
         return false;
     }
-
-
+    
+    
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -131,21 +127,21 @@ public class GameController {
 //        currentGame.getMap().getCells()[x][y].getNaturalBlocks().removeAll(currentGame.getMap().getCellByLocation(x,y).getNaturalBlocks());
         return "Cell cleared successfully";
     }
-
-    public void initializeTrees(){
-        NaturalBlock block1 = new NaturalBlock("desertBush","tree");
-        NaturalBlock block2 = new NaturalBlock("cherryPalm","tree");
-        NaturalBlock block3 = new NaturalBlock("oliveTree","tree");
-        NaturalBlock block4 = new NaturalBlock("coconutPalm","tree");
-        NaturalBlock block5 = new NaturalBlock("date","tree");
+    
+    public void initializeTrees() {
+        NaturalBlock block1 = new NaturalBlock("desertBush", "tree");
+        NaturalBlock block2 = new NaturalBlock("cherryPalm", "tree");
+        NaturalBlock block3 = new NaturalBlock("oliveTree", "tree");
+        NaturalBlock block4 = new NaturalBlock("coconutPalm", "tree");
+        NaturalBlock block5 = new NaturalBlock("date", "tree");
         tree.add(block1);
         tree.add(block2);
         tree.add(block3);
         tree.add(block4);
         tree.add(block5);
     }
-
-
+    
+    
     public String dropRock(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -181,18 +177,18 @@ public class GameController {
     }
     
     public String dropTree(int x, int y, Cell cell, String type) {
-        boolean check=false;
+        boolean check = false;
         NaturalBlock naturalBlock = new NaturalBlock(type, "Tree");
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea"))
             return "You can't drop a tree in this location!";
-        for(NaturalBlock trees:tree){
-            if(trees.getName().equals(type)){
-                check=true;
+        for (NaturalBlock trees : tree) {
+            if (trees.getName().equals(type)) {
+                check = true;
             }
         }
-        if(!check) return "This type of tree doesn't exist";
+        if (!check) return "This type of tree doesn't exist";
         cell.addNaturalBlocks(naturalBlock);
         return type + " added successfully";
     }
@@ -445,9 +441,10 @@ public class GameController {
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
         List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCellByLocation(x, y), currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
-        if (pathCells.size() > ((MilitaryPerson)selectedUnit).getMovingRange()) return "This move is out of the range of the unit!";
+        if (pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
+            return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
-            removeAndAddInMoving((MilitaryPerson)selectedUnit, cell.getX(), cell.getY());
+            removeAndAddInMoving((MilitaryPerson) selectedUnit, cell.getX(), cell.getY());
         }
         return "Unit has been moved successfully!";
     }
@@ -522,8 +519,8 @@ public class GameController {
         Map smallMap = new Map(3, 3);
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++) {
-                if (!isLocationValid(shownMapX + i-1, shownMapY + j-1)) return null;
-                smallMap.getCells()[i + 1-1][j + 1-1] = currentGame.getMap().getCells()[shownMapX + i-1][shownMapY + j-1];
+                if (!isLocationValid(shownMapX + i - 1, shownMapY + j - 1)) return null;
+                smallMap.getCells()[i + 1 - 1][j + 1 - 1] = currentGame.getMap().getCells()[shownMapX + i - 1][shownMapY + j - 1];
             }
         return smallMap;
     }
@@ -547,7 +544,7 @@ public class GameController {
         int dx = getDXByDirection(direction), dy = getDYByDirection(direction);
         int x = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'x');
         int y = getLocationXOrY(currentGame.getMap(), selectedUnit.getLocation(), 'y');
-        if (!isLocationValid(x + dx, y + dy)) return "You have entered invalid direction!";
+        if (!isLocationValid(x + dx - 1, y + dy - 1)) return "You have entered invalid direction!";
         currentGame.getMap().getCells()[x][y].setHasOil(true);
         currentGame.getMap().getCells()[x + dx][y + dy].setHasOil(true);
         return "Oil has been poured successfully!";
@@ -579,20 +576,20 @@ public class GameController {
     public String digTunnel(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         for (Person kingPerson : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
-                ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel","",null,0,0));
+                ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel", "", null, 0, 0));
                 MilitaryPerson originalSelected = (MilitaryPerson) selectedUnit;
                 selectedUnit = kingPerson;
                 String toGetMatcher = "move unit to -x " + x + " -y " + y;
                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                     selectedUnit = originalSelected;
-                    return "Unit is disbanded successfully!";
+                    return "Tunnel is digged successfully!";
                 }
             }
         }
-        currentGame.getMap().getCells()[x-1][y-1].setHasTunnel(true);
+        currentGame.getMap().getCells()[x - 1][y - 1].setHasTunnel(true);
         return "Tunnel has been dug successfully!";
     }
     
@@ -600,8 +597,8 @@ public class GameController {
     public String setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
-        for (Person person : currentGame.getMap().getCells()[x-1][y-1].getPeople()) {
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 MilitaryPerson militaryPerson = (MilitaryPerson) person;
                 militaryPerson.setMode(matcher.group("mode"));
@@ -725,7 +722,7 @@ public class GameController {
             return "You have entered invalid location!";
         patrollingUnit = (MilitaryPerson) selectedUnit;
         if (patrollingUnit == null) return "You should first select a unit to patrol!";
-        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > ((MilitaryPerson)selectedUnit).getMovingRange())
+        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "The distance is out of the unit's moving range!";
         while (!isPatrollingStopped) {
             removeAndAddInMoving(patrollingUnit, x2 - 1, y2 - 1);
@@ -844,7 +841,33 @@ public class GameController {
         isPatrollingStopped = false;
         fight();
         arrowsAct();
+        destroyBuildings();
         divideFood();
         changePopulation();
+    }
+    
+    public String fetchOil() {
+        if (selectedUnit == null || !(selectedUnit instanceof MilitaryPerson) || !((MilitaryPerson) selectedUnit).getType().equals("Engineer"))
+            return "You should first select an engineer!";
+        Cell[][] cells = currentGame.getMap().getCells();
+        for (int i = 0; i < currentGame.getMap().getLength(); i++) {
+            for (int j = 0; j < currentGame.getMap().getWidth(); j++) {
+                Building building = cells[i][j].getBuilding();
+                if (building.getType().equals("oil smelter") && building.getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername())) {
+                    String toGetMatcher = "move unit to -x " + i + " -y " + j;
+                    if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                        ((MilitaryPerson) selectedUnit).setHasOil(true);
+                        toGetMatcher = "move unit to -x " + selectedUnit.getLocation().getX() + " -y " + selectedUnit.getLocation().getY();
+                        moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
+                        return "Oil is fetched successfully!";
+                    } else return "Engineer cannot go to the oil smelter!";
+                }
+            }
+        }
+        return "You don't have an oil smelter!";
+    }
+    
+    public String burnOil(Matcher matcher) {
+        
     }
 }

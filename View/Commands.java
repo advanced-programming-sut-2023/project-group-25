@@ -49,7 +49,7 @@ public enum Commands {
     MOVE_EQUIPMENT("move equipment -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
     DISBAND("disband unit"),
     FETCH_OIL("fetch oil"),//the engineer has already been selected
-    BURN_OIL("burn oil"),//might need to take in some other information
+    BURN_OIL("burn oil -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
     BLOCK_SET_TEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
     RECTANGLE_SET_TEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
     CLEAR_BLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
