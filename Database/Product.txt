@@ -28,7 +28,7 @@ apple
 food
 
 __________________
-wheet
+wheat
 115
 57
 source
