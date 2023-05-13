@@ -42,8 +42,8 @@ public class FileController {
     }
 
     public static void initializeUsersFile() {
-        File Users = new File("src/main/java/src/main/java/Database/Users.txt");
-        ArrayList<String> content = readFileContent("src/main/java/src/main/java/Database/Users.txt");
+        File Users = new File("src/main/java/Database/Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         if (content.size() < 9) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--USERNAME--");
@@ -56,7 +56,7 @@ public class FileController {
             initial.add("--SECURITY ANSWER--");
             initial.add("--STAY LOGGED IN? (boolean)--");
             initial.add("_____________________________________________________");
-            writeToFileContent("../src/main/java/src/main/java/Database/Users.txt", initial, false);
+            writeToFileContent("src/main/java/Database/Users.txt", initial, false);
         }
     }
 

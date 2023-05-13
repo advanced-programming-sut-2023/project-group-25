@@ -1,0 +1,20 @@
+--USERNAME--
+--PASSWORD--
+--NICKNAME--
+--EMAIL--
+--SLOGAN--
+--HIGHSCORE--
+--SECURITY QUESTION--
+--SECURITY ANSWER--
+--STAY LOGGED IN? (boolean)--
+_____________________________________________________
+hoora
+16b6f5e052bd57ed8af3b658626ab63fff8b5908b89589e80c2749c63ea49d9a
+hooria
+hoora@yahoo.com
+
+0
+5- What was your first pet’s name?
+nothing
+false
+_____________________________________________________
