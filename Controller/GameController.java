@@ -27,28 +27,24 @@ public class GameController {
     private Building selectedBuilding;
     
     public String newGame(String line) {
-        String resultMessage = "";
         String[] usernames = line.split("-");
         for (int i = 0; i < usernames.length; i++) {
             if (FileController.getUserByUsername(usernames[i]) == null)
-                resultMessage = ("New game creation failed! Username [" + usernames[i] + "] does not exist!");
+                return "New game creation failed! Username [" + usernames[i] + "] does not exist!";
         }
-        if (resultMessage.equals("")) {
-            File Games = new File("Games.txt");
-            ArrayList<String> content = FileController.readFileContent("Games.txt");
-            int gameId = content.size() / 4 + 1;
-            ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            for (int i = 0; i < usernames.length; i++) {
-                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames[i]), gameId);
-                FileController.addKingdomToFile(newKingdom);
-                kingdoms.add(newKingdom);
-            }
-            Game game = new Game(gameId, kingdoms);
-            currentGame = game;
-            FileController.addGameToFile(game);
-            resultMessage = "New game created successfully! Game's ID: " + gameId;
+        File Games = new File("Games.txt");
+        ArrayList<String> content = FileController.readFileContent("Games.txt");
+        int gameId = content.size() / 4 + 1;
+        ArrayList<Kingdom> kingdoms = new ArrayList<>();
+        for (int i = 0; i < usernames.length; i++) {
+            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames[i]), gameId);
+            FileController.addKingdomToFile(newKingdom);
+            kingdoms.add(newKingdom);
         }
-        return resultMessage;
+        Game game = new Game(gameId, kingdoms);
+        currentGame = game;
+        FileController.addGameToFile(game);
+        return "New game created successfully! Game's ID: " + gameId;
     }
     
     public Game getCurrentGame() {
@@ -686,6 +682,7 @@ public class GameController {
     }
     
     public String repair() {
+        //TODO: make it smaller!
         Building savedBuilding = null;
         String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
         savedBuilding = getBuilding(selectedBuilding.getType(), savedBuilding, category);
@@ -764,6 +761,10 @@ public class GameController {
         }
     }
     
+    private void destroyBuildings() {
+        //TODO
+    }
+    
     private void divideFood() {
         //TODO
     }
@@ -771,7 +772,6 @@ public class GameController {
     private void changePopulation() {
         //TODO
     }
-    
     
     
     public void nextTurn() {
