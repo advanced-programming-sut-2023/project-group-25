@@ -42,8 +42,8 @@ public class FileController {
     }
 
     public static void initializeUsersFile() {
-        File Users = new File("Users.txt");
-        ArrayList<String> content = readFileContent("Users.txt");
+        File Users = new File("src/main/java/src/main/java/Database/Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/src/main/java/Database/Users.txt");
         if (content.size() < 9) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--USERNAME--");
@@ -56,13 +56,13 @@ public class FileController {
             initial.add("--SECURITY ANSWER--");
             initial.add("--STAY LOGGED IN? (boolean)--");
             initial.add("_____________________________________________________");
-            writeToFileContent("Users.txt", initial, false);
+            writeToFileContent("../src/main/java/src/main/java/Database/Users.txt", initial, false);
         }
     }
 
     public static User getUserByUsername(String username) {
         User wantedUser;
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
@@ -76,7 +76,7 @@ public class FileController {
     }
 
     public static boolean isUserNameUnique(String username) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 return false;
@@ -86,7 +86,7 @@ public class FileController {
     }
 
     public static boolean isEmailUnique(String email) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 3).equals(email)) {
                 return false;
@@ -96,7 +96,7 @@ public class FileController {
     }
 
     public static User getFirstStayLoggedIn() {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get((10 * i) + 8).equals("true")) {
                 return getUserByUsername(content.get(10 * i));
@@ -117,7 +117,7 @@ public class FileController {
         content.add(user.getSecurityAnswer());
         content.add("false");
         content.add("_____________________________________________________");
-        writeToFileContent("Users.txt", content, true);
+        writeToFileContent("src/main/java/Database/Users.txt", content, true);
     }
 
     public static boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
@@ -136,25 +136,25 @@ public class FileController {
     }
 
     public static void addStayLoggedInForUser(String username, boolean isLoggedIn) {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 8);
                 content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
             }
         }
-        writeToFileContent("Users.txt", content, false);
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
 
     public static void changePassword(String username, String password) throws NoSuchAlgorithmException {
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             if (content.get(10 * i).equals(username)) {
                 content.remove((10 * i) + 1);
                 content.add(((10 * i) + 1), RegisterLoginController.passwordToSHA(password));
             }
         }
-        writeToFileContent("Users.txt", content, false);
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
 
     public static void initializeGamesFile() {
@@ -423,7 +423,7 @@ public class FileController {
 
     public ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
-        ArrayList<String> content = readFileContent("Users.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
             allUsers.add(getUserByUsername(content.get(10 * i)));
         }

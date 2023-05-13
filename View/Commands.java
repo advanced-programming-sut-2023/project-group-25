@@ -62,7 +62,7 @@ public enum Commands {
     SHOW_PRICE_LIST("show price list"),
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     NEXT_TURN("next turn"),
-    ENTERTRADEMENU("enter trade menu"),
+    ENTER_TRADE_MENU("enter trade menu"),
     EXIT("exit"),
     BACK("back"),
     NEW_GAME("^start new game$");

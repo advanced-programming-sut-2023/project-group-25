@@ -36,10 +36,6 @@ public class MainMenu {
             
             else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";
-            }
-            
-            else if (((matcher = Commands.getMatcher(input, Commands.ENTERTRADEMENU))) != null) {
-                return "trade menu";
             } else if(((matcher = Commands.getMatcher(input,Commands.NEW_GAME))) != null) {
                 System.out.println("Please enter the players' usernames separated with [-]: (except yourself)");
                 while (true) {

@@ -30,7 +30,7 @@ public class GameMenu {
         while (true) {
             input = scanner.nextLine();
             if ((matcher = getMatcher(input, Commands.BACK)) != null) {
-                return "mainMenu";
+                return "main menu";
             } else if ((matcher = getMatcher(input, Commands.SELECT_UNIT)) != null) {
                 System.out.println(gameController.selectUnit(matcher));
             } else if ((matcher = getMatcher(input, Commands.MOVE_UNIT)) != null) {
@@ -94,6 +94,8 @@ public class GameMenu {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {
                 gameController.nextTurn();
+            } else if((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
+                return "trade menu";
             } else System.out.println("invalid command!");
         }
     }
