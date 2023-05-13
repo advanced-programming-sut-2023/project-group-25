@@ -5,8 +5,7 @@ import Model.Map;
 
 import java.util.*;
 
-import static java.util.List.of;
-
+//TODO: walls are not blocks for people with ladder
 public class PathFinder {
     public static List<Cell> findPath(Cell start, Cell target, Map gameMap) {
         boolean[][] pathableMap = new boolean[gameMap.getLength()][gameMap.getWidth()];

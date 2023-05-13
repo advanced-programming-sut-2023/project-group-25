@@ -18,11 +18,13 @@ public class GameMenu {
     private User currentUser;
     private Matcher matcher;
     private String input;
-    
+    private TradeMenu tradeMenu;
+
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
         this.mapController = changeMenuController.getMapController();
+        this.tradeMenu = new TradeMenu(changeMenuController);
     }
     
     public String run(Scanner scanner) {
@@ -30,7 +32,7 @@ public class GameMenu {
         while (true) {
             input = scanner.nextLine();
             if ((matcher = getMatcher(input, Commands.BACK)) != null) {
-                return "mainMenu";
+                return "main menu";
             } else if ((matcher = getMatcher(input, Commands.SELECT_UNIT)) != null) {
                 System.out.println(gameController.selectUnit(matcher));
             } else if ((matcher = getMatcher(input, Commands.MOVE_UNIT)) != null) {
@@ -54,16 +56,9 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SET_MODE)) != null) {
                 System.out.println(gameController.setMode(matcher));
             } else if ((matcher = getMatcher(input, Commands.DISBAND)) != null) {
-                if (gameController.disbandUnit().equals("can't go"))
-                    System.out.println("You can't dis band this unit!");
-                else System.out.println("Unit is disbanded successfully!");
+                System.out.println(gameController.disbandUnit());
             } else if ((matcher = getMatcher(input, Commands.BUILD_EQUIPMENT)) != null) {
-                switch (gameController.buildEquipment(matcher)) {
-                    case "success":
-                        System.out.println("Equipment is built successfully!");
-                        break;
-                    //TODO...
-                }
+                System.out.println(gameController.buildEquipment(matcher));
             } else if (input.matches("show map")) {
                 System.out.println(MapController.showMap(gameController.getCurrentGame().getMap()));
             } else if ((matcher = getMatcher(input, Commands.BLOCK_SET_TEXTURE)) != null) {
@@ -94,6 +89,9 @@ public class GameMenu {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {
                 gameController.nextTurn();
+            } else if((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
+                tradeMenu.run(scanner);
+                System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
             } else System.out.println("invalid command!");
         }
     }

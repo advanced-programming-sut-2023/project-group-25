@@ -1,0 +1,40 @@
+--USERNAME--
+--PASSWORD--
+--NICKNAME--
+--EMAIL--
+--SLOGAN--
+--HIGHSCORE--
+--SECURITY QUESTION--
+--SECURITY ANSWER--
+--STAY LOGGED IN? (boolean)--
+_____________________________________________________
+hoora
+16b6f5e052bd57ed8af3b658626ab63fff8b5908b89589e80c2749c63ea49d9a
+hooria
+hoora@yahoo.com
+
+0
+5- What was your first pet’s name?
+nothing
+false
+_____________________________________________________
+zahra
+dc866cdeef0768561e9fed615a8cb64b70f46fce19c5cc57b31d0b9e81ebe0bf
+izi
+z@g.com
+
+0
+3- In what city or town did your parents meet?
+ans
+false
+_____________________________________________________
+samin
+3dcc2654f4495937c8a52946239d6462f2f5985d7359316660900cd3636c2f2c
+slkdjf
+ldkjf@jfkd.jfkd
+
+0
+1- What city were you born in?
+a
+false
+_____________________________________________________
