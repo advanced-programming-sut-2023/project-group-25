@@ -122,4 +122,12 @@ public class Cell {
     public void addToKingdomsWithArrows(Kingdom kingdom) {
         kingdomsWithArrowsHere.add(kingdom);
     }
+    
+    public void destroyBuildingCompletely() {
+        this.building = null;
+    }
+    
+    public void killPeopleCompletely() {
+        this.people = new ArrayList<>();
+    }
 }

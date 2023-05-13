@@ -1,13 +1,11 @@
 package Controller;
 
 import Model.*;
+import Model.Map;
 import View.Commands;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -510,17 +508,17 @@ public class GameController {
             shownMapY = 0;
             return "You have entered invalid location!";
         }
-        Map smallMap = makeSmallMap(currentGame.getMap(), shownMapX, shownMapY);
+        Map smallMap = makeSmallMap(shownMapX, shownMapY);
         assert smallMap != null;
         return MapController.showMap(smallMap);
     }
     
-    private Map makeSmallMap(Map bigMap, int x, int y) {
+    private Map makeSmallMap(int x, int y) {
         Map smallMap = new Map(3, 3);
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++) {
                 if (!isLocationValid(shownMapX + i - 1, shownMapY + j - 1)) return null;
-                smallMap.getCells()[i + 1 - 1][j + 1 - 1] = currentGame.getMap().getCells()[shownMapX + i - 1][shownMapY + j - 1];
+                smallMap.getCells()[i + 1][j + 1] = currentGame.getMap().getCells()[shownMapX + i - 1][shownMapY + j - 1];
             }
         return smallMap;
     }
@@ -579,13 +577,12 @@ public class GameController {
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         for (Person kingPerson : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
-                ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel", "", null, 0, 0));
                 MilitaryPerson originalSelected = (MilitaryPerson) selectedUnit;
                 selectedUnit = kingPerson;
                 String toGetMatcher = "move unit to -x " + x + " -y " + y;
                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                     selectedUnit = originalSelected;
-                    return "Tunnel is digged successfully!";
+                    return "Tunnel is dug successfully!";
                 }
             }
         }
@@ -847,7 +844,7 @@ public class GameController {
     }
     
     public String fetchOil() {
-        if (selectedUnit == null || !(selectedUnit instanceof MilitaryPerson) || !((MilitaryPerson) selectedUnit).getType().equals("Engineer"))
+        if (selectedUnit == null || !(selectedUnit instanceof MilitaryPerson) || !selectedUnit.getType().equals("Engineer"))
             return "You should first select an engineer!";
         Cell[][] cells = currentGame.getMap().getCells();
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
@@ -867,7 +864,102 @@ public class GameController {
         return "You don't have an oil smelter!";
     }
     
-    public String burnOil(Matcher matcher) {
-        
+    public String burnOil() {
+        if (selectedUnit == null || !(selectedUnit instanceof MilitaryPerson) || !selectedUnit.getType().equals("Slaves"))
+            return "You should first select a slave!";
+        Cell[][] cells = currentGame.getMap().getCells();
+        boolean thereIsAtLeastOne = false;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int x = selectedUnit.getLocation().getX() + i;
+                int y = selectedUnit.getLocation().getY() + j;
+                if (isLocationValid(x, y) && cells[x][y].hasOil()) {
+                    thereIsAtLeastOne = true;
+                    cells[x][y].destroyBuildingCompletely();
+                    cells[x][y].killPeopleCompletely();
+                    cells[x][y].setHasOil(false);
+                }
+            }
+        }
+        if (!thereIsAtLeastOne) return "There isn't any cell around the selected slave that has oil!";
+        return "The slave burnt the oil he could successfully!";
+    }
+    
+    public String produceSource(Matcher matcher) {
+        String type = matcher.group();
+        switch (type) {
+            case "hop":
+                return produceHop();
+            case "iron":
+                return produceIron();
+            case "stone":
+                return produceStone();
+            case "wood":
+                return produceWood();
+            case "flour":
+                return produceFlour();
+            case "wheat":
+                return produceWheat();
+            default:
+                return "You have entered invalid type for source!";
+        }
+    }
+    
+    private String produceHop() {
+        //time concept is not considered here and in dig tunnel and resembling methods.
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        Cell[][] cells = currentGame.getMap().getCells();
+        boolean thereIsFreeWorker = false;
+        for (Person kingPerson : currentKingdom.getKingPeople()) {
+            if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
+                thereIsFreeWorker = true;
+                for (Building kingBuilding : currentKingdom.getKingBuildings()) {
+                    int i = kingBuilding.getLocation().getX();
+                    int j = kingBuilding.getLocation().getY();
+                    if (cells[i][j].getBuilding().getType().equals("hop farmer")) {
+                        String toGetMatcher = "move unit to -x " + i + " -y " + j;
+                        Person realSelectedUnit = selectedUnit;
+                        selectedUnit = kingPerson;
+                        if (moveUnit(Commands.getMatcher(toGetMatcher,Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                            selectedUnit = realSelectedUnit;
+                            return "Hop is produced successfully!";
+                        }
+                        selectedUnit = realSelectedUnit;
+                    }
+                }
+            }
+        }
+        if (thereIsFreeWorker) return "There is no hop farmer you can access!";
+        return "You have no free workers now";
+    }
+    
+    private String produceIron() {
+        return null;
+    }
+    
+    private String produceStone() {
+        return null;
+    }
+    
+    private String produceWood() {
+        return null;
+    }
+    
+    private String produceFlour() {
+        return null;
+    }
+    
+    private String produceWheat() {
+        return null;
+    }
+    
+    public String produceFood(Matcher matcher) {
+        //TODO
+        return null;
+    }
+    
+    public String produceEquipment(Matcher matcher) {
+        //TODO
+        return null;
     }
 }

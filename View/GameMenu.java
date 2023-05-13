@@ -19,7 +19,7 @@ public class GameMenu {
     private Matcher matcher;
     private String input;
     private TradeMenu tradeMenu;
-
+    
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
@@ -89,16 +89,20 @@ public class GameMenu {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {
                 gameController.nextTurn();
-            } else if((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
+            } else if ((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
                 tradeMenu.run(scanner);
                 System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
             } else if ((matcher = getMatcher(input, Commands.FETCH_OIL)) != null) {
                 System.out.println(gameController.fetchOil());
-            }
-            else if ((matcher = getMatcher(input, Commands.BURN_OIL)) != null) {
-                System.out.println(gameController.burnOil(matcher));
-            }
-            else System.out.println("invalid command!");
+            } else if ((matcher = getMatcher(input, Commands.BURN_OIL)) != null) {
+                System.out.println(gameController.burnOil());
+            } else if ((matcher = getMatcher(input, Commands.PRODUCE_SOURCE)) != null) {
+                System.out.println(gameController.produceSource(matcher));
+            } else if ((matcher = getMatcher(input, Commands.PRODUCE_FOOD)) != null) {
+                System.out.println(gameController.produceFood(matcher));
+            } else if ((matcher = getMatcher(input, Commands.PRODUCE_EQUIPMENT)) != null) {
+                System.out.println(gameController.produceEquipment(matcher));
+            } else System.out.println("invalid command!");
         }
     }
 }
