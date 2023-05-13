@@ -122,9 +122,6 @@ public class GameController {
         Map originalMap = Map.getTemplateMaps()[templateNumber];
         String originalMaterial = originalMap.getCellByLocation(x, y).getMaterial();
         currentGame.getMap().getCells()[x][y] = new Cell(x, y, originalMaterial);
-//        currentGame.getMap().getCells()[x][y].setBuilding(null);
-//        currentGame.getMap().getCells()[x][y].getPeople().removeAll(currentGame.getMap().getCellByLocation(x,y).getPeople());
-//        currentGame.getMap().getCells()[x][y].getNaturalBlocks().removeAll(currentGame.getMap().getCellByLocation(x,y).getNaturalBlocks());
         return "Cell cleared successfully";
     }
 
@@ -195,11 +192,9 @@ public class GameController {
 
 
     public String dropBuilding(int x, int y, Cell cell, String type) {
-        Building savedBuilding = null;
         String category = FileController.getBuildingCategoryByType(type);
-        savedBuilding = getBuilding(type, savedBuilding, category);
+        Building savedBuilding = getBuilding(type, category);
         Building building = new Building(savedBuilding);
-
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
@@ -211,6 +206,10 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
+        return buildBuilding(building, cell, type);
+    }
+
+    private String buildBuilding(Building building, Cell cell, String type) {
         for (Product neededProduct : building.getBuildingNeededProducts()) {
             for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
                 if (neededProduct.getName().equals(product.getName())) {
@@ -226,7 +225,8 @@ public class GameController {
         return null;
     }
 
-    private Building getBuilding(String type, Building savedBuilding, String category) {
+    private Building getBuilding(String type, String category) {
+        Building savedBuilding = null;
         if (category.equals("TrainingBuildings")) {
             savedBuilding = FileController.getTrainingBuildingByType(type);
         } else if (category.equals("ProductionBuildings")) {
@@ -287,9 +287,7 @@ public class GameController {
             y = Integer.parseInt(matcher.group("input1"));
             x = Integer.parseInt(matcher.group("input2"));
         }
-
         cell = currentGame.getMap().getCellByLocation(x, y);
-
         Map map = new Map(1, 1);
         map.getCells()[0][0] = new Cell(cell.getMaterial());
         result.append(MapController.showMap(map));
@@ -610,7 +608,8 @@ public class GameController {
         Cell[][] mapCells = currentGame.getMap().getCells();
         for (int i = 0; i < mapCells.length; i++) {
             for (int j = 0; j < mapCells[i].length; j++) {
-                if (mapCells[i][j].getBuilding().getType().equals("house") && mapCells[i][j].getBuilding().getKing().getUsername().equals(getCurrentUser().getUsername())) {
+                if (mapCells[i][j].getBuilding().getType().equals("house") && mapCells[i][j].getBuilding()
+                        .getKing().getUsername().equals(getCurrentUser().getUsername())) {
                     String toGetMatcher = "move unit to -x " + i + " -y " + j;
                     if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!"))
                         return "Unit is disbanded successfully!";
@@ -639,9 +638,11 @@ public class GameController {
         int enemyY = Integer.parseInt(matcher.group("y"));
         for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
             if (!person.getKing().equals(getCurrentUser())) {
-                if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen") || selectedUnit.getType().equals("Archer Bow")) {
+                if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen")
+                        || selectedUnit.getType().equals("Archer Bow")) {
                     if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
-                        currentGame.getMap().getCells()[enemyX][enemyY].addToKingdomsWithArrows(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()));
+                        currentGame.getMap().getCells()[enemyX][enemyY].addToKingdomsWithArrows(currentGame
+                                .getKingdomByKing(currentGame.turn.getCurrentKing()));
                         return "You made the aerial attack successfully!";
                     } else return "The enemy you want to attack is out of range of the selected unit!";
                 } else return "Selected unit is not able to shoot!";
@@ -737,41 +738,42 @@ public class GameController {
     }
 
     public String repair() {
-        //TODO: make it smaller!
-        Building savedBuilding = null;
         String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
-        savedBuilding = getBuilding(selectedBuilding.getType(), savedBuilding, category);
+        Building savedBuilding = getBuilding(selectedBuilding.getType(), category);
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         if (selectedBuilding == null)
             return "You haven't selected a building yet";
         if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
-            for (Product product : kingdom.getKingProducts()) {
-                if (product.getName().equals("stone")) {
-                    for (Product buildingCost : selectedBuilding.getBuildingNeededProducts())
-                        if (buildingCost.getName().equals("stone")) {
-                            if (product.getCount() != buildingCost.getCount())
-                                return "You don't have enough stone!";
-                        }
-                } else {
-                    Cell selectedBuildingLocation = selectedBuilding.getLocation();
-                    int x = selectedBuildingLocation.getX();
-                    int y = selectedBuildingLocation.getY();
-                    for (int i = x - 1; i < x + 1; i++) {
-                        for (int j = y - 1; j < y + 1; j++) {
-                            for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
-                                if (!person.getKing().equals(currentGame.turn.getCurrentKing()))
-                                    return "You can't repair a building while being under attack";
-                            }
-                        }
-                    }
-                }
-            }
+            String result = checkResourses(kingdom, selectedBuilding);
+            if (result != null)
+                return result;
         } else if (selectedBuilding.getHitPoint() == savedBuilding.getHitPoint()) {
             return selectedBuilding.getType() + " doesn't need to be repaired";
         }
         selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
         selectedBuilding = null;
         return "You have repaired " + selectedBuilding.getType();
+    }
+
+    private String checkResourses(Kingdom kingdom, Building selectedBuilding) {
+        for (Product product : kingdom.getKingProducts()) {
+            if (product.getName().equals("stone")) {
+                for (Product buildingCost : selectedBuilding.getBuildingNeededProducts())
+                    if (buildingCost.getName().equals("stone"))
+                        if (product.getCount() != buildingCost.getCount())
+                            return "You don't have enough stone!";
+            } else {
+                Cell selectedBuildingLocation = selectedBuilding.getLocation();
+                int x = selectedBuildingLocation.getX();
+                int y = selectedBuildingLocation.getY();
+                for (int i = x - 1; i < x + 1; i++)
+                    for (int j = y - 1; j < y + 1; j++)
+                        for (Person person : currentGame.getMap().getCells()[i][j].getPeople())
+                            if (!person.getKing().equals(currentGame.turn.getCurrentKing()))
+                                return "You can't repair a building while being under attack";
+            }
+        }
+        return null;
     }
 
     private void fight() {
@@ -781,7 +783,8 @@ public class GameController {
             for (int j = 0; j < currentGame.getMap().getWidth(); j++) {
                 for (Person person1 : cells[i][j].getPeople()) {
                     for (Person person2 : cells[i][j].getPeople()) {
-                        if (person1 instanceof MilitaryPerson && person2 instanceof MilitaryPerson && !person1.getKing().equals(person2.getKing())) {
+                        if (person1 instanceof MilitaryPerson && person2 instanceof MilitaryPerson
+                                && !person1.getKing().equals(person2.getKing())) {
                             MilitaryPerson unit1 = (MilitaryPerson) person1, unit2 = (MilitaryPerson) person2;
                             if (unit1.getFirePower() > unit2.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit2);
@@ -837,9 +840,7 @@ public class GameController {
 
     private void divideFood() {
         boolean check1 = false, check2 = false;
-        int peopleCounter = 0;
-        int rate;
-        int foodCounter = getNumberOfFoods();
+        int peopleCounter = 0, rate, foodCounter = getNumberOfFoods();
         int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
         for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("food")) {
@@ -887,11 +888,11 @@ public class GameController {
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(popularity);
         int popularityAmount = Integer.parseInt(matcher.group());
-        if(popularityAmount<=0)
+        if (popularityAmount <= 0)
             kingdom.setJoblessCounter(1);
-        else if (popularityAmount<=10)
+        else if (popularityAmount <= 10)
             kingdom.setJoblessCounter(3);
-        else if (popularityAmount<=20)
+        else if (popularityAmount <= 20)
             kingdom.setJoblessCounter(6);
         else
             kingdom.setJoblessCounter(8);
