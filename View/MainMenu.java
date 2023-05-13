@@ -41,9 +41,16 @@ public class MainMenu {
                 while (true) {
                     input = scanner.nextLine();
                     String resultMessage = gameController.newGame(input);
-                    System.out.println(resultMessage);
                     if (Pattern.compile("^New game created successfully!").matcher(resultMessage).find())
                         return "map menu";
+                    else if (input.equals("cancel")) {
+                        System.out.println("New game creation canceled!");
+                        break;
+                    } else if((matcher = Commands.getMatcher(input,Commands.LOGOUT)) != null) {
+                        FileController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
+                        return "logout";
+                    }
+                    System.out.println(resultMessage);
                 }
             }
              else {

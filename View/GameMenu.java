@@ -18,11 +18,13 @@ public class GameMenu {
     private User currentUser;
     private Matcher matcher;
     private String input;
-    
+    private TradeMenu tradeMenu;
+
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
         this.mapController = changeMenuController.getMapController();
+        this.tradeMenu = new TradeMenu(changeMenuController);
     }
     
     public String run(Scanner scanner) {
@@ -95,7 +97,8 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {
                 gameController.nextTurn();
             } else if((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
-                return "trade menu";
+                tradeMenu.run(scanner);
+                System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
             } else System.out.println("invalid command!");
         }
     }

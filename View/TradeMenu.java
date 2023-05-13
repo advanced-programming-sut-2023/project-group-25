@@ -21,12 +21,12 @@ public class TradeMenu {
         this.registerLoginController = changeMenuController.getRegisterLoginController();
     }
     
-    public String run(Scanner scanner) {
+    public void run(Scanner scanner) {
         System.out.println(registerLoginController.showCurrentMenuName("TRADE MENU"));
         while (true) {
             input = scanner.nextLine();
-            if ((matcher = Commands.getMatcher(input,Commands.BACK)).find()) {
-                return "main menu";
+            if ((matcher = Commands.getMatcher(input,Commands.BACK)) != null) {
+                return;
             }
         }
     }
