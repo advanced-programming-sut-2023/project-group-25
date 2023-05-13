@@ -41,7 +41,7 @@ public class MapMenu {
                 int chosenMapNumber = Integer.parseInt(matcher.group("number"));
                 if (mapLength < 0) System.out.println("You should first initialize the size of the map");
                 else {
-                    /*initializeTemplateMaps(mapLength, mapWidth);
+                    initializeTemplateMaps(mapLength, mapWidth);
                     Map map = Map.getTemplateMaps()[chosenMapNumber - 1];
                     System.out.println("Your map is built successfully!");
                     gameController.getCurrentGame().setMap(map);
@@ -49,7 +49,7 @@ public class MapMenu {
                     FileController.addGameToFile(gameController.getCurrentGame());
                     Turn.setTurnCounter(0);
                     gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
-                    gameController.initializeTrees();*/
+                    gameController.initializeTrees();
                     return "main menu";
                 }
             } else {

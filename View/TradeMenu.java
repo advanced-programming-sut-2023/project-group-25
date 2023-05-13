@@ -29,6 +29,7 @@ public class TradeMenu {
                 return;
             } else if(input.equals("send request")) {
                 System.out.println("Here is the list of all of the kings; please choose one of them to send a request:");
+                System.out.print(tradeController.showAllKingsUsernames());
             }
         }
     }

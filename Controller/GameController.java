@@ -54,7 +54,6 @@ public class GameController {
             }
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
-            FileController.addGameToFile(game);
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
