@@ -49,6 +49,7 @@ public class MapMenu {
                     FileController.addGameToFile(gameController.getCurrentGame());
                     Turn.setTurnCounter(0);
                     gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
+                    gameController.initializeTrees();
                     return "main menu";
                 }
             } else {

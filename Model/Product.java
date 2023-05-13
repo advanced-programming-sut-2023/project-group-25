@@ -43,17 +43,6 @@ public class Product {
     public ArrayList<Product> getUsedMaterials() {
         return usedMaterials;
     }
-    
-    public void changeProductCount(int count) {
-    
-    }
-    
-    public static Product getProductByName(String name) {
-        for (Product product : allProducts) {
-            if (product.getName().equals(name)) return product;
-        }
-        return null;
-    }
 
     public void increaseCount(int amount) {
         this.count += amount;
