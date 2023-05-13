@@ -429,4 +429,37 @@ public class FileController {
         }
         return allUsers;
     }
+
+    public static void initializeTradeRequestFile() {
+        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
+        if (content.size() < 9) {
+            ArrayList<String> initial = new ArrayList<>();
+            initial.add("--KING'S USERNAME--");
+            initial.add("--ID--");
+            initial.add("--RESOURCE AMOUNT--");
+            initial.add("--RESOURCE PRICE--");
+            initial.add("--RESOURCE MESSAGE--");
+            initial.add("_____________________________________________________");
+            writeToFileContent("src/main/java/Database/TradeRequests.txt", initial, false);
+        }
+    }
+
+    public int generateTradeId() {
+        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
+        int lineNumber = content.size();
+        return (lineNumber / 6);
+    }
+
+    public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
+        ArrayList<String> content = new ArrayList<>();
+        content.add(trade.getKing().getUsername());
+        content.add(String.valueOf(trade.getId()));
+        content.add(String.valueOf(trade.getResourceAmount()));
+        content.add(String.valueOf(trade.getPrice()));
+        content.add(trade.getMessage());
+        content.add("_____________________________________________________");
+        writeToFileContent("src/main/java/Database/TradeRequests.txt", content, true);
+    }
 }
