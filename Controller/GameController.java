@@ -816,9 +816,23 @@ public class GameController {
         }
     }
 
-    private void destroyBuildings() {
-        //TODO
-        //military range of damage
+    private void hittingBuildings() {
+        ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
+        for (Kingdom kingdom : allGameUsers) {
+            for (Building building : kingdom.getKingBuildings()) {
+                int x = building.getLocation().getX();
+                int y = building.getLocation().getY();
+                for (int i = x - 8; i <= x + 8; i++) {
+                    for (int j = y - 8; j <= y + 8; j++) {
+                        for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
+                            if (person instanceof MilitaryPerson && !person.getKing().equals(kingdom.getKing())) {
+                                building.setHitPoint(building.getHitPoint() - ((MilitaryPerson) person).getFirePower());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void divideFood() {
@@ -868,14 +882,26 @@ public class GameController {
     }
 
     private void changePopulation() {
-        //TODO
+        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        String popularity = showPopularity();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(popularity);
+        int popularityAmount = Integer.parseInt(matcher.group());
+        if(popularityAmount<=0)
+            kingdom.setJoblessCounter(1);
+        else if (popularityAmount<=10)
+            kingdom.setJoblessCounter(3);
+        else if (popularityAmount<=20)
+            kingdom.setJoblessCounter(6);
+        else
+            kingdom.setJoblessCounter(8);
     }
 
     private void getTax() {
         int peopleCounter = 0;
         int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
         int rate;
-        double currentInventory=getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory();
+        double currentInventory = getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory();
         for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("tax")) {
                 if (currentInventory == 0)
@@ -883,7 +909,7 @@ public class GameController {
                 rate = popularityFactor.getRate();
                 double TaxGivingRate = generateTaxGivingRate(rate);
                 for (int i = 0; i < population; i++) {
-                    if(peopleCounter==population)
+                    if (peopleCounter == population)
                         break;
                     peopleCounter++;
                     getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(currentInventory + TaxGivingRate);
@@ -895,12 +921,14 @@ public class GameController {
     }
 
     private double generateTaxGivingRate(int rate) {
+        double result = 0;
         if (rate >= 1 && rate <= 8)
-            return (0.2 * rate) + 0.4;
+            result = (0.2 * rate) + 0.4;
         else if (rate >= -1 && rate < 1)
-            return (0.6 * rate);
+            result = (0.6 * rate);
         else if (rate >= -3 && rate < -1)
-            return (0.2 * rate) - 0.4;
+            result = (0.2 * rate) - 0.4;
+        return result;
     }
 
     public void nextTurn() {
