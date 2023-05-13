@@ -10,7 +10,7 @@ public class Kingdom {
     private ArrayList<PopularityFactor> kingPopularityFactors = new ArrayList<>();
     private ArrayList<AttackEquipment> kingAttackEquipments = new ArrayList<>();
     private  User king;
-    private int inventory;
+    private double inventory;
     private int joblessCounter;
     
     public void reduceJoblessCounter() {
@@ -52,7 +52,7 @@ public class Kingdom {
         this.king = king;
     }
     
-    public void setInventory(int inventory) {
+    public void setInventory(double inventory) {
         this.inventory = inventory;
     }
     
@@ -107,7 +107,7 @@ public class Kingdom {
         return king;
     }
     
-    public int getInventory() {
+    public double getInventory() {
         return inventory;
     }
     

@@ -15,6 +15,7 @@ import static Controller.RegisterLoginController.*;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
+    public ArrayList<NaturalBlock> tree = new ArrayList<>();
     private Person selectedUnit;
     private MilitaryPerson patrollingUnit;
     private boolean isPatrollingStopped = false;
@@ -25,23 +26,18 @@ public class GameController {
     private int shownMapY;
     private Building selectedBuilding;
 
-    
-    
-    public ArrayList<NaturalBlock> tree=new ArrayList<>();
-
-
     public String newGame(String line) {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
         ArrayList<String> usernames = new ArrayList<>();
-        for(String s: lineUsernames)
+        for (String s : lineUsernames)
             usernames.add(s);
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
         for (int i = 0; i < usernames.size(); i++) {
             if (FileController.getUserByUsername(usernames.get(i)) == null)
                 resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; please try again!");
         }
-        if(hasRepeatedUsername(usernames) && resultMessage == "")
+        if (hasRepeatedUsername(usernames) && resultMessage == "")
             resultMessage = "You have repeated usernames in the list; please try again!";
         else if (resultMessage.equals("")) {
             File Games = new File("src/main/java/Database/Games.txt");
@@ -63,9 +59,9 @@ public class GameController {
 
 
     public boolean hasRepeatedUsername(ArrayList<String> usernames) {
-        for(int i = 0; i<usernames.size(); i++) {
-            for(int j = i+1; j<usernames.size(); j++) {
-                if(usernames.get(i).equals(usernames.get(j)))
+        for (int i = 0; i < usernames.size(); i++) {
+            for (int j = i + 1; j < usernames.size(); j++) {
+                if (usernames.get(i).equals(usernames.get(j)))
                     return true;
             }
         }
@@ -76,11 +72,11 @@ public class GameController {
     public Game getCurrentGame() {
         return currentGame;
     }
-    
+
     public void setCurrentGame(Game currentGame) {
         this.currentGame = currentGame;
     }
-    
+
     public String setCellMaterial(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -92,7 +88,7 @@ public class GameController {
         cell.setMaterial(matcher.group("type"));
         return "Cell's texture changed successfully";
     }
-    
+
     public String setCellBlockMaterial(Matcher matcher) {
         int x1 = Integer.parseInt(matcher.group("x1"));
         int y1 = Integer.parseInt(matcher.group("y1"));
@@ -113,7 +109,7 @@ public class GameController {
         }
         return "You can't change the texture of a cell with a building on it!";
     }
-    
+
     public String clearCell(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -132,12 +128,12 @@ public class GameController {
         return "Cell cleared successfully";
     }
 
-    public void initializeTrees(){
-        NaturalBlock block1 = new NaturalBlock("desertBush","tree");
-        NaturalBlock block2 = new NaturalBlock("cherryPalm","tree");
-        NaturalBlock block3 = new NaturalBlock("oliveTree","tree");
-        NaturalBlock block4 = new NaturalBlock("coconutPalm","tree");
-        NaturalBlock block5 = new NaturalBlock("date","tree");
+    public void initializeTrees() {
+        NaturalBlock block1 = new NaturalBlock("desertBush", "tree");
+        NaturalBlock block2 = new NaturalBlock("cherryPalm", "tree");
+        NaturalBlock block3 = new NaturalBlock("oliveTree", "tree");
+        NaturalBlock block4 = new NaturalBlock("coconutPalm", "tree");
+        NaturalBlock block5 = new NaturalBlock("date", "tree");
         tree.add(block1);
         tree.add(block2);
         tree.add(block3);
@@ -163,7 +159,7 @@ public class GameController {
         cell.addNaturalBlocks(naturalBlock);
         return "Rock added successfully";
     }
-    
+
     public String dropObject(Matcher matcher) {
         String result = null;
         int x = Integer.parseInt(matcher.group("x"));
@@ -179,31 +175,31 @@ public class GameController {
         }
         return result;
     }
-    
+
     public String dropTree(int x, int y, Cell cell, String type) {
-        boolean check=false;
+        boolean check = false;
         NaturalBlock naturalBlock = new NaturalBlock(type, "Tree");
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea"))
             return "You can't drop a tree in this location!";
-        for(NaturalBlock trees:tree){
-            if(trees.getName().equals(type)){
-                check=true;
+        for (NaturalBlock trees : tree) {
+            if (trees.getName().equals(type)) {
+                check = true;
             }
         }
-        if(!check) return "This type of tree doesn't exist";
+        if (!check) return "This type of tree doesn't exist";
         cell.addNaturalBlocks(naturalBlock);
         return type + " added successfully";
     }
-    
-    
+
+
     public String dropBuilding(int x, int y, Cell cell, String type) {
         Building savedBuilding = null;
         String category = FileController.getBuildingCategoryByType(type);
         savedBuilding = getBuilding(type, savedBuilding, category);
         Building building = new Building(savedBuilding);
-        
+
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
@@ -229,7 +225,7 @@ public class GameController {
         }
         return null;
     }
-    
+
     private Building getBuilding(String type, Building savedBuilding, String category) {
         if (category.equals("TrainingBuildings")) {
             savedBuilding = FileController.getTrainingBuildingByType(type);
@@ -246,7 +242,7 @@ public class GameController {
         }
         return savedBuilding;
     }
-    
+
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
@@ -264,7 +260,7 @@ public class GameController {
         if (count > 0) return "You don't have enough " + type + "s!";
         return "Unit added successfully!";
     }
-    
+
     public String selectBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -280,7 +276,7 @@ public class GameController {
         selectedBuilding = cell.getBuilding();
         return "selected";
     }
-    
+
     public String showDetails(Matcher matcher) {
         int x, y;
         StringBuilder result = new StringBuilder();
@@ -291,13 +287,13 @@ public class GameController {
             y = Integer.parseInt(matcher.group("input1"));
             x = Integer.parseInt(matcher.group("input2"));
         }
-        
+
         cell = currentGame.getMap().getCellByLocation(x, y);
-        
+
         Map map = new Map(1, 1);
         map.getCells()[0][0] = new Cell(cell.getMaterial());
         result.append(MapController.showMap(map));
-        
+
         result.append("Texture: ").append(cell.getMaterial()).append("\nBuilding: ");
         if (cell.getBuilding() != null) result.append(cell.getBuilding());
         else result.append("no building");
@@ -307,7 +303,7 @@ public class GameController {
         }
         return result.toString();
     }
-    
+
     public String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -317,7 +313,7 @@ public class GameController {
         }
         return result.toString();
     }
-    
+
     public String showPopularity() {
         int result = 0;
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -326,7 +322,7 @@ public class GameController {
         }
         return "Popularity: " + result;
     }
-    
+
     public String showFoodList() {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -337,7 +333,7 @@ public class GameController {
         result.append("Cheese: ").append(showEachFood(products, "cheese"));
         return result.toString();
     }
-    
+
     private int showEachFood(ArrayList<Product> products, String food) {
         int count = 0;
         for (Product product : products) {
@@ -346,7 +342,7 @@ public class GameController {
         }
         return count;
     }
-    
+
     public String ratePopularityFactor(Matcher matcher) {
         if (matcher.group("popularityFactor").equals("food"))
             return rateFood(matcher.group("rateNumber"));
@@ -356,7 +352,7 @@ public class GameController {
             return rateTax(matcher.group("rateNumber"));
         return null;
     }
-    
+
     private String rateTax(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -375,7 +371,7 @@ public class GameController {
         }
         return "success";
     }
-    
+
     private String rateFear(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -389,7 +385,7 @@ public class GameController {
         }
         return "success";
     }
-    
+
     private String rateFood(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
@@ -400,12 +396,10 @@ public class GameController {
                 popularityFactor.setPopularityAmount(rate * 4);
                 popularityFactor.setRate(rate);
             }
-            //TODO:give 0.5x + 1 amount of food to people
-            //TODO:give error to invalid numbers
         }
         return "success";
     }
-    
+
     public String showPopularityFactorRate(Matcher matcher) {
         StringBuilder result = new StringBuilder();
         int rate = 0;
@@ -419,11 +413,11 @@ public class GameController {
         result.append(matcher.group("popularityFactor")).append(": ").append(String.valueOf(rate));
         return result.toString();
     }
-    
+
     public void setSelectedUnit(MilitaryPerson selectedUnit) {
         this.selectedUnit = selectedUnit;
     }
-    
+
     public String selectUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
@@ -436,7 +430,7 @@ public class GameController {
         }
         return "You don't have any people in this location!";
     }
-    
+
     public String moveUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
@@ -445,17 +439,18 @@ public class GameController {
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
         List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCellByLocation(x, y), currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
-        if (pathCells.size() > ((MilitaryPerson)selectedUnit).getMovingRange()) return "This move is out of the range of the unit!";
+        if (pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
+            return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
-            removeAndAddInMoving((MilitaryPerson)selectedUnit, cell.getX(), cell.getY());
+            removeAndAddInMoving((MilitaryPerson) selectedUnit, cell.getX(), cell.getY());
         }
         return "Unit has been moved successfully!";
     }
-    
+
     public boolean isLocationValid(int x, int y) {
         return x >= 0 && y >= 0 && x <= currentGame.getMap().getLength() && y <= currentGame.getMap().getWidth();
     }
-    
+
     public String createUnit(Matcher matcher) {
         String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
@@ -476,20 +471,20 @@ public class GameController {
         }
         return "Unit created successfully!";
     }
-    
+
     private boolean unitMatchesSelectedBuilding(MilitaryPerson givenUnit) {
         return ((givenUnit.getNationality().equals("European") && selectedBuilding.getType().equals("barracks")) ||
                 (givenUnit.getNationality().equals("Arab") && selectedBuilding.getType().equals("mercenary post")));
     }
-    
-    
+
+
     private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
         MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit);
         Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
         Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).addUnusedUnit(militaryPerson);
     }
-    
-    
+
+
     private boolean haveNeededProductsForUnit(MilitaryPerson givenUnit, int count) {
         for (Product neededProduct : givenUnit.getNeededProducts()) {
             boolean weHaveTheProduct = false;
@@ -503,8 +498,8 @@ public class GameController {
         }
         return true;
     }
-    
-    
+
+
     public String showAPartOfMap(Matcher matcher) {
         shownMapX = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "x", 2)));
         shownMapY = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "y", 2)));
@@ -517,17 +512,17 @@ public class GameController {
         assert smallMap != null;
         return MapController.showMap(smallMap);
     }
-    
+
     private Map makeSmallMap(Map bigMap, int x, int y) {
         Map smallMap = new Map(3, 3);
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++) {
-                if (!isLocationValid(shownMapX + i-1, shownMapY + j-1)) return null;
-                smallMap.getCells()[i + 1-1][j + 1-1] = currentGame.getMap().getCells()[shownMapX + i-1][shownMapY + j-1];
+                if (!isLocationValid(shownMapX + i - 1, shownMapY + j - 1)) return null;
+                smallMap.getCells()[i + 1 - 1][j + 1 - 1] = currentGame.getMap().getCells()[shownMapX + i - 1][shownMapY + j - 1];
             }
         return smallMap;
     }
-    
+
     public String moveOnMap(Matcher matcher) {
         if (shownMapX == 0 && shownMapY == 0) return "You haven't chosen a location yet!";
         int dx = Integer.parseInt(matcher.group("verticalNumber"));
@@ -541,7 +536,7 @@ public class GameController {
         shownMapX = shownMapX + dx;
         return MapController.showMap(Objects.requireNonNull(makeSmallMap(currentGame.getMap(), shownMapX, shownMapY)));
     }
-    
+
     public String pourOil(Matcher matcher) {
         String direction = matcher.group();
         int dx = getDXByDirection(direction), dy = getDYByDirection(direction);
@@ -552,7 +547,7 @@ public class GameController {
         currentGame.getMap().getCells()[x + dx][y + dy].setHasOil(true);
         return "Oil has been poured successfully!";
     }
-    
+
     private int getLocationXOrY(Map map, Cell location, char ch) {
         Cell[][] mapCells = map.getCells();
         for (int i = 0; i < mapCells.length; i++)
@@ -563,26 +558,26 @@ public class GameController {
                 }
         return -1;
     }
-    
+
     private int getDXByDirection(String direction) {
         if (direction.equals("up")) return -1;
         if (direction.equals("down")) return 1;
         return 0;
     }
-    
+
     private int getDYByDirection(String direction) {
         if (direction.equals("left")) return -1;
         if (direction.equals("right")) return 1;
         return 0;
     }
-    
+
     public String digTunnel(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         for (Person kingPerson : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
-                ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel","",null,0,0));
+                ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel", "", null, 0, 0));
                 MilitaryPerson originalSelected = (MilitaryPerson) selectedUnit;
                 selectedUnit = kingPerson;
                 String toGetMatcher = "move unit to -x " + x + " -y " + y;
@@ -592,16 +587,16 @@ public class GameController {
                 }
             }
         }
-        currentGame.getMap().getCells()[x-1][y-1].setHasTunnel(true);
+        currentGame.getMap().getCells()[x - 1][y - 1].setHasTunnel(true);
         return "Tunnel has been dug successfully!";
     }
-    
-    
+
+
     public String setMode(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
-        for (Person person : currentGame.getMap().getCells()[x-1][y-1].getPeople()) {
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 MilitaryPerson militaryPerson = (MilitaryPerson) person;
                 militaryPerson.setMode(matcher.group("mode"));
@@ -610,7 +605,7 @@ public class GameController {
         }
         return "You have no military person in this location!";
     }
-    
+
     public String disbandUnit() {
         Cell[][] mapCells = currentGame.getMap().getCells();
         for (int i = 0; i < mapCells.length; i++) {
@@ -624,7 +619,7 @@ public class GameController {
         }
         return "You can't disband this unit!";
     }
-    
+
     public String attackEnemy(Matcher matcher) {
         int enemyX = Integer.parseInt(matcher.group("x"));
         int enemyY = Integer.parseInt(matcher.group("y"));
@@ -638,7 +633,7 @@ public class GameController {
         }
         return "There's no enemy in this location!";
     }
-    
+
     public String aerialAttack(Matcher matcher) {
         int enemyX = Integer.parseInt(matcher.group("x"));
         int enemyY = Integer.parseInt(matcher.group("y"));
@@ -654,15 +649,15 @@ public class GameController {
         }
         return "There is no enemy in this location!";
     }
-    
-    
+
+
     private Kingdom getKingdomByKing(User king) {
         for (Kingdom kingdom : currentGame.getKingdoms()) {
             if (kingdom.getKing().getUsername().equals(king.getUsername())) return kingdom;
         }
         return null;
     }
-    
+
     public String buildEquipment(Matcher matcher) {
         String equipmentName = matcher.group("equipmentName");
         Product product = FileController.getProductByName(equipmentName);
@@ -680,13 +675,13 @@ public class GameController {
         createEquipmentWithGivenEquipment(product);
         return "success";
     }
-    
+
     private void createEquipmentWithGivenEquipment(Product givenProduct) {
         AttackEquipment attackEquipment = new AttackEquipment(givenProduct.getName(),
                 givenProduct.getUsedMaterials(), getCurrentUser(), (MilitaryPerson) selectedUnit);
         Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).addAttackEquipment(attackEquipment);
     }
-    
+
     public String setKingdomColors(String colorsStr) {
         String[] colors = colorsStr.split("-");
         for (int i = 0; i < colors.length; i++) {
@@ -696,17 +691,17 @@ public class GameController {
         if (colors.length < currentGame.getKingdoms().size()) return "few colors";
         if (colors.length > currentGame.getKingdoms().size()) return "too many colors";
         if (!isAColorRepeated(colors)) return "repeated color";
-        
+
         return "success";
     }
-    
+
     private boolean isColorLegal(String color) {
         for (String legalColor : legalColors) {
             if (color.equals(legalColor)) return true;
         }
         return false;
     }
-    
+
     private boolean isAColorRepeated(String[] colors) {
         for (int i = 0; i < colors.length; i++) {
             for (int j = i + 1; j < colors.length; j++) {
@@ -715,7 +710,7 @@ public class GameController {
         }
         return true;
     }
-    
+
     public String patrol(Matcher matcher) {
         int x1 = Integer.parseInt(matcher.group("x1"));
         int y1 = Integer.parseInt(matcher.group("y1"));
@@ -725,7 +720,7 @@ public class GameController {
             return "You have entered invalid location!";
         patrollingUnit = (MilitaryPerson) selectedUnit;
         if (patrollingUnit == null) return "You should first select a unit to patrol!";
-        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > ((MilitaryPerson)selectedUnit).getMovingRange())
+        if ((Math.abs(x1 - x2) + Math.abs(y1 - y2)) > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "The distance is out of the unit's moving range!";
         while (!isPatrollingStopped) {
             removeAndAddInMoving(patrollingUnit, x2 - 1, y2 - 1);
@@ -733,14 +728,14 @@ public class GameController {
         }
         return "The unit patrolling!";
     }
-    
+
     private void removeAndAddInMoving(MilitaryPerson unit, int x, int y) {
         patrollingUnit.getLocation().removePerson(unit);
         Cell destination = currentGame.getMap().getCells()[x][y];
         destination.addPerson(unit);
         unit.setLocation(destination);
     }
-    
+
     public String repair() {
         //TODO: make it smaller!
         Building savedBuilding = null;
@@ -778,7 +773,7 @@ public class GameController {
         selectedBuilding = null;
         return "You have repaired " + selectedBuilding.getType();
     }
-    
+
     private void fight() {
         //TODO: this method can be more effective
         Cell[][] cells = currentGame.getMap().getCells().clone();
@@ -801,9 +796,9 @@ public class GameController {
                 }
             }
         }
-        
+
     }
-    
+
     private void arrowsAct() {
         Cell[][] cells = currentGame.getMap().getCells();
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
@@ -820,20 +815,94 @@ public class GameController {
             }
         }
     }
-    
+
     private void destroyBuildings() {
         //TODO
+        //military range of damage
     }
-    
+
     private void divideFood() {
-        //TODO
+        boolean check1 = false, check2 = false;
+        int peopleCounter = 0;
+        int rate;
+        int foodCounter = getNumberOfFoods();
+        int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
+        for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals("food")) {
+                rate = popularityFactor.getRate();
+                double foodGivingRate = ((0.5 * rate) + 1);
+                if ((foodCounter / foodGivingRate >= population))
+                    check1 = true;
+                if ((foodCounter / foodGivingRate) - 4 >= population)
+                    check2 = true;
+                for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+                    if (product.getName().equals("apple") || product.getName().equals("meat") ||
+                            product.getName().equals("bread") || product.getName().equals("cheese")) {
+                        if (check2 && !check1)
+                            for (int i = 0; i < product.getCount() - 1; i++) {
+                                peopleCounter++;
+                                product.setCount(product.getCount() - foodGivingRate);
+                            }
+                        else if (check1 && !check2)
+                            for (int i = 0; i < product.getCount(); i++) {
+                                peopleCounter++;
+                                product.setCount(product.getCount() - foodGivingRate);
+                            }
+                        if (peopleCounter == population)
+                            break;
+                    }
+                }
+            }
+        }
     }
-    
+
+    private int getNumberOfFoods() {
+        int foodCount = 0;
+        for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+            if (product.getName().equals("apple") || product.getName().equals("meat") ||
+                    product.getName().equals("bread") || product.getName().equals("cheese")) {
+                foodCount += product.getCount();
+            }
+        }
+        return foodCount;
+    }
+
     private void changePopulation() {
         //TODO
     }
-    
-    
+
+    private void getTax() {
+        int peopleCounter = 0;
+        int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
+        int rate;
+        double currentInventory=getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory();
+        for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
+            if (popularityFactor.getName().equals("tax")) {
+                if (currentInventory == 0)
+                    popularityFactor.setRate(0);
+                rate = popularityFactor.getRate();
+                double TaxGivingRate = generateTaxGivingRate(rate);
+                for (int i = 0; i < population; i++) {
+                    if(peopleCounter==population)
+                        break;
+                    peopleCounter++;
+                    getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(currentInventory + TaxGivingRate);
+                }
+
+            }
+        }
+
+    }
+
+    private double generateTaxGivingRate(int rate) {
+        if (rate >= 1 && rate <= 8)
+            return (0.2 * rate) + 0.4;
+        else if (rate >= -1 && rate < 1)
+            return (0.6 * rate);
+        else if (rate >= -3 && rate < -1)
+            return (0.2 * rate) - 0.4;
+    }
+
     public void nextTurn() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
         currentGame.turn.setCurrentKing(allGameUsers.get(Turn.getTurnCounter() % allGameUsers.size()).getKing());
@@ -845,6 +914,8 @@ public class GameController {
         fight();
         arrowsAct();
         divideFood();
+        getTax();
         changePopulation();
     }
+
 }

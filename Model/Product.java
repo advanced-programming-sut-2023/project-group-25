@@ -7,7 +7,7 @@ public class Product {
     private String name;
     private int cost;
     private int price;
-    private int count = 0;
+    private double count = 0;
     private String category;
     private ArrayList<Product> usedMaterials;
     
@@ -32,7 +32,7 @@ public class Product {
         return price;
     }
     
-    public int getCount() {
+    public double getCount() {
         return count;
     }
     
@@ -48,7 +48,7 @@ public class Product {
         this.count += amount;
     }
 
-    public void setCount(int count) {
+    public void setCount(double count) {
         this.count = count;
     }
 }
