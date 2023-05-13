@@ -56,16 +56,9 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SET_MODE)) != null) {
                 System.out.println(gameController.setMode(matcher));
             } else if ((matcher = getMatcher(input, Commands.DISBAND)) != null) {
-                if (gameController.disbandUnit().equals("can't go"))
-                    System.out.println("You can't dis band this unit!");
-                else System.out.println("Unit is disbanded successfully!");
+                System.out.println(gameController.disbandUnit());
             } else if ((matcher = getMatcher(input, Commands.BUILD_EQUIPMENT)) != null) {
-                switch (gameController.buildEquipment(matcher)) {
-                    case "success":
-                        System.out.println("Equipment is built successfully!");
-                        break;
-                    //TODO...
-                }
+                System.out.println(gameController.buildEquipment(matcher));
             } else if (input.matches("show map")) {
                 System.out.println(MapController.showMap(gameController.getCurrentGame().getMap()));
             } else if ((matcher = getMatcher(input, Commands.BLOCK_SET_TEXTURE)) != null) {
