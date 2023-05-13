@@ -27,6 +27,8 @@ public class TradeMenu {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input,Commands.BACK)) != null) {
                 return;
+            } else if(input.equals("send request")) {
+                System.out.println("Here is the list of all of the kings; please choose one of them to send a request:");
             }
         }
     }
