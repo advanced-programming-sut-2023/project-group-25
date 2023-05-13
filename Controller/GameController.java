@@ -36,9 +36,9 @@ public class GameController {
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
         for (int i = 0; i < usernames.size(); i++) {
             if (FileController.getUserByUsername(usernames.get(i)) == null)
-                resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; ; please try again!");
+                resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; please try again!");
         }
-        if(hasRepeatedUsername(usernames))
+        if(hasRepeatedUsername(usernames) && resultMessage == "")
             resultMessage = "You have repeated usernames in the list; please try again!";
         else if (resultMessage.equals("")) {
             File Games = new File("Games.txt");
@@ -59,9 +59,9 @@ public class GameController {
     }
 
     public boolean hasRepeatedUsername(ArrayList<String> usernames) {
-        for(String s1 : usernames) {
-            for(String s2 : usernames) {
-                if(s2.equals(s1))
+        for(int i = 0; i<usernames.size(); i++) {
+            for(int j = i+1; j<usernames.size(); j++) {
+                if(usernames.get(i).equals(usernames.get(j)))
                     return true;
             }
         }
