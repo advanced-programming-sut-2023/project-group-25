@@ -11,8 +11,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Controller.RegisterLoginController.getCurrentUser;
-import static Controller.RegisterLoginController.getOptionsFromMatcher;
+import static Controller.RegisterLoginController.*;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
@@ -25,28 +24,55 @@ public class GameController {
     private int shownMapX;
     private int shownMapY;
     private Building selectedBuilding;
+
     
+    
+    public ArrayList<NaturalBlock> tree=new ArrayList<>();
+
+
     public String newGame(String line) {
-        String[] usernames = line.split("-");
-        for (int i = 0; i < usernames.length; i++) {
-            if (FileController.getUserByUsername(usernames[i]) == null)
-                return "New game creation failed! Username [" + usernames[i] + "] does not exist!";
+        String resultMessage = "";
+        String[] lineUsernames = line.split("-");
+        ArrayList<String> usernames = new ArrayList<>();
+        for(String s: lineUsernames)
+            usernames.add(s);
+        usernames.add(RegisterLoginController.getCurrentUser().getUsername());
+        for (int i = 0; i < usernames.size(); i++) {
+            if (FileController.getUserByUsername(usernames.get(i)) == null)
+                resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; please try again!");
         }
-        File Games = new File("Games.txt");
-        ArrayList<String> content = FileController.readFileContent("Games.txt");
-        int gameId = content.size() / 4 + 1;
-        ArrayList<Kingdom> kingdoms = new ArrayList<>();
-        for (int i = 0; i < usernames.length; i++) {
-            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames[i]), gameId);
-            FileController.addKingdomToFile(newKingdom);
-            kingdoms.add(newKingdom);
+        if(hasRepeatedUsername(usernames) && resultMessage == "")
+            resultMessage = "You have repeated usernames in the list; please try again!";
+        else if (resultMessage.equals("")) {
+            File Games = new File("src/main/java/Database/Games.txt");
+            ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
+            int gameId = content.size() / 4 + 1;
+            ArrayList<Kingdom> kingdoms = new ArrayList<>();
+            for (int i = 0; i < usernames.size(); i++) {
+                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
+                FileController.addKingdomToFile(newKingdom);
+                kingdoms.add(newKingdom);
+            }
+            Game game = new Game(gameId, kingdoms);
+            currentGame = game;
+            FileController.addGameToFile(game);
+            resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
-        Game game = new Game(gameId, kingdoms);
-        currentGame = game;
-        FileController.addGameToFile(game);
-        return "New game created successfully! Game's ID: " + gameId;
+        return resultMessage;
     }
-    
+
+
+    public boolean hasRepeatedUsername(ArrayList<String> usernames) {
+        for(int i = 0; i<usernames.size(); i++) {
+            for(int j = i+1; j<usernames.size(); j++) {
+                if(usernames.get(i).equals(usernames.get(j)))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
     public Game getCurrentGame() {
         return currentGame;
     }
@@ -105,7 +131,21 @@ public class GameController {
 //        currentGame.getMap().getCells()[x][y].getNaturalBlocks().removeAll(currentGame.getMap().getCellByLocation(x,y).getNaturalBlocks());
         return "Cell cleared successfully";
     }
-    
+
+    public void initializeTrees(){
+        NaturalBlock block1 = new NaturalBlock("desertBush","tree");
+        NaturalBlock block2 = new NaturalBlock("cherryPalm","tree");
+        NaturalBlock block3 = new NaturalBlock("oliveTree","tree");
+        NaturalBlock block4 = new NaturalBlock("coconutPalm","tree");
+        NaturalBlock block5 = new NaturalBlock("date","tree");
+        tree.add(block1);
+        tree.add(block2);
+        tree.add(block3);
+        tree.add(block4);
+        tree.add(block5);
+    }
+
+
     public String dropRock(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
@@ -141,11 +181,18 @@ public class GameController {
     }
     
     public String dropTree(int x, int y, Cell cell, String type) {
+        boolean check=false;
         NaturalBlock naturalBlock = new NaturalBlock(type, "Tree");
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea"))
             return "You can't drop a tree in this location!";
+        for(NaturalBlock trees:tree){
+            if(trees.getName().equals(type)){
+                check=true;
+            }
+        }
+        if(!check) return "This type of tree doesn't exist";
         cell.addNaturalBlocks(naturalBlock);
         return type + " added successfully";
     }
@@ -173,13 +220,14 @@ public class GameController {
                 if (neededProduct.getName().equals(product.getName())) {
                     if (neededProduct.getCount() >= product.getCount()) {
                         product.setCount(product.getCount() - neededProduct.getCount());
+                        cell.setBuilding(building);
+                        building.setKing(currentGame.turn.getCurrentKing());
+                        return type + " added successfully";
                     } else return "You don't have enough products to drop " + type;
                 }
             }
         }
-        cell.setBuilding(building);
-        building.setKing(currentGame.turn.getCurrentKing());
-        return type + " added successfully";
+        return null;
     }
     
     private Building getBuilding(String type, Building savedBuilding, String category) {

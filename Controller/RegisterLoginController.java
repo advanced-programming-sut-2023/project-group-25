@@ -309,7 +309,7 @@ public class RegisterLoginController {
                 currentUser = FileController.getUserByUsername(username);
                 resultMessage = "success";
                 timeOrigin = 1000;
-                tryingToLoginUsername = null;
+                tryingToLoginUsername = "";
             }
         }
         return resultMessage;

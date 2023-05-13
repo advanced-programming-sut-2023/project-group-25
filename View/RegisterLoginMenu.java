@@ -191,7 +191,7 @@ public class RegisterLoginMenu {
     public String captchaRun(Scanner scanner) {
         String captcha = registerLoginController.generateCaptchaString();
         registerLoginController.asciiArt(captcha);
-        System.out.print("To confirm the register, Enter the CAPTCHA: ");
+        System.out.print("To confirm the register,login, Enter the CAPTCHA: ");
         while (true) {
             input = scanner.nextLine();
             if (input.equals(captcha)) {

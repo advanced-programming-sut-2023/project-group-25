@@ -63,7 +63,8 @@ public class ChangeMenuController {
                     profileMenu.run(scanner);
                     break;
                 case "trade menu":
-
+                    tradeMenu.run(scanner);
+                    break;
             }
         }
     }
