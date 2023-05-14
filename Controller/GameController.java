@@ -509,7 +509,7 @@ public class GameController {
         assert smallMap != null;
         return MapController.showMap(smallMap);
     }
-
+    
     
     private Map makeSmallMap(int x, int y) {
         Map smallMap = new Map(3, 3);
@@ -1013,14 +1013,19 @@ public class GameController {
                             Person realSelectedUnit = selectedUnit;
                             selectedUnit = kingPerson;
                             if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
-                                ((WorkerPerson) selectedUnit).setWorkerPlace(new Building("hop", "", null, 0, 0));
+                                ((WorkerPerson) selectedUnit).setWorkerPlace
+                                        (new Building("hop", "", null, 0, 0));
                                 
-                                toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX() + " -y" + storageBuilding.getLocation().getY();
-                                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                                toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
+                                        + " -y" + storageBuilding.getLocation().getY();
+                                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT))
+                                        .equals("Unit has been moved successfully!")) {
                                     ((WorkerPerson) selectedUnit).setWorkerPlace(null);
                                     selectedUnit = realSelectedUnit;
                                     Product product = FileController.getProductByName(type);
-                                    Product product1 = new Product(type, product.getCost(), product.getPrice(), "source", null);
+                                    assert product != null;
+                                    Product product1 = new Product
+                                            (type, product.getCost(), product.getPrice(), "source", null);
                                     product1.setCount(count);
                                     currentKingdom.getKingProducts().add(product1);
                                     return type + " is produced successfully!";
@@ -1056,7 +1061,7 @@ public class GameController {
     
     private String getStorageBuilding(String type) {
         switch (type) {
-            //TODO
+            //TODO:
         }
         return null;
     }
@@ -1118,20 +1123,37 @@ public class GameController {
         }
     }
     
+    //TODO: jobless counter and workers
     private String produceApple(int count) {
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
-        
+        String storageBuildingType = getStorageBuilding("apple");
         for (Building kingBuilding : currentKingdom.getKingBuildings()) {
             if (kingBuilding.getType().equals("apple farmer")) {
-            
+                for (Building storageBuilding : currentKingdom.getKingBuildings()) {
+                    if (storageBuilding.getType().equals(storageBuildingType)) {
+                        Person realSelectedUnit = selectedUnit;
+                        selectedUnit = kingBuilding.getWorkerPeople().get(0);
+                        String toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
+                                + " -y " + storageBuilding.getLocation().getY();
+                        if (!moveUnit(Commands.getMatcher(toGetMatcher,Commands.MOVE_UNIT)).equals("Unit has been moved successfully!"))
+                            return "There is no access by farmer workers to the " + storageBuildingType;
+                        Product product = FileController.getProductByName("apple");
+                        assert product != null;
+                        Product product1 = new Product("apple",product.getCost(),product.getPrice(),product.getCategory(),product.getUsedMaterials());
+                        product1.setCount(count);
+                        currentKingdom.getKingProducts().add(product1);
+                        return "Apple is produced successfully!";
+                    }
+                }
+                return "You don't have any " + storageBuildingType + "!";
             }
         }
-        //TODO
         return "You don't have any apple farmers!";
-        
     }
     
     private String produceCheese(int count) {
+        
+    
         //TODO
         return null;
     }
