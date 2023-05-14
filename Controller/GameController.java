@@ -40,6 +40,7 @@ public class GameController {
         return "ok";
     }
     
+    
     public String newGame(String line) {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
@@ -70,6 +71,15 @@ public class GameController {
         }
         return resultMessage;
     }
+    
+    
+    public void addJoblessWorkers() {
+        for (int i = 0; i < 8; i++) {
+            WorkerPerson workerPerson = new WorkerPerson(currentGame.turn.getCurrentKing(), "jobless", null);
+            getKingdomByKing(currentGame.turn.getCurrentKing()).setKingPeople(workerPerson);
+        }
+    }
+    
     
     public boolean hasRepeatedUsername(ArrayList<String> usernames) {
         for (int i = 0; i < usernames.size(); i++) {
@@ -1046,25 +1056,88 @@ public class GameController {
     
     private String getNeededBuilding(String type) {
         switch (type) {
-            case "hop":
-                return "hop farmer";
             case "iron":
                 return "iron mine";
             case "wood":
                 return "woodcutter";
             case "stone":
-                return "";
-            
+                return "quarry";
+            case "meat":
+                return "hunter post";
+            case "bread":
+                return "bakery";
+            case "cheese":
+                return "dairy farmer";
+            case "ale":
+                return "brewer";
+            case "apple":
+                return "apple orchard";
+            case "hop":
+                return "hop farmer";
+            case "wheat":
+                return "wheat farmer";
+            case "flour":
+                return "mill";
+            case "spear":
+            case "pike":
+                return "poleturner";
+            case "bow":
+            case "crossbow":
+                return "fletcher";
+            case "mace":
+            case "sword":
+                return "blacksmith";
+            case "leatherArmor":
+                return "ox tether";
+            case "metalArmor":
+                return "armourer";
         }
         return null;
     }
     
     private String getStorageBuilding(String type) {
         switch (type) {
-            //TODO:
+            case "iron":
+            case "wood":
+            case "stone":
+                return "stockpile";
+            case "meat":
+                return "granary";
+            case "bread":
+                return "granary";
+            case "cheese":
+                return "granary";
+            case "ale":
+                return "granary";
+            case "apple":
+                return "granary";
+            case "hop":
+                return "stockpile";
+            case "wheat":
+                return "stockpile";
+            case "flour":
+                return "stockpile";
+            case "spear":
+                return "armoury";
+            case "bow":
+                return "armoury";
+            case "mace":
+                return "armoury";
+            case "crossbow":
+                return "armoury";
+            case "pike":
+                return "armoury";
+            case "sword":
+                return "armoury";
+            case "leatherArmor":
+                return "armoury";
+            case "metalArmor":
+                return "armoury";
+            
         }
         return null;
     }
+    
     
     public String produceEquipment(Matcher matcher) {
         String type = matcher.group();
@@ -1075,6 +1148,20 @@ public class GameController {
         ArrayList<Product> neededThings = product.getUsedMaterials();
         String hasNeededProducts = checkTheNeededProducts(neededThings, currentKingdom);
         if (!hasNeededProducts.equals("ok")) return hasNeededProducts;
+        for (Product neededProduct : neededThings) {
+            boolean weHaveIt = false;
+            
+            for (Product kingProduct : currentKingdom.getKingProducts()) {
+                if (neededProduct.getName().equals(kingProduct.getName())) {
+                    weHaveIt = true;
+                    if (neededProduct.getCount() > kingProduct.getCount()) {
+                        return "You don't have enough " + neededProduct.getName();
+                    }
+                }
+                
+            }
+            if (!weHaveIt) return "You don't have any " + neededProduct.getName();
+        }
         if (product.getCost() > currentKingdom.getInventory()) return "You don't have enough coins";
         for (Building kingBuilding : currentKingdom.getKingBuildings()) {
             if (kingBuilding.getType().equals(neededBuildingType)) {
