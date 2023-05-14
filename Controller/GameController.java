@@ -198,7 +198,8 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        cell = currentGame.getMap().getCellByLocation(x, y);
+        if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
@@ -1023,8 +1024,10 @@ public class GameController {
         int count = Integer.parseInt(matcher.group(2));
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
-        if (type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))
+        if (neededBuildingType == null) return "You have entered invalid type!";
+        if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
+        }
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         boolean thereIsFreeWorker = false;
         for (Person kingPerson : currentKingdom.getKingPeople()) {
@@ -1035,24 +1038,19 @@ public class GameController {
                     int j = kingBuilding.getLocation().getY();
                     for (Building storageBuilding : currentKingdom.getKingBuildings()) {
                         if (storageBuilding.getType().equals(storageBuildingType)) {
-                            
                             String toGetMatcher = "move unit to -x " + i + " -y " + j;
                             Person realSelectedUnit = selectedUnit;
                             selectedUnit = kingPerson;
                             if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                                 ((WorkerPerson) selectedUnit).setWorkerPlace
                                         (new Building("hop", "", null, 0, 0));
-                                
                                 toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                         + " -y" + storageBuilding.getLocation().getY();
                                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT))
                                         .equals("Unit has been moved successfully!")) {
-                                    
                                     ((WorkerPerson) selectedUnit).setWorkerPlace(new Building("hop", "", null, 0, 0));
-                                    
                                     toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX() + " -y" + storageBuilding.getLocation().getY();
                                     if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
-                                        
                                         ((WorkerPerson) selectedUnit).setWorkerPlace(null);
                                         selectedUnit = realSelectedUnit;
                                         Product product = FileController.getProductByName(type);

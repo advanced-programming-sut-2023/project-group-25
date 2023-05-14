@@ -31,7 +31,7 @@ public enum Commands {
     SHOW_POPULARITY_FACTORS("^show popularity factors$"),
     SHOW_POPULARITY("^show popularity$"),
     SHOW_FOOD_LIST("^show food list$"),
-    RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
+    RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>-?\\d+)"),
     SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     DROP_BUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
@@ -63,8 +63,8 @@ public enum Commands {
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     
     PRODUCE_SOURCE("produce source -t (?<t>.+) -c (?<count>\\d+)"),
-    PRODUCE_FOOD("produce food -t (?<t>.+)"),
-    PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+)"),
+    PRODUCE_FOOD("produce food -t (?<t>.+) -c (?<count>\\d+)"),
+    PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+) -c (?<count>\\d+)"),
     
     NEXT_TURN("next turn"),
     ENTER_TRADE_MENU("enter trade menu"),
