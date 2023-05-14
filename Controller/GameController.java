@@ -942,6 +942,7 @@ public class GameController {
         isPatrollingStopped = false;
         fight();
         arrowsAct();
+        hittingBuildings();
         divideFood();
         getTax();
         changePopulation();
