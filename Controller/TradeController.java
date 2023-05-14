@@ -20,6 +20,8 @@ public class TradeController {
         String resultMessage = "";
         Game game = gameController.getCurrentGame();
         for(int i = 0; i<game.getKingdoms().size(); i++) {
+            if(!gameController.getCurrentGame().turn.getCurrentKing().getUsername().equals(
+                    game.getKingdoms().get(i).getKing().getUsername()))
             resultMessage += ((i+1) + "- " + game.getKingdoms().get(i).getKing().getUsername() + "\n");
         }
         return resultMessage;
@@ -33,13 +35,14 @@ public class TradeController {
         String price = MainController.getOptionsFromMatcher(matcher,"p",4);
         String message = MainController.getOptionsFromMatcher(matcher,"m",4);
         Trade trade = new Trade(username,FileController.generateTradeId(),"request",resourceType,Integer.parseInt(resourceAmount),Integer.parseInt(price),message);
-        FileController.addTradeToFile(trade);
+        FileController.addTradeToFile(trade, gameController.getCurrentGame());
         return "success";
     }
 
     public String showAllTrades() {
         String resultMessage = "";
-        ArrayList<Trade> allTrades = FileController.getAllTradesByKing(gameController.getCurrentGame().turn.getCurrentKing().getUsername());
+        ArrayList<Trade> allTrades = FileController.getAllTradesByKing(gameController.getCurrentGame().turn.getCurrentKing().getUsername(),
+                gameController.getCurrentGame());
         for(int i = 0; i<allTrades.size(); i++) {
             resultMessage += ("Trade Type: <<" + allTrades.get(i).getTradeType() + ">>\n");
             resultMessage += ("Trade ID: " + allTrades.get(i).getId() + "\n");
