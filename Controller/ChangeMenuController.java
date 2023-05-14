@@ -11,7 +11,7 @@ public class ChangeMenuController {
     private static final MainController mainController = new MainController();
     private static final GameController gameController = new GameController();
     private static final ProfileController profileController = new ProfileController();
-    private static final TradeController tradeController = new TradeController();
+    private static final TradeController tradeController = new TradeController(gameController);
     private static final MapController mapController = new MapController(gameController);
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);

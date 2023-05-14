@@ -445,7 +445,7 @@ public class FileController {
         }
     }
 
-    public int generateTradeId() {
+    public static int generateTradeId() {
         File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
         int lineNumber = content.size();
@@ -454,7 +454,7 @@ public class FileController {
 
     public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
-        content.add(trade.getKing().getUsername());
+        content.add(trade.getKingUsername());
         content.add(String.valueOf(trade.getId()));
         content.add(String.valueOf(trade.getResourceAmount()));
         content.add(String.valueOf(trade.getPrice()));

@@ -31,15 +31,6 @@ public class RegisterLoginController {
         RegisterLoginController.currentUser = currentUser;
     }
 
-    public static String getOptionsFromMatcher(Matcher matcher, String option, int numberOfOptions) {
-        for (int i = 0; i < numberOfOptions; i++) {
-            if (matcher.group(("option" + (i + 1))).equals(option))
-                return matcher.group(("input" + (i + 1)));
-        }
-        return null;
-    }
-
-
     public static String passwordToSHA(String password) throws NoSuchAlgorithmException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-256");
         crypt.update(password.getBytes(StandardCharsets.UTF_8));
@@ -208,31 +199,18 @@ public class RegisterLoginController {
         else lines[7] += "*******     ";
     }
 
-    public boolean checkAllOptionsExist(Matcher matcher, ArrayList<String> allOptions) {
-        ArrayList<String> matcherExistingOptions = new ArrayList<>();
-        for (int i = 0; i < allOptions.size(); i++) {
-            matcherExistingOptions.add(matcher.group(("option" + (i + 1))));
-        }
-        Collections.sort(matcherExistingOptions);
-        Collections.sort(allOptions);
-        if (matcherExistingOptions.equals(allOptions))
-            return true;
-        else
-            return false;
-    }
-
     public void getRegisterOptions(Matcher matcher, boolean hasSlogan) {
         String password, passwordConfirm, slogan;
         boolean isPasswordRandom = false, isSloganRandom = false;
         int numberOfOptions = 5;
         if (!hasSlogan)
             numberOfOptions--;
-        String username = getOptionsFromMatcher(matcher, "u", numberOfOptions);
-        String nickname = getOptionsFromMatcher(matcher, "n", numberOfOptions);
-        String email = getOptionsFromMatcher(matcher, "e", numberOfOptions);
-        String passwordGroup = getOptionsFromMatcher(matcher, "p", numberOfOptions);
+        String username = MainController.getOptionsFromMatcher(matcher, "u", numberOfOptions);
+        String nickname = MainController.getOptionsFromMatcher(matcher, "n", numberOfOptions);
+        String email = MainController.getOptionsFromMatcher(matcher, "e", numberOfOptions);
+        String passwordGroup = MainController.getOptionsFromMatcher(matcher, "p", numberOfOptions);
         if (hasSlogan)
-            slogan = getOptionsFromMatcher(matcher, "s", numberOfOptions);
+            slogan = MainController.getOptionsFromMatcher(matcher, "s", numberOfOptions);
         else
             slogan = "";
         if (passwordGroup.equals("random")) {
@@ -258,7 +236,7 @@ public class RegisterLoginController {
     //Main Functions:
     public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
         String resultMessage;
-        if (!checkAllOptionsExist(matcher, allOptions))
+        if (!MainController.checkAllOptionsExist(matcher, allOptions))
             resultMessage = "Please enter valid options!";
         else {
             getRegisterOptions(matcher, hasSlogan);
@@ -288,11 +266,11 @@ public class RegisterLoginController {
 
     public String login(Matcher matcher, ArrayList<String> allOptions, boolean hasLoggedIn) throws NoSuchAlgorithmException {
         String resultMessage;
-        if (!checkAllOptionsExist(matcher, allOptions))
+        if (!MainController.checkAllOptionsExist(matcher, allOptions))
             resultMessage = "Please enter valid options!";
         else {
-            String username = getOptionsFromMatcher(matcher, "u", 2);
-            String password = getOptionsFromMatcher(matcher, "p", 2);
+            String username = MainController.getOptionsFromMatcher(matcher, "u", 2);
+            String password = MainController.getOptionsFromMatcher(matcher, "p", 2);
             if (username.matches("\\s+") || password.matches("\\s+"))
                 resultMessage = "Empty Field Exists; Please enter all options completely!";
             else if (FileController.isUserNameUnique(username))
@@ -333,10 +311,10 @@ public class RegisterLoginController {
     public String pickQuestion(Matcher matcher, ArrayList<String> allOptions) {
         String resultMessage;
         ArrayList<String> questions = showSecurityQuestions();
-        String questionNumber = getOptionsFromMatcher(matcher, "q", 3);
-        String answer = getOptionsFromMatcher(matcher, "a", 3);
-        String answerConfirm = getOptionsFromMatcher(matcher, "c", 3);
-        if (!checkAllOptionsExist(matcher, allOptions))
+        String questionNumber = MainController.getOptionsFromMatcher(matcher, "q", 3);
+        String answer = MainController.getOptionsFromMatcher(matcher, "a", 3);
+        String answerConfirm = MainController.getOptionsFromMatcher(matcher, "c", 3);
+        if (!MainController.checkAllOptionsExist(matcher, allOptions))
             resultMessage = "Please enter valid options!";
         else {
             if (questionNumber.matches("\\s*") || answer.matches("\\s*") || answerConfirm.matches("\\s*"))
