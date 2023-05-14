@@ -67,7 +67,6 @@ public class GameController {
             }
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
-            FileController.addGameToFile(game);
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
@@ -184,8 +183,8 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        if (!isLocationValid(x-1,y-1)) return "Invalid location!";
-        cell = currentGame.getMap().getCellByLocation(x-1, y-1);
+        if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
@@ -268,7 +267,7 @@ public class GameController {
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
-        ArrayList<Person> unusedUnits = Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingUnusedUnits();
+        ArrayList<Person> unusedUnits = Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing()).getKingUnusedUnits());
         ArrayList<Person> unusedUnitsCopy = new ArrayList<>(unusedUnits);
         for (Person unit : unusedUnitsCopy) {
             if (unit.getType().equals(type)) {
@@ -434,8 +433,8 @@ public class GameController {
     }
     
     public String selectUnit(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
         for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
@@ -447,8 +446,8 @@ public class GameController {
     }
     
     public String moveUnit(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
@@ -467,8 +466,8 @@ public class GameController {
     }
     
     public String createUnit(Matcher matcher) {
-        String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
-        int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
+        String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
+        int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         Kingdom kingdom = getKingdomByKing(getCurrentUser());
@@ -513,8 +512,8 @@ public class GameController {
     }
     
     public String showAPartOfMap(Matcher matcher) {
-        shownMapX = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "x", 2)));
-        shownMapY = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "y", 2)));
+        shownMapX = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        shownMapY = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(shownMapX - 1, shownMapY - 1)) {
             shownMapX = 0;
             shownMapY = 0;
@@ -584,10 +583,10 @@ public class GameController {
     }
     
     public String digTunnel(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
-        for (Person kingPerson : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople()) {
+        for (Person kingPerson : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
                 ((WorkerPerson) kingPerson).setWorkerPlace(new Building("tunnel", "", null, 0, 0));
                 MilitaryPerson originalSelected = (MilitaryPerson) selectedUnit;
@@ -655,7 +654,7 @@ public class GameController {
                         || selectedUnit.getType().equals("Archer Bow")) {
                     if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
                         currentGame.getMap().getCells()[enemyX][enemyY].addToKingdomsWithArrows(currentGame
-                                .getKingdomByKing(currentGame.turn.getCurrentKing()));
+                                .getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()));
                         return "You made the aerial attack successfully!";
                     } else return "The enemy you want to attack is out of range of the selected unit!";
                 } else return "Selected unit is not able to shoot!";
@@ -1012,7 +1011,7 @@ public class GameController {
         if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
         }
-        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         boolean thereIsFreeWorker = false;
         for (Person kingPerson : currentKingdom.getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
@@ -1022,24 +1021,19 @@ public class GameController {
                     int j = kingBuilding.getLocation().getY();
                     for (Building storageBuilding : currentKingdom.getKingBuildings()) {
                         if (storageBuilding.getType().equals(storageBuildingType)) {
-                            
                             String toGetMatcher = "move unit to -x " + i + " -y " + j;
                             Person realSelectedUnit = selectedUnit;
                             selectedUnit = kingPerson;
                             if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                                 ((WorkerPerson) selectedUnit).setWorkerPlace
                                         (new Building("hop", "", null, 0, 0));
-                                
                                 toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                         + " -y" + storageBuilding.getLocation().getY();
                                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT))
                                         .equals("Unit has been moved successfully!")) {
-                                    
                                     ((WorkerPerson) selectedUnit).setWorkerPlace(new Building("hop", "", null, 0, 0));
-                                    
                                     toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX() + " -y" + storageBuilding.getLocation().getY();
                                     if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
-                                        
                                         ((WorkerPerson) selectedUnit).setWorkerPlace(null);
                                         selectedUnit = realSelectedUnit;
                                         Product product = FileController.getProductByName(type);
@@ -1113,7 +1107,7 @@ public class GameController {
         String type = matcher.group();
         String neededBuildingType = getNeededBuilding(type);
         Product product = FileController.getProductByName(type);
-        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         assert product != null;
         ArrayList<Product> neededThings = product.getUsedMaterials();
         String hasNeededProducts = checkTheNeededProducts(neededThings, currentKingdom);
@@ -1154,7 +1148,7 @@ public class GameController {
         String type = matcher.group(1);
         int count = Integer.parseInt(matcher.group(2));
         
-        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
         for (Building kingBuilding : currentKingdom.getKingBuildings()) {

@@ -55,7 +55,7 @@ public enum Commands {
     CLEAR_BLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
     DROP_ROCK("droprock -x (?<x>\\d+) -y (?<y>\\d+) -d (?<direction>[a-z])"),
     DROP_OBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
-    TRADE_REQUEST("trade -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+) -(?<option3[a-z]+) (?<input3>.+) -(?<option4[a-z]+) (?<input4>.+)"),
+    TRADE_REQUEST("trade -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+) -(?<option4>\\S+) (?<input4>.+)"),
     TRADE_LIST("trade list"),
     TRADE_ACCEPT("trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     TRADE_HISTORY("trade history"),

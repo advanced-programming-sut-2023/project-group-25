@@ -28,13 +28,10 @@ public class MainMenu {
             if ((matcher = Commands.getMatcher(input,Commands.LOGOUT)) != null) {
                 FileController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(), false);
                 return "logout";
-            }
-            else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))) != null) {
+            } else if (((matcher = Commands.getMatcher(input, Commands.SHOW_MAP_BEFORE_STARTING_THE_GAME))) != null) {
 
                 return "map menu";
-            }
-            
-            else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
+            } else if (((matcher = Commands.getMatcher(input, Commands.ENTERPROFILEMENU))) != null) {
                 return "profile menu";
             } else if(((matcher = Commands.getMatcher(input,Commands.NEW_GAME))) != null) {
                 System.out.println("Please enter the players' usernames separated with [-]: (except yourself)");
@@ -52,8 +49,7 @@ public class MainMenu {
                     }
                     System.out.println(resultMessage);
                 }
-            }
-             else {
+            } else {
                 System.out.println("Invalid command!");
             }
         }
