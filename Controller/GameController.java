@@ -325,9 +325,9 @@ public class GameController {
     public String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
-        result.append("PopularityFactors: \n");
+        result.append("Popularity Factors: \n");
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
-            result.append(popularityFactor.getName()).append(popularityFactor.getPopularityAmount()).append("\n");
+            result.append(popularityFactor.getName()).append(": ").append(popularityFactor.getPopularityAmount()).append("\n");
         }
         return result.toString();
     }
