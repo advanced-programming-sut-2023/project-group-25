@@ -1,0 +1,28 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+--CAPACITY--
+_______________________________________________
+armoury
+storage building
+wood:5
+0
+4000
+500
+_______________________________________________
+stockpile
+storage building
+0
+0
+4000
+500
+_______________________________________________
+granary
+storage building
+wood:5
+0
+4000
+500
+_______________________________________________
