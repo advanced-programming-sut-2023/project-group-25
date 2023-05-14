@@ -62,7 +62,7 @@ public enum Commands {
     SHOW_PRICE_LIST("show price list"),
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     
-    PRODUCE_SOURCE("produce source -t (?<t>.+)"),
+    PRODUCE_SOURCE("produce source -t (?<t>.+) -c (?<count>\\d+)"),
     PRODUCE_FOOD("produce food -t (?<t>.+)"),
     PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+)"),
     

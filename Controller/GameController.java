@@ -841,6 +841,7 @@ public class GameController {
         destroyBuildings();
         divideFood();
         changePopulation();
+        //TODO: mode of units
     }
     
     public String fetchOil() {
@@ -886,29 +887,13 @@ public class GameController {
     }
     
     public String produceSource(Matcher matcher) {
-        String type = matcher.group();
-        switch (type) {
-            case "hop":
-                return produceHop();
-            case "iron":
-                return produceIron();
-            case "stone":
-                return produceStone();
-            case "wood":
-                return produceWood();
-            case "flour":
-                return produceFlour();
-            case "wheat":
-                return produceWheat();
-            default:
-                return "You have entered invalid type for source!";
-        }
-    }
-    
-    private String produceHop() {
-        //time concept is not considered here and in dig tunnel and resembling methods.
+        String type = matcher.group(1);
+        int count = Integer.parseInt(matcher.group(2));
+        String neededBuildingType = getNeededBuilding(type);
+        String storageBuildingType = getStorageBuilding(type);
+        if (type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))
+            return "You have entered invalid type for source!";
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
-        Cell[][] cells = currentGame.getMap().getCells();
         boolean thereIsFreeWorker = false;
         for (Person kingPerson : currentKingdom.getKingPeople()) {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
@@ -916,49 +901,142 @@ public class GameController {
                 for (Building kingBuilding : currentKingdom.getKingBuildings()) {
                     int i = kingBuilding.getLocation().getX();
                     int j = kingBuilding.getLocation().getY();
-                    if (cells[i][j].getBuilding().getType().equals("hop farmer")) {
-                        String toGetMatcher = "move unit to -x " + i + " -y " + j;
-                        Person realSelectedUnit = selectedUnit;
-                        selectedUnit = kingPerson;
-                        if (moveUnit(Commands.getMatcher(toGetMatcher,Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                    for (Building storageBuilding : currentKingdom.getKingBuildings()) {
+                        if (storageBuilding.getType().equals(storageBuildingType)) {
+                            
+                            String toGetMatcher = "move unit to -x " + i + " -y " + j;
+                            Person realSelectedUnit = selectedUnit;
+                            selectedUnit = kingPerson;
+                            if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                                ((WorkerPerson) selectedUnit).setWorkerPlace(new Building("hop", "", null, 0, 0));
+                                
+                                toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX() + " -y" + storageBuilding.getLocation().getY();
+                                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                                    ((WorkerPerson) selectedUnit).setWorkerPlace(null);
+                                    selectedUnit = realSelectedUnit;
+                                    Product product = FileController.getProductByName(type);
+                                    Product product1 = new Product(type, product.getCost(), product.getPrice(), "source", null);
+                                    product1.setCount(count);
+                                    currentKingdom.getKingProducts().add(product1);
+                                    return type + " is produced successfully!";
+                                }
+                                selectedUnit = realSelectedUnit;
+                                return "The worker cannot go to the " + storageBuildingType;
+                            }
                             selectedUnit = realSelectedUnit;
-                            return "Hop is produced successfully!";
                         }
-                        selectedUnit = realSelectedUnit;
                     }
+                    
                 }
             }
         }
-        if (thereIsFreeWorker) return "There is no hop farmer you can access!";
+        if (thereIsFreeWorker) return "There is no " + neededBuildingType + " you can access!";
         return "You have no free workers now";
     }
     
-    private String produceIron() {
+    private String getNeededBuilding(String type) {
+        switch (type) {
+            case "hop":
+                return "hop farmer";
+            case "iron":
+                return "iron mine";
+            case "wood":
+                return "woodcutter";
+            case "stone":
+                return "";
+            //TODO: other sources and also equipments
+        }
+    }
+    
+    private String getStorageBuilding(String type) {
+        switch (type) {
+            //TODO
+        }
         return null;
     }
     
-    private String produceStone() {
-        return null;
-    }
     
-    private String produceWood() {
-        return null;
-    }
     
-    private String produceFlour() {
-        return null;
-    }
-    
-    private String produceWheat() {
-        return null;
+    public String produceEquipment(Matcher matcher) {
+        //TODO: needed buildings
+        String type = matcher.group();
+        String neededBuildingType = getNeededBuilding(type);
+        Product product = FileController.getProductByName(type);
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        assert product != null;
+        ArrayList<Product> neededThings = product.getUsedMaterials();
+        for (Product neededProduct : neededThings) {
+            boolean weHaveIt = false;
+            
+            for (Product kingProduct : currentKingdom.getKingProducts()) {
+                if (neededProduct.getName().equals(kingProduct.getName())) {
+                    weHaveIt = true;
+                    if (neededProduct.getCount() > kingProduct.getCount()) {
+                        return "You don't have enough " + neededProduct.getName();
+                    }
+                }
+                
+            }
+            if (!weHaveIt) return "You don't have any " + neededProduct.getName();
+        }
+        if (product.getCost() > currentKingdom.getInventory()) return "You don't have enough coins";
+        for (Building kingBuilding : currentKingdom.getKingBuildings()) {
+            if (kingBuilding.getType().equals(neededBuildingType)) {
+                for (Product neededProduct : neededThings) {
+                    for (Product kingProduct : currentKingdom.getKingProducts()) {
+                        if (neededProduct.getName().equals(kingProduct.getName())) {
+                            kingProduct.setCount(kingProduct.getCount() - neededProduct.getCount());
+                        }
+                    }
+                }
+                currentKingdom.setInventory(currentKingdom.getInventory() - product.getCost());
+                return product.getName() + " is produced successfully!";
+            }
+        }
+        return "You don't have a " + neededBuildingType;
     }
     
     public String produceFood(Matcher matcher) {
+        String type = matcher.group(1);
+        int count = Integer.parseInt(matcher.group(2));
+        switch (type) {
+            case "meat":
+                return produceMeat(count);
+            case "bread":
+                return produceBread(count);
+            case "cheese":
+                return produceCheese(count);
+            case "apple":
+                return produceApple(count);
+            default:
+                return "You have entered an invalid type for food!";
+        }
+    }
+    
+    private String produceApple(int count) {
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
+        boolean
+        for (Building kingBuilding : currentKingdom.getKingBuildings()) {
+            if (kingBuilding.getType().equals("apple farmer")) {
+            
+            }
+        }
+        //TODO
+        return "You don't have any apple farmers!";
+        
+    }
+    
+    private String produceCheese(int count) {
         //TODO
         return null;
     }
     
-    public String produceEquipment(Matcher matcher) {
+    private String produceBread(int count) {
+        //TODO
+        return null;
+    }
+    
+    private String produceMeat(int count) {
         //TODO
         return null;
     }
