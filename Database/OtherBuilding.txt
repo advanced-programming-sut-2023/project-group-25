@@ -1,0 +1,91 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+--ISWORKING--
+_______________________________________________
+small stone gatehouse
+other building
+null
+0
+4800
+false
+_______________________________________________
+large stone gatehouse
+other building
+stone:20
+0
+5100
+false
+_______________________________________________
+drawbridge
+other building
+wood:10
+0
+4000
+false
+_______________________________________________
+inn
+other building
+wood:20-gold:100
+1
+4000
+false
+_______________________________________________
+hovel
+other building
+wood:6
+0
+3000
+false
+_______________________________________________
+church
+other building
+gold:250
+0
+3000
+false
+_______________________________________________
+catheral
+other building
+gold:1000
+0
+5000
+false
+_______________________________________________
+caged war dogs
+other building
+wood:10-gold:100
+0
+1500
+false
+_______________________________________________
+siege tent
+other building
+null
+1
+1500
+false
+_______________________________________________
+short wall
+other building
+stone:1
+0
+300
+false
+_______________________________________________
+high wall
+other building
+stone:2
+0
+500
+false
+_______________________________________________
+stairs
+other building
+stone:1
+0
+300
+false
+_______________________________________________

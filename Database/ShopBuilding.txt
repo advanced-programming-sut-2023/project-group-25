@@ -1,0 +1,12 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+_______________________________________________
+market
+shop building
+wood:5
+1
+3000
+_______________________________________________
