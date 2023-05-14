@@ -9,7 +9,43 @@ public class MilitaryPerson extends Person {
     private int defendPower;
     private int speed;
     private int movingRange;
+    private boolean hasOil = false;
     
+    public static void setAllMilitaryPerson(ArrayList<MilitaryPerson> allMilitaryPerson) {
+        MilitaryPerson.allMilitaryPerson = allMilitaryPerson;
+    }
+    
+    public void setNeededProducts(ArrayList<Product> neededProducts) {
+        this.neededProducts = neededProducts;
+    }
+    
+    public void setFirePower(int firePower) {
+        this.firePower = firePower;
+    }
+    
+    public void setDefendPower(int defendPower) {
+        this.defendPower = defendPower;
+    }
+    
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    
+    public void setMovingRange(int movingRange) {
+        this.movingRange = movingRange;
+    }
+    
+    public boolean getHasOil() {
+        return hasOil;
+    }
+    
+    public void setHasOil(boolean hasOil) {
+        this.hasOil = hasOil;
+    }
+    
+    public void setTrainingCost(int trainingCost) {
+        this.trainingCost = trainingCost;
+    }
     
     private int trainingCost;
     private int shootingRange;

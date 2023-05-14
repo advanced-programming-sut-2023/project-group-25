@@ -8,6 +8,36 @@ public class Building {
     private String category;
     private ArrayList<Product> neededProducts;
     private int workerCounter;
+    private ArrayList<WorkerPerson> workerPeople = new ArrayList<>();
+    
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+    public ArrayList<Product> getNeededProducts() {
+        return neededProducts;
+    }
+    
+    public void setNeededProducts(ArrayList<Product> neededProducts) {
+        this.neededProducts = neededProducts;
+    }
+    
+    public void setWorkerCounter(int workerCounter) {
+        this.workerCounter = workerCounter;
+    }
+    
+    public ArrayList<WorkerPerson> getWorkerPeople() {
+        return workerPeople;
+    }
+    
+    public void setWorkerPeople(ArrayList<WorkerPerson> workerPeople) {
+        this.workerPeople = workerPeople;
+    }
+    
     private int hitPoint;
     private Cell location;
     private User king;
@@ -24,8 +54,6 @@ public class Building {
         this.neededProducts = building.neededProducts;
         this.workerCounter = building.workerCounter;
         this.hitPoint = building.hitPoint;
-        this.location = location;
-        this.king = king;
     }
     public Building getBuildingByType(String type) {
         for(int i = 0; i<allBuildings.size(); i++) {

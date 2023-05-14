@@ -49,7 +49,7 @@ public enum Commands {
     MOVE_EQUIPMENT("move equipment -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+)"),
     DISBAND("disband unit"),
     FETCH_OIL("fetch oil"),//the engineer has already been selected
-    BURN_OIL("burn oil"),//might need to take in some other information
+    BURN_OIL("burn oil"), //the selected slave burns all the surrounding oil.
     BLOCK_SET_TEXTURE("settexture -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)"),
     RECTANGLE_SET_TEXTURE("settexture -x1 (?<x1>\\d+) -y1 (?<y1>\\d+) -x2 (?<x2>\\d+) -y2 (?<y2>\\d+) -t (?<type>.+)"),
     CLEAR_BLOCK("clear -x (?<x>\\d+) -y (?<y>\\d+)"),
@@ -61,6 +61,11 @@ public enum Commands {
     TRADE_HISTORY("trade history"),
     SHOW_PRICE_LIST("show price list"),
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
+    
+    PRODUCE_SOURCE("produce source -t (?<t>.+) -c (?<count>\\d+)"),
+    PRODUCE_FOOD("produce food -t (?<t>.+)"),
+    PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+)"),
+    
     NEXT_TURN("next turn"),
     ENTER_TRADE_MENU("enter trade menu"),
     EXIT("exit"),

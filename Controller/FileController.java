@@ -349,7 +349,7 @@ public class FileController {
     public static String getBuildingCategoryByType(String type) {
         String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
         String[] ProductionBuilding = new String[]{"mill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
-                "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "diary farmer", "hops farmer",
+                "blacksmith", "fletcher", "poleturner", "oil smelter", "stable", "apple orchard", "dairy farmer", "hops farmer",
                 "hunter post", "wheat farmer", "bakery", "brewer"};
         String[] StorageBuilding = new String[]{"armoury", "stockpile", "granary"};
         String[] OtherBuilding = new String[]{"small stone gatehouse", "large stone gatehouse", "drawbridge", "inn",
