@@ -4,6 +4,7 @@ import Model.*;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 public class FileController {
@@ -431,28 +432,30 @@ public class FileController {
     }
 
     public static void initializeTradeRequestFile() {
-        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
-        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
-        if (content.size() < 9) {
+        File TradeRequest = new File("src/main/java/Database/Trades.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
+        if (content.size() < 7) {
             ArrayList<String> initial = new ArrayList<>();
-            initial.add("--KING'S USERNAME--");
+            initial.add("--OWNER KING'S USERNAME--");
             initial.add("--ID--");
+            initial.add("--RESOURCE TYPE--");
             initial.add("--RESOURCE AMOUNT--");
             initial.add("--RESOURCE PRICE--");
             initial.add("--RESOURCE MESSAGE--");
             initial.add("_____________________________________________________");
-            writeToFileContent("src/main/java/Database/TradeRequests.txt", initial, false);
+            writeToFileContent("src/main/java/Database/Trades.txt", initial, false);
         }
     }
 
     public static int generateTradeId() {
-        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
-        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
+        File TradeRequest = new File("src/main/java/Database/Trades.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         int lineNumber = content.size();
-        return (lineNumber / 6);
+        return (lineNumber / 7);
     }
 
     public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
+        initializeTradeRequestFile();
         ArrayList<String> content = new ArrayList<>();
         content.add(trade.getKingUsername());
         content.add(String.valueOf(trade.getId()));
@@ -460,6 +463,19 @@ public class FileController {
         content.add(String.valueOf(trade.getPrice()));
         content.add(trade.getMessage());
         content.add("_____________________________________________________");
-        writeToFileContent("src/main/java/Database/TradeRequests.txt", content, true);
+        writeToFileContent("src/main/java/Database/Trades.txt", content, true);
+    }
+
+    public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername) {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
+        ArrayList<Trade> allTrades = new ArrayList<>();
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(6 * i).equals(ownerKingUsername)) {
+                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(6 * i + 1)),"request",content.get(6 * i + 2),
+                           Integer.parseInt(content.get(6 * i+3)),Integer.parseInt(content.get(6 * i + 4)),content.get(6 * i + 4));
+                   allTrades.add(trade);
+                }
+            }
+        return allTrades;
     }
 }

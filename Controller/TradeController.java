@@ -32,9 +32,19 @@ public class TradeController {
         String resourceAmount = MainController.getOptionsFromMatcher(matcher,"a",4);
         String price = MainController.getOptionsFromMatcher(matcher,"p",4);
         String message = MainController.getOptionsFromMatcher(matcher,"m",4);
-        Trade trade = new Trade(username,FileController.generateTradeId(),"request",resourceType,resourceAmount,Integer.parseInt(price),message);
+        Trade trade = new Trade(username,FileController.generateTradeId(),"request",resourceType,Integer.parseInt(resourceAmount),Integer.parseInt(price),message);
         FileController.addTradeToFile(trade);
         return "success";
+    }
+
+    public String showAllTrades(String ownerKingUsername) {
+        String resultMessage = "";
+        ArrayList<Trade> allTrades = FileController.getAllTradesByKing(gameController.getCurrentGame().turn.getCurrentKing().getUsername());
+        for(int i = 0; i<allTrades.size(); i++) {
+            resultMessage += ("Trade Type: <<" + allTrades.get(i).getTradeType() + ">>\n");
+            resultMessage += ("Trade ID:" + allTrades.get(i).getId() + "\n");
+            resultMessage += ("Trade ID:" + allTrades.get(i).getId() + "\n");
+        }
     }
 
 }

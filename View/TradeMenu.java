@@ -26,6 +26,7 @@ public class TradeMenu {
     }
     
     public void run(Scanner scanner) throws NoSuchAlgorithmException {
+        FileController.initializeTradeRequestFile();
         System.out.println(registerLoginController.showCurrentMenuName("TRADE MENU"));
         while (true) {
             input = scanner.nextLine();
@@ -45,6 +46,7 @@ public class TradeMenu {
                         break;
                     }
                 }
+                String username = input;
                 System.out.println("Type your request details:");
                 while (true) {
                     input = scanner.nextLine();
@@ -60,7 +62,6 @@ public class TradeMenu {
                     add("p");
                     add("m");
                 }};
-                String username = input;
                 while (true) {
                     String resultMessage = tradeController.createTradeRequest(allOptions,matcher,username);
                     if(input.equals("cancel")) {
@@ -70,7 +71,7 @@ public class TradeMenu {
                     else if(!resultMessage.equals("success")) {
                         System.out.println(resultMessage);
                     } else {
-                        System.out.println("Trade request sent successfully");
+                        System.out.println("Trade request sent successfully!");
                         break;
                     }
                     input = scanner.nextLine();
