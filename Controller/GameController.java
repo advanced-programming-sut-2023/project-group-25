@@ -1008,8 +1008,10 @@ public class GameController {
         int count = Integer.parseInt(matcher.group(2));
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
-        if (type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))
+        if (neededBuildingType == null) return "You have entered invalid type!";
+        if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
+        }
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing());
         boolean thereIsFreeWorker = false;
         for (Person kingPerson : currentKingdom.getKingPeople()) {

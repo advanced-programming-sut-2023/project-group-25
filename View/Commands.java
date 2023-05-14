@@ -63,8 +63,8 @@ public enum Commands {
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
     
     PRODUCE_SOURCE("produce source -t (?<t>.+) -c (?<count>\\d+)"),
-    PRODUCE_FOOD("produce food -t (?<t>.+)"),
-    PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+)"),
+    PRODUCE_FOOD("produce food -t (?<t>.+) -c (?<count>\\d+)"),
+    PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+) -c (?<count>\\d+)"),
     
     NEXT_TURN("next turn"),
     ENTER_TRADE_MENU("enter trade menu"),
