@@ -436,8 +436,9 @@ public class FileController {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         if (content.size() < 7) {
             ArrayList<String> initial = new ArrayList<>();
-            initial.add("--OWNER KING'S USERNAME--");
             initial.add("--ID--");
+            initial.add("--TRADE TYPE--");
+            initial.add("--OWNER KING'S USERNAME--");
             initial.add("--RESOURCE TYPE--");
             initial.add("--RESOURCE AMOUNT--");
             initial.add("--RESOURCE PRICE--");
@@ -457,8 +458,10 @@ public class FileController {
     public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
         initializeTradeRequestFile();
         ArrayList<String> content = new ArrayList<>();
-        content.add(trade.getKingUsername());
         content.add(String.valueOf(trade.getId()));
+        content.add(String.valueOf(trade.getTradeType()));
+        content.add(trade.getKingUsername());
+        content.add(String.valueOf(trade.getResourceType()));
         content.add(String.valueOf(trade.getResourceAmount()));
         content.add(String.valueOf(trade.getPrice()));
         content.add(trade.getMessage());
@@ -469,10 +472,11 @@ public class FileController {
     public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         ArrayList<Trade> allTrades = new ArrayList<>();
-        for (int i = 0; i < (content.size() / 7); i++) {
-            if (content.get(6 * i).equals(ownerKingUsername)) {
-                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(6 * i + 1)),"request",content.get(6 * i + 2),
-                           Integer.parseInt(content.get(6 * i+3)),Integer.parseInt(content.get(6 * i + 4)),content.get(6 * i + 4));
+        for (int i = 0; i < (content.size() / 8); i++) {
+            if (content.get(8 * i + 2).equals(ownerKingUsername)) {
+                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(8 * i)),content.get(8 * i + 1),
+                           content.get(8 * i + 3),Integer.parseInt(content.get(8 * i + 4)), Integer.parseInt(content.get(8 * i + 5)),
+                           content.get(8 * i + 6));
                    allTrades.add(trade);
                 }
             }

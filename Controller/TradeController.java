@@ -37,14 +37,19 @@ public class TradeController {
         return "success";
     }
 
-    public String showAllTrades(String ownerKingUsername) {
+    public String showAllTrades() {
         String resultMessage = "";
         ArrayList<Trade> allTrades = FileController.getAllTradesByKing(gameController.getCurrentGame().turn.getCurrentKing().getUsername());
         for(int i = 0; i<allTrades.size(); i++) {
             resultMessage += ("Trade Type: <<" + allTrades.get(i).getTradeType() + ">>\n");
-            resultMessage += ("Trade ID:" + allTrades.get(i).getId() + "\n");
-            resultMessage += ("Trade ID:" + allTrades.get(i).getId() + "\n");
+            resultMessage += ("Trade ID: " + allTrades.get(i).getId() + "\n");
+            resultMessage += ("Resource Type: " + allTrades.get(i).getResourceType() + "\n");
+            resultMessage += ("Resource Amount: " + allTrades.get(i).getResourceAmount() + "\n");
+            resultMessage += ("Resource Price: " + allTrades.get(i).getPrice() + "\n");
+            resultMessage += ("Message: " + allTrades.get(i).getMessage() + "\n");
+            resultMessage += ("___________________________________________\n");
         }
+        return resultMessage;
     }
 
 }
