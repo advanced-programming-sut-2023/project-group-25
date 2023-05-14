@@ -59,7 +59,7 @@ public class GameController {
             ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-
+            kingdoms = createKingdomsInitially(kingdoms,usernames,gameId);
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
             resultMessage = "New game created successfully! Game's ID: " + gameId;
@@ -710,14 +710,16 @@ public class GameController {
     
     public String setKingdomColors(String colorsStr) {
         String[] colors = colorsStr.split("-");
+        if (colors.length < currentGame.getKingdoms().size()) return "few colors";
+        if (colors.length > currentGame.getKingdoms().size()) {
+            System.out.println(""+colorsStr + currentGame.getKingdoms().size());
+            return "too many colors";
+        }
+        if (!isAColorRepeated(colors)) return "repeated color";
         for (int i = 0; i < colors.length; i++) {
             if (!isColorLegal(colors[i])) return "bad color";
             currentGame.setColorOfKingdom(i, colors[i]);
         }
-        if (colors.length < currentGame.getKingdoms().size()) return "few colors";
-        if (colors.length > currentGame.getKingdoms().size()) return "too many colors";
-        if (!isAColorRepeated(colors)) return "repeated color";
-        
         return "success";
     }
     
