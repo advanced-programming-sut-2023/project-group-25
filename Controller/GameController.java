@@ -366,14 +366,10 @@ public class GameController {
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("tax")) {
-                if (!(rate >= 4 && rate <= 8))
-                    return "Invalid rate";
-                if (rate <= 0)
-                    popularityFactor.setPopularityAmount(rate * (-2) + 1);
-                else if (rate <= 4)
-                    popularityFactor.setPopularityAmount(rate * (-2));
-                else if (rate <= 8)
-                    popularityFactor.setPopularityAmount(rate * (-4) + 8);
+                if (!(rate >= -3 && rate <= 8)) return "Invalid rate";
+                if (rate <= 0) popularityFactor.setPopularityAmount(rate * (-2) + 1);
+                else if (rate <= 4) popularityFactor.setPopularityAmount(rate * (-2));
+                else popularityFactor.setPopularityAmount(rate * (-4) + 8);
                 popularityFactor.setRate(rate);
             }
         }
@@ -385,8 +381,7 @@ public class GameController {
         Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("fear")) {
-                if (!(rate >= -5 && rate <= 5))
-                    return "Invalid rate";
+                if (!(rate >= -5 && rate <= 5)) return "Invalid rate";
                 popularityFactor.setPopularityAmount(rate);
                 popularityFactor.setRate(rate);
             }
@@ -1059,7 +1054,7 @@ public class GameController {
                 return "woodcutter";
             case "stone":
                 return "";
-            //TODO: other sources and also equipments
+            
         }
         return null;
     }
@@ -1132,6 +1127,4 @@ public class GameController {
         }
         return "You don't have any " + neededBuildingType + "s!";
     }
-    
-    //TODO: jobless counter and workers
 }
