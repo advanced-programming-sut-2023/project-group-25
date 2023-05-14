@@ -942,7 +942,7 @@ public class GameController {
         isPatrollingStopped = false;
         fight();
         arrowsAct();
-        destroyBuildings();
+        hittingBuildings();
         divideFood();
         getTax();
         changePopulation();
@@ -1051,6 +1051,7 @@ public class GameController {
                 return "";
             //TODO: other sources and also equipments
         }
+        return null;
     }
     
     private String getStorageBuilding(String type) {
