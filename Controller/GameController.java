@@ -911,7 +911,7 @@ public class GameController {
     }
     
     private void changePopulation() {
-        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        /*Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         String popularity = showPopularity();
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(popularity);
@@ -923,7 +923,7 @@ public class GameController {
         else if (popularityAmount <= 20)
             kingdom.setJoblessCounter(6);
         else
-            kingdom.setJoblessCounter(8);
+            kingdom.setJoblessCounter(8);*/
     }
     
     private void getTax() {
