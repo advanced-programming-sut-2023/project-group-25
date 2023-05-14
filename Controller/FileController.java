@@ -6,6 +6,8 @@ import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileController {
 
@@ -193,7 +195,6 @@ public class FileController {
             initial.add("--GAME ID--");
             initial.add("--KING'S USERNAME--");
             initial.add("--INVENTORY--");
-            initial.add("--JOBLESS COUNTER--");
             initial.add("--KING'S BUILDINGS WITH LOCATION {testBuilding|x:X-y:Y,}--");
             initial.add("--KING'S PRODUCTS(SEPARATED WITH ,)--");
             initial.add("--KING'S PEOPLE WITH LOCATION {testPerson|x:X-y:Y,}--");
@@ -415,12 +416,15 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(name)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 4).split(":\\d-?").length; j++) {
+                Matcher matcher = Pattern.compile("\\d+").matcher(content.get(6 * i + 4));
+                int j = 0;
+                while (matcher.find()) {
                     Product product = getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
                     if (product != null) {
-                        product.increaseCount(Integer.parseInt(content.get(6 * i + 4).split("-?[a-zA-Z]+:")[j]));
+                        product.increaseCount(Integer.parseInt(matcher.group()));
                         neededProduct.add(product);
                     }
+                    j++;
                 }
                 Product product = new Product(content.get(6 * i), Integer.parseInt(content.get(6 * i + 1)),
                         Integer.parseInt(content.get(6 * i + 2)), content.get(6 * i + 3), neededProduct);
