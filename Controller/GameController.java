@@ -184,7 +184,8 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        cell = currentGame.getMap().getCellByLocation(x, y);
+        if (!isLocationValid(x-1,y-1)) return "Invalid location!";
+        cell = currentGame.getMap().getCellByLocation(x-1, y-1);
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {

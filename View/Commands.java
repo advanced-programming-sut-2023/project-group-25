@@ -31,7 +31,7 @@ public enum Commands {
     SHOW_POPULARITY_FACTORS("^show popularity factors$"),
     SHOW_POPULARITY("^show popularity$"),
     SHOW_FOOD_LIST("^show food list$"),
-    RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>\\d+)"),
+    RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>-?\\d+)"),
     SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     DROP_BUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
