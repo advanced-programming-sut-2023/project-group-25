@@ -206,15 +206,23 @@ public class FileController {
 
     public static void addKingdomToFile(Kingdom kingdom) {
         initializeKingdomsFile();
+        String tmp = "";
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(kingdom.getGameId()));
         content.add(kingdom.getKing().getUsername());
         content.add(String.valueOf(kingdom.getInventory()));
-        content.add(String.valueOf(kingdom.getJoblessCounter()));
         content.add("null");
+        for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
+            tmp += (kingdom.getKingProducts().get(i).getName() + ",");
+        }
+        content.add(tmp);
         content.add("null");
-        content.add("null");
-        content.add("null");
+        tmp = "";
+        for(int i = 0; i<kingdom.getKingPopularityFactors().size(); i++) {
+            tmp += (kingdom.getKingPopularityFactors().get(i).getName() + ":" +
+                    kingdom.getKingPopularityFactors().get(i).getPopularityAmount() + ",");
+        }
+        content.add(tmp);
         content.add("null");
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, true);

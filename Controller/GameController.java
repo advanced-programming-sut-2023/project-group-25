@@ -46,8 +46,7 @@ public class GameController {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
         ArrayList<String> usernames = new ArrayList<>();
-        for (String s : lineUsernames)
-            usernames.add(s);
+        usernames.addAll(Arrays.asList(lineUsernames));
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
         for (int i = 0; i < usernames.size(); i++) {
             if (FileController.getUserByUsername(usernames.get(i)) == null)
@@ -60,16 +59,32 @@ public class GameController {
             ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            for (int i = 0; i < usernames.size(); i++) {
-                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
-                FileController.addKingdomToFile(newKingdom);
-                kingdoms.add(newKingdom);
-            }
+
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
+    }
+
+    public ArrayList<Kingdom> createKingdomsInitially(ArrayList<Kingdom> kingdoms, ArrayList<String> usernames, int gameId) {
+        for (int i = 0; i < usernames.size(); i++) {
+            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
+            ArrayList<Product> products = new ArrayList<>();
+            Product bread = FileController.getProductByName("bread");
+            bread.setCount(8);
+            products.add(bread);
+            Product wood = FileController.getProductByName("wood");
+            wood.setCount(100);
+            products.add(wood);
+            Product stone = FileController.getProductByName("stone");
+            stone.setCount(50);
+            products.add(stone);
+            newKingdom.setKingProducts(products);
+            FileController.addKingdomToFile(newKingdom);
+            kingdoms.add(newKingdom);
+        }
+        return kingdoms;
     }
     
     
