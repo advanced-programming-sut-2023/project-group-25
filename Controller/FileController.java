@@ -449,6 +449,7 @@ public class FileController {
         if (content.size() < 7) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--ID--");
+            initial.add("--GAME ID--");
             initial.add("--TRADE TYPE--");
             initial.add("--OWNER KING'S USERNAME--");
             initial.add("--RESOURCE TYPE--");
@@ -467,10 +468,11 @@ public class FileController {
         return (lineNumber / 7);
     }
 
-    public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
+    public static void addTradeToFile(Trade trade, Game currentGame) throws NoSuchAlgorithmException {
         initializeTradeRequestFile();
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(trade.getId()));
+        content.add(String.valueOf(currentGame.getGameId()));
         content.add(String.valueOf(trade.getTradeType()));
         content.add(trade.getKingUsername());
         content.add(String.valueOf(trade.getResourceType()));
@@ -481,14 +483,14 @@ public class FileController {
         writeToFileContent("src/main/java/Database/Trades.txt", content, true);
     }
 
-    public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername) {
+    public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         ArrayList<Trade> allTrades = new ArrayList<>();
-        for (int i = 0; i < (content.size() / 8); i++) {
-            if (content.get(8 * i + 2).equals(ownerKingUsername)) {
-                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(8 * i)),content.get(8 * i + 1),
-                           content.get(8 * i + 3),Integer.parseInt(content.get(8 * i + 4)), Integer.parseInt(content.get(8 * i + 5)),
-                           content.get(8 * i + 6));
+        for (int i = 0; i < (content.size() / 9); i++) {
+            if (content.get(9 * i + 3).equals(ownerKingUsername) && Integer.parseInt(content.get(9*i + 1)) == currentGame.getGameId()) {
+                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(9 * i)),content.get(9 * i + 2),
+                           content.get(9 * i + 4),Integer.parseInt(content.get(9 * i + 5)), Integer.parseInt(content.get(9 * i + 6)),
+                           content.get(9 * i + 7));
                    allTrades.add(trade);
                 }
             }
