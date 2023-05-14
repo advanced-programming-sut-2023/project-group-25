@@ -424,8 +424,8 @@ public class GameController {
     }
     
     public String selectUnit(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
         for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
@@ -437,8 +437,8 @@ public class GameController {
     }
     
     public String moveUnit(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
@@ -456,8 +456,8 @@ public class GameController {
     }
     
     public String createUnit(Matcher matcher) {
-        String type = RegisterLoginController.getOptionsFromMatcher(matcher, "t", 2);
-        int count = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "c", 2)));
+        String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
+        int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         Kingdom kingdom = getKingdomByKing(getCurrentUser());
@@ -505,8 +505,8 @@ public class GameController {
     
     
     public String showAPartOfMap(Matcher matcher) {
-        shownMapX = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "x", 2)));
-        shownMapY = Integer.parseInt(Objects.requireNonNull(RegisterLoginController.getOptionsFromMatcher(matcher, "y", 2)));
+        shownMapX = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        shownMapY = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(shownMapX, shownMapY)) {
             shownMapX = 0;
             shownMapY = 0;
@@ -576,8 +576,8 @@ public class GameController {
     }
     
     public String digTunnel(Matcher matcher) {
-        int x = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "x", 2)));
-        int y = Integer.parseInt(Objects.requireNonNull(getOptionsFromMatcher(matcher, "y", 2)));
+        int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
+        int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x, y)) return "You have entered invalid location!";
         currentGame.getMap().getCells()[x][y].setHasTunnel(true);
         return "Tunnel has been dug successfully!";

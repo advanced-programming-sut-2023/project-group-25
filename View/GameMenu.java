@@ -6,6 +6,7 @@ import Controller.MapController;
 import Controller.RegisterLoginController;
 import Model.User;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -27,7 +28,7 @@ public class GameMenu {
         this.tradeMenu = new TradeMenu(changeMenuController);
     }
     
-    public String run(Scanner scanner) {
+    public String run(Scanner scanner) throws NoSuchAlgorithmException {
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
             input = scanner.nextLine();
