@@ -46,8 +46,7 @@ public class GameController {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
         ArrayList<String> usernames = new ArrayList<>();
-        for (String s : lineUsernames)
-            usernames.add(s);
+        usernames.addAll(Arrays.asList(lineUsernames));
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
         for (int i = 0; i < usernames.size(); i++) {
             if (FileController.getUserByUsername(usernames.get(i)) == null)
@@ -60,16 +59,32 @@ public class GameController {
             ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            for (int i = 0; i < usernames.size(); i++) {
-                Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
-                FileController.addKingdomToFile(newKingdom);
-                kingdoms.add(newKingdom);
-            }
+            kingdoms = createKingdomsInitially(kingdoms,usernames,gameId);
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
+    }
+
+    public ArrayList<Kingdom> createKingdomsInitially(ArrayList<Kingdom> kingdoms, ArrayList<String> usernames, int gameId) {
+        for (int i = 0; i < usernames.size(); i++) {
+            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
+            ArrayList<Product> products = new ArrayList<>();
+            Product bread = FileController.getProductByName("bread");
+            bread.setCount(8);
+            products.add(bread);
+            Product wood = FileController.getProductByName("wood");
+            wood.setCount(100);
+            products.add(wood);
+            Product stone = FileController.getProductByName("stone");
+            stone.setCount(50);
+            products.add(stone);
+            newKingdom.setKingProducts(products);
+            FileController.addKingdomToFile(newKingdom);
+            kingdoms.add(newKingdom);
+        }
+        return kingdoms;
     }
     
     
@@ -183,7 +198,8 @@ public class GameController {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         String type = matcher.group("type");
-        cell = currentGame.getMap().getCellByLocation(x, y);
+        if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
@@ -695,14 +711,16 @@ public class GameController {
     
     public String setKingdomColors(String colorsStr) {
         String[] colors = colorsStr.split("-");
+        if (colors.length < currentGame.getKingdoms().size()) return "few colors";
+        if (colors.length > currentGame.getKingdoms().size()) {
+            System.out.println(""+colorsStr + currentGame.getKingdoms().size());
+            return "too many colors";
+        }
+        if (!isAColorRepeated(colors)) return "repeated color";
         for (int i = 0; i < colors.length; i++) {
             if (!isColorLegal(colors[i])) return "bad color";
             currentGame.setColorOfKingdom(i, colors[i]);
         }
-        if (colors.length < currentGame.getKingdoms().size()) return "few colors";
-        if (colors.length > currentGame.getKingdoms().size()) return "too many colors";
-        if (!isAColorRepeated(colors)) return "repeated color";
-        
         return "success";
     }
     
@@ -1006,8 +1024,10 @@ public class GameController {
         int count = Integer.parseInt(matcher.group(2));
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
-        if (type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))
+        if (neededBuildingType == null) return "You have entered invalid type!";
+        if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
+        }
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         boolean thereIsFreeWorker = false;
         for (Person kingPerson : currentKingdom.getKingPeople()) {
@@ -1018,24 +1038,19 @@ public class GameController {
                     int j = kingBuilding.getLocation().getY();
                     for (Building storageBuilding : currentKingdom.getKingBuildings()) {
                         if (storageBuilding.getType().equals(storageBuildingType)) {
-                            
                             String toGetMatcher = "move unit to -x " + i + " -y " + j;
                             Person realSelectedUnit = selectedUnit;
                             selectedUnit = kingPerson;
                             if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                                 ((WorkerPerson) selectedUnit).setWorkerPlace
                                         (new Building("hop", "", null, 0, 0));
-                                
                                 toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                         + " -y" + storageBuilding.getLocation().getY();
                                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT))
                                         .equals("Unit has been moved successfully!")) {
-                                    
                                     ((WorkerPerson) selectedUnit).setWorkerPlace(new Building("hop", "", null, 0, 0));
-                                    
                                     toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX() + " -y" + storageBuilding.getLocation().getY();
                                     if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
-                                        
                                         ((WorkerPerson) selectedUnit).setWorkerPlace(null);
                                         selectedUnit = realSelectedUnit;
                                         Product product = FileController.getProductByName(type);
@@ -1224,5 +1239,4 @@ public class GameController {
         }
         return null;
     }
-    
 }

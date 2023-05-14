@@ -38,7 +38,7 @@ flour
 160
 80
 source
-wheet
+wheet:1
 __________________
 wood
 20

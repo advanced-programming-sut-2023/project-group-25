@@ -85,7 +85,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SHOW_FOOD_LIST)) != null) {
                 System.out.println(gameController.showFoodList());
             } else if ((matcher = getMatcher(input, Commands.RATE_POPULARITY_FACTOR)) != null) {
-                gameController.ratePopularityFactor(matcher);
+                System.out.println(gameController.ratePopularityFactor(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTOR_RATE)) != null) {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {

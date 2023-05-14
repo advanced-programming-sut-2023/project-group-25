@@ -4,7 +4,10 @@ import Model.*;
 
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileController {
 
@@ -192,7 +195,6 @@ public class FileController {
             initial.add("--GAME ID--");
             initial.add("--KING'S USERNAME--");
             initial.add("--INVENTORY--");
-            initial.add("--JOBLESS COUNTER--");
             initial.add("--KING'S BUILDINGS WITH LOCATION {testBuilding|x:X-y:Y,}--");
             initial.add("--KING'S PRODUCTS(SEPARATED WITH ,)--");
             initial.add("--KING'S PEOPLE WITH LOCATION {testPerson|x:X-y:Y,}--");
@@ -205,15 +207,23 @@ public class FileController {
 
     public static void addKingdomToFile(Kingdom kingdom) {
         initializeKingdomsFile();
+        String tmp = "";
         ArrayList<String> content = new ArrayList<>();
         content.add(String.valueOf(kingdom.getGameId()));
         content.add(kingdom.getKing().getUsername());
         content.add(String.valueOf(kingdom.getInventory()));
-        content.add(String.valueOf(kingdom.getJoblessCounter()));
         content.add("null");
+        for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
+            tmp += (kingdom.getKingProducts().get(i).getName() + ",");
+        }
+        content.add(tmp);
         content.add("null");
-        content.add("null");
-        content.add("null");
+        tmp = "";
+        for(int i = 0; i<kingdom.getKingPopularityFactors().size(); i++) {
+            tmp += (kingdom.getKingPopularityFactors().get(i).getName() + ":" +
+                    kingdom.getKingPopularityFactors().get(i).getPopularityAmount() + ",");
+        }
+        content.add(tmp);
         content.add("null");
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, true);
@@ -406,12 +416,15 @@ public class FileController {
         for (int i = 0; i < (content.size() / 6); i++) {
             if (content.get(6 * i).equals(name)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 4).split(":\\d-?").length; j++) {
+                Matcher matcher = Pattern.compile("\\d+").matcher(content.get(6 * i + 4));
+                int j = 0;
+                while (matcher.find()) {
                     Product product = getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
                     if (product != null) {
-                        product.increaseCount(Integer.parseInt(content.get(6 * i + 4).split("-?[a-zA-Z]+:")[j]));
+                        product.increaseCount(Integer.parseInt(matcher.group()));
                         neededProduct.add(product);
                     }
+                    j++;
                 }
                 Product product = new Product(content.get(6 * i), Integer.parseInt(content.get(6 * i + 1)),
                         Integer.parseInt(content.get(6 * i + 2)), content.get(6 * i + 3), neededProduct);
@@ -431,35 +444,54 @@ public class FileController {
     }
 
     public static void initializeTradeRequestFile() {
-        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
-        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
-        if (content.size() < 9) {
+        File TradeRequest = new File("src/main/java/Database/Trades.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
+        if (content.size() < 7) {
             ArrayList<String> initial = new ArrayList<>();
-            initial.add("--KING'S USERNAME--");
             initial.add("--ID--");
+            initial.add("--TRADE TYPE--");
+            initial.add("--OWNER KING'S USERNAME--");
+            initial.add("--RESOURCE TYPE--");
             initial.add("--RESOURCE AMOUNT--");
             initial.add("--RESOURCE PRICE--");
             initial.add("--RESOURCE MESSAGE--");
             initial.add("_____________________________________________________");
-            writeToFileContent("src/main/java/Database/TradeRequests.txt", initial, false);
+            writeToFileContent("src/main/java/Database/Trades.txt", initial, false);
         }
     }
 
     public static int generateTradeId() {
-        File TradeRequest = new File("src/main/java/Database/TradeRequests.txt");
-        ArrayList<String> content = readFileContent("src/main/java/Database/TradeRequests.txt");
+        File TradeRequest = new File("src/main/java/Database/Trades.txt");
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         int lineNumber = content.size();
-        return (lineNumber / 6);
+        return (lineNumber / 7);
     }
 
     public static void addTradeToFile(Trade trade) throws NoSuchAlgorithmException {
+        initializeTradeRequestFile();
         ArrayList<String> content = new ArrayList<>();
-        content.add(trade.getKingUsername());
         content.add(String.valueOf(trade.getId()));
+        content.add(String.valueOf(trade.getTradeType()));
+        content.add(trade.getKingUsername());
+        content.add(String.valueOf(trade.getResourceType()));
         content.add(String.valueOf(trade.getResourceAmount()));
         content.add(String.valueOf(trade.getPrice()));
         content.add(trade.getMessage());
         content.add("_____________________________________________________");
-        writeToFileContent("src/main/java/Database/TradeRequests.txt", content, true);
+        writeToFileContent("src/main/java/Database/Trades.txt", content, true);
+    }
+
+    public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername) {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
+        ArrayList<Trade> allTrades = new ArrayList<>();
+        for (int i = 0; i < (content.size() / 8); i++) {
+            if (content.get(8 * i + 2).equals(ownerKingUsername)) {
+                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(8 * i)),content.get(8 * i + 1),
+                           content.get(8 * i + 3),Integer.parseInt(content.get(8 * i + 4)), Integer.parseInt(content.get(8 * i + 5)),
+                           content.get(8 * i + 6));
+                   allTrades.add(trade);
+                }
+            }
+        return allTrades;
     }
 }

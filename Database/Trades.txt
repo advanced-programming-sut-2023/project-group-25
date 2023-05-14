@@ -1,0 +1,48 @@
+--ID--
+--TRADE TYPE--
+--OWNER KING'S USERNAME--
+--RESOURCE TYPE--
+--RESOURCE AMOUNT--
+--RESOURCE PRICE--
+--RESOURCE MESSAGE--
+_____________________________________________________
+1
+request
+hoora
+stone
+10
+100
+"torokoda bede!"
+_____________________________________________________
+2
+request
+samin
+bow
+5
+50
+"bedeeee!"
+_____________________________________________________
+3
+request
+hoora
+wood
+1
+110
+"mikhaham!"
+_____________________________________________________
+4
+request
+ali
+wood
+3
+11
+"mikhaham!"
+_____________________________________________________
+5
+request
+samin
+wood
+17
+16
+"eshgham?"
+_____________________________________________________
