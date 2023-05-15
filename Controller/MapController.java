@@ -254,12 +254,12 @@ public class MapController {
         for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
-            for(int j = 0; j<8; j++) {
+            for (int j = 0; j < 8; j++) {
                 addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
             }
         }
     }
-
+    
     public static void addJoblessInitially(Kingdom kingdom) {
         Person person = new Person("jobless");
         person.setLocation(kingdom.getMainCastleLocation());
