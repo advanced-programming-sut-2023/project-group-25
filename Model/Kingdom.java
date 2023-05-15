@@ -143,6 +143,7 @@ public class Kingdom {
         for (Person person : peopleCopy) {
             if (person.getType().equals("jobless")) {
                 kingPeople.remove(person);
+                break;
             }
         }
     }

@@ -6,6 +6,14 @@
 --FIRERANGE--
 --DEFENDRANGE--
 _______________________________________________
+killing pit
+fighting building
+wood:4
+0
+100000
+100000
+100000
+_______________________________________________
 lookout tower
 fighting building
 stone:10
