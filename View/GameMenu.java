@@ -118,8 +118,20 @@ public class GameMenu {
             input = scanner.nextLine();
             if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null) {
                 return;
-            }  else if ((matcher = Commands.getMatcher(input, Commands.SHOW_PRICE_LIST)) != null) {
+            } else if ((matcher = Commands.getMatcher(input, Commands.SHOW_PRICE_LIST)) != null) {
                 System.out.print(gameController.showPriceList());
+            } else if ((matcher = Commands.getMatcher(input, Commands.BUY_PRODUCT)) != null) {
+                ArrayList<String> allOptions = new ArrayList<>() {{
+                    add("i");
+                    add("a");
+                }};
+                System.out.println(gameController.buyFromShop(matcher, allOptions));
+            } else if ((matcher = Commands.getMatcher(input, Commands.SELL_PRODUCT)) != null) {
+                ArrayList<String> allOptions = new ArrayList<>() {{
+                    add("i");
+                    add("a");
+                }};
+                System.out.println(gameController.sellToShop(matcher, allOptions));
             }
         }
     }

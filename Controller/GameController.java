@@ -476,7 +476,6 @@ public class GameController {
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
-
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
                 selectedUnit = person;
                 return "Unit is selected successfully!";
@@ -488,11 +487,10 @@ public class GameController {
     public String moveUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(),
-                currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x][y], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
         if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "This move is out of the range of the unit!";
@@ -500,7 +498,6 @@ public class GameController {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
         return "Unit has been moved successfully!";
-
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -1343,15 +1340,79 @@ public class GameController {
 
     public String showPriceList() {
         String resultMessage = "";
-        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
-        for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
-            Product product = kingdom.getKingProducts().get(i);
+        ArrayList<Product> allProducts = FileController.getAllProducts(currentGame);
+        for (int i = 0; i < allProducts.size(); i++) {
+            Product product = allProducts.get(i);
             resultMessage += ("Product Name: " + product.getName() + "\n");
-            resultMessage += ("Product Price: " + product.getPrice() + "\n");
-            resultMessage += ("Product Cost: " + product.getCost() + "\n");
+            resultMessage += ("Product Price: " + product.getCost() + "\n");
+            resultMessage += ("Product Cost: " + product.getPrice() + "\n");
             resultMessage += ("Product Amount: " + product.getCount() + "\n");
             resultMessage += ("_________________________________\n");
         }
         return resultMessage;
+    }
+
+    public String buyFromShop(Matcher matcher, ArrayList<String> allOptions) {
+        if (!MainController.checkAllOptionsExist(matcher, allOptions))
+            return "Invalid format for buying; please try again:";
+        String productName = MainController.getOptionsFromMatcher(matcher, "i", 2);
+        int amount = Integer.parseInt(MainController.getOptionsFromMatcher(matcher, "a", 2));
+        String buildingName = getStorageBuilding(productName);
+        Building storageBuilding = null;
+        for (Building building : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingBuildings()) {
+            if (building.getType().equals(buildingName))
+                storageBuilding = building;
+        }
+        Product product = FileController.getProductByName(productName);
+        if (storageBuilding == null)
+            return "Invalid product name; This product can't be stored!";
+        else {
+            StorageBuildings storage = FileController.getStorageBuildingByType(storageBuilding.getType());
+            if (amount > storage.getCapacity())
+                return "Invalid product amount; You don't have this much free space!";
+            else if (product.getCost() * amount > getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory())
+                return "Buy process failed; You don't have enough money!";
+            else {
+                storage.changeCapacity(-amount);
+                for (int i = 0; i < amount; i++) {
+                    storage.addProduct(product);
+                    getKingdomByKing(currentGame.turn.getCurrentKing()).addKingProduct(product);
+                }
+                getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory()
+                        - product.getCost() * amount);
+                product.setCount(product.getCount() + amount);
+                return "buy process succeeded!";
+            }
+        }
+    }
+
+    public String sellToShop(Matcher matcher, ArrayList<String> allOptions) {
+        if (!MainController.checkAllOptionsExist(matcher, allOptions))
+            return "Invalid format for buying; please try again:";
+        String productName = MainController.getOptionsFromMatcher(matcher, "i", 2);
+        int amount = Integer.parseInt(MainController.getOptionsFromMatcher(matcher, "a", 2));
+        String buildingName = getStorageBuilding(productName);
+        Building storageBuilding = null;
+        for (Building building : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingBuildings()) {
+            if (building.getType().equals(buildingName))
+                storageBuilding = building;
+        }
+        Product product = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProductByName(productName);
+        if (product == null)
+            return "Invalid product name; This product isn't stored!";
+        else {
+            StorageBuildings storage = null;
+            if (storageBuilding != null)
+                storage = FileController.getStorageBuildingByType(storageBuilding.getType());
+            if (product.getCount() < amount)
+                return "Invalid product amount; You don't have this much of the product!";
+
+            if (storage != null)
+                storage.changeCapacity(+amount);
+            getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory()
+                    + product.getPrice() * amount);
+            product.setCount(product.getCount() - amount);
+            return "sell process succeeded!";
+        }
     }
 }

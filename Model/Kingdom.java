@@ -168,6 +168,11 @@ public class Kingdom {
         return null;
     }
 
+    public void removeProduct(Product product) {
+        kingProducts.remove(product);
+    }
+
+
     public void addKingProduct(Product product) {
         kingProducts.add(product);
     }

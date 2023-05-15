@@ -213,13 +213,13 @@ public class FileController {
         content.add(kingdom.getKing().getUsername());
         content.add(String.valueOf(kingdom.getInventory()));
         content.add("");
-        for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
+        for (int i = 0; i < kingdom.getKingProducts().size(); i++) {
             tmp += (kingdom.getKingProducts().get(i).getName() + ",");
         }
         content.add(tmp);
         content.add("");
         tmp = "";
-        for(int i = 0; i<kingdom.getKingPopularityFactors().size(); i++) {
+        for (int i = 0; i < kingdom.getKingPopularityFactors().size(); i++) {
             tmp += (kingdom.getKingPopularityFactors().get(i).getName() + ":" +
                     kingdom.getKingPopularityFactors().get(i).getPopularityAmount() + ",");
         }
@@ -229,17 +229,17 @@ public class FileController {
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, true);
     }
 
-    public static  void updateKingPeopleInFile(Person person, Kingdom kingdom, Game currentGame) {
+    public static void updateKingPeopleInFile(Person person, Kingdom kingdom, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Kingdoms.txt");
         for (int i = 0; i < (content.size() / 9); i++) {
-            if (content.get(9 * i + 1).equals(kingdom.getKing().getUsername()) && Integer.parseInt(content.get(9*i)) == currentGame.getGameId()) {
-                String tmp = content.get(9*i+5);
-                content.remove(9*i+5);
+            if (content.get(9 * i + 1).equals(kingdom.getKing().getUsername()) && Integer.parseInt(content.get(9 * i)) == currentGame.getGameId()) {
+                String tmp = content.get(9 * i + 5);
+                content.remove(9 * i + 5);
                 tmp += (person.getType() + "|x:" + person.getLocation().getX() + "-y:" + person.getLocation().getY() + ",");
-                content.add(9*i+5,tmp);
+                content.add(9 * i + 5, tmp);
             }
         }
-        writeToFileContent("src/main/java/Database/Kingdoms.txt",content,false);
+        writeToFileContent("src/main/java/Database/Kingdoms.txt", content, false);
     }
 
     public static ShopBuildings getShopBuildingByType(String Type) {
@@ -375,7 +375,7 @@ public class FileController {
                 "hunter post", "wheat farmer", "bakery", "brewer"};
         String[] StorageBuilding = new String[]{"armoury", "stockpile", "granary"};
         String[] OtherBuilding = new String[]{"small stone gatehouse", "large stone gatehouse", "drawbridge", "inn",
-                "hovel", "church", "catheral", "caged war dogs","siege tent","short wall","high wall","stairs",};
+                "hovel", "church", "catheral", "caged war dogs", "siege tent", "short wall", "high wall", "stairs",};
         String[] FightingBuilding = new String[]{"lookout tower", "perimeter tower", "defence turret", "square tower",
                 "round tower"};
         String[] ShopBuilding = new String[]{"market"};
@@ -501,26 +501,52 @@ public class FileController {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         ArrayList<Trade> allTrades = new ArrayList<>();
         for (int i = 1; i < (content.size() / 10); i++) {
-            if (content.get(10 * i + 4).equals(receiverUsername) && Integer.parseInt(content.get(10*i + 1)) == currentGame.getGameId()) {
-                   Trade trade = new Trade(content.get(10 * i + 3),content.get(10 * i + 4),Integer.parseInt(content.get(10 * i)),content.get(10 * i + 2),
-                           content.get(10 * i + 5),Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
-                           content.get(10 * i + 8));
-                   allTrades.add(trade);
-                }
+            if (content.get(10 * i + 4).equals(receiverUsername) && Integer.parseInt(content.get(10 * i + 1)) == currentGame.getGameId()) {
+                Trade trade = new Trade(content.get(10 * i + 3), content.get(10 * i + 4), Integer.parseInt(content.get(10 * i)), content.get(10 * i + 2),
+                        content.get(10 * i + 5), Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
+                        content.get(10 * i + 8));
+                allTrades.add(trade);
             }
+        }
         return allTrades;
     }
 
     public static Trade getTradeByID(int tradeId, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         for (int i = 1; i < (content.size() / 10); i++) {
-            if (Integer.parseInt(content.get(10 * i)) == tradeId && Integer.parseInt(content.get(10*i + 1)) == currentGame.getGameId()) {
-                Trade trade = new Trade(content.get(10 * i + 3),content.get(10 * i + 4),Integer.parseInt(content.get(10 * i)),content.get(10 * i + 2),
-                        content.get(10 * i + 5),Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
+            if (Integer.parseInt(content.get(10 * i)) == tradeId && Integer.parseInt(content.get(10 * i + 1)) == currentGame.getGameId()) {
+                Trade trade = new Trade(content.get(10 * i + 3), content.get(10 * i + 4), Integer.parseInt(content.get(10 * i)), content.get(10 * i + 2),
+                        content.get(10 * i + 5), Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
                         content.get(10 * i + 8));
                 return trade;
             }
         }
         return null;
     }
+
+    public static ArrayList<Product> getAllProducts(Game currentGame) {
+        ArrayList<Product> allProducts = new ArrayList<>();
+        ArrayList<String> content = readFileContent("src/main/java/Database/Product.txt");
+        for (int i = 1; i < (content.size() / 6); i++) {
+            ArrayList<Product> neededProduct = new ArrayList<>();
+            Matcher matcher = Pattern.compile("\\d+").matcher(content.get(6 * i + 4));
+            int j = 0;
+            while (matcher.find()) {
+                Product product = getProductByName(content.get(6 * i + 4).split(":\\d-?")[j]);
+                if (product != null) {
+                    product.increaseCount(Integer.parseInt(matcher.group()));
+                    neededProduct.add(product);
+                }
+                j++;
+            }
+            Product product = new Product(content.get(6 * i), Integer.parseInt(content.get(6 * i + 1)),
+                    Integer.parseInt(content.get(6 * i + 2)), content.get(6 * i + 3), neededProduct);
+            Product tmp = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(product.getName());
+            if (tmp != null)
+                product.setCount(tmp.getCount());
+            allProducts.add(product);
+        }
+        return allProducts;
+    }
+
 }

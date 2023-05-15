@@ -60,8 +60,9 @@ public enum Commands {
     TRADE_ACCEPT("trade accept -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)"),
     TRADE_HISTORY("trade history"),
     SHOW_PRICE_LIST("show price list"),
-    BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
-    
+    BUY_PRODUCT("buy -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)"),
+    SELL_PRODUCT("sell -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)"),
+
     PRODUCE_SOURCE("produce source -t (?<t>.+) -c (?<count>\\d+)"),
     PRODUCE_FOOD("produce food -t (?<t>.+) -c (?<count>\\d+)"),
     PRODUCE_EQUIPMENT("produce equipment -t (?<t>.+) -c (?<count>\\d+)"),
