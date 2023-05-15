@@ -2,7 +2,9 @@ package Controller;
 
 
 import Model.Cell;
+import Model.Kingdom;
 import Model.Map;
+import Model.Person;
 
 
 public class MapController {
@@ -146,7 +148,6 @@ public class MapController {
     public static void initializeMapTemplate2(int length, int width) {
         Map map = new Map(length, width);
         
-        initializeCastlesLocation(map, length, width);
         initializeIronLandsTemplate2(map, length, width);
         initializeRockLandsTemplate2(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
@@ -206,7 +207,6 @@ public class MapController {
     public static void initializeMapTemplate3(int length, int width) {
         Map map = new Map(length, width);
         
-        initializeCastlesLocation(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "sea");
@@ -230,7 +230,6 @@ public class MapController {
                 map.getCells()[i][j] = new Cell(i, j, "grass");
         
         setDefaultLand(length, width, map);
-        
         Map.setTemplateMap(2, map);
     }
     
@@ -252,11 +251,20 @@ public class MapController {
         castlePositions[6][1] = 0;
         castlePositions[7][0] = length / 2;
         castlePositions[7][1] = width - 1;
-        
         for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
+            for(int j = 0; j<8; j++) {
+                addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
+            }
         }
+    }
+
+    public static void addJoblessInitially(Kingdom kingdom) {
+        Person person = new Person("jobless");
+        person.setLocation(kingdom.getMainCastleLocation());
+        kingdom.addPerson(person);
+        FileController.updateKingPeopleInFile(person, kingdom, gameController.getCurrentGame());
     }
     
     public void setNumberOfCastles(int numberOfCastles) {
