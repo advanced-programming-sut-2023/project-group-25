@@ -212,21 +212,33 @@ public class FileController {
         content.add(String.valueOf(kingdom.getGameId()));
         content.add(kingdom.getKing().getUsername());
         content.add(String.valueOf(kingdom.getInventory()));
-        content.add("null");
+        content.add("");
         for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
             tmp += (kingdom.getKingProducts().get(i).getName() + ",");
         }
         content.add(tmp);
-        content.add("null");
-        tmp = "";
+        content.add("");
         for(int i = 0; i<kingdom.getKingPopularityFactors().size(); i++) {
             tmp += (kingdom.getKingPopularityFactors().get(i).getName() + ":" +
                     kingdom.getKingPopularityFactors().get(i).getPopularityAmount() + ",");
         }
         content.add(tmp);
-        content.add("null");
+        content.add("");
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, true);
+    }
+
+    public static  void updateKingPeopleInFile(Person person, Kingdom kingdom, Game currentGame) {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Kingdoms.txt");
+        for (int i = 0; i < (content.size() / 9); i++) {
+            if (content.get(9 * i + 1).equals(kingdom.getKing().getUsername()) && Integer.parseInt(content.get(9*i)) == currentGame.getGameId()) {
+                String tmp = content.get(9*i+5);
+                content.remove(9*i+5);
+                tmp += (person.getType() + "|x:" + person.getLocation().getX() + "-y:" + person.getLocation().getY() + ",");
+                content.add(9*i+5,tmp);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Kingdoms.txt",content,false);
     }
 
     public static ShopBuildings getShopBuildingByType(String Type) {
