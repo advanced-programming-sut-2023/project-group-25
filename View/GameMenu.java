@@ -1,13 +1,12 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.GameController;
-import Controller.MapController;
-import Controller.RegisterLoginController;
+import Controller.*;
 import Model.Cell;
+import Model.Kingdom;
 import Model.User;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -21,14 +20,14 @@ public class GameMenu {
     private Matcher matcher;
     private String input;
     private TradeMenu tradeMenu;
-    
+
     public GameMenu(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
         this.mapController = changeMenuController.getMapController();
         this.tradeMenu = new TradeMenu(changeMenuController);
     }
-    
+
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
