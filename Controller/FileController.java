@@ -464,7 +464,8 @@ public class FileController {
             initial.add("--ID--");
             initial.add("--GAME ID--");
             initial.add("--TRADE TYPE--");
-            initial.add("--OWNER KING'S USERNAME--");
+            initial.add("--SENDER KING'S USERNAME--");
+            initial.add("--RECEIVER KING'S USERNAME--");
             initial.add("--RESOURCE TYPE--");
             initial.add("--RESOURCE AMOUNT--");
             initial.add("--RESOURCE PRICE--");
@@ -487,7 +488,8 @@ public class FileController {
         content.add(String.valueOf(trade.getId()));
         content.add(String.valueOf(currentGame.getGameId()));
         content.add(String.valueOf(trade.getTradeType()));
-        content.add(trade.getKingUsername());
+        content.add(trade.getSenderUsername());
+        content.add(trade.getReceiverUsername());
         content.add(String.valueOf(trade.getResourceType()));
         content.add(String.valueOf(trade.getResourceAmount()));
         content.add(String.valueOf(trade.getPrice()));
@@ -496,17 +498,30 @@ public class FileController {
         writeToFileContent("src/main/java/Database/Trades.txt", content, true);
     }
 
-    public static ArrayList<Trade> getAllTradesByKing(String ownerKingUsername, Game currentGame) {
+    public static ArrayList<Trade> getAllTradesByKing(String receiverUsername, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         ArrayList<Trade> allTrades = new ArrayList<>();
-        for (int i = 0; i < (content.size() / 9); i++) {
-            if (content.get(9 * i + 3).equals(ownerKingUsername) && Integer.parseInt(content.get(9*i + 1)) == currentGame.getGameId()) {
-                   Trade trade = new Trade(ownerKingUsername,Integer.parseInt(content.get(9 * i)),content.get(9 * i + 2),
-                           content.get(9 * i + 4),Integer.parseInt(content.get(9 * i + 5)), Integer.parseInt(content.get(9 * i + 6)),
-                           content.get(9 * i + 7));
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (content.get(10 * i + 4).equals(receiverUsername) && Integer.parseInt(content.get(10*i + 1)) == currentGame.getGameId()) {
+                   Trade trade = new Trade(content.get(10 * i + 3),content.get(10 * i + 4),Integer.parseInt(content.get(10 * i)),content.get(10 * i + 2),
+                           content.get(10 * i + 5),Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
+                           content.get(10 * i + 8));
                    allTrades.add(trade);
                 }
             }
         return allTrades;
+    }
+
+    public static Trade getTradeByID(int tradeId, Game currentGame) {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if (Integer.parseInt(content.get(10 * i)) == tradeId && Integer.parseInt(content.get(10*i + 1)) == currentGame.getGameId()) {
+                Trade trade = new Trade(content.get(10 * i + 3),content.get(10 * i + 4),Integer.parseInt(content.get(10 * i)),content.get(10 * i + 2),
+                        content.get(10 * i + 5),Integer.parseInt(content.get(10 * i + 6)), Integer.parseInt(content.get(10 * i + 7)),
+                        content.get(10 * i + 8));
+                return trade;
+            }
+        }
+        return null;
     }
 }

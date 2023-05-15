@@ -5,15 +5,17 @@ import java.util.ArrayList;
 public class Trade {
     private static ArrayList<Trade> allTrades = new ArrayList<>();
     private int id;
-    private String ownerKingUsername;
+    private String senderUsername;
+    private String receiverUsername;
     private String tradeType;
     private String resourceType;
     private int resourceAmount;
     private int price;
     private String message;
     
-    public Trade(String kingUsername,int id, String tradeType, String resourceType, int resourceAmount, int price, String message) {
-        this.ownerKingUsername = kingUsername;
+    public Trade(String senderUsername, String receiverUsername, int id, String tradeType, String resourceType, int resourceAmount, int price, String message) {
+        this.senderUsername = senderUsername;
+        this.receiverUsername = receiverUsername;
         this.id = id;
         this.tradeType = tradeType;
         this.resourceType = resourceType;
@@ -50,7 +52,10 @@ public class Trade {
         return message;
     }
 
-    public String getKingUsername() {
-        return ownerKingUsername;
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+    public String getReceiverUsername() {
+        return receiverUsername;
     }
 }

@@ -1,27 +1,80 @@
 --ID--
 --GAME ID--
 --TRADE TYPE--
---OWNER KING'S USERNAME--
+--SENDER KING'S USERNAME--
+--RECEIVER KING'S USERNAME--
 --RESOURCE TYPE--
 --RESOURCE AMOUNT--
 --RESOURCE PRICE--
 --RESOURCE MESSAGE--
 _____________________________________________________
 1
-73
-request
-hoora
-stone
-10
-100
-"torokoda bede!"
-_____________________________________________________
-2
-74
+11
 request
 samin
+zahra
 wood
-1
-110
-"mikhaham!"
+30
+300
+hello
+_____________________________________________________
+2
+12
+request
+samin
+hoora
+wood
+2
+10
+"hi love!"
+_____________________________________________________
+4
+13
+request
+samin
+hoora
+wood
+2
+10
+"hi love!"
+_____________________________________________________
+5
+14
+request
+samin
+hoora
+wood
+2
+10
+"hi love!"
+_____________________________________________________
+7
+15
+request
+samin
+hoora
+wood
+2
+10
+"hi love!"
+_____________________________________________________
+8
+16
+request
+samin
+hoora
+wood
+2
+10
+"hi love!"
+_____________________________________________________
+10
+17
+request
+samin
+hoora
+wood
+20
+5
+"by love!"
 _____________________________________________________
