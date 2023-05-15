@@ -306,7 +306,8 @@ public class GameController {
         return "Unit added successfully!";
     }
 
-    public String selectBuilding(Matcher matcher) {
+    public String
+    selectBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
         cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
