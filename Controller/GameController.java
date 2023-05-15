@@ -87,15 +87,6 @@ public class GameController {
         return kingdoms;
     }
 
-
-    public void addJoblessWorkers() {
-
-        for (int i = 0; i < 8; i++) {
-            WorkerPerson workerPerson = new WorkerPerson(currentGame.turn.getCurrentKing(), "jobless", null);
-            getKingdomByKing(currentGame.turn.getCurrentKing()).setKingPeople(workerPerson);
-        }
-    }
-
     public boolean hasRepeatedUsername(ArrayList<String> usernames) {
         for (int i = 0; i < usernames.size(); i++) {
             for (int j = i + 1; j < usernames.size(); j++) {

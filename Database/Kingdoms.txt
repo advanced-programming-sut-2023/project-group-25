@@ -7,7 +7,7 @@
 --KING'S POPULARITY FACTORS {factor1:amount, }--
 --KING'S ATTACK EQUIPMENTS(SEPARATED WITH ,)--
 _____________________________________________________
-1
+5
 hoora
 4000.0
 
@@ -16,7 +16,7 @@ jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-1
+5
 samin
 4000.0
 
@@ -25,7 +25,7 @@ jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-3
+6
 hoora
 4000.0
 
@@ -34,7 +34,7 @@ jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-3
+6
 samin
 4000.0
 
@@ -43,21 +43,57 @@ jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-4
+7
 hoora
 4000.0
 
 bread,wood,stone,
-jobless|x:0-y:0,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-4
+7
 samin
 4000.0
 
 bread,wood,stone,
+jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,
+food:0,tax:0,religion:0,fear:0,
 
+_____________________________________________________
+8
+hoora
+4000.0
+
+bread,wood,stone,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+8
+samin
+4000.0
+
+bread,wood,stone,
+jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+9
+hoora
+4000.0
+
+bread,wood,stone,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+9
+samin
+4000.0
+
+bread,wood,stone,
+jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
