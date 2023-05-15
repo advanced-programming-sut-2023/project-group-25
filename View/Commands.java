@@ -68,6 +68,7 @@ public enum Commands {
     
     NEXT_TURN("next turn"),
     ENTER_TRADE_MENU("enter trade menu"),
+    ENTER_SHOP_MENU("enter shop menu"),
     EXIT("exit"),
     BACK("back"),
     NEW_GAME("^start new game$");

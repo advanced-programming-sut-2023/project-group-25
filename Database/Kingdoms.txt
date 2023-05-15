@@ -764,6 +764,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 42
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -773,11 +774,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 42
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -791,6 +798,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 43
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -800,16 +808,26 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 43
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 44
+<<<<<<< HEAD
 hoora
+=======
+zahra
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 4000.0
 
 bread,wood,stone,
@@ -818,6 +836,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 44
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -827,11 +846,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 44
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,jobless|x:9-y:29,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -845,6 +870,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 45
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -854,11 +880,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 45
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -872,6 +904,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 46
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -881,11 +914,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 46
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -899,6 +938,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 47
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -908,11 +948,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 47
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -926,6 +972,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 48
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -935,11 +982,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 48
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -953,6 +1006,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 49
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -962,11 +1016,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 49
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -980,6 +1040,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 50
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -989,11 +1050,17 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 50
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -1007,6 +1074,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 51
+<<<<<<< HEAD
 zahra
 4000.0
 
@@ -1016,10 +1084,13 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 51
+=======
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
 food:0,tax:0,religion:0,fear:0,
 
@@ -1831,6 +1902,9 @@ samin
 
 bread,wood,stone,
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+=======
+jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,jobless|x:99-y:199,
+>>>>>>> efa0f85a7298a48081fd0c87855360429930541a
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
