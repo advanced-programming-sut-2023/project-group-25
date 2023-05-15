@@ -218,6 +218,7 @@ public class FileController {
         }
         content.add(tmp);
         content.add("");
+        tmp = "";
         for(int i = 0; i<kingdom.getKingPopularityFactors().size(); i++) {
             tmp += (kingdom.getKingPopularityFactors().get(i).getName() + ":" +
                     kingdom.getKingPopularityFactors().get(i).getPopularityAmount() + ",");
