@@ -234,6 +234,12 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
+        else if (type.equals("church") || type.equals("catheral")) {
+            for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
+                if (popularityFactor.getName().equals("religion"))
+                    popularityFactor.setPopularityAmount(popularityFactor.getPopularityAmount() + 2);
+            }
+        }
         return buildBuilding(building1, cell, type);
     }
 
