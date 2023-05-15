@@ -1,15 +1,12 @@
 package Controller;
 
 
-import Model.Cell;
-import Model.Kingdom;
-import Model.Map;
-import Model.Person;
+import Model.*;
+
+import java.sql.Struct;
 
 
 public class MapController {
-    private static int[][] castlePositions;
-    
     public static final String BACKGROUND_RESET = "\033[0m";                //reset
     public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";      // LIGHT BLUE
     public static final String RED_BACKGROUND = "\033[48;5;88m";            // DARK RED
@@ -29,12 +26,12 @@ public class MapController {
     private static final String ORANGE_BACKGROUND = "\033[48;5;208m";       //ORANGE
     static int numberOfCastles;
     private static GameController gameController = null;
-    
+
     public MapController(GameController gameController) {
         MapController.gameController = gameController;
     }
-    
-    
+
+
     private static void setDefaultLand(int length, int width, Map map) {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
@@ -43,12 +40,12 @@ public class MapController {
             }
         }
     }
-    
+
     public static String showMap(Map map) {
         int mapLength = map.getLength();
         int mapWidth = map.getWidth();
         StringBuilder mapView = new StringBuilder();
-        
+
         for (int i = 0; i < mapLength; i++) {
             for (int k = 0; k < 2; k++) {
                 for (int j = 0; j < mapWidth; j++) {
@@ -82,16 +79,16 @@ public class MapController {
                             mapView.append(getBackGroundColorString(material.replace("castle", "")))
                                     .append("#####|").append(BACKGROUND_RESET);
                             break;
-                        
+
                     }
                 }
                 mapView.append("\n");
             }
         }
-        
+
         return mapView.toString();
     }
-    
+
     private static String getBackGroundColorString(String indexStr) {
         int index = Integer.parseInt(indexStr);
         switch (gameController.getCurrentGame().getKingdoms().get(index).getColor()) {
@@ -115,7 +112,7 @@ public class MapController {
                 return BACKGROUND_RESET;
         }
     }
-    
+
     public static void initializeMapTemplate1(int length, int width) {
         Map map = new Map(length, width);
         initializeCastlesLocation(map, length, width);
@@ -140,15 +137,15 @@ public class MapController {
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (3 * width) / 4; j < 5 * width / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "rockLand");
-        
-        
+
+
         setDefaultLand(length, width, map);
         Map.setTemplateMap(0, map);
     }
-    
+
     public static void initializeMapTemplate2(int length, int width) {
         Map map = new Map(length, width);
-        
+
         initializeIronLandsTemplate2(map, length, width);
         initializeRockLandsTemplate2(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
@@ -169,12 +166,12 @@ public class MapController {
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "grass");
-        
-        
+
+
         setDefaultLand(length, width, map);
         Map.setTemplateMap(1, map);
     }
-    
+
     private static void initializeRockLandsTemplate2(Map map, int length, int width) {
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
@@ -189,7 +186,7 @@ public class MapController {
             for (int j = (3 * width) / 6 + width / 8; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "rockLand");
     }
-    
+
     private static void initializeIronLandsTemplate2(Map map, int length, int width) {
         for (int i = length / 6; i < (2 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
@@ -204,10 +201,10 @@ public class MapController {
             for (int j = (3 * width) / 6 + width / 8; j < (4 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "ironLand");
     }
-    
+
     public static void initializeMapTemplate3(int length, int width) {
         Map map = new Map(length, width);
-        
+
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "sea");
@@ -229,13 +226,13 @@ public class MapController {
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < width - width / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "grass");
-        
+
         setDefaultLand(length, width, map);
         Map.setTemplateMap(2, map);
     }
-    
+
     public static void initializeCastlesLocation(Map map, int length, int width) {
-        castlePositions = new int[8][2];
+        int[][] castlePositions = new int[8][2];
         castlePositions[0][0] = 0;
         castlePositions[0][1] = 0;
         castlePositions[1][0] = length - 1;
@@ -255,22 +252,24 @@ public class MapController {
         for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
+            if (!gameController.getCurrentGame().isFirstLoaded()) {
+                for (int j = 0; j < 8; j++) {
+                    addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
+                }
+            }
         }
-    }
-    
-    public static void addJoblessInitially(Kingdom kingdom) {
-        Person person = new Person("jobless");
-        person.setLocation(kingdom.getMainCastleLocation());
-        kingdom.addPerson(person);
-        FileController.updateKingPeopleInFile(person, kingdom, gameController.getCurrentGame());
-    }
-    
-    public void setNumberOfCastles(int numberOfCastles) {
-        MapController.numberOfCastles = numberOfCastles;
+        gameController.getCurrentGame().setFirstLoaded(true);
     }
 
-    public int[][] getCastlePositions() {
-        return castlePositions;
+    public static void addJoblessInitially(Kingdom kingdom) {
+        WorkerPerson workerPerson = new WorkerPerson(kingdom.getKing(),"jobless",null);
+        workerPerson.setLocation(kingdom.getMainCastleLocation());
+        kingdom.addPerson(workerPerson);
+        FileController.updateKingPeopleInFile(workerPerson, kingdom, gameController.getCurrentGame());
+    }
+
+    public void setNumberOfCastles(int numberOfCastles) {
+        MapController.numberOfCastles = numberOfCastles;
     }
 
     //extra colors:

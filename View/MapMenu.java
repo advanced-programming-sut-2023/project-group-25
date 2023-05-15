@@ -50,7 +50,6 @@ public class MapMenu {
                     Turn.setTurnCounter(0);
                     gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
                     gameController.initializeTrees();
-                    gameController.addJoblessWorkers();
                     return "main menu";
                 }
             } else {
