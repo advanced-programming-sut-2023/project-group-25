@@ -409,16 +409,16 @@ public class FileController {
 
     public static MilitaryPerson getMilitaryPersonByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/MilitaryPerson.txt");
-        for (int i = 0; i < (content.size() / 5); i++) {
-            if (content.get(6 * i).equals(Type)) {
+        for (int i = 0; i < (content.size() / 7); i++) {
+            if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(6 * i + 4).split(",").length; j++) {
-                    Product product = getProductByName(content.get(6 * i + 4).split(",")[j]);
+                for (int j = 0; j < content.get(7 * i + 4).split(",").length; j++) {
+                    Product product = getProductByName(content.get(7 * i + 4).split(",")[j]);
                     if (product != null)
                         neededProduct.add(product);
                 }
-                return new MilitaryPerson(content.get(6 * i), neededProduct, Integer.parseInt(content.get(6 * i + 1)),
-                        Integer.parseInt(content.get(6 * i + 2)), Integer.parseInt(content.get(6 * i + 3)), content.get(6 * i + 4));
+                return new MilitaryPerson(content.get(7 * i), neededProduct, Integer.parseInt(content.get(7 * i + 1)),
+                        Integer.parseInt(content.get(7 * i + 2)), Integer.parseInt(content.get(7 * i + 3)), content.get(7 * i + 4));
             }
         }
         return null;
