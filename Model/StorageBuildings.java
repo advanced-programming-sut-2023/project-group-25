@@ -16,6 +16,9 @@ public class StorageBuildings extends Building {
     public void addProduct(Product product) {
         storedProducts.add(product);
     }
+    public void removeProduct(Product product) {
+        storedProducts.remove(product);
+    }
 
     public int countFreeSpace() {
         return (this.capacity - this.storedProducts.size());
@@ -33,4 +36,7 @@ public class StorageBuildings extends Building {
         return storageCategory;
     }
 
+    public void changeCapacity(int amount) {
+        this.capacity += amount;
+    }
 }
