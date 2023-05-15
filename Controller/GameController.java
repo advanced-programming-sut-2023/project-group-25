@@ -483,7 +483,21 @@ public class GameController {
         for (Cell cell : pathCells) {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
-        return "Unit has been moved successfully!";
+    //    if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+  //      if (selectedUnit == null) return "You haven't selected a unit!";
+       // if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
+//        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
+//        if (pathCells.size() == 1) return "The path is blocked!";
+//
+//        if ((!(selectedUnit instanceof WorkerPerson))
+////                && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange()
+//        )
+//            return "This move is out of the range of the unit!";
+//        for (Cell cell : pathCells) {
+//            removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
+//        }
+        //removeAndAddInMoving(selectedUnit,cell.getX(),cell.getY());
+        //return "Unit has been moved successfully!";
     }
 
     public boolean isLocationValid(int x, int y) {
@@ -1277,7 +1291,12 @@ public class GameController {
                         String hasNeededProducts = checkTheNeededProducts(product1.getUsedMaterials(), currentKingdom);
                         if (!hasNeededProducts.equals("ok")) return hasNeededProducts;
                         MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
-                        selectedUnit = kingBuilding.getWorkerPeople().get(0);
+                        for (Person person : kingBuilding.getLocation().getPeople()) {
+                            if (person instanceof WorkerPerson) {
+                                selectedUnit = person;
+                                break;
+                            }
+                        }
                         String toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                 + " -y " + storageBuilding.getLocation().getY();
                         if (!moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
@@ -1336,5 +1355,20 @@ public class GameController {
                 return "armoury";
         }
         return null;
+    }
+
+    public String showPriceList() {
+        //getStorageBuilding("productType")
+        String resultMessage = "";
+        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
+            Product product = kingdom.getKingProducts().get(i);
+            resultMessage += ("Product Name: " + product.getName() + "\n");
+            resultMessage += ("Product Price: " + product.getPrice() + "\n");
+            resultMessage += ("Product Cost: " + product.getCost() + "\n");
+            resultMessage += ("Product Amount: " + product.getCount() + "\n");
+            resultMessage += ("_________________________________\n");
+        }
+        return resultMessage;
     }
 }
