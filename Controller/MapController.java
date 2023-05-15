@@ -145,7 +145,7 @@ public class MapController {
 
     public static void initializeMapTemplate2(int length, int width) {
         Map map = new Map(length, width);
-
+        initializeCastlesLocation(map, length, width);
         initializeIronLandsTemplate2(map, length, width);
         initializeRockLandsTemplate2(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
@@ -204,7 +204,7 @@ public class MapController {
 
     public static void initializeMapTemplate3(int length, int width) {
         Map map = new Map(length, width);
-
+        initializeCastlesLocation(map, length, width);
         for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
             for (int j = width / 6; j < (2 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "sea");

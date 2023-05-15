@@ -191,12 +191,12 @@ public class GameController {
         String type = matcher.group("type");
         if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
         cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
-        if (matcher.group("object").equals("tree")) {
+        if (matcher.group("object").equals("unit")) {
+            result = dropUnit(x, y, cell, type, matcher.group("count"));
+        } else if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
             result = dropBuilding(x, y, cell, type);
-        } else if (matcher.group("object").equals("unit")) {
-            result = dropUnit(x, y, cell, type, matcher.group("count"));
         }
         return result;
     }
@@ -246,11 +246,29 @@ public class GameController {
     }
 
     private String buildBuilding(Building building, Cell cell, String type) {
+        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (Product neededProduct : building.getBuildingNeededProducts()) {
-            Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
             for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
                 if (neededProduct.getName().equals(product.getName())) {
                     if (neededProduct.getCount() <= product.getCount()) {
+                        ArrayList<WorkerPerson> buildingPeople = new ArrayList<>();
+                        if (kingdom.getJoblessCounter() < building.getWorkerCounter())
+                            return "You don't have enough workers!";
+                        for (int i = 0; i < building.getWorkerCounter(); i++) {
+                            ArrayList<Person> kingdomPeopleCopy = new ArrayList<>(kingdom.getKingPeople());
+                            for (Person kingPerson : kingdomPeopleCopy) {
+                                if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
+                                    kingdom.getKingPeople().remove(kingPerson);
+                                    buildingPeople.add((WorkerPerson) kingPerson);
+                                }
+                            }
+                        }
+                        building.setWorkerPeople(buildingPeople);
+                        cell.setBuilding(building);
+                        building.setLocation(cell);
+                        building.setKing(currentGame.turn.getCurrentKing());
+                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
+                        
                         product.setCount(product.getCount() - neededProduct.getCount());
                         cell.setBuilding(building);
                         building.setLocation(cell);
@@ -262,10 +280,7 @@ public class GameController {
             }
             return "You don't have any " + neededProduct + "!";
         }
-        cell.setBuilding(building);
-        building.setLocation(cell);
-        building.setKing(currentGame.turn.getCurrentKing());
-        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
+        
         return type + " added successfully";
     }
 
@@ -289,20 +304,20 @@ public class GameController {
 
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
+        int originalCount = count;
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
-        ArrayList<Person> unusedUnits = Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing()).getKingUnusedUnits());
-        ArrayList<Person> unusedUnitsCopy = new ArrayList<>(unusedUnits);
-        for (Person unit : unusedUnitsCopy) {
+        ArrayList<Person> kingUnitsCopy = new ArrayList<>(Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople());
+        for (Person unit : kingUnitsCopy) {
             if (unit.getType().equals(type)) {
                 cell.addPerson(unit);
                 unit.setLocation(cell);
-                unusedUnits.remove(unit);
+                Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople().remove(unit);
                 count--;
                 if (count == 0) break;
             }
         }
-        if (count > 0) return "You don't have enough " + type + "s!";
-        return "Unit added successfully!";
+        if (count > 0) return "You had only " + (originalCount - count) + " " + type + "!";
+        return "Unit(s) dropped successfully!";
     }
 
     public String
@@ -332,7 +347,7 @@ public class GameController {
             y = Integer.parseInt(matcher.group("input1"))-1;
             x = Integer.parseInt(matcher.group("input2"))-1;
         }
-        cell = currentGame.getMap().getCells()[x][y];
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         Map map = new Map(1, 1);
         map.getCells()[0][0] = new Cell(cell.getMaterial());
         result.append(MapController.showMap(map));
@@ -342,7 +357,7 @@ public class GameController {
         else result.append("no building");
         result.append("\nNumber of units: ").append(cell.getPeople().size()).append("\n");
         for (Person person : cell.getPeople()) {
-            result.append(person.getType());
+            result.append(person.getType()).append("\n");
         }
         return result.toString();
     }
@@ -460,9 +475,10 @@ public class GameController {
         int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
-        for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
+        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
+
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
-                selectedUnit = (MilitaryPerson) person;
+                selectedUnit = person;
                 return "Unit is selected successfully!";
             }
         }
@@ -477,7 +493,6 @@ public class GameController {
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
         List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x][y], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
-
         if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
@@ -1285,7 +1300,9 @@ public class GameController {
                         }
                         String toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                 + " -y " + storageBuilding.getLocation().getY();
-                        if (!moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                        String result = moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
+                        if (!result.equals("Unit has been moved successfully!")) {
+                            System.out.println(result);
                             selectedUnit = realSelectedUnit;
                             return "There is no access by " + neededBuildingType + " workers to the " + storageBuildingType;
                         }
