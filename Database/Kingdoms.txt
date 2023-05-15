@@ -39,7 +39,11 @@ hoora
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+=======
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+>>>>>>> 2af9ec7fcc7d48dfc0745ea452cd0d21d62b1231
 bread,wood,stone,food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -48,7 +52,11 @@ zahra
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,
+=======
+jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,
+>>>>>>> 2af9ec7fcc7d48dfc0745ea452cd0d21d62b1231
 bread,wood,stone,food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -57,6 +65,7 @@ samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,
 bread,wood,stone,food:0,tax:0,religion:0,fear:0,
 
@@ -85,6 +94,9 @@ samin
 
 bread,wood,stone,
 jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,jobless|x:0-y:19,
+=======
+jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+>>>>>>> 2af9ec7fcc7d48dfc0745ea452cd0d21d62b1231
 bread,wood,stone,food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
