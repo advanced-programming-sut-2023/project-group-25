@@ -252,13 +252,20 @@ public class GameController {
                     if (neededProduct.getCount() >= product.getCount()) {
                         product.setCount(product.getCount() - neededProduct.getCount());
                         cell.setBuilding(building);
+                        building.setLocation(cell);
                         building.setKing(currentGame.turn.getCurrentKing());
+                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
                         return type + " added successfully";
                     } else return "You don't have enough products to drop " + type;
                 }
             }
+            return "You don't have any "+neededProduct+ "!";
         }
-        return null;
+        cell.setBuilding(building);
+        building.setLocation(cell);
+        building.setKing(currentGame.turn.getCurrentKing());
+        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
+        return type + " added successfully";
     }
 
     private Building getBuilding(String type, String category) {
