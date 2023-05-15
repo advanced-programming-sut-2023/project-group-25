@@ -43,3 +43,21 @@ jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|x:19-y:19,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
+4
+hoora
+4000.0
+
+bread,wood,stone,
+jobless|x:0-y:0,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+4
+samin
+4000.0
+
+bread,wood,stone,
+
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
