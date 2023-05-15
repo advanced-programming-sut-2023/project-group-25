@@ -76,6 +76,8 @@ public class TradeMenu {
                     input = scanner.nextLine();
                 }
             } else if ((matcher = Commands.getMatcher(input, Commands.TRADE_LIST)) != null) {
+                System.out.print(tradeController.showTradeRequests());
+            } else if ((matcher = Commands.getMatcher(input, Commands.TRADE_HISTORY)) != null) {
                 System.out.print(tradeController.showAllTrades());
             } else if ((matcher = Commands.getMatcher(input, Commands.TRADE_ACCEPT)) != null) {
                 ArrayList<String> allOptions = new ArrayList<>() {{
