@@ -59,14 +59,14 @@ public class GameController {
             ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
-            kingdoms = createKingdomsInitially(kingdoms,usernames,gameId);
+            kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
             Game game = new Game(gameId, kingdoms);
             currentGame = game;
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
     }
-
+    
     public ArrayList<Kingdom> createKingdomsInitially(ArrayList<Kingdom> kingdoms, ArrayList<String> usernames, int gameId) {
         for (int i = 0; i < usernames.size(); i++) {
             Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
@@ -231,6 +231,7 @@ public class GameController {
         String category = FileController.getBuildingCategoryByType(type);
         Building savedBuilding = getBuilding(type, category);
         Building building = new Building(savedBuilding);
+        Building building1 = new Building(type, building.getCategory(), building.getBuildingNeededProducts(), building.getWorkerCounter(), building.getHitPoint());
         if (!isLocationValid(x, y))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
@@ -242,24 +243,25 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
-        return buildBuilding(building, cell, type);
+        return buildBuilding(building1, cell, type);
     }
     
     private String buildBuilding(Building building, Cell cell, String type) {
         for (Product neededProduct : building.getBuildingNeededProducts()) {
+            Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
             for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
                 if (neededProduct.getName().equals(product.getName())) {
-                    if (neededProduct.getCount() >= product.getCount()) {
+                    if (neededProduct.getCount() <= product.getCount()) {
                         product.setCount(product.getCount() - neededProduct.getCount());
                         cell.setBuilding(building);
                         building.setLocation(cell);
                         building.setKing(currentGame.turn.getCurrentKing());
                         currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
                         return type + " added successfully";
-                    } else return "You don't have enough products to drop " + type;
+                    } else return "You don't have enough " + neededProduct.getName() + " to drop " + type;
                 }
             }
-            return "You don't have any "+neededProduct+ "!";
+            return "You don't have any " + neededProduct + "!";
         }
         cell.setBuilding(building);
         building.setLocation(cell);
@@ -307,8 +309,8 @@ public class GameController {
     public String selectBuilding(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = currentGame.getMap().getCellByLocation(x, y);
-        if (!isLocationValid(x, y))
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
+        if (!isLocationValid(x - 1, y - 1))
             return "Invalid input!";
         if (Pattern.compile("castle\\d").matcher(cell.getMaterial()).find())
             return "You cannot select a castle!";
@@ -720,7 +722,7 @@ public class GameController {
         String[] colors = colorsStr.split("-");
         if (colors.length < currentGame.getKingdoms().size()) return "few colors";
         if (colors.length > currentGame.getKingdoms().size()) {
-            System.out.println(""+colorsStr + currentGame.getKingdoms().size());
+            System.out.println("" + colorsStr + currentGame.getKingdoms().size());
             return "too many colors";
         }
         if (!isAColorRepeated(colors)) return "repeated color";

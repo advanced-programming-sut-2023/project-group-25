@@ -34,7 +34,7 @@ public enum Commands {
     RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>-?\\d+)"),
     SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
-    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>.+) -(?<option2>c|t) (?<input2>\\d+)"),
+    CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>.+) -(?<option2>c|t) (?<input2>.+)"),
     REPAIR("repair"),
     SELECT_UNIT("select unit -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
     MOVE_UNIT("move unit to -(?<option1>x|y) (?<input1>\\d+) -(?<option2>x|y) (?<input2>\\d+)"),
