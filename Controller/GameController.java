@@ -779,6 +779,8 @@ public class GameController {
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         if (selectedBuilding == null)
             return "You haven't selected a building yet";
+        if(!selectedBuilding.isMainCastlePart())
+            return "You can't repair a non-castle building";
         if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
             String result = checkResourses(kingdom, selectedBuilding);
             if (result != null)
