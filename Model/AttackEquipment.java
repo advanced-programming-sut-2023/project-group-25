@@ -7,7 +7,6 @@ public class AttackEquipment {
     private ArrayList<Product> usedMaterials = new ArrayList<>();
     private User king;
     private MilitaryPerson engineer;
-//    private ArrayList<MilitaryPerson> engineers = new ArrayList<>();
     
     public AttackEquipment(String name, ArrayList<Product> usedMaterials, User king, MilitaryPerson engineer) {
         this.name = name;

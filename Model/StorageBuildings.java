@@ -10,7 +10,6 @@ public class StorageBuildings extends Building {
     public StorageBuildings(Building building, int capacity) {
         super(building);
         this.capacity = capacity;
-        //this.storageCategory = storageCategory;
     }
 
     public void addProduct(Product product) {

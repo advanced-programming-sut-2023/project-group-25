@@ -17,11 +17,27 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 1
+<<<<<<< HEAD
+=======
+zahra
+4000.0
+
+bread,wood,stone,
+jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+1
+>>>>>>> 0b30269b9e3d9e27dd1c52c278407b7ad31574b4
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,
+=======
+jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+>>>>>>> 0b30269b9e3d9e27dd1c52c278407b7ad31574b4
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -35,11 +51,27 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 3
+<<<<<<< HEAD
+=======
+zahra
+4000.0
+
+bread,wood,stone,
+jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+3
+>>>>>>> 0b30269b9e3d9e27dd1c52c278407b7ad31574b4
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,
+=======
+jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+>>>>>>> 0b30269b9e3d9e27dd1c52c278407b7ad31574b4
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -53,10 +85,23 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 4
+<<<<<<< HEAD
+=======
+zahra
+4000.0
+
+bread,wood,stone,
+jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,jobless|x:12-y:12,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+4
+>>>>>>> 0b30269b9e3d9e27dd1c52c278407b7ad31574b4
 samin
 4000.0
 
 bread,wood,stone,
+<<<<<<< HEAD
 jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,
 food:0,tax:0,religion:0,fear:0,
 

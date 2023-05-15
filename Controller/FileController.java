@@ -277,7 +277,6 @@ public class FileController {
                 }
                 Building tmp = new Building(content.get(7 * i), content.get(7 * i + 1), neededProduct,
                         Integer.parseInt(content.get(7 * i + 3)), Integer.parseInt(content.get(7 * i + 4)));
-                //TODO: output military people not available in the file!
                 TrainingBuildings trainingBuilding = new TrainingBuildings(tmp, null, Integer.parseInt(content.get(6 * i + 5)));
                 return trainingBuilding;
             }

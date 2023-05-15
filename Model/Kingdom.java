@@ -14,6 +14,7 @@ public class Kingdom {
     private double inventory;
     private String color;
     private Cell mainCastleLocation;
+    private int countJobless;
     
     public void setKingPeople(ArrayList<Person> kingPeople) {
         this.kingPeople = kingPeople;
@@ -121,13 +122,7 @@ public class Kingdom {
         this.kingPeople.add(person);
     }
 
-//    public int getKingFreePeopleNumber() {
-//        int count = 0;
-//        for (Person person : kingPeople) {
-//            if (!(person instanceof MilitaryPerson)) count++;
-//        }
-//        return count;
-//    }
+
 
 
     public void addAttackEquipment(AttackEquipment attackEquipment) {
@@ -149,7 +144,7 @@ public class Kingdom {
     }
 
     public int getJoblessCounter() {
-        int countJobless = 0;
+        countJobless = 0;
         for (Person person : getKingPeople()) {
             if (person.getType().equals("jobless")) {
                 countJobless++;
