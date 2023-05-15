@@ -12,8 +12,9 @@ public class PathFinder {
         for (int i = 0; i < gameMap.getLength(); i++) {
             for (int j = 0; j < gameMap.getWidth(); j++) {
                 if (gameMap.getCells()[i][j].getMaterial().equals("lowWater") || gameMap.getCells()[i][j].getMaterial().equals("sea")
-                        || gameMap.getCells()[i][j].getMaterial().equals("jolge") || gameMap.getCells()[i][j].getBuilding().getType().equals("wall"))
-                    pathableMap[i][j] = false;
+                        || gameMap.getCells()[i][j].getMaterial().equals("jolge") ||
+                        (gameMap.getCells()[i][j].getBuilding() != null && gameMap.getCells()[i][j].getBuilding().getType().equals("wall")))
+                pathableMap[i][j] = false;
                 else pathableMap[i][j] = true;
             }
         }
