@@ -13,7 +13,20 @@ public class Kingdom {
     private User king;
     private double inventory;
     private String color;
-
+    private Cell mainCastleLocation;
+    
+    public void setKingPeople(ArrayList<Person> kingPeople) {
+        this.kingPeople = kingPeople;
+    }
+    
+    public Cell getMainCastleLocation() {
+        return mainCastleLocation;
+    }
+    
+    public void setMainCastleLocation(Cell mainCastleLocation) {
+        this.mainCastleLocation = mainCastleLocation;
+    }
+    
     public Kingdom(User king, int gameId) {
         this.king = king;
         this.inventory = 4000;

@@ -253,12 +253,14 @@ public class MapController {
         castlePositions[7][0] = length / 2;
         castlePositions[7][1] = width - 1;
         
-        for (int i = 0; i < numberOfCastles; i++)
+        for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
+            gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
+        }
     }
     
     public void setNumberOfCastles(int numberOfCastles) {
-        this.numberOfCastles = numberOfCastles;
+        MapController.numberOfCastles = numberOfCastles;
     }
     
     //extra colors:
