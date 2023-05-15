@@ -5,9 +5,11 @@ import Controller.GameController;
 import Controller.MapController;
 import Controller.RegisterLoginController;
 import Model.Cell;
+import Model.Kingdom;
 import Model.User;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 
@@ -94,6 +96,9 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.ENTER_TRADE_MENU)) != null) {
                 tradeMenu.run(scanner);
                 System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
+            } else if ((matcher = getMatcher(input, Commands.ENTER_SHOP_MENU)) != null) {
+                shopRun(scanner);
+                System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
             } else if ((matcher = getMatcher(input, Commands.FETCH_OIL)) != null) {
                 System.out.println(gameController.fetchOil());
             } else if ((matcher = getMatcher(input, Commands.BURN_OIL)) != null) {
@@ -107,4 +112,17 @@ public class GameMenu {
             } else System.out.println("invalid command!");
         }
     }
+
+    public void shopRun(Scanner scanner) {
+        System.out.println(registerLoginController.showCurrentMenuName("SHOP MENU"));
+        while (true) {
+            input = scanner.nextLine();
+            if ((matcher = Commands.getMatcher(input, Commands.BACK)) != null) {
+                return;
+            }  else if ((matcher = Commands.getMatcher(input, Commands.SHOW_PRICE_LIST)) != null) {
+                System.out.print(gameController.showPriceList());
+            }
+        }
+    }
+
 }
