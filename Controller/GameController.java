@@ -1082,7 +1082,6 @@ public class GameController {
                     }
                 }
             }
-
         }
         if (thereIsFreeWorker) return "There is no " + neededBuildingType + " you can access!";
         return "You have no free workers now";
