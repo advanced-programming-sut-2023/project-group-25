@@ -8,6 +8,8 @@ public class Game {
     private int gameId;
     public Turn turn;
     private int mapTemplateNumber;
+
+    private boolean firstLoaded = false;
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
@@ -55,5 +57,13 @@ public class Game {
     }
     public void setColorOfKingdom(int index, String color) {
         kingdoms.get(index).setColor(color);
+    }
+
+    public void setFirstLoaded(boolean firstLoaded) {
+        this.firstLoaded = firstLoaded;
+    }
+
+    public boolean isFirstLoaded() {
+        return firstLoaded;
     }
 }

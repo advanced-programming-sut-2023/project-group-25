@@ -8,6 +8,7 @@ import Model.Person;
 
 
 public class MapController {
+    private static int[][] castlePositions;
     
     public static final String BACKGROUND_RESET = "\033[0m";                //reset
     public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";      // LIGHT BLUE
@@ -234,7 +235,7 @@ public class MapController {
     }
     
     public static void initializeCastlesLocation(Map map, int length, int width) {
-        int[][] castlePositions = new int[8][2];
+        castlePositions = new int[8][2];
         castlePositions[0][0] = 0;
         castlePositions[0][1] = 0;
         castlePositions[1][0] = length - 1;
@@ -254,9 +255,6 @@ public class MapController {
         for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
-            for (int j = 0; j < 8; j++) {
-                addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
-            }
         }
     }
     
@@ -270,7 +268,11 @@ public class MapController {
     public void setNumberOfCastles(int numberOfCastles) {
         MapController.numberOfCastles = numberOfCastles;
     }
-    
+
+    public int[][] getCastlePositions() {
+        return castlePositions;
+    }
+
     //extra colors:
 //    public static final String BLACK_BACKGROUND = "\033[40m";   // BLACK
 //    public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN

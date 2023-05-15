@@ -4,6 +4,7 @@ import Controller.ChangeMenuController;
 import Controller.GameController;
 import Controller.MapController;
 import Controller.RegisterLoginController;
+import Model.Cell;
 import Model.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +30,16 @@ public class GameMenu {
     }
     
     public String run(Scanner scanner) throws NoSuchAlgorithmException {
+        if(!gameController.getCurrentGame().isFirstLoaded()) {
+            for (int i = 0; i < gameController.getCurrentGame().getNumberOfPlayers(); i++) {
+                gameController.getCurrentGame().getMap().getCells()[mapController.getCastlePositions()[i][0]][mapController.getCastlePositions()[i][1]]
+                        = new Cell(mapController.getCastlePositions()[i][0], mapController.getCastlePositions()[i][1], "castle" + i);
+                gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(gameController.getCurrentGame().getMap().getCells()[mapController.getCastlePositions()[i][0]][mapController.getCastlePositions()[i][1]]);
+                for (int j = 0; j < 8; j++) {
+                    MapController.addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
+                }
+            }
+        }
         System.out.println(registerLoginController.showCurrentMenuName("GAME MENU"));
         while (true) {
             input = scanner.nextLine();
