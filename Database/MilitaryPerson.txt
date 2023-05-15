@@ -75,14 +75,14 @@ Engineer
 European
 
 _____________________________________________
-Black Monk
+BlackMonk
 300
 300
 2
 European
 
 _____________________________________________
-Archer Bow
+ArcherBow
 200
 200
 4
@@ -110,21 +110,21 @@ Assassins
 Arab
 
 _____________________________________________
-Horse Archers
+HorseArchers
 200
 300
 5
 Arab
 horse,bow
 _____________________________________________
-Arabian Swordsmen
+ArabianSwordsmen
 400
 400
 5
 Arab
 sword
 _____________________________________________
-Fire Throwers
+FireThrowers
 400
 200
 5

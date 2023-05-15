@@ -70,6 +70,8 @@ public class GameMenu {
                 System.out.println(gameController.clearCell(matcher));
             } else if ((matcher = getMatcher(input, Commands.DROP_ROCK)) != null) {
                 System.out.println(gameController.dropRock(matcher));
+            } else if ((matcher = getMatcher(input, Commands.DROP_UNIT)) != null) {
+                System.out.println(gameController.dropObject(matcher));
             } else if ((matcher = getMatcher(input, Commands.DROP_OBJECT)) != null) {
                 System.out.println(gameController.dropObject(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_DETAILS)) != null) {
