@@ -33,7 +33,6 @@ public enum Commands {
     SHOW_FOOD_LIST("^show food list$"),
     RATE_POPULARITY_FACTOR("(?<popularityFactor>.+) rate -r (?<rateNumber>-?\\d+)"),
     SHOW_POPULARITY_FACTOR_RATE("(?<popularityFactor>.+) rate show"),
-    DROP_BUILDING("dropbuilding -x (?<x>\\d+) -y (?<y>\\d+) -type (?<type>.+)"),
     SELECT_BUILDING("select building -x (?<x>\\d+) -y (?<y>\\d+)"),
     CREATE_UNIT("createunit -(?<option1>c|t) (?<input1>.+) -(?<option2>c|t) (?<input2>\\d+)"),
     REPAIR("repair"),
