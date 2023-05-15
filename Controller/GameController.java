@@ -472,10 +472,10 @@ public class GameController {
     public String moveUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        if (!isLocationValid(x, y)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x][y], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
 
         if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
@@ -483,21 +483,7 @@ public class GameController {
         for (Cell cell : pathCells) {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
-    //    if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
-  //      if (selectedUnit == null) return "You haven't selected a unit!";
-       // if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-//        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
-//        if (pathCells.size() == 1) return "The path is blocked!";
-//
-//        if ((!(selectedUnit instanceof WorkerPerson))
-////                && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange()
-//        )
-//            return "This move is out of the range of the unit!";
-//        for (Cell cell : pathCells) {
-//            removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
-//        }
-        //removeAndAddInMoving(selectedUnit,cell.getX(),cell.getY());
-        //return "Unit has been moved successfully!";
+        return "Unit has been moved successfully!";
     }
 
     public boolean isLocationValid(int x, int y) {
