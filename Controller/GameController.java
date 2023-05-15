@@ -469,10 +469,11 @@ public class GameController {
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
         List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x-1][y-1], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
-        if (pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
+        
+        if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
-            removeAndAddInMoving((MilitaryPerson) selectedUnit, cell.getX(), cell.getY());
+            removeAndAddInMoving( selectedUnit, cell.getX(), cell.getY());
         }
         return "Unit has been moved successfully!";
     }
@@ -759,8 +760,8 @@ public class GameController {
         return "The unit patrolling!";
     }
 
-    private void removeAndAddInMoving(MilitaryPerson unit, int x, int y) {
-        patrollingUnit.getLocation().removePerson(unit);
+    private void removeAndAddInMoving(Person unit, int x, int y) {
+        unit.getLocation().removePerson(unit);
         Cell destination = currentGame.getMap().getCells()[x][y];
         destination.addPerson(unit);
         unit.setLocation(destination);
@@ -1028,6 +1029,7 @@ public class GameController {
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
         if (neededBuildingType == null) return "You have entered invalid type!";
+        
         if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
         }
@@ -1037,12 +1039,12 @@ public class GameController {
             if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
                 thereIsFreeWorker = true;
                 for (Building kingBuilding : currentKingdom.getKingBuildings()) {
-                    int i = kingBuilding.getLocation().getX();
-                    int j = kingBuilding.getLocation().getY();
                     for (Building storageBuilding : currentKingdom.getKingBuildings()) {
+                        int i = kingBuilding.getLocation().getX();
+                        int j = kingBuilding.getLocation().getY();
                         if (storageBuilding.getType().equals(storageBuildingType)) {
                             String toGetMatcher = "move unit to -x " + i + " -y " + j;
-                            Person realSelectedUnit = selectedUnit;
+                            MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
                             selectedUnit = kingPerson;
                             if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                                 ((WorkerPerson) selectedUnit).setWorkerPlace
@@ -1180,7 +1182,7 @@ public class GameController {
                         product1.setCount(count);
                         String hasNeededProducts = checkTheNeededProducts(product1.getUsedMaterials(), currentKingdom);
                         if (!hasNeededProducts.equals("ok")) return hasNeededProducts;
-                        Person realSelectedUnit = selectedUnit;
+                        MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
                         selectedUnit = kingBuilding.getWorkerPeople().get(0);
                         String toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                 + " -y " + storageBuilding.getLocation().getY();
