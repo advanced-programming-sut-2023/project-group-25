@@ -7,6 +7,8 @@
 --KING'S POPULARITY FACTORS {factor1:amount, }--
 --KING'S ATTACK EQUIPMENTS(SEPARATED WITH ,)--
 _____________________________________________________
+<<<<<<< HEAD
+=======
 48
 hoora
 4000.0
@@ -222,6 +224,7 @@ null
 food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 76
 hoora
 4000.0
@@ -232,6 +235,8 @@ food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
 76
+<<<<<<< HEAD
+=======
 zahra
 4000.0
 null
@@ -241,6 +246,7 @@ food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
 76
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 samin
 4000.0
 null
@@ -259,6 +265,8 @@ food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
 77
+<<<<<<< HEAD
+=======
 zahra
 4000.0
 null
@@ -268,6 +276,7 @@ food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
 77
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 samin
 4000.0
 null
@@ -277,6 +286,60 @@ food:0,tax:0,religion:0,fear:0,
 null
 _____________________________________________________
 78
+<<<<<<< HEAD
+jobless|x:0-y:0,
+hoora
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+78
+jobless|x:19-y:49,
+samin
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+79
+jobless|x:0-y:0,
+hoora
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+79
+jobless|x:19-y:49,
+samin
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+80
+jobless|x:0-y:0,
+hoora
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+80
+jobless|x:19-y:49,
+samin
+4000.0
+
+bread,wood,stone,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+=======
 hoora
 4000.0
 null
@@ -329,10 +392,18 @@ bread,wood,stone,
 null
 food:0,tax:0,religion:0,fear:0,
 null
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 _____________________________________________________
 80
 hoora
 4000.0
+<<<<<<< HEAD
+
+bread,wood,stone,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+=======
 null
 bread,wood,stone,
 null
@@ -347,19 +418,35 @@ bread,wood,stone,
 null
 food:0,tax:0,religion:0,fear:0,
 null
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 _____________________________________________________
 80
 samin
 4000.0
+<<<<<<< HEAD
+
+bread,wood,stone,
+jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+=======
 null
 bread,wood,stone,
 null
 food:0,tax:0,religion:0,fear:0,
 null
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 _____________________________________________________
 81
 hoora
 4000.0
+<<<<<<< HEAD
+
+bread,wood,stone,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+=======
 null
 bread,wood,stone,
 null
@@ -374,10 +461,18 @@ bread,wood,stone,
 null
 food:0,tax:0,religion:0,fear:0,
 null
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 _____________________________________________________
 81
 samin
 4000.0
+<<<<<<< HEAD
+
+bread,wood,stone,
+jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,jobless|x:19-y:49,
+bread,wood,stone,food:0,tax:0,religion:0,fear:0,
+
+=======
 null
 bread,wood,stone,
 null
@@ -545,4 +640,5 @@ bread,wood,stone,
 null
 food:0,tax:0,religion:0,fear:0,
 null
+>>>>>>> 1491d2e40b53db4d07536a5beeca18d1ef422216
 _____________________________________________________
