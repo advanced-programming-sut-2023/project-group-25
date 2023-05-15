@@ -272,13 +272,6 @@ public class MapController {
         MapController.numberOfCastles = numberOfCastles;
     }
 
-    //extra colors:
-//    public static final String BLACK_BACKGROUND = "\033[40m";   // BLACK
-//    public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN
-//    public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
-//    public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
-//    public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
-//    public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
-
+    
 
 }

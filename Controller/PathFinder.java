@@ -5,7 +5,6 @@ import Model.Map;
 
 import java.util.*;
 
-//TODO: walls are not blocks for people with ladder
 public class PathFinder {
     public static List<Cell> findPath(Cell start, Cell target, Map gameMap) {
         boolean[][] pathableMap = new boolean[gameMap.getLength()][gameMap.getWidth()];
@@ -53,7 +52,6 @@ public class PathFinder {
             for (int i = current.getGridX() - 1; i < current.getGridX() + 2; i++) {
                 for (int j = current.getGridY() - 1; j < current.getGridY() + 2; j++) {
                     if (i >= 0 && j >= 0 && i < gameMap.getLength() && j < gameMap.getWidth()) {
-                    //gameMap.gridWithinBounds(i, j)
                         Node neighbor = nodeMap[i][j];
 
                         if (closed.contains(neighbor)) {

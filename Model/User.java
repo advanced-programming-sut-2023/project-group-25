@@ -52,34 +52,9 @@ public class User {
         return isSloganRandom;
     }
 
-    /*public static boolean isUserNameUnique(String username) {
-        for (User user : users) {
-            if (user.username.equals(username)) return false;
-        }
-        return true;
-    }*/
+   
     
-    /*public static boolean isEmailUnique(String email) {
-        for (User user : users) {
-            if (user.email.equals(email)) return false;
-        }
-        return true;
-    }*/
-
-    /*public void removeUser() {
-        users.remove(this);
-    }*/
     
-    /*public static void addUser(User user) {
-        users.add(user);
-    }*/
-    
-    /*public static User getUserByUsername(String username) {
-        for (User user : users) {
-            if (user.username.equals(username)) return user;
-        }
-        return null;
-    }*/
     
     public String getUsername() {
         return username;

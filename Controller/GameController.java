@@ -536,7 +536,6 @@ public class GameController {
     private void createUnitWithGivenUnit(MilitaryPerson givenUnit) {
         MilitaryPerson militaryPerson = new MilitaryPerson(getCurrentUser(), givenUnit.getType(), givenUnit);
         Objects.requireNonNull(getKingdomByKing(getCurrentUser())).addPerson(militaryPerson);
-        //Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).addUnusedUnit(militaryPerson);
     }
 
     private boolean haveNeededProductsForUnit(MilitaryPerson givenUnit, int count) {
@@ -834,7 +833,6 @@ public class GameController {
     }
 
     private void fight() {
-        //TODO: this method can be more effective
         Cell[][] cells = currentGame.getMap().getCells().clone();
         checkToHitBuilding();
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
@@ -883,7 +881,6 @@ public class GameController {
                                             selectedUnit = person;
                                             String toGetMatcher = "move unit to -x " + person1.getLocation().getX()
                                                     + " -y " + person1.getLocation().getY();
-                                            //if (!moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!"))
                                             moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
                                             selectedUnit = realSelectedUnit;
                                         }
@@ -910,7 +907,6 @@ public class GameController {
                                             selectedUnit = person;
                                             String toGetMatcher = "move unit to -x " + person1.getLocation().getX()
                                                     + " -y " + person1.getLocation().getY();
-                                            //if (!moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!"))
                                             moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
                                             selectedUnit = realSelectedUnit;
                                         }
@@ -1025,21 +1021,7 @@ public class GameController {
     }
 
     private void changePopulation() {
-        /*Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
-        String popularity = showPopularity();
-        Pattern pattern = Pattern.compile("-?\\d+");
-        Matcher matcher = pattern.matcher(popularity);
-        int popularityAmount = 0;
-        if (matcher.find())
-            popularityAmount = Integer.parseInt(matcher.group());
-        if (popularityAmount <= 0)
-            kingdom.setJoblessCounter(1);
-        else if (popularityAmount <= 10)
-            kingdom.setJoblessCounter(3);
-        else if (popularityAmount <= 20)
-            kingdom.setJoblessCounter(6);
-        else
-            kingdom.setJoblessCounter(8);*/
+    
     }
 
     private void getTax() {
@@ -1059,7 +1041,6 @@ public class GameController {
                     peopleCounter++;
                     getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(currentInventory + TaxGivingRate);
                 }
-
             }
         }
 
@@ -1090,7 +1071,6 @@ public class GameController {
         divideFood();
         getTax();
         changePopulation();
-        //TODO: mode of units
     }
 
     public String fetchOil() {
@@ -1141,7 +1121,6 @@ public class GameController {
         String neededBuildingType = getNeededBuilding(type);
         String storageBuildingType = getStorageBuilding(type);
         if (neededBuildingType == null) return "You have entered invalid type!";
-
         if (!(type.equals("hop") || type.equals("iron") || type.equals("stone") || type.equals("wood") || type.equals("flour") || type.equals("wheat"))) {
             return "You have entered invalid type for source!";
         }
@@ -1363,7 +1342,6 @@ public class GameController {
     }
 
     public String showPriceList() {
-        //getStorageBuilding("productType")
         String resultMessage = "";
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for(int i = 0; i<kingdom.getKingProducts().size(); i++) {
