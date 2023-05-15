@@ -201,7 +201,7 @@ samin
 4000.0
 
 bread,wood,stone,
-jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -282,7 +282,7 @@ samin
 4000.0
 
 bread,wood,stone,
-jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,jobless|x:0-y:12,
+jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,jobless|x:39-y:39,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________

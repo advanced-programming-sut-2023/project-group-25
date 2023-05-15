@@ -164,4 +164,16 @@ public class Kingdom {
             kingPeople.add(workerPerson);
         }
     }
+
+    public Product getKingProductByName(String name) {
+        for (Product product : kingProducts) {
+            if(product.getName().equals(name))
+                return product;
+        }
+        return null;
+    }
+
+    public void addKingProduct(Product product) {
+        kingProducts.add(product);
+    }
 }

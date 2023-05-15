@@ -56,7 +56,7 @@ public enum Commands {
     DROP_OBJECT("drop(?<object>.+) -x (?<x>\\d+) -y (?<y>\\d+) -t (?<type>.+)( -c (?<count>\\d+))?"),
     TRADE_REQUEST("trade -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+) -(?<option3>\\S+) (?<input3>.+) -(?<option4>\\S+) (?<input4>.+)"),
     TRADE_LIST("trade list"),
-    TRADE_ACCEPT("trade accept -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),
+    TRADE_ACCEPT("trade accept -(?<option1>\\S+) (?<input1>.+) -(?<option2>\\S+) (?<input2>.+)"),
     TRADE_HISTORY("trade history"),
     SHOW_PRICE_LIST("show price list"),
     BUY_OR_SELL("(?<activity>[(buy)|(sell)] -(?<option1[a-z]+) (?<input1>.+) -(?<option2[a-z]+) (?<input2>.+)"),

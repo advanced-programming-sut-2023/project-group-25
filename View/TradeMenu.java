@@ -53,7 +53,7 @@ public class TradeMenu {
                     if ((matcher = Commands.getMatcher(input, Commands.TRADE_REQUEST)) != null) {
                         break;
                     } else {
-                        System.out.println("Invalid format for request; please try again: 1");
+                        System.out.println("Invalid format for request; please try again: ");
                     }
                 }
                 ArrayList<String> allOptions = new ArrayList<>() {{
@@ -77,7 +77,14 @@ public class TradeMenu {
                 }
             } else if ((matcher = Commands.getMatcher(input, Commands.TRADE_LIST)) != null) {
                 System.out.print(tradeController.showAllTrades());
-            }
+            } else if ((matcher = Commands.getMatcher(input, Commands.TRADE_ACCEPT)) != null) {
+                ArrayList<String> allOptions = new ArrayList<>() {{
+                    add("i");
+                    add("m");
+                }};
+                System.out.println(tradeController.acceptTrade(matcher,allOptions));
+            } else
+                System.out.println("Invalid command!");
         }
     }
 }
