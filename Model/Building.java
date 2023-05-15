@@ -20,7 +20,6 @@ public class Building {
         this.neededProducts = buildingCosts;
         this.workerCounter = workerCounter;
         this.hitPoint = hitPoint;
-        this.isMainCastlePart = this.isMainCastlePart();
     }
     
     public Building(Building building) {
@@ -29,7 +28,6 @@ public class Building {
         this.neededProducts = building.neededProducts;
         this.workerCounter = building.workerCounter;
         this.hitPoint = building.hitPoint;
-        this.isMainCastlePart = this.isMainCastlePart();
     }
     
     public ArrayList<Product> getNeededProducts() {
@@ -116,8 +114,8 @@ public class Building {
         this.king = king;
     }
     
-    private boolean isMainCastlePart() {
-        switch (this.type) {
+    public boolean isMainCastlePart(String type) {
+        switch (type) {
             case "siege tent":
             case "caged war dogs":
             case "oil smelter":
