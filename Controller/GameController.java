@@ -66,7 +66,7 @@ public class GameController {
         }
         return resultMessage;
     }
-    
+
     public ArrayList<Kingdom> createKingdomsInitially(ArrayList<Kingdom> kingdoms, ArrayList<String> usernames, int gameId) {
         for (int i = 0; i < usernames.size(); i++) {
             Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
@@ -464,10 +464,10 @@ public class GameController {
     public String moveUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x-1][y-1], currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
         if (pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
             return "This move is out of the range of the unit!";
@@ -1082,41 +1082,43 @@ public class GameController {
     private String getNeededBuilding(String type) {
         switch (type) {
             case "iron":
+                return "iron mine";
             case "wood":
+                return "woodcutter";
             case "stone":
-                return "stockpile";
+                return "quarry";
             case "meat":
-                return "granary";
+                return "hunter post";
             case "bread":
-                return "granary";
+                return "bakery";
             case "cheese":
-                return "granary";
+                return "dairy farmer";
             case "ale":
-                return "granary";
+                return "brewer";
             case "apple":
-                return "granary";
+                return "apple orchard";
             case "hop":
-                return "stockpile";
+                return "hop farmer";
             case "wheat":
-                return "stockpile";
+                return "wheat farmer";
             case "flour":
-                return "stockpile";
+                return "mill";
             case "spear":
-                return "armoury";
+                return "poleturner";
             case "bow":
-                return "armoury";
+                return "fletcher";
             case "mace":
-                return "armoury";
+                return "blacksmith";
             case "crossbow":
-                return "armoury";
+                return "fletcher";
             case "pike":
-                return "armoury";
+                return "poleturner";
             case "sword":
-                return "armoury";
+                return "blacksmith";
             case "leatherArmor":
-                return "armoury";
+                return "ox tether";
             case "metalArmor":
-                return "armoury";
+                return "armourer";
         }
         return null;
     }
