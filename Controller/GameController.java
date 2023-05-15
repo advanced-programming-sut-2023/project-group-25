@@ -108,8 +108,8 @@ public class GameController {
     public String setCellMaterial(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = currentGame.getMap().getCellByLocation(x-1, y-1);
-        if (!isLocationValid(x-1, y-1))
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
+        if (!isLocationValid(x - 1, y - 1))
             return "Invalid location!";
         else if (cell.getBuilding() != null)
             return "You can't change the texture of a cell with a building on it!";
@@ -123,15 +123,15 @@ public class GameController {
         int x2 = Integer.parseInt(matcher.group("x2"));
         int y2 = Integer.parseInt(matcher.group("y2"));
         boolean hasBuilding = false;
-        if (!isLocationValid(x1-1, y1-1) || !isLocationValid(x2-1, y2-1))
+        if (!isLocationValid(x1 - 1, y1 - 1) || !isLocationValid(x2 - 1, y2 - 1))
             return "Invalid location!";
-        for (int i = x1-1; i <= x2-1; i++)
-            for (int j = y1-1; j <= y2-1; j++)
+        for (int i = x1 - 1; i <= x2 - 1; i++)
+            for (int j = y1 - 1; j <= y2 - 1; j++)
                 if (currentGame.getMap().getCellByLocation(i, j).getBuilding() != null)
                     hasBuilding = true;
         if (!hasBuilding) {
-            for (int i = x1-1; i <= x2-1; i++)
-                for (int j = y1-1; j <= y2-1; j++)
+            for (int i = x1 - 1; i <= x2 - 1; i++)
+                for (int j = y1 - 1; j <= y2 - 1; j++)
                     currentGame.getMap().getCells()[i][j] = new Cell(i, j, matcher.group("type"));
             return "Cells texture changed successfully";
         }
@@ -148,8 +148,8 @@ public class GameController {
         MapController.initializeMapTemplate2(length, width);
         MapController.initializeMapTemplate3(length, width);
         Map originalMap = Map.getTemplateMaps()[templateNumber];
-        String originalMaterial = originalMap.getCellByLocation(x-1, y-1).getMaterial();
-        currentGame.getMap().getCells()[x-1][y-1] = new Cell(x-1, y-1, originalMaterial);
+        String originalMaterial = originalMap.getCellByLocation(x - 1, y - 1).getMaterial();
+        currentGame.getMap().getCells()[x - 1][y - 1] = new Cell(x - 1, y - 1, originalMaterial);
         return "Cell cleared successfully";
     }
     
@@ -169,10 +169,10 @@ public class GameController {
     public String dropRock(Matcher matcher) {
         int x = Integer.parseInt(matcher.group("x"));
         int y = Integer.parseInt(matcher.group("y"));
-        cell = currentGame.getMap().getCellByLocation(x-1, y-1);
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         String direction = matcher.group("direction");
         NaturalBlock naturalBlock = new NaturalBlock("Rock", "Rock");
-        if (!isLocationValid(x-1, y-1) || !direction.matches("^[n|r|s|e|w]$"))
+        if (!isLocationValid(x - 1, y - 1) || !direction.matches("^[n|r|s|e|w]$"))
             return "Invalid input!";
         if (direction.matches("r")) {
             String chars = "swen";
@@ -191,12 +191,12 @@ public class GameController {
         String type = matcher.group("type");
         if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
         cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
-        if (matcher.group("object").equals("tree")) {
+        if (matcher.group("object").equals("unit")) {
+            result = dropUnit(x, y, cell, type, matcher.group("count"));
+        } else if (matcher.group("object").equals("tree")) {
             result = dropTree(x, y, cell, type);
         } else if (matcher.group("object").equals("building")) {
             result = dropBuilding(x, y, cell, type);
-        } else if (matcher.group("object").equals("unit")) {
-            result = dropUnit(x, y, cell, type, matcher.group("count"));
         }
         return result;
     }
@@ -204,7 +204,7 @@ public class GameController {
     public String dropTree(int x, int y, Cell cell, String type) {
         boolean check = false;
         NaturalBlock naturalBlock = new NaturalBlock(type, "Tree");
-        if (!isLocationValid(x-1, y-1))
+        if (!isLocationValid(x - 1, y - 1))
             return "Invalid input!";
         if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea"))
             return "You can't drop a tree in this location!";
@@ -223,7 +223,7 @@ public class GameController {
         Building savedBuilding = getBuilding(type, category);
         Building building = new Building(savedBuilding);
         Building building1 = new Building(type, building.getCategory(), building.getBuildingNeededProducts(), building.getWorkerCounter(), building.getHitPoint());
-        if (!isLocationValid(x-1, y-1))
+        if (!isLocationValid(x - 1, y - 1))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
             return "Invalid ground type for " + type;
@@ -244,11 +244,29 @@ public class GameController {
     }
     
     private String buildBuilding(Building building, Cell cell, String type) {
+        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         for (Product neededProduct : building.getBuildingNeededProducts()) {
-            Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
             for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
                 if (neededProduct.getName().equals(product.getName())) {
                     if (neededProduct.getCount() <= product.getCount()) {
+                        ArrayList<WorkerPerson> buildingPeople = new ArrayList<>();
+                        if (kingdom.getJoblessCounter() < building.getWorkerCounter())
+                            return "You don't have enough workers!";
+                        for (int i = 0; i < building.getWorkerCounter(); i++) {
+                            ArrayList<Person> kingdomPeopleCopy = new ArrayList<>(kingdom.getKingPeople());
+                            for (Person kingPerson : kingdomPeopleCopy) {
+                                if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
+                                    kingdom.getKingPeople().remove(kingPerson);
+                                    buildingPeople.add((WorkerPerson) kingPerson);
+                                }
+                            }
+                        }
+                        building.setWorkerPeople(buildingPeople);
+                        cell.setBuilding(building);
+                        building.setLocation(cell);
+                        building.setKing(currentGame.turn.getCurrentKing());
+                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
+                        
                         product.setCount(product.getCount() - neededProduct.getCount());
                         cell.setBuilding(building);
                         building.setLocation(cell);
@@ -260,10 +278,7 @@ public class GameController {
             }
             return "You don't have any " + neededProduct + "!";
         }
-        cell.setBuilding(building);
-        building.setLocation(cell);
-        building.setKing(currentGame.turn.getCurrentKing());
-        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
+        
         return type + " added successfully";
     }
     
@@ -287,20 +302,20 @@ public class GameController {
     
     public String dropUnit(int x, int y, Cell cell, String type, String countStr) {
         int count = Integer.parseInt(countStr);
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
-        ArrayList<Person> unusedUnits = Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing()).getKingUnusedUnits());
-        ArrayList<Person> unusedUnitsCopy = new ArrayList<>(unusedUnits);
-        for (Person unit : unusedUnitsCopy) {
+        int originalCount = count;
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        ArrayList<Person> kingUnitsCopy = new ArrayList<>(Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople());
+        for (Person unit : kingUnitsCopy) {
             if (unit.getType().equals(type)) {
                 cell.addPerson(unit);
                 unit.setLocation(cell);
-                unusedUnits.remove(unit);
+                Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople().remove(unit);
                 count--;
                 if (count == 0) break;
             }
         }
-        if (count > 0) return "You don't have enough " + type + "s!";
-        return "Unit added successfully!";
+        if (count > 0) return "You had only " + (originalCount - count) + " " + type + "!";
+        return "Unit(s) dropped successfully!";
     }
     
     public String
@@ -330,7 +345,7 @@ public class GameController {
             y = Integer.parseInt(matcher.group("input1"));
             x = Integer.parseInt(matcher.group("input2"));
         }
-        cell = currentGame.getMap().getCellByLocation(x, y);
+        cell = currentGame.getMap().getCellByLocation(x - 1, y - 1);
         Map map = new Map(1, 1);
         map.getCells()[0][0] = new Cell(cell.getMaterial());
         result.append(MapController.showMap(map));
@@ -340,7 +355,7 @@ public class GameController {
         else result.append("no building");
         result.append("\nNumber of units: ").append(cell.getPeople().size()).append("\n");
         for (Person person : cell.getPeople()) {
-            result.append(person.getType());
+            result.append(person.getType()).append("\n");
         }
         return result.toString();
     }
@@ -457,10 +472,10 @@ public class GameController {
     public String selectUnit(Matcher matcher) {
         int x = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "x", 2)));
         int y = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "y", 2)));
-        if (!isLocationValid(x-1, y-1)) return "You have entered invalid location!";
-        for (Person person : currentGame.getMap().getCells()[x][y].getPeople()) {
+        if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
+        for (Person person : currentGame.getMap().getCells()[x - 1][y - 1].getPeople()) {
             if (person instanceof MilitaryPerson && person.getKing().getUsername().equals(getCurrentUser().getUsername())) {
-                selectedUnit = (MilitaryPerson) person;
+                selectedUnit = person;
                 return "Unit is selected successfully!";
             }
         }
@@ -473,14 +488,18 @@ public class GameController {
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(),
+                currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
         if (pathCells.size() == 1) return "The path is blocked!";
         
-        if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
+        if ((!(selectedUnit instanceof WorkerPerson))
+                && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange()
+        )
             return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
+        removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         return "Unit has been moved successfully!";
     }
     
@@ -565,7 +584,7 @@ public class GameController {
         String horizontalDirection = matcher.group("horizontalDirection");
         if (verticalDirection.equals("up")) dx = -dx;
         if (horizontalDirection.equals("left")) dy = -dy;
-        if (!isLocationValid(shownMapX + dx-1, shownMapY + dy-1)) return "You have entered invalid location!";
+        if (!isLocationValid(shownMapX + dx - 1, shownMapY + dy - 1)) return "You have entered invalid location!";
         shownMapY = shownMapY + dy;
         shownMapX = shownMapX + dx;
         return MapController.showMap(Objects.requireNonNull(makeSmallMap(shownMapX, shownMapY)));
@@ -779,7 +798,7 @@ public class GameController {
         Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
         if (selectedBuilding == null)
             return "You haven't selected a building yet";
-        if(!selectedBuilding.isMainCastlePart(selectedBuilding.getType()))
+        if (!selectedBuilding.isMainCastlePart(selectedBuilding.getType()))
             return "You can't repair a non-castle building";
         if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
             String result = checkResourses(kingdom, selectedBuilding);
@@ -1019,11 +1038,11 @@ public class GameController {
             for (int j = -1; j <= 1; j++) {
                 int x = selectedUnit.getLocation().getX() + i;
                 int y = selectedUnit.getLocation().getY() + j;
-                if (isLocationValid(x-1, y-1) && cells[x-1][y-1].hasOil()) {
+                if (isLocationValid(x - 1, y - 1) && cells[x - 1][y - 1].hasOil()) {
                     thereIsAtLeastOne = true;
-                    cells[x-1][y-1].destroyBuildingCompletely();
-                    cells[x-1][y-1].killPeopleCompletely();
-                    cells[x-1][y-1].setHasOil(false);
+                    cells[x - 1][y - 1].destroyBuildingCompletely();
+                    cells[x - 1][y - 1].killPeopleCompletely();
+                    cells[x - 1][y - 1].setHasOil(false);
                 }
             }
         }
@@ -1074,10 +1093,12 @@ public class GameController {
                                 selectedUnit = realSelectedUnit;
                                 return "The worker cannot go to the " + neededBuildingType;
                             }
-                        }return "You have no " + storageBuildingType + "!";
+                        }
+                        return "You have no " + storageBuildingType + "!";
                     }
                     
-                }return "You have no " + neededBuildingType + "!";
+                }
+                return "You have no " + neededBuildingType + "!";
             }
             
         }
@@ -1191,7 +1212,9 @@ public class GameController {
                         selectedUnit = kingBuilding.getWorkerPeople().get(0);
                         String toGetMatcher = "move unit to -x " + storageBuilding.getLocation().getX()
                                 + " -y " + storageBuilding.getLocation().getY();
-                        if (!moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
+                        String result = moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
+                        if (!result.equals("Unit has been moved successfully!")) {
+                            System.out.println(result);
                             selectedUnit = realSelectedUnit;
                             return "There is no access by " + neededBuildingType + " workers to the " + storageBuildingType;
                         }

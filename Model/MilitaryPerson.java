@@ -8,50 +8,11 @@ public class MilitaryPerson extends Person {
     private int firePower;
     private int defendPower;
     private int speed;
-    private int movingRange;
     private boolean hasOil = false;
-    
-    public static void setAllMilitaryPerson(ArrayList<MilitaryPerson> allMilitaryPerson) {
-        MilitaryPerson.allMilitaryPerson = allMilitaryPerson;
-    }
-    
-    public void setNeededProducts(ArrayList<Product> neededProducts) {
-        this.neededProducts = neededProducts;
-    }
-    
-    public void setFirePower(int firePower) {
-        this.firePower = firePower;
-    }
-    
-    public void setDefendPower(int defendPower) {
-        this.defendPower = defendPower;
-    }
-    
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-    
-    public void setMovingRange(int movingRange) {
-        this.movingRange = movingRange;
-    }
-    
-    public boolean getHasOil() {
-        return hasOil;
-    }
-    
-    public void setHasOil(boolean hasOil) {
-        this.hasOil = hasOil;
-    }
-    
-    public void setTrainingCost(int trainingCost) {
-        this.trainingCost = trainingCost;
-    }
-    
     private int trainingCost;
     private int shootingRange;
     private String mode;
     private String nationality;
-    
     
     public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {
         super(king, type);
@@ -79,10 +40,26 @@ public class MilitaryPerson extends Person {
         return allMilitaryPerson;
     }
     
+    public static void setAllMilitaryPerson(ArrayList<MilitaryPerson> allMilitaryPerson) {
+        MilitaryPerson.allMilitaryPerson = allMilitaryPerson;
+    }
+    
+    public boolean getHasOil() {
+        return hasOil;
+    }
+    
+    public void setHasOil(boolean hasOil) {
+        this.hasOil = hasOil;
+    }
+
     public int getMovingRange() {
         return movingRange;
     }
-    
+
+    public void setMovingRange(int movingRange) {
+        this.movingRange = movingRange;
+    }
+
     public String getNationality() {
         return nationality;
     }
@@ -117,20 +94,40 @@ public class MilitaryPerson extends Person {
         return neededProducts;
     }
     
+    public void setNeededProducts(ArrayList<Product> neededProducts) {
+        this.neededProducts = neededProducts;
+    }
+    
     public int getFirePower() {
         return firePower;
+    }
+    
+    public void setFirePower(int firePower) {
+        this.firePower = firePower;
     }
     
     public int getDefendPower() {
         return defendPower;
     }
     
+    public void setDefendPower(int defendPower) {
+        this.defendPower = defendPower;
+    }
+    
     public int getSpeed() {
         return speed;
     }
     
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    
     public int getTrainingCost() {
         return trainingCost;
+    }
+    
+    public void setTrainingCost(int trainingCost) {
+        this.trainingCost = trainingCost;
     }
     
     public String getMode() {
