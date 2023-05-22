@@ -28,7 +28,7 @@ false
 _______________________________________________
 inn
 other building
-wood:20-gold:100
+wood:20
 1
 4000
 false
@@ -42,28 +42,28 @@ false
 _______________________________________________
 church
 other building
-gold:250
+
 0
 3000
 false
 _______________________________________________
 catheral
 other building
-gold:1000
+
 0
 5000
 false
 _______________________________________________
 caged war dogs
 other building
-wood:10-gold:100
+wood:10
 0
 1500
 false
 _______________________________________________
 siege tent
 other building
-null
+
 1
 1500
 false

@@ -42,42 +42,42 @@ wood:3
 _______________________________________________
 armourer
 production building
-wood:20-gold:100
+wood:20
 1
 3000
 11
 _______________________________________________
 blacksmith
 production building
-wood:20-gold:100
+wood:20
 1
 3000
 11
 _______________________________________________
 fletcher
 production building
-wood:20-gold:100
+wood:20
 1
 3000
 11
 _______________________________________________
 poleturner
 production building
-wood:10-gold:100
+wood:10
 1
 3000
 11
 _______________________________________________
 oil smelter
 production building
-wood:10-gold:100
+wood:10
 1
 2000
 12
 _______________________________________________
 stable
 production building
-wood:20-gold:400
+wood:20
 0
 3000
 4

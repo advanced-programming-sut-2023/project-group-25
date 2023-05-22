@@ -21,7 +21,7 @@ wood:10
 _______________________________________________
 enginner guild
 training building
-wood:10-gold:100
+wood:10
 0
 5000
 0
