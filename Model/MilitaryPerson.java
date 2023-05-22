@@ -11,7 +11,7 @@ public class MilitaryPerson extends Person {
     private boolean hasOil = false;
     private int trainingCost;
     private int shootingRange;
-    private String mode;
+    private String mode = "standing";
     private String nationality;
     
     public MilitaryPerson(User king, String type, MilitaryPerson militaryPerson) {

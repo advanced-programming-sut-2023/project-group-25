@@ -332,9 +332,12 @@ public class FileController {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d-?")[j]);
+                    if (content.get(7*i+2).split(":\\d+-?")[j].equals("gold")) {
+                    
+                    }
+                    Product product = getProductByName(content.get(7 * i + 2).split(":\\d+-?")[j]);
                     if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
-                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j]));
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j+1]));
                     if (product != null)
                         neededProduct.add(product);
                 }
