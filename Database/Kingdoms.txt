@@ -484,3 +484,21 @@ jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|x:19-y:29,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
+27
+hoora
+4000.0
+
+bread,wood,stone,
+jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,jobless|x:0-y:0,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+27
+samin
+4000.0
+
+bread,wood,stone,
+jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,jobless|x:199-y:49,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
