@@ -30,8 +30,8 @@ Pikemen
 300
 400
 2
+European
 metalArmour,sword
-
 _____________________________________________
 Macemen
 400

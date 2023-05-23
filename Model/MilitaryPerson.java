@@ -22,6 +22,12 @@ public class MilitaryPerson extends Person {
         initializeTrainingCost();
         this.mode = militaryPerson.mode;
         this.movingRange = speed * 2;
+        this.shootingRange = initializeShootingRange(this);
+    }
+    
+    private int initializeShootingRange(MilitaryPerson militaryPerson) {
+        String type = militaryPerson.getType();
+        if (type.equals("Archer") || type.equals("Crossbowmen") || type.equals(""))
     }
     
     public MilitaryPerson(String type, ArrayList<Product> neededProducts,
