@@ -232,6 +232,7 @@ public class MapController {
     }
 
     public static void initializeCastlesLocation(Map map, int length, int width) {
+        Building castle=new Building("castle","otherBuilding",null,0,10000);
         int[][] castlePositions = new int[8][2];
         castlePositions[0][0] = 0;
         castlePositions[0][1] = 0;
@@ -251,6 +252,7 @@ public class MapController {
         castlePositions[7][1] = width - 1;
         for (int i = 0; i < numberOfCastles; i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0], castlePositions[i][1], "castle" + i);
+            map.getCells()[castlePositions[i][0]][castlePositions[i][1]].setBuilding(castle);
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()[castlePositions[i][0]][castlePositions[i][1]]);
             if (!gameController.getCurrentGame().isFirstLoaded()) {
                 for (int j = 0; j < 8; j++) {
