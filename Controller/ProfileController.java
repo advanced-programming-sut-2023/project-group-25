@@ -45,7 +45,6 @@ public class ProfileController {
                 return "enter new password";
             else if (!registerLoginController.isPasswordWeak(newPassword).equals("success"))
                 return ("This password is not valid; " + registerLoginController.isPasswordWeak(currentUser.getPassword()));
-
             return "success";
         }
         return "Current password is incorrect!";
