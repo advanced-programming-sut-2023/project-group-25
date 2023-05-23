@@ -160,6 +160,50 @@ public class FileController {
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
 
+    public static void changeUsername(String username, String newUsername) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove(10 * i);
+                content.add((10 * i), newUsername);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
+    }
+
+    public static void changeNickname(String username, String nickname) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove((10 * i) + 2);
+                content.add(((10 * i) + 2), nickname);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
+    }
+
+    public static void changeEmail(String username, String email) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove((10 * i) + 3);
+                content.add(((10 * i) + 3), email);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
+    }
+
+    public static void changeSlogan(String username, String slogan) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 0; i < (content.size() / 10); i++) {
+            if (content.get(10 * i).equals(username)) {
+                content.remove((10 * i) + 4);
+                content.add(((10 * i) + 4), slogan);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
+    }
+
     public static void initializeGamesFile() {
         File Games = new File("src/main/java/Database/Games.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Games.txt");

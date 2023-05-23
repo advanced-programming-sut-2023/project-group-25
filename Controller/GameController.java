@@ -1412,10 +1412,10 @@ public class GameController {
                 storage.changeCapacity(-amount);
                 for (int i = 0; i < amount; i++) {
                     storage.addProduct(product);
-                    currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).addKingProduct(product);
                 }
                 currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory()
                         - product.getCost() * amount);
+                product = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(productName);
                 product.setCount(product.getCount() + amount);
                 return "buy process succeeded!";
             }
