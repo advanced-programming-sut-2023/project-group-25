@@ -240,8 +240,10 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (type.equals("church") || type.equals("catheral")) {
             for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
-                if (popularityFactor.getName().equals("religion"))
+                if (popularityFactor.getName().equals("religion")){
                     popularityFactor.setPopularityAmount(popularityFactor.getPopularityAmount() + 2);
+                    popularityFactor.setRate(2);
+                }
             }
         }
         return buildBuilding(building1, cell, type);
