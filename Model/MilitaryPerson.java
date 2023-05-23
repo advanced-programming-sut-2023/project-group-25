@@ -27,7 +27,8 @@ public class MilitaryPerson extends Person {
     
     private int initializeShootingRange(MilitaryPerson militaryPerson) {
         String type = militaryPerson.getType();
-        if (type.equals("Archer") || type.equals("Crossbowmen") || type.equals(""))
+        //if (type.equals("Archer") || type.equals("Crossbowmen") || type.equals(""))
+        return 0;
     }
     
     public MilitaryPerson(String type, ArrayList<Product> neededProducts,
