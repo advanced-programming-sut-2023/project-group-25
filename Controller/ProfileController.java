@@ -43,8 +43,8 @@ public class ProfileController {
         return null;
     }
     
-    public String changePassword(User currentUser, String oldPassword, String newPassword) {
-        if (currentUser.getPassword().equals(oldPassword)) {
+    public String changePassword(User currentUser, String oldPassword, String newPassword) throws NoSuchAlgorithmException {
+        if (RegisterLoginController.passwordToSHA(currentUser.getPassword()).equals(RegisterLoginController.passwordToSHA(oldPassword))) {
             if (oldPassword.equals(newPassword))
                 return "enter new password";
             else if (!registerLoginController.isPasswordWeak(newPassword).equals("success"))
