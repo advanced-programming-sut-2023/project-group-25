@@ -6,6 +6,7 @@ import View.Commands;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -339,6 +340,7 @@ public class GameController {
         if (!cell.getBuilding().getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername()))
             return "This building doesn't belong to you";
         selectedBuilding = cell.getBuilding();
+        if (selectedBuilding.isMainCastlePart(selectedBuilding.getType())) return "selected, hitpoint: " + selectedBuilding.getHitPoint();
         return "selected";
     }
 
@@ -881,6 +883,10 @@ public class GameController {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
@@ -901,6 +907,10 @@ public class GameController {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
@@ -925,7 +935,12 @@ public class GameController {
                                     if (!isLocationValid(i, j)) continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
-                                                .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() - ((MilitaryPerson) person).getFirePower());
+                                                .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
+                                                        - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     ArrayList<Person> kingPeopleCopy = new ArrayList<>(currentGame.getMap().getCells()[i][j].getPeople());
                                     for (Person person1 : kingPeopleCopy) {
@@ -972,15 +987,20 @@ public class GameController {
     private void hittingBuildings() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
         for (Kingdom kingdom : allGameUsers) {
-            for (Building building : kingdom.getKingBuildings()) {
+            ArrayList<Building> buildingsCopy = new ArrayList<>(kingdom.getKingBuildings());
+            for (Building building : buildingsCopy) {
                 int x = building.getLocation().getX();
                 int y = building.getLocation().getY();
                 for (int i = x - 8; i <= x + 8; i++) {
                     for (int j = y - 8; j <= y + 8; j++) {
                         if (!isLocationValid(i, j)) continue;
                         for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
-                            if (person instanceof MilitaryPerson && !person.getKing().equals(kingdom.getKing())) {
+                            if (person instanceof MilitaryPerson && !person.getKing().getUsername().equals(kingdom.getKing().getUsername())) {
                                 building.setHitPoint(building.getHitPoint() - ((MilitaryPerson) person).getFirePower());
+                                if (building.getHitPoint()<= 0) {
+                                    currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                    kingdom.getKingBuildings().remove(building);
+                                }
                             }
                         }
                     }
@@ -1071,9 +1091,6 @@ public class GameController {
     }
 
     public void nextTurn() {
-        Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
-//        ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
-        Map map = currentGame.getMap();
         currentGame.turn.setCurrentKing(currentGame.getKingdoms().get(Turn.getTurnCounter() % currentGame.getKingdoms().size()).getKing());
         Turn.setTurnCounter(Turn.getTurnCounter() + 1);
         selectedBuilding = null;
