@@ -12,7 +12,7 @@ public class ProfileController {
     private FileController fileController = new FileController();
     private RegisterLoginController registerLoginController = new RegisterLoginController();
 
-    public String changeInfo(User currentUser, String field, String content) {
+    public String changeInfo(User currentUser, String field, String content) throws NoSuchAlgorithmException {
         if (content.length() == 0)
             return "This field is empty!";
         if (field.equals("username")) {
@@ -20,9 +20,11 @@ public class ProfileController {
                 return "Invalid username format!";
             else if (!fileController.isUserNameUnique(content))
                 return "This username is already used!";
+            FileController.changeUsername(currentUser.getUsername(),content);
             currentUser.setUsername(content);
             return "Username changed successfully.";
         } else if (field.equals("nickname")) {
+            FileController.changeNickname(currentUser.getUsername(),content);
             currentUser.setNickname(content);
             return "Nickname changed successfully.";
         } else if (field.equals("email")) {
@@ -30,9 +32,11 @@ public class ProfileController {
                 return "This email is already used!";
             else if (!registerLoginController.isEmailValid(content))
                 return "Invalid email format!";
+            FileController.changeEmail(currentUser.getUsername(),content);
             currentUser.setEmail(content);
             return "Email changed successfully.";
         } else if (field.equals("slogan")) {
+            FileController.changeSlogan(currentUser.getUsername(),content);
             currentUser.setSlogan(content);
             return "Slogan changed successfully.";
         }
