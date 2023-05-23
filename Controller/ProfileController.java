@@ -64,7 +64,11 @@ public class ProfileController {
         String field = matcher.group("field");
         StringBuilder result = new StringBuilder();
         if(field==null){
-            result.append("Highscore: ").append(currentUser.getHighScore()).append("\nRank: ").append(getRank(currentUser));
+            result.append("Username: ").append(currentUser.getUsername())
+                    .append("\nNickname: ").append(currentUser.getNickname())
+                    .append("\nHighscore: ").append(currentUser.getHighScore())
+                    .append("\nEmail: ").append(currentUser.getEmail())
+                    .append("\nRank: ").append(getRank(currentUser));
             if (!currentUser.getSlogan().equals(""))
                 result.append("\nSlogan: ").append(currentUser.getSlogan()).append('\n');
         }
