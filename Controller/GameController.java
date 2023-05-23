@@ -693,12 +693,14 @@ public class GameController {
     public String aerialAttack(Matcher matcher) {
         int enemyX = Integer.parseInt(matcher.group("x"));
         int enemyY = Integer.parseInt(matcher.group("y"));
-        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
+        for (Person person : currentGame.getMap().getCells()[enemyX-1][enemyY-1].getPeople()) {
             if (!person.getKing().equals(currentGame.turn.getCurrentKing())) {
                 if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen")
                         || selectedUnit.getType().equals("Archer Bow")) {
-                    if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) enemyY * enemyY + enemyX * enemyX))) {
-                        currentGame.getMap().getCells()[enemyX][enemyY].addToKingdomsWithArrows(currentGame
+                    int dx = enemyX - selectedUnit.getLocation().getX();
+                    int dy = enemyY - selectedUnit.getLocation().getY();
+                    if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) dy*dy + dx * dx))) {
+                        currentGame.getMap().getCells()[enemyX-1][enemyY-1].addToKingdomsWithArrows(currentGame
                                 .getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()));
                         return "You made the aerial attack successfully!";
                     } else return "The enemy you want to attack is out of range of the selected unit!";
@@ -953,8 +955,9 @@ public class GameController {
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
             for (int j = 0; j < currentGame.getMap().getWidth(); j++) {
                 ArrayList<Kingdom> kingdomsWithArrowsCopy = cells[i][j].getKingdomsWithArrowsHere();
+                ArrayList<Person> cellPeopleCopy = new ArrayList<>(cells[i][j].getPeople());
                 for (Kingdom kingdom1 : kingdomsWithArrowsCopy) {
-                    for (Person person : cells[i][j].getPeople()) {
+                    for (Person person : cellPeopleCopy) {
                         if (!kingdom1.getKing().equals(person.getKing())) {
                             Objects.requireNonNull(getKingdomByKing(person.getKing())).removePerson(person);
                             cells[i][j].removePerson(person);

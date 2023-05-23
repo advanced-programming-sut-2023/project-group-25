@@ -27,7 +27,8 @@ public class MilitaryPerson extends Person {
     
     private int initializeShootingRange(MilitaryPerson militaryPerson) {
         String type = militaryPerson.getType();
-        if (type.equals("Archer") || type.equals("Crossbowmen") || type.equals(""))
+        if (type.equals("Archer") || type.equals("Crossbowmen") || type.equals("ArcherBow") || type.equals("HorseArchers")) return 4;
+        return 0;
     }
     
     public MilitaryPerson(String type, ArrayList<Product> neededProducts,
@@ -40,6 +41,7 @@ public class MilitaryPerson extends Person {
         this.nationality = nationality;
         initializeTrainingCost();
         this.movingRange = speed * 2;
+        this.shootingRange = initializeShootingRange(this);
     }
     
     public static ArrayList<MilitaryPerson> getAllMilitaryPerson() {
