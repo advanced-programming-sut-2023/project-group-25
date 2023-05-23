@@ -6,6 +6,7 @@ import View.Commands;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -239,18 +240,20 @@ public class GameController {
                 ||type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))))
             return "Invalid ground type for " + type;
         else if (type.equals("church") || type.equals("catheral")) {
-            for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
-                if (popularityFactor.getName().equals("religion"))
+            for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
+                if (popularityFactor.getName().equals("religion")) {
                     popularityFactor.setPopularityAmount(popularityFactor.getPopularityAmount() + 2);
+                    popularityFactor.setRate(2);
+                }
             }
         }
         return buildBuilding(building1, cell, type);
     }
 
     private String buildBuilding(Building building, Cell cell, String type) {
-        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (Product neededProduct : building.getBuildingNeededProducts()) {
-            for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+            for (Product product : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProducts()) {
                 if (neededProduct.getName().equals(product.getName())) {
                     if (neededProduct.getCount() <= product.getCount()) {
                         ArrayList<WorkerPerson> buildingPeople = new ArrayList<>();
@@ -309,7 +312,7 @@ public class GameController {
         int count = Integer.parseInt(countStr);
         int originalCount = count;
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
-        ArrayList<Person> kingUnitsCopy = new ArrayList<>(Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingPeople());
+        ArrayList<Person> kingUnitsCopy = new ArrayList<>(Objects.requireNonNull(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername())).getKingPeople());
         for (Person unit : kingUnitsCopy) {
             if (unit.getType().equals(type) && unit.getLocation() == null) {
                 cell.addPerson(unit);
@@ -337,6 +340,7 @@ public class GameController {
         if (!cell.getBuilding().getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername()))
             return "This building doesn't belong to you";
         selectedBuilding = cell.getBuilding();
+        if (selectedBuilding.isMainCastlePart(selectedBuilding.getType())) return "selected, hitpoint: " + selectedBuilding.getHitPoint();
         return "selected";
     }
 
@@ -367,7 +371,7 @@ public class GameController {
 
     public String showPopularityFactors() {
         StringBuilder result = new StringBuilder();
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         result.append("Popularity Factors: \n");
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             result.append(popularityFactor.getName()).append(": ").append(popularityFactor.getRate()).append("\n");
@@ -377,7 +381,7 @@ public class GameController {
 
     public String showPopularity() {
         int result = 0;
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             result += popularityFactor.getPopularityAmount();
         }
@@ -386,7 +390,7 @@ public class GameController {
 
     public String showFoodList() {
         StringBuilder result = new StringBuilder();
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         ArrayList<Product> products = new ArrayList<>(currentKingdom.getKingProducts());
         result.append("Apple: ").append(showEachFood(products, "apple")).append("\n");
         result.append("Meat: ").append(showEachFood(products, "meat")).append("\n");
@@ -416,7 +420,7 @@ public class GameController {
 
     private String rateTax(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("tax")) {
                 if (!(rate >= -3 && rate <= 8)) return "Invalid rate";
@@ -431,7 +435,7 @@ public class GameController {
 
     private String rateFear(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("fear")) {
                 if (!(rate >= -5 && rate <= 5)) return "Invalid rate";
@@ -444,7 +448,7 @@ public class GameController {
 
     private String rateFood(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("food")) {
                 if (!(rate >= -2 && rate <= 2))
@@ -459,7 +463,7 @@ public class GameController {
     public String showPopularityFactorRate(Matcher matcher) {
         StringBuilder result = new StringBuilder();
         int rate = 0;
-        Kingdom currentKingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals(matcher.group("popularityFactor"))) {
                 rate = popularityFactor.getRate();
@@ -513,7 +517,7 @@ public class GameController {
         int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
         if (givenUnit == null) return "You have entered an invalid type of unit!";
-        //Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        //Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         if (givenUnit.getTrainingCost() * count > Objects.requireNonNull(kingdom).getInventory())
             return "You don't have enough coins!";
@@ -543,7 +547,7 @@ public class GameController {
     private boolean haveNeededProductsForUnit(MilitaryPerson givenUnit, int count) {
         for (Product neededProduct : givenUnit.getNeededProducts()) {
             boolean weHaveTheProduct = false;
-            for (Product kingProduct : Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingProducts()) {
+            for (Product kingProduct : Objects.requireNonNull(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername())).getKingProducts()) {
                 if (kingProduct.getName().equals(neededProduct.getName()) && kingProduct.getCount() >= count) {
                     weHaveTheProduct = true;
                     break;
@@ -723,7 +727,7 @@ public class GameController {
         if (!selectedUnit.getType().equals("engineer")) return "not engineer";
         for (Product neededMaterials : product.getUsedMaterials()) {
             boolean weHaveNeededMaterials = false;
-            for (Product kingProduct : Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).getKingProducts()) {
+            for (Product kingProduct : Objects.requireNonNull(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername())).getKingProducts()) {
                 if (neededMaterials.getCount() <= kingProduct.getCount()) {
                     weHaveNeededMaterials = true;
                     break;
@@ -738,7 +742,7 @@ public class GameController {
     private void createEquipmentWithGivenEquipment(Product givenProduct) {
         AttackEquipment attackEquipment = new AttackEquipment(givenProduct.getName(),
                 givenProduct.getUsedMaterials(), getCurrentUser(), (MilitaryPerson) selectedUnit);
-        Objects.requireNonNull(getKingdomByKing(currentGame.turn.getCurrentKing())).addAttackEquipment(attackEquipment);
+        Objects.requireNonNull(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername())).addAttackEquipment(attackEquipment);
     }
 
     public String setKingdomColors(String colorsStr) {
@@ -800,7 +804,7 @@ public class GameController {
     public String repair() {
         String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
         Building savedBuilding = getBuilding(selectedBuilding.getType(), category);
-        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
+        Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         if (selectedBuilding == null)
             return "You haven't selected a building yet";
         if (!selectedBuilding.isMainCastlePart(selectedBuilding.getType()))
@@ -851,7 +855,7 @@ public class GameController {
                             MilitaryPerson unit1 = (MilitaryPerson) person1, unit2 = (MilitaryPerson) person2;
                             if (unit1.getFirePower() > unit2.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit2);
-                                Objects.requireNonNull(getKingdomByKing(unit2.getKing())).removePerson(unit2);
+                                Objects.requireNonNull(currentGame.getKingdomByKing(unit2.getKing().getUsername())).removePerson(unit2);
                             }
                             else if (unit2.getFirePower() > unit1.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit1);
@@ -879,6 +883,10 @@ public class GameController {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
@@ -890,7 +898,6 @@ public class GameController {
                                     }
                                 }
                             }
-
                         } else if (((MilitaryPerson) person).getMode().equals("offensive")) {
                             int shootingRange = ((MilitaryPerson) person).getShootingRange();
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
@@ -900,6 +907,10 @@ public class GameController {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
@@ -924,7 +935,12 @@ public class GameController {
                                     if (!isLocationValid(i, j)) continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
-                                                .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() - ((MilitaryPerson) person).getFirePower());
+                                                .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
+                                                        - ((MilitaryPerson) person).getFirePower());
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                            currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                            kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
+                                        }
                                     }
                                     ArrayList<Person> kingPeopleCopy = new ArrayList<>(currentGame.getMap().getCells()[i][j].getPeople());
                                     for (Person person1 : kingPeopleCopy) {
@@ -959,7 +975,7 @@ public class GameController {
                 for (Kingdom kingdom1 : kingdomsWithArrowsCopy) {
                     for (Person person : cellPeopleCopy) {
                         if (!kingdom1.getKing().equals(person.getKing())) {
-                            Objects.requireNonNull(getKingdomByKing(person.getKing())).removePerson(person);
+                            Objects.requireNonNull(currentGame.getKingdomByKing(person.getKing().getUsername())).removePerson(person);
                             cells[i][j].removePerson(person);
                         }
                     }
@@ -971,15 +987,20 @@ public class GameController {
     private void hittingBuildings() {
         ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
         for (Kingdom kingdom : allGameUsers) {
-            for (Building building : kingdom.getKingBuildings()) {
+            ArrayList<Building> buildingsCopy = new ArrayList<>(kingdom.getKingBuildings());
+            for (Building building : buildingsCopy) {
                 int x = building.getLocation().getX();
                 int y = building.getLocation().getY();
                 for (int i = x - 8; i <= x + 8; i++) {
                     for (int j = y - 8; j <= y + 8; j++) {
                         if (!isLocationValid(i, j)) continue;
                         for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
-                            if (person instanceof MilitaryPerson && !person.getKing().equals(kingdom.getKing())) {
+                            if (person instanceof MilitaryPerson && !person.getKing().getUsername().equals(kingdom.getKing().getUsername())) {
                                 building.setHitPoint(building.getHitPoint() - ((MilitaryPerson) person).getFirePower());
+                                if (building.getHitPoint()<= 0) {
+                                    currentGame.getMap().getCells()[i][j].setBuilding(null);
+                                    kingdom.getKingBuildings().remove(building);
+                                }
                             }
                         }
                     }
@@ -991,8 +1012,8 @@ public class GameController {
     private void divideFood() {
         boolean check1 = false, check2 = false;
         int peopleCounter = 0, rate, foodCounter = getNumberOfFoods();
-        int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
-        for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
+        int population = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPeople().size();
+        for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("food")) {
                 rate = popularityFactor.getRate();
                 double foodGivingRate = ((0.5 * rate) + 1);
@@ -1000,7 +1021,7 @@ public class GameController {
                     check1 = true;
                 if ((foodCounter / foodGivingRate) - 4 >= population)
                     check2 = true;
-                for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+                for (Product product : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProducts()) {
                     if (product.getName().equals("apple") || product.getName().equals("meat") ||
                             product.getName().equals("bread") || product.getName().equals("cheese")) {
                         if (check2 && !check1)
@@ -1023,7 +1044,7 @@ public class GameController {
 
     private int getNumberOfFoods() {
         int foodCount = 0;
-        for (Product product : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProducts()) {
+        for (Product product : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProducts()) {
             if (product.getName().equals("apple") || product.getName().equals("meat") ||
                     product.getName().equals("bread") || product.getName().equals("cheese")) {
                 foodCount += product.getCount();
@@ -1038,10 +1059,10 @@ public class GameController {
 
     private void getTax() {
         int peopleCounter = 0;
-        int population = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPeople().size();
+        int population = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPeople().size();
         int rate;
-        double currentInventory = getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory();
-        for (PopularityFactor popularityFactor : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingPopularityFactors()) {
+        double currentInventory = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory();
+        for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("tax")) {
                 if (currentInventory == 0)
                     popularityFactor.setRate(0);
@@ -1051,7 +1072,7 @@ public class GameController {
                     if (peopleCounter == population)
                         break;
                     peopleCounter++;
-                    getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(currentInventory + TaxGivingRate);
+                    currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentInventory + TaxGivingRate);
                 }
             }
         }
@@ -1070,9 +1091,6 @@ public class GameController {
     }
 
     public void nextTurn() {
-        Kingdom kingdom = getKingdomByKing(currentGame.turn.getCurrentKing());
-//        ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
-        Map map = currentGame.getMap();
         currentGame.turn.setCurrentKing(currentGame.getKingdoms().get(Turn.getTurnCounter() % currentGame.getKingdoms().size()).getKing());
         Turn.setTurnCounter(Turn.getTurnCounter() + 1);
         selectedBuilding = null;
@@ -1377,7 +1395,7 @@ public class GameController {
         int amount = Integer.parseInt(MainController.getOptionsFromMatcher(matcher, "a", 2));
         String buildingName = getStorageBuilding(productName);
         Building storageBuilding = null;
-        for (Building building : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingBuildings()) {
+        for (Building building : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings()) {
             if (building.getType().equals(buildingName))
                 storageBuilding = building;
         }
@@ -1388,15 +1406,15 @@ public class GameController {
             StorageBuildings storage = FileController.getStorageBuildingByType(storageBuilding.getType());
             if (amount > storage.getCapacity())
                 return "Invalid product amount; You don't have this much free space!";
-            else if (product.getCost() * amount > getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory())
+            else if (product.getCost() * amount > currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory())
                 return "Buy process failed; You don't have enough money!";
             else {
                 storage.changeCapacity(-amount);
                 for (int i = 0; i < amount; i++) {
                     storage.addProduct(product);
-                    getKingdomByKing(currentGame.turn.getCurrentKing()).addKingProduct(product);
+                    currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).addKingProduct(product);
                 }
-                getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory()
+                currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory()
                         - product.getCost() * amount);
                 product.setCount(product.getCount() + amount);
                 return "buy process succeeded!";
@@ -1411,11 +1429,11 @@ public class GameController {
         int amount = Integer.parseInt(MainController.getOptionsFromMatcher(matcher, "a", 2));
         String buildingName = getStorageBuilding(productName);
         Building storageBuilding = null;
-        for (Building building : getKingdomByKing(currentGame.turn.getCurrentKing()).getKingBuildings()) {
+        for (Building building : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings()) {
             if (building.getType().equals(buildingName))
                 storageBuilding = building;
         }
-        Product product = getKingdomByKing(currentGame.turn.getCurrentKing()).getKingProductByName(productName);
+        Product product = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(productName);
         if (product == null)
             return "Invalid product name; This product isn't stored!";
         else {
@@ -1427,7 +1445,7 @@ public class GameController {
 
             if (storage != null)
                 storage.changeCapacity(+amount);
-            getKingdomByKing(currentGame.turn.getCurrentKing()).setInventory(getKingdomByKing(currentGame.turn.getCurrentKing()).getInventory()
+            currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory()
                     + product.getPrice() * amount);
             product.setCount(product.getCount() - amount);
             return "sell process succeeded!";
