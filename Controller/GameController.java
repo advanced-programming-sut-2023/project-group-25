@@ -234,7 +234,9 @@ public class GameController {
             return "Invalid ground type for " + type;
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
-        else if (cell.getMaterial().equals("rockLand") || cell.getMaterial().equals("grass") || cell.getMaterial().equals("ironLand"))
+        else if ((cell.getMaterial().equals("rockLand") || cell.getMaterial().equals("grass") || cell.getMaterial().equals("ironLand"))
+        && (!(type.equals("iron mine")||type.equals("quarry")
+                ||type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))))
             return "Invalid ground type for " + type;
         else if (type.equals("church") || type.equals("catheral")) {
             for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
@@ -260,6 +262,7 @@ public class GameController {
                                 if (kingPerson instanceof WorkerPerson && ((WorkerPerson) kingPerson).getWorkerPlace() == null) {
                                     kingdom.getKingPeople().remove(kingPerson);
                                     buildingPeople.add((WorkerPerson) kingPerson);
+                                    break;
                                 }
                             }
                         }
@@ -705,12 +708,12 @@ public class GameController {
         return "There is no enemy in this location!";
     }
 
-    /*private Kingdom getKingdomByKing(User king) {
+    private Kingdom getKingdomByKing(User king) {
         for (Kingdom kingdom : currentGame.getKingdoms()) {
             if (kingdom.getKing().getUsername().equals(king.getUsername())) return kingdom;
         }
         return null;
-    }*/
+    }
 
     public String buildEquipment(Matcher matcher) {
         String equipmentName = matcher.group("equipmentName");
@@ -835,30 +838,22 @@ public class GameController {
 
     private void fight() {
         Cell[][] cells = currentGame.getMap().getCells();
-        checkToHitBuilding();
+        
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
             for (int j = 0; j < currentGame.getMap().getWidth(); j++) {
-                for (Person person1 : cells[i][j].getPeople()) {
-                    for (Person person2 : cells[i][j].getPeople()) {
-                        if (person1.getKing().equals(person2.getKing())) System.out.println("333333333333333333333");
+                ArrayList<Person> peopleCopy = new ArrayList<>(cells[i][j].getPeople());
+                for (Person person1 : peopleCopy) {
+                    for (Person person2 : peopleCopy) {
                         if (person1 instanceof MilitaryPerson && person2 instanceof MilitaryPerson
                                 && !person1.getKing().equals(person2.getKing())) {
                             MilitaryPerson unit1 = (MilitaryPerson) person1, unit2 = (MilitaryPerson) person2;
-                            /*if (unit1.getFirePower() > unit2.getDefendPower()) {
+                            if (unit1.getFirePower() > unit2.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit2);
                                 Objects.requireNonNull(currentGame.getKingdomByKing(unit2.getKing().getUsername())).removePerson(unit2);
                             }
                             else if (unit2.getFirePower() > unit1.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit1);
                                 Objects.requireNonNull(getKingdomByKing(unit1.getKing())).removePerson(unit1);
-                            }*/
-                            if (unit1.getFirePower() > unit2.getFirePower()) {
-                                currentGame.getMap().getCells()[i][j].removePerson(unit2);
-                                //Objects.requireNonNull(getKingdomByKing(unit2.getKing())).removePerson(unit2);
-                            }
-                            else if (unit2.getFirePower() > unit1.getFirePower()) {
-                                currentGame.getMap().getCells()[i][j].removePerson(unit1);
-                                Objects.requireNonNull(currentGame.getKingdomByKing(unit1.getKing().getUsername())).removePerson(unit1);
                             }
                         }
                     }
@@ -883,24 +878,17 @@ public class GameController {
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
                                     }
-                                    ArrayList<Person> kingPeopleCopy = new ArrayList<>(currentGame.getMap().getCells()[i][j].getPeople());
-                                    for (Person person1 : kingPeopleCopy) {
+                                    for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
                                             if (person1 instanceof MilitaryPerson) {
                                                 ((MilitaryPerson) person1).setDefendPower(((MilitaryPerson) person1).getDefendPower()
                                                         - ((MilitaryPerson) person).getFirePower());
-                                                MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
-                                                selectedUnit = person;
-                                                String toGetMatcher = "move unit to -x " + person1.getLocation().getX()
-                                                        + " -y " + person1.getLocation().getY();
-                                                moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
-                                                selectedUnit = realSelectedUnit;
                                             }
                                         }
                                     }
                                 }
                             }
-                        } else if (((MilitaryPerson) person).getMode().equals("defensive")) {
+                        } else if (((MilitaryPerson) person).getMode().equals("offensive")) {
                             int shootingRange = ((MilitaryPerson) person).getShootingRange();
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange - 1; j <= person.getLocation().getY() + shootingRange; j++) {
@@ -926,7 +914,7 @@ public class GameController {
                                     }
                                 }
                             }
-                        } else if (((MilitaryPerson) person).getMode().equals("offensive")) {
+                        } else if (((MilitaryPerson) person).getMode().equals("defensive")) {
                             int shootingRange = ((MilitaryPerson) person).getShootingRange();
                             for (int i = person.getLocation().getX() - shootingRange / 2 - 1; i <= person.getLocation().getX() + shootingRange / 2; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange / 2 - 1; j <= person.getLocation().getY() + shootingRange / 2; j++) {
@@ -935,11 +923,18 @@ public class GameController {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() - ((MilitaryPerson) person).getFirePower());
                                     }
-                                    for (Person person1 : currentGame.getMap().getCells()[i][j].getPeople()) {
+                                    ArrayList<Person> kingPeopleCopy = new ArrayList<>(currentGame.getMap().getCells()[i][j].getPeople());
+                                    for (Person person1 : kingPeopleCopy) {
                                         if (!person1.getKing().equals(kingdom.getKing())) {
                                             if (person1 instanceof MilitaryPerson) {
                                                 ((MilitaryPerson) person1).setDefendPower(((MilitaryPerson) person1).getDefendPower()
                                                         - ((MilitaryPerson) person).getFirePower());
+                                                MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
+                                                selectedUnit = person;
+                                                String toGetMatcher = "move unit to -x " + person1.getLocation().getX()
+                                                        + " -y " + person1.getLocation().getY();
+                                                moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
+                                                selectedUnit = realSelectedUnit;
                                             }
                                         }
                                     }
@@ -1073,6 +1068,7 @@ public class GameController {
     public void nextTurn() {
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
 //        ArrayList<Kingdom> allGameUsers = new ArrayList<>(currentGame.getKingdoms());
+        Map map = currentGame.getMap();
         currentGame.turn.setCurrentKing(currentGame.getKingdoms().get(Turn.getTurnCounter() % currentGame.getKingdoms().size()).getKing());
         Turn.setTurnCounter(Turn.getTurnCounter() + 1);
         selectedBuilding = null;
@@ -1082,6 +1078,7 @@ public class GameController {
         fight();
         arrowsAct();
         hittingBuildings();
+        checkToHitBuilding();
         divideFood();
         getTax();
         changePopulation();
@@ -1288,7 +1285,7 @@ public class GameController {
                         String hasNeededProducts = checkTheNeededProducts(product1.getUsedMaterials(), currentKingdom);
                         if (!hasNeededProducts.equals("ok")) return hasNeededProducts;
                         MilitaryPerson realSelectedUnit = (MilitaryPerson) selectedUnit;
-                        for (Person person : kingBuilding.getLocation().getPeople()) {
+                        for (Person person : kingBuilding.getWorkerPeople()) {
                             if (person instanceof WorkerPerson) {
                                 selectedUnit = person;
                                 break;
@@ -1298,7 +1295,6 @@ public class GameController {
                                 + " -y " + storageBuilding.getLocation().getY();
                         String result = moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT));
                         if (!result.equals("Unit has been moved successfully!")) {
-                            System.out.println(result);
                             selectedUnit = realSelectedUnit;
                             return "There is no access by " + neededBuildingType + " workers to the " + storageBuildingType;
                         }
