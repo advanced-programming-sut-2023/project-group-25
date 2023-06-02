@@ -15,10 +15,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         Main.stage = stage;
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/fxml/Main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.show();
     }
 
