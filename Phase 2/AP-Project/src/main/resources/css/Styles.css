@@ -1,0 +1,23 @@
+.enterMenuButton {
+    -fx-indeterminate-bar-animation-time: 2s;
+    -fx-pref-width: 400px;
+    -fx-pref-height: 50px;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-size: 25px;
+    -fx-background-color: white;
+    -fx-font-weight: bolder;
+    -fx-border-radius: 15px;
+}
+
+.enterMenuButton:hover{
+    -fx-font-size: 28px;
+    -fx-cursor: hand;
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.container1 {
+    -fx-padding: 200px 0 0 0;
+    -fx-alignment: CENTER;
+    -fx-spacing:8px;
+}

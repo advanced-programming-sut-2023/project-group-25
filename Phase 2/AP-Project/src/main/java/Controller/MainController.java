@@ -1,6 +1,12 @@
 package Controller;
 
-import java.io.*;
+import View.FirstPage;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -26,4 +32,15 @@ public class MainController {
         else
             return false;
     }
+
+    public static BackgroundImage setFirstPageBackground(String path) {
+        Image image = new Image(FirstPage.class.getResource(path).toExternalForm());
+        BackgroundImage backgroundImage = new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, true, true));
+        return backgroundImage;
+    }
+
 }
