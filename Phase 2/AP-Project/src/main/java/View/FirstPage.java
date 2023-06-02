@@ -18,6 +18,7 @@ import java.util.Scanner;
 
 public class FirstPage extends Application {
     public static Stage stage;
+
     @Override
     public void start(Stage stage) throws IOException {
         FirstPage.stage = stage;
@@ -36,7 +37,9 @@ public class FirstPage extends Application {
         ChangeMenuController controller = new ChangeMenuController();
         controller.run(scanner);
     }
-    
-    public void register() {
+
+
+    public void register() throws Exception {
+        new RegisterMenu().start(FirstPage.stage);
     }
 }

@@ -54,8 +54,4 @@ public class MainMenu {
             }
         }
     }
-
-    public void register(MouseEvent mouseEvent) throws Exception {
-        new RegisterMenu().start(FirstPage.stage);
-    }
 }
