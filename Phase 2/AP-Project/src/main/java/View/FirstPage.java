@@ -37,6 +37,6 @@ public class FirstPage extends Application {
         controller.run(scanner);
     }
     
-    public void register(MouseEvent mouseEvent) {
+    public void register() {
     }
 }
