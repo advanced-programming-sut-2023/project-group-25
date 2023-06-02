@@ -5,6 +5,7 @@ import Controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 
 public class FirstPage extends Application {
     public static Stage stage;
+
     @Override
     public void start(Stage stage) throws IOException {
         FirstPage.stage = stage;
@@ -34,5 +36,9 @@ public class FirstPage extends Application {
         Scanner scanner = new Scanner(System.in);
         ChangeMenuController controller = new ChangeMenuController();
         controller.run(scanner);
+    }
+
+    public void register(MouseEvent mouseEvent) throws Exception {
+        new RegisterMenu().start(FirstPage.stage);
     }
 }
