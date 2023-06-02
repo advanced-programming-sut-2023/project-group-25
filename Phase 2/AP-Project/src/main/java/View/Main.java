@@ -11,8 +11,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
 public class Main extends Application {
+    public static Stage stage;
     @Override
     public void start(Stage stage) throws IOException {
+        Main.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
