@@ -1,0 +1,133 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+--RATE--
+_______________________________________________
+mill
+production building
+wood:20
+3
+1500
+15
+_______________________________________________
+iron mine
+production building
+wood:20
+2
+2000
+10
+_______________________________________________
+ox tether
+production building
+wood:5
+1
+1500
+12
+_______________________________________________
+quarry
+production building
+wood:20
+3
+2000
+10
+_______________________________________________
+woodcutter
+production building
+wood:3
+1
+1500
+15
+_______________________________________________
+armourer
+production building
+wood:20
+1
+3000
+11
+_______________________________________________
+blacksmith
+production building
+wood:20
+1
+3000
+11
+_______________________________________________
+fletcher
+production building
+wood:20
+1
+3000
+11
+_______________________________________________
+poleturner
+production building
+wood:10
+1
+3000
+11
+_______________________________________________
+oil smelter
+production building
+wood:10
+1
+2000
+12
+_______________________________________________
+stable
+production building
+wood:20
+0
+3000
+4
+_______________________________________________
+apple orchard
+production building
+wood:5
+1
+3000
+15
+_______________________________________________
+diary farmer
+production building
+wood:10
+1
+3000
+15
+_______________________________________________
+hops farmer
+production building
+wood:15
+1
+3000
+15
+_______________________________________________
+hunter post
+production building
+wood:5
+1
+3000
+15
+_______________________________________________
+wheat farmer
+production building
+wood:15
+1
+3000
+15
+_______________________________________________
+bakery
+production building
+wood:15
+1
+3000
+15
+_______________________________________________
+brewer
+production building
+wood:10
+1
+3000
+15
+_______________________________________________

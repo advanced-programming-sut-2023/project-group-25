@@ -1,0 +1,64 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+--FIRERANGE--
+--DEFENDRANGE--
+_______________________________________________
+killing pit
+fighting building
+wood:4
+0
+100000
+100000
+100000
+_______________________________________________
+lookout tower
+fighting building
+stone:10
+0
+5000
+400
+200
+_______________________________________________
+perimeter tower
+fighting building
+stone:10
+0
+6000
+450
+300
+_______________________________________________
+defence turret
+fighting building
+stone:15
+0
+7000
+500
+400
+_______________________________________________
+square tower
+fighting building
+stone:35
+0
+8000
+550
+500
+_______________________________________________
+round tower
+fighting building
+stone:40
+0
+9000
+600
+600
+_______________________________________________
+defence turret
+fighting building
+stone:15
+0
+1400
+650
+700
+_______________________________________________

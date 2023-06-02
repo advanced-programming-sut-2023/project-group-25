@@ -1,0 +1,28 @@
+--TYPE--
+--CATEGORY--
+--BUILDING COSTS(SEPERATED WITH [-])--
+--WORKER COUNTER--
+--HITPOINT--
+--COST--
+_______________________________________________
+barracks
+training building
+stone:15
+0
+3000
+0
+_______________________________________________
+mercenary post
+training building
+wood:10
+0
+4500
+0
+_______________________________________________
+enginner guild
+training building
+wood:10
+0
+5000
+0
+_______________________________________________
