@@ -14,13 +14,14 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Main.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        //launch();
+        launch();
         Scanner scanner = new Scanner(System.in);
         ChangeMenuController controller = new ChangeMenuController();
         controller.run(scanner);
