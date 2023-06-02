@@ -1,6 +1,7 @@
 package View;
 
 import Controller.*;
+import javafx.scene.input.MouseEvent;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -52,5 +53,9 @@ public class MainMenu {
                 System.out.println("Invalid command!");
             }
         }
+    }
+
+    public void register(MouseEvent mouseEvent) throws Exception {
+        new RegisterMenu().start(FirstPage.stage);
     }
 }

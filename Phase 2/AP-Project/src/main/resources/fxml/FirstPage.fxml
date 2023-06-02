@@ -11,9 +11,9 @@
           prefHeight="750" prefWidth="1200"
           stylesheets="@../css/Styles.css"
           alignment="CENTER"
-      fx:controller="View.MainControllerGraphics">
+      fx:controller="View.MainMenu">
     <VBox styleClass="container1">
-        <Button text="REGISTER MENU" fx:id="enterRegisterMenu" styleClass="enterMenuButton"></Button>
+        <Button text="REGISTER MENU" fx:id="enterRegisterMenu" styleClass="enterMenuButton" onMouseClicked="#register"></Button>
         <Button text="LOGIN MENU" fx:id="enterLoginMenu" styleClass="enterMenuButton"></Button>
     </VBox>
 </GridPane>
