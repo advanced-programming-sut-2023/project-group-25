@@ -3,6 +3,6 @@ module com.example.approject {
     requires javafx.fxml;
 
 
-    opens com.example.approject to javafx.fxml;
-    exports com.example.approject;
+    opens Model to javafx.fxml;
+    exports Model;
 }
