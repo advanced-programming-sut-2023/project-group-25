@@ -403,7 +403,7 @@ public class GameController {
         int count = 0;
         for (Product product : products) {
             if (product.getName().equals(food))
-                count++;
+                count = (int)product.getCount();
         }
         return count;
     }
@@ -817,7 +817,6 @@ public class GameController {
             return selectedBuilding.getType() + " doesn't need to be repaired";
         }
         selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
-        selectedBuilding = null;
         return "You have repaired " + selectedBuilding.getType();
     }
 
@@ -826,7 +825,7 @@ public class GameController {
             if (product.getName().equals("stone")) {
                 for (Product buildingCost : selectedBuilding.getBuildingNeededProducts())
                     if (buildingCost.getName().equals("stone"))
-                        if (product.getCount() != buildingCost.getCount())
+                        if (product.getCount() < buildingCost.getCount())
                             return "You don't have enough stone!";
             } else {
                 Cell selectedBuildingLocation = selectedBuilding.getLocation();
@@ -879,6 +878,7 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange - 1; j <= person.getLocation().getY() + shootingRange; j++) {
                                     if (!isLocationValid(i, j)) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
                                     if (currentGame.getMap().getCells()[i][j].getBuilding() != null && !currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
@@ -903,6 +903,7 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange - 1; j <= person.getLocation().getY() + shootingRange; j++) {
                                     if (!isLocationValid(i, j)) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
@@ -933,6 +934,7 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange / 2 - 1; i <= person.getLocation().getX() + shootingRange / 2; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange / 2 - 1; j <= person.getLocation().getY() + shootingRange / 2; j++) {
                                     if (!isLocationValid(i, j)) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
