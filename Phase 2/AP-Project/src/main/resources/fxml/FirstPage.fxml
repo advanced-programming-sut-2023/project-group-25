@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+      fx:controller="View.FirstPage">
+    <VBox styleClass="container1">
+        <Button text="REGISTER MENU" fx:id="enterRegisterMenu" styleClass="enterMenuButton" onMouseClicked="#register"></Button>
+        <Button text="LOGIN MENU" fx:id="enterLoginMenu" styleClass="enterMenuButton"></Button>
+    </VBox>
+</GridPane>

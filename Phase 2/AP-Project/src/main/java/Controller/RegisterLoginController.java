@@ -233,7 +233,7 @@ public class RegisterLoginController {
         registeringUser.setSloganRandom(isSloganRandom);
     }
 
-    //Main Functions:
+    //FirstPage Functions:
     public String register(Matcher matcher, ArrayList<String> allOptions, boolean hasSlogan) {
         String resultMessage;
         if (!MainController.checkAllOptionsExist(matcher, allOptions))
