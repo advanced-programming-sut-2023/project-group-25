@@ -13,12 +13,7 @@
           alignment="CENTER"
       fx:controller="View.FirstPage">
     <VBox styleClass="container1">
-<<<<<<< HEAD
-        <Button text="REGISTER MENU" fx:id="enterRegisterMenu" styleClass="enterMenuButton" onMouseClicked="#register"></Button>
-        <Button text="LOGIN MENU" fx:id="enterLoginMenu" styleClass="enterMenuButton" onMouseClicked="#login"></Button>
-=======
         <Button text="REGISTER MENU" styleClass="enterMenuButton" onMouseClicked="#register"/>
         <Button text="LOGIN MENU" styleClass="enterMenuButton"/>
->>>>>>> 0cdd2fc24012d2d4054925f788744ea7fc07ff98
     </VBox>
 </GridPane>
