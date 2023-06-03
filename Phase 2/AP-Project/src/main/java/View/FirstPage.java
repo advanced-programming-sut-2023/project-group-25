@@ -38,7 +38,7 @@ public class FirstPage extends Application {
         controller.run(scanner);
     }
 
-    public void register(MouseEvent mouseEvent) throws Exception {
+    public void register() throws Exception {
         new RegisterMenu().start(FirstPage.stage);
     }
 }

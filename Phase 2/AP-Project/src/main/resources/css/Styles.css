@@ -1,5 +1,4 @@
 .enterMenuButton {
-    -fx-indeterminate-bar-animation-time: 2s;
     -fx-pref-width: 400px;
     -fx-pref-height: 50px;
     -fx-font-family: "Arial Narrow";
@@ -20,4 +19,46 @@
     -fx-padding: 200px 0 0 0;
     -fx-alignment: CENTER;
     -fx-spacing:8px;
+}
+
+.registerContainer {
+    -fx-background-color: #000000;
+    -fx-background-radius: 8px;
+    -fx-padding: 15px;
+    -fx-alignment: LEFT;
+    -fx-spacing:10px;
+}
+
+.registerFieldContainer {
+    -fx-background-color: #FFFFFF;
+    -fx-pref-width: 500px;
+    -fx-pref-height: 50px;
+    -fx-padding: 10px;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-spacing: 10px;
+    -fx-text-fill: black;
+    -fx-background-radius: 8px;
+    -fx-opacity: 0.6;
+}
+
+.registerFieldContainer:hover {
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+.subRegisterFieldContainer {
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER;
+}
+
+.textField1 {
+    -fx-pref-width: 400px;
+}
+
+.registerLabel {
+    -fx-pref-width: 100px;
 }

@@ -6,12 +6,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.shape.Line?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
           stylesheets="@../css/Styles.css"
-          alignment="CENTER"
-          fx:controller="View.RegisterMenu">
-    <VBox styleClass="container1">
+          alignment="CENTER_LEFT"
+          fx:controller="View.RegisterMenu"
+          style="-fx-padding: 40px">
+    <VBox styleClass="registerContainer" alignment="CENTER">
+        <HBox styleClass="registerFieldContainer" alignment="CENTER">
+            <Label text="username:" styleClass="registerLabel"/>
+            <TextField promptText="username:" styleClass="textField1"/>
+        </HBox>
+
+        <VBox styleClass="registerFieldContainer" alignment="CENTER">
+            <HBox>
+                <Label text="password:" styleClass="registerLabel"/>
+                <PasswordField promptText="password:" styleClass="textField1"/>
+            </HBox>
+            <HBox styleClass="subRegisterFieldContainer">
+                <CheckBox text="random"/>
+                <CheckBox text="hide/show"/>
+            </HBox>
+        </VBox>
+        <HBox styleClass="registerFieldContainer"  alignment="CENTER">
+            <Label text="username:" styleClass="registerLabel"/>
+            <TextField promptText="username:" styleClass="textField1"/>
+        </HBox>
     </VBox>
 </GridPane>
