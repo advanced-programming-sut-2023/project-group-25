@@ -3,8 +3,6 @@ package Controller;
 
 import Model.*;
 
-import java.sql.Struct;
-
 
 public class MapController {
     public static final String BACKGROUND_RESET = "\033[0m";                //reset
@@ -25,7 +23,7 @@ public class MapController {
     private static final String PINK_BACKGROUND = "\033[48;5;213m";          //PINK
     private static final String ORANGE_BACKGROUND = "\033[48;5;208m";       //ORANGE
     static int numberOfCastles;
-    private static GameController gameController = null;
+    private static GameController gameController = new GameController();
 
     public MapController(GameController gameController) {
         MapController.gameController = gameController;
@@ -79,13 +77,11 @@ public class MapController {
                             mapView.append(getBackGroundColorString(material.replace("castle", "")))
                                     .append("#####|").append(BACKGROUND_RESET);
                             break;
-
                     }
                 }
                 mapView.append("\n");
             }
         }
-
         return mapView.toString();
     }
 
@@ -137,8 +133,7 @@ public class MapController {
         for (int i = (2 * length) / 6; i < (4 * length) / 6; i++)
             for (int j = (3 * width) / 4; j < 5 * width / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "rockLand");
-
-
+        
         setDefaultLand(length, width, map);
         Map.setTemplateMap(0, map);
     }
@@ -166,8 +161,7 @@ public class MapController {
         for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
             for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
                 map.getCells()[i][j] = new Cell(i, j, "grass");
-
-
+        
         setDefaultLand(length, width, map);
         Map.setTemplateMap(1, map);
     }
@@ -261,7 +255,7 @@ public class MapController {
                 }
             }
         }
-        gameController.getCurrentGame().setFirstLoaded(true);
+        //gameController.getCurrentGame().setFirstLoaded(true);
     }
 
     public static void addJoblessInitially(Kingdom kingdom) {
@@ -274,7 +268,4 @@ public class MapController {
     public void setNumberOfCastles(int numberOfCastles) {
         MapController.numberOfCastles = numberOfCastles;
     }
-
-    
-
 }

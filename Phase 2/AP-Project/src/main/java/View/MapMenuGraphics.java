@@ -1,42 +1,48 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.GameController;
-import Controller.MapController;
+import Controller.*;
+import Model.Game;
 import Model.Map;
+import Model.Turn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import static View.FirstPage.stage;
+
 public class MapMenuGraphics extends Application implements Initializable {
+    private final ChangeMenuController changeMenuController;
     private final GameController gameController;
     private final MapController mapController;
     public TextField mapWidth;
     public TextField mapLength;
-    private Stage stage;
+//    private Stage stage;
     
-    public MapMenuGraphics(ChangeMenuController changeMenuController) {
+    public MapMenuGraphics() {
+        this.changeMenuController = FirstPage.changeMenuController;
         this.gameController = changeMenuController.getgameController();
         this.mapController = changeMenuController.getMapController();
     }
     
     @Override
     public void start(Stage stage) throws Exception {
-        this.stage = new Stage();
-        //this.stage = stage;
-        URL url = new URL(Objects.requireNonNull(getClass().getResource("/fxml/mapMenu.fxml")).toExternalForm());
-        AnchorPane mapPane = FXMLLoader.load(url);
-        Scene scene = new Scene(mapPane);
+        AnchorPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/mapMenu.fxml").toExternalForm()));
+        Scene scene = new Scene(firstPage);
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
     }
     
@@ -61,11 +67,26 @@ public class MapMenuGraphics extends Application implements Initializable {
             }
             else {
                 initializeTemplateMaps(length, width);
-                //TODO: start the game with the built map.
+                Map map = Map.getTemplateMaps()[0];
+                
+                gameController.setCurrentGame(new Game(0, new ArrayList<>()));
+                gameController.getCurrentGame().setMap(map);
+                gameController.getCurrentGame().setMapTemplateNumber(0);
+                Turn.setTurnCounter(0);
+                gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
+                gameController.initializeTrees();
                 Alert alert1 = new Alert(Alert.AlertType.INFORMATION);
                 alert1.setHeaderText("Success Message!");
                 alert1.setContentText("Your map is ready!");
-                alert1.show();
+                alert1.showAndWait().ifPresent(rs -> {
+                    if (rs == ButtonType.OK) {
+                        try {
+                            changeMenuController.getGameGraphics().start(stage);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
             }
         }
     }

@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import Model.Map;
 import View.Commands;
+import View.GameGraphics;
 
 import java.io.File;
 import java.util.*;
