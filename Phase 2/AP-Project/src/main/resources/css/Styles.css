@@ -1,5 +1,4 @@
 .enterMenuButton {
-    -fx-indeterminate-bar-animation-time: 2s;
     -fx-pref-width: 400px;
     -fx-pref-height: 50px;
     -fx-font-family: "Arial Narrow";
@@ -20,4 +19,100 @@
     -fx-padding: 200px 0 0 0;
     -fx-alignment: CENTER;
     -fx-spacing:8px;
+}
+
+.registerContainer {
+    -fx-background-radius: 8px;
+    -fx-padding: 5px;
+    -fx-spacing:5px;
+}
+
+.registerFieldContainer {
+    -fx-background-color: #FFFFFF;
+    -fx-pref-width: 500px;
+    -fx-pref-height: 50px;
+    -fx-padding: 7px 10px;
+    -fx-font-family: "Arial Narrow";
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-background-radius: 8px;
+    -fx-opacity: 0.8;
+    -fx-spacing: 10px;
+}
+
+.registerFieldContainer:hover {
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+.subRegisterFieldContainer {
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER;
+}
+
+.textField1 {
+    -fx-pref-width: 400px;
+    -fx-font-weight: normal;
+}
+
+.registerLabel {
+    -fx-pref-width: 100px;
+}
+
+.listView {
+    -fx-pref-width: 300px;
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-pref-height: 200px;
+}
+
+.textField2 {
+    -fx-pref-width: 150px;
+    -fx-font-weight: normal;
+}
+
+.radioButton {
+    -fx-font-size: 15px;
+}
+
+.sloganLabel {
+    -fx-pref-width: 150px;
+}
+
+.famousSlogan {
+    -fx-pref-width: 300px;
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-pref-height: 200px;
+}
+
+.textField3 {
+    -fx-pref-width: 300px;
+    -fx-font-weight: normal;
+}
+
+.submitButton {
+    -fx-pref-width: 230px;
+    -fx-background-color: #2f5b2f;
+    -fx-text-fill: white;
+}
+
+.clearButton {
+    -fx-pref-width: 230px;
+    -fx-background-color: #980d0d;
+    -fx-text-fill: white;
+}
+
+.errorLabel {
+    -fx-background-color: rgba(194, 73, 73, 0.58);
+    -fx-padding: 2px 5px;
+    -fx-background-radius: 5px;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #980d0d;
 }

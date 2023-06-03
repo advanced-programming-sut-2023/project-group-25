@@ -38,8 +38,7 @@ public class FirstPage extends Application {
         ChangeMenuController controller = new ChangeMenuController();
         controller.run(scanner);*/
     }
-
-
+    
     public void register() throws Exception {
         new RegisterMenu().start(FirstPage.stage);
     }
