@@ -14,16 +14,15 @@
           alignment="CENTER_LEFT"
           fx:controller="View.RegisterMenu"
           style="-fx-padding: 40px">
-    <VBox styleClass="registerContainer" alignment="CENTER">
+    <VBox styleClass="registerContainer" alignment="CENTER_LEFT">
         <HBox styleClass="registerFieldContainer" alignment="CENTER">
             <Label text="username:" styleClass="registerLabel"/>
-            <TextField promptText="username:" styleClass="textField1"/>
+            <TextField promptText="username" styleClass="textField1"/>
         </HBox>
-
         <VBox styleClass="registerFieldContainer" alignment="CENTER">
             <HBox>
                 <Label text="password:" styleClass="registerLabel"/>
-                <PasswordField promptText="password:" styleClass="textField1"/>
+                <PasswordField promptText="password" styleClass="textField1"/>
             </HBox>
             <HBox styleClass="subRegisterFieldContainer">
                 <CheckBox text="random"/>
@@ -31,8 +30,51 @@
             </HBox>
         </VBox>
         <HBox styleClass="registerFieldContainer"  alignment="CENTER">
-            <Label text="username:" styleClass="registerLabel"/>
-            <TextField promptText="username:" styleClass="textField1"/>
+            <Label text="nickname:" styleClass="registerLabel"/>
+            <TextField promptText="nickname" styleClass="textField1"/>
+        </HBox>
+        <HBox styleClass="registerFieldContainer"  alignment="CENTER">
+            <Label text="email:" styleClass="registerLabel"/>
+            <TextField promptText="email" styleClass="textField1"/>
+        </HBox>
+        <VBox styleClass="registerFieldContainer" alignment="CENTER">
+            <fx:define>
+                <ToggleGroup fx:id="group"/>
+            </fx:define>
+            <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
+                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#famousSlogan"/>
+                <Label text="Famous Slogans" styleClass="sloganLabel"/>
+                <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
+                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#randomSlogan"/>
+                    <Label text="Random Slogan" styleClass="sloganLabel"/>
+                    <TextField promptText="slogan" fx:id="randomSlogan" styleClass="textField3" visible="false"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
+                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#customSlogan"/>
+                <Label text="Custom Slogan" styleClass="sloganLabel"/>
+                <TextField promptText="slogan" fx:id="customSlogan" styleClass="textField3" visible="false"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
+                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#noSlogan"/>
+                <Label text="No Slogan" styleClass="sloganLabel"/>
+            </HBox>
+        </VBox>
+        <HBox styleClass="registerFieldContainer" style="-fx-pref-height: 180px;" alignment="CENTER">
+            <VBox>
+                <VBox>
+                    <Label text="Security Question:" style="-fx-pref-width: 300px" styleClass="registerLabel"/>
+                </VBox>
+                <ListView fx:id="listView" styleClass="listView"/>
+            </VBox>
+            <VBox>
+                <Label text="answer:" styleClass="registerLabel"/>
+                <TextField promptText="answer" styleClass="textField2"/>
+                <Label text="" styleClass="registerLabel"/>
+                <Label text="confirm:" styleClass="registerLabel"/>
+                <TextField promptText="confirm" styleClass="textField2"/>
+            </VBox>
         </HBox>
     </VBox>
 </GridPane>

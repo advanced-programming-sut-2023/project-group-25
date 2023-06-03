@@ -22,11 +22,9 @@
 }
 
 .registerContainer {
-    -fx-background-color: #000000;
     -fx-background-radius: 8px;
-    -fx-padding: 15px;
-    -fx-alignment: LEFT;
-    -fx-spacing:10px;
+    -fx-padding: 5px;
+    -fx-spacing:8px;
 }
 
 .registerFieldContainer {
@@ -40,7 +38,7 @@
     -fx-spacing: 10px;
     -fx-text-fill: black;
     -fx-background-radius: 8px;
-    -fx-opacity: 0.6;
+    -fx-opacity: 0.8;
 }
 
 .registerFieldContainer:hover {
@@ -57,8 +55,43 @@
 
 .textField1 {
     -fx-pref-width: 400px;
+    -fx-font-weight: normal;
 }
 
 .registerLabel {
     -fx-pref-width: 100px;
+}
+
+.listView {
+    -fx-pref-width: 400px;
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-pref-height: 200px;
+}
+
+.textField2 {
+    -fx-pref-width: 200px;
+    -fx-font-weight: normal;
+}
+
+.radioButton {
+    -fx-font-size: 15px;
+}
+
+.sloganLabel {
+    -fx-pref-width: 150px;
+}
+
+.famousSlogan {
+    -fx-pref-width: 300px;
+    -fx-font-size: 15px;
+    -fx-spacing: 10px;
+    -fx-font-weight: normal;
+    -fx-pref-height: 200px;
+}
+
+.textField3 {
+    -fx-pref-width: 300px;
+    -fx-font-weight: normal;
 }
