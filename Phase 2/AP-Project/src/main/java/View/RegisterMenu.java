@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -21,6 +23,7 @@ public class RegisterMenu extends Application implements Initializable {
     public ComboBox<String> sloganComboBox;
     public TextField customSlogan;
     public TextField randomSlogan;
+    public TextField password;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -77,9 +80,14 @@ public class RegisterMenu extends Application implements Initializable {
     }
 
     public void resetFields() {
-        sloganComboBox.getSelectionModel().clearSelection();
         randomSlogan.setText("");
         sloganComboBox.setPromptText("choose a slogan:");
         customSlogan.setText("");
+    }
+
+    public void showPassword() {
+        String pass = password.getText();
+       password = new PasswordField();
+       password.setText(pass);
     }
 }
