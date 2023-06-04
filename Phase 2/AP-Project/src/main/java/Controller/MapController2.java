@@ -11,17 +11,16 @@ import java.util.Objects;
 
 public class MapController2 {
     public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y) {
-        //capacity: 31 x 15
+        //capacity: 31 x 16
         
         if (!isLocationAppropriateToShow(x, y, map)) {
-            System.out.println("1");
             return;
         }
         
         int xCounter = 0, yCounter = 0;
         
         for (int i = x - 15; i < x + 16; i++) {
-            for (int j = y - 7; j < y + 8 ; j++) {
+            for (int j = y - 7; j < y + 9 ; j++) {
                 Cell cell = map.getCells()[i][j];
                 
                 showBackground(pane, cell.getMaterial(), xCounter, yCounter);
