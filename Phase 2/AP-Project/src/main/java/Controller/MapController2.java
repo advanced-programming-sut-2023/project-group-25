@@ -1,8 +1,11 @@
 package Controller;
 
 import Model.*;
+import View.FirstPage;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -65,14 +68,17 @@ public class MapController2 {
     }
     
     private void showBackground(Pane pane, String material, int x, int y) {
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        Label imageView = new Label();
+        imageView.setPrefWidth(50);
+        imageView.setPrefHeight(50);
         imageView.setLayoutX(50*x);
         imageView.setLayoutY(50*y);
+        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.5px; -fx-border-style: dash");
         String address = "/images/" + material + ".jpg";
-        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(address)).toExternalForm()));
+        Background background = new Background(MainController.setFirstPageBackground(address));
+        imageView.setBackground(background);
         pane.getChildren().add(imageView);
+        pane.setStyle("-fx-spacing: 0");
     }
     
     private void showBuilding(Pane pane, Map map, int i, int j, Building building) {
