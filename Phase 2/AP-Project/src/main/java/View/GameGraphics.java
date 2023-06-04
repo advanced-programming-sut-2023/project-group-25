@@ -31,7 +31,7 @@ public class GameGraphics extends Application {
 //        GridPane gamePane = FXMLLoader.load((Objects.requireNonNull(getClass().getResource("/fxml/gameGraphic.fxml"))));
         Pane gamePane = new Pane();
         Scene scene = new Scene(gamePane,750,1200);
-        new MapController2().loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), 17, 12);
+        new MapController2().loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), 20, 20);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();

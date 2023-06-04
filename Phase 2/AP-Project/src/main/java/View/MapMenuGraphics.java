@@ -1,6 +1,9 @@
 package View;
 
-import Controller.*;
+import Controller.ChangeMenuController;
+import Controller.GameController;
+import Controller.MapController;
+import Controller.RegisterLoginController;
 import Model.Game;
 import Model.Map;
 import Model.Turn;
@@ -12,13 +15,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static View.FirstPage.stage;
@@ -29,7 +29,6 @@ public class MapMenuGraphics extends Application implements Initializable {
     private final MapController mapController;
     public TextField mapWidth;
     public TextField mapLength;
-//    private Stage stage;
     
     public MapMenuGraphics() {
         this.changeMenuController = FirstPage.changeMenuController;
@@ -39,7 +38,8 @@ public class MapMenuGraphics extends Application implements Initializable {
     
     @Override
     public void start(Stage stage) throws Exception {
-        AnchorPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/mapMenu.fxml").toExternalForm()));
+        AnchorPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource
+                ("/fxml/mapMenu.fxml").toExternalForm()));
         Scene scene = new Scene(firstPage);
         stage.setScene(scene);
         stage.setFullScreen(true);

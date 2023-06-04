@@ -14,6 +14,6 @@
       fx:controller="View.FirstPage">
     <VBox styleClass="container1">
         <Button text="REGISTER MENU" styleClass="enterMenuButton" onMouseClicked="#register"/>
-        <Button text="LOGIN MENU" styleClass="enterMenuButton"/>
+        <Button text="LOGIN MENU" styleClass="enterMenuButton" onMouseClicked="#login"/>
     </VBox>
 </GridPane>
