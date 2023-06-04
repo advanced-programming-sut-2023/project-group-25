@@ -1,16 +1,10 @@
 package Controller;
 
 import Model.*;
-import View.FirstPage;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.util.Objects;
 
 public class MapController2 {
     public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y) {
@@ -73,7 +67,7 @@ public class MapController2 {
         imageView.setPrefHeight(50);
         imageView.setLayoutX(50*x);
         imageView.setLayoutY(50*y);
-        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.5px; -fx-border-style: dash");
+        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         imageView.setBackground(background);
