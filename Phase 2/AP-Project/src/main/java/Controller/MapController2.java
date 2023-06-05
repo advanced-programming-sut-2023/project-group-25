@@ -7,27 +7,27 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MapController2 {
-    public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y) {
-        //capacity: 31 x 16
+    public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
+        //capacity: 31 x 16 (x50 pixels)
         
-        if (!isLocationAppropriateToShow(x, y, map)) {
+        if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
             return;
         }
         
         int xCounter = 0, yCounter = 0;
         
-        for (int i = x - 15; i < x + 16; i++) {
-            for (int j = y - 7; j < y + 9 ; j++) {
+        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength; i++) {
+            for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
                 Cell cell = map.getCells()[i][j];
                 
-                showBackground(pane, cell.getMaterial(), xCounter, yCounter);
+                showBackground(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
                 
                 for (NaturalBlock naturalBlock : cell.getNaturalBlocks()) {
                     showNaturalBlock(pane, i, j, naturalBlock);
                 }
                 
                 showBuilding(pane, map, i, j, cell.getBuilding());
-    
+                
                 for (Person person : cell.getPeople()) {
                     showPerson(pane, map, i, j, person);
                 }
@@ -42,8 +42,8 @@ public class MapController2 {
         stage.show();
     }
     
-    private boolean isLocationAppropriateToShow(int x, int y, Map map) {
-        return x - 15 >= 0 && y - 7 >= 0 && x + 16 <= map.getWidth() && y + 8 <= map.getLength();
+    private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
+        return x - 15 * 50 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
     }
     
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
@@ -61,12 +61,12 @@ public class MapController2 {
         //TODO
     }
     
-    private void showBackground(Pane pane, String material, int x, int y) {
+    private void showBackground(Pane pane, String material, int x, int y, int edgeLength) {
         Label imageView = new Label();
-        imageView.setPrefWidth(50);
-        imageView.setPrefHeight(50);
-        imageView.setLayoutX(50*x);
-        imageView.setLayoutY(50*y);
+        imageView.setPrefWidth(edgeLength);
+        imageView.setPrefHeight(edgeLength);
+        imageView.setLayoutX(edgeLength * x);
+        imageView.setLayoutY(edgeLength * y);
         imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
