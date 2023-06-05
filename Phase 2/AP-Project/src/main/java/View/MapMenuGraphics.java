@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static View.FirstPage.stage;
@@ -38,8 +39,8 @@ public class MapMenuGraphics extends Application implements Initializable {
     
     @Override
     public void start(Stage stage) throws Exception {
-        AnchorPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource
-                ("/fxml/mapMenu.fxml").toExternalForm()));
+        AnchorPane firstPage = FXMLLoader.load(new URL(Objects.requireNonNull(FirstPage.class.getResource
+                ("/fxml/mapMenu.fxml")).toExternalForm()));
         Scene scene = new Scene(firstPage);
         stage.setScene(scene);
         stage.setFullScreen(true);
