@@ -79,6 +79,7 @@ public class MapController2 {
         }
         imageView.setLayoutX(0);
         imageView.setLayoutY(620);
+        imageView.toFront();
 
         imageIcon1.setLayoutX(500);
         imageIcon1.setLayoutY(760);
