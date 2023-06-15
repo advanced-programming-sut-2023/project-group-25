@@ -10,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MapController2 {
-
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView imageIcon1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i1.png"))));
     private final ImageView imageIcon2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i2.png"))));
@@ -46,29 +45,26 @@ public class MapController2 {
     private final ImageView brewer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/brewer.png"))));
     private final ImageView mill = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/mill.gif"))));
     private final ImageView inn = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/inn.png"))));
-
-    public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y) {
-        //capacity: 31 x 15
-
-        if (!isLocationAppropriateToShow(x, y, map)) {
-            System.out.println("1");
+    
+    public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
+        //capacity: 31 x 16 (x50 pixels)
+        if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
             return;
         }
-
         int xCounter = 0, yCounter = 0;
-
-        for (int i = x - 15; i < x + 16; i++) {
-            for (int j = y - 7; j < y + 8; j++) {
+        
+        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength; i++) {
+            for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
                 Cell cell = map.getCells()[i][j];
-
-                showBackground(pane, cell.getMaterial(), xCounter, yCounter);
-
+                
+                showBackground(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
+                
                 for (NaturalBlock naturalBlock : cell.getNaturalBlocks()) {
                     showNaturalBlock(pane, i, j, naturalBlock);
                 }
-
+                
                 showBuilding(pane, map, i, j, cell.getBuilding());
-
+                
                 for (Person person : cell.getPeople()) {
                     showPerson(pane, map, i, j, person);
                 }
@@ -79,8 +75,12 @@ public class MapController2 {
         }
         imageView.setLayoutX(0);
         imageView.setLayoutY(620);
+<<<<<<< HEAD
         imageView.toFront();
 
+=======
+        
+>>>>>>> ec1d07df163ad5506b2b0ebffb95c772e3ec5986
         imageIcon1.setLayoutX(500);
         imageIcon1.setLayoutY(760);
         imageIcon1.setFitHeight(50);
@@ -100,7 +100,7 @@ public class MapController2 {
             setImagesIcons6(false);
             event.consume();
         });
-
+        
         imageIcon2.setLayoutX(550);
         imageIcon2.setLayoutY(770);
         imageIcon2.setFitHeight(40);
@@ -115,7 +115,7 @@ public class MapController2 {
             setImagesIcons6(false);
             event.consume();
         });
-
+        
         imageIcon3.setLayoutX(600);
         imageIcon3.setLayoutY(767.5);
         imageIcon3.setFitHeight(45);
@@ -130,7 +130,7 @@ public class MapController2 {
             setImagesIcons6(false);
             event.consume();
         });
-
+        
         imageIcon4.setLayoutX(650);
         imageIcon4.setLayoutY(767.5);
         imageIcon4.setFitHeight(45);
@@ -145,7 +145,7 @@ public class MapController2 {
             setImagesIcons6(false);
             event.consume();
         });
-
+        
         imageIcon5.setLayoutX(700);
         imageIcon5.setLayoutY(770);
         imageIcon5.setFitHeight(40);
@@ -160,7 +160,7 @@ public class MapController2 {
             setImagesIcons6(false);
             event.consume();
         });
-
+        
         imageIcon6.setLayoutX(750);
         imageIcon6.setLayoutY(770);
         imageIcon6.setFitHeight(40);
@@ -175,8 +175,8 @@ public class MapController2 {
             setImagesIcons6(true);
             event.consume();
         });
-
-
+        
+        
         pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                 , barracks, mercenary, armoury, stairs, shortWall, highWall
                 , stockpile, woodCutter, quarry, ironMine, oxTether, market
@@ -186,7 +186,11 @@ public class MapController2 {
                 , granary, bakery, brewer, mill, inn);
         stage.show();
     }
-
+    
+    private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
+        return x - 15 * 50 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
+    }
+    
     private void setMenuIcon6() {
         granary.setLayoutX(500);
         granary.setLayoutY(690);
@@ -209,7 +213,7 @@ public class MapController2 {
         inn.setFitHeight(70);
         inn.setFitWidth(70);
     }
-
+    
     private void setImagesIcons6(boolean check) {
         granary.setVisible(check);
         bakery.setVisible(check);
@@ -217,7 +221,7 @@ public class MapController2 {
         mill.setVisible(check);
         inn.setVisible(check);
     }
-
+    
     private void setMenuIcon5() {
         fletcher.setLayoutX(500);
         fletcher.setLayoutY(690);
@@ -236,14 +240,14 @@ public class MapController2 {
         armourer.setFitWidth(70);
         armourer.setFitHeight(70);
     }
-
+    
     private void setImagesIcons5(boolean check) {
         poleturner.setVisible(check);
         fletcher.setVisible(check);
         blacksmith.setVisible(check);
         armourer.setVisible(check);
     }
-
+    
     private void setMenuIcon4() {
         hovel.setLayoutX(500);
         hovel.setLayoutY(690);
@@ -258,13 +262,13 @@ public class MapController2 {
         catheral.setFitHeight(80);
         catheral.setFitWidth(80);
     }
-
+    
     private void setImagesIcons4(boolean check) {
         hovel.setVisible(check);
         church.setVisible(check);
         catheral.setVisible(check);
     }
-
+    
     private void setMenuIcon3() {
         appleOrchard.setLayoutX(500);
         appleOrchard.setLayoutY(690);
@@ -283,14 +287,14 @@ public class MapController2 {
         wheatFarmer.setFitHeight(70);
         wheatFarmer.setFitWidth(70);
     }
-
+    
     private void setImagesIcons3(boolean check) {
         appleOrchard.setVisible(check);
         dairyFarmer.setVisible(check);
         hopsFarmer.setVisible(check);
         wheatFarmer.setVisible(check);
     }
-
+    
     private void setMenuIcon2() {
         stockpile.setLayoutX(500);
         stockpile.setLayoutY(690);
@@ -317,7 +321,7 @@ public class MapController2 {
         market.setFitHeight(70);
         market.setFitWidth(70);
     }
-
+    
     private void setMenuIcon1() {
         barracks.setLayoutX(500);
         barracks.setLayoutY(690);
@@ -344,7 +348,7 @@ public class MapController2 {
         highWall.setFitHeight(70);
         highWall.setFitWidth(20);
     }
-
+    
     private void setImagesIcons2(boolean check) {
         stockpile.setVisible(check);
         woodCutter.setVisible(check);
@@ -353,7 +357,7 @@ public class MapController2 {
         ironMine.setVisible(check);
         market.setVisible(check);
     }
-
+    
     private void setImagesIcons1(boolean check) {
         barracks.setVisible(check);
         mercenary.setVisible(check);
@@ -362,11 +366,7 @@ public class MapController2 {
         highWall.setVisible(check);
         shortWall.setVisible(check);
     }
-
-    private boolean isLocationAppropriateToShow(int x, int y, Map map) {
-        return x - 15 >= 0 && y - 7 >= 0 && x + 16 <= map.getWidth() && y + 8 <= map.getLength();
-    }
-
+    
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
 //        ImageView imageView = new ImageView();
 //        imageView.setFitHeight(30);
@@ -377,25 +377,25 @@ public class MapController2 {
 //        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(address)).toExternalForm()));
 //        pane.getChildren().add(imageView);
     }
-
+    
     private void showPerson(Pane pane, Map map, int i, int j, Person person) {
         //TODO
     }
-
-    private void showBackground(Pane pane, String material, int x, int y) {
+    
+    private void showBackground(Pane pane, String material, int x, int y, int edgeLength) {
         Label imageView = new Label();
-        imageView.setPrefWidth(50);
-        imageView.setPrefHeight(50);
-        imageView.setLayoutX(50 * x);
-        imageView.setLayoutY(50 * y);
-        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.5px; -fx-border-style: dash");
+        imageView.setPrefWidth(edgeLength);
+        imageView.setPrefHeight(edgeLength);
+        imageView.setLayoutX(edgeLength * x);
+        imageView.setLayoutY(edgeLength * y);
+        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         imageView.setBackground(background);
         pane.getChildren().add(imageView);
         pane.setStyle("-fx-spacing: 0");
     }
-
+    
     private void showBuilding(Pane pane, Map map, int i, int j, Building building) {
         //TODO
     }
