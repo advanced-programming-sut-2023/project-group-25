@@ -5,6 +5,7 @@ import Controller.GameController;
 import Controller.MapController2;
 import Controller.RegisterLoginController;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.w3c.dom.events.Event;
 
 import java.awt.event.MouseWheelEvent;
 import java.io.IOException;
@@ -104,7 +104,8 @@ public class GameGraphics extends Application {
             }
         };
         
-   
+        
+        
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
