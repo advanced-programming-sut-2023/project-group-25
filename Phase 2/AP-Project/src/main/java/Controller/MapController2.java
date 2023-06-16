@@ -80,20 +80,15 @@ public class MapController2 {
         
         
         imageView.setLayoutX(0);
-        imageView.setLayoutY(620);
+        imageView.setLayoutY(685);
         imageView.toFront();
         
         imageIcon1.setLayoutX(500);
-        imageIcon1.setLayoutY(760);
+        imageIcon1.setLayoutY(815);
         imageIcon1.setFitHeight(50);
         imageIcon1.setFitWidth(50);
         imageIcon1.toFront();
         setMenuIcon1();
-        setImagesIcons2(false);
-        setImagesIcons3(false);
-        setImagesIcons4(false);
-        setImagesIcons5(false);
-        setImagesIcons6(false);
         imageIcon1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             setImagesIcons1(true);
             setImagesIcons2(false);
@@ -105,7 +100,7 @@ public class MapController2 {
         });
         
         imageIcon2.setLayoutX(550);
-        imageIcon2.setLayoutY(770);
+        imageIcon2.setLayoutY(825);
         imageIcon2.setFitHeight(40);
         imageIcon2.setFitWidth(40);
         imageIcon2.toFront();
@@ -121,7 +116,7 @@ public class MapController2 {
         });
         
         imageIcon3.setLayoutX(600);
-        imageIcon3.setLayoutY(767.5);
+        imageIcon3.setLayoutY(822.5);
         imageIcon3.setFitHeight(45);
         imageIcon3.setFitWidth(40);
         imageIcon3.toFront();
@@ -137,7 +132,7 @@ public class MapController2 {
         });
         
         imageIcon4.setLayoutX(650);
-        imageIcon4.setLayoutY(767.5);
+        imageIcon4.setLayoutY(822.5);
         imageIcon4.setFitHeight(45);
         imageIcon4.setFitWidth(40);
         imageIcon4.toFront();
@@ -153,7 +148,7 @@ public class MapController2 {
         });
         
         imageIcon5.setLayoutX(700);
-        imageIcon5.setLayoutY(770);
+        imageIcon5.setLayoutY(825);
         imageIcon5.setFitHeight(40);
         imageIcon5.setFitWidth(40);
         imageIcon5.toFront();
@@ -169,7 +164,7 @@ public class MapController2 {
         });
         
         imageIcon6.setLayoutX(750);
-        imageIcon6.setLayoutY(770);
+        imageIcon6.setLayoutY(825);
         imageIcon6.setFitHeight(40);
         imageIcon6.setFitWidth(40);
         imageIcon6.toFront();
@@ -185,6 +180,12 @@ public class MapController2 {
         });
         
         if (!isTheFirstTime) {
+            setImagesIcons1(true);
+            setImagesIcons2(false);
+            setImagesIcons3(false);
+            setImagesIcons4(false);
+            setImagesIcons5(false);
+            setImagesIcons6(false);
             pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                     , barracks, mercenary, armoury, stairs, shortWall, highWall
                     , stockpile, woodCutter, quarry, ironMine, oxTether, market
@@ -193,8 +194,8 @@ public class MapController2 {
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn);
             isTheFirstTime = true;
-            stage.show();
         }
+        stage.show();
     }
     
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
@@ -203,31 +204,36 @@ public class MapController2 {
     
     private void setMenuIcon6() {
         granary.setLayoutX(500);
-        granary.setLayoutY(690);
+        granary.setLayoutY(750);
         granary.setFitHeight(70);
         granary.setFitWidth(70);
         granary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "granary1");
         granary.toFront();
+        //TODO: select, move, drop buildings
+//        granary.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
+//            System.out.println("sssssss");
+//            e.consume();
+//        });
         bakery.setLayoutX(580);
-        bakery.setLayoutY(690);
+        bakery.setLayoutY(750);
         bakery.setFitHeight(70);
         bakery.setFitWidth(70);
         bakery.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "bakery");
         bakery.toFront();
-        brewer.setLayoutX(650);
-        brewer.setLayoutY(690);
+        brewer.setLayoutX(665);
+        brewer.setLayoutY(750);
         brewer.setFitHeight(70);
         brewer.setFitWidth(70);
         brewer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "brewer");
         brewer.toFront();
         mill.setLayoutX(750);
-        mill.setLayoutY(690);
+        mill.setLayoutY(750);
         mill.setFitHeight(70);
         mill.setFitWidth(50);
         mill.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mill");
         mill.toFront();
-        inn.setLayoutX(840);
-        inn.setLayoutY(690);
+        inn.setLayoutX(810);
+        inn.setLayoutY(750);
         inn.setFitHeight(70);
         inn.setFitWidth(70);
         inn.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "inn");
@@ -236,38 +242,33 @@ public class MapController2 {
     
     private void setImagesIcons6(boolean check) {
         granary.setVisible(check);
-        granary.toFront();
         bakery.setVisible(check);
-        bakery.toFront();
         brewer.setVisible(check);
-        brewer.toFront();
         mill.setVisible(check);
-        mill.toFront();
         inn.setVisible(check);
-        inn.toFront();
     }
     
     private void setMenuIcon5() {
         fletcher.setLayoutX(500);
-        fletcher.setLayoutY(690);
+        fletcher.setLayoutY(750);
         fletcher.setFitHeight(70);
         fletcher.setFitWidth(70);
         fletcher.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "fletcher");
         fletcher.toFront();
         poleturner.setLayoutX(590);
-        poleturner.setLayoutY(690);
+        poleturner.setLayoutY(750);
         poleturner.setFitWidth(70);
         poleturner.setFitHeight(70);
         poleturner.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "poleturner");
         poleturner.toFront();
         blacksmith.setLayoutX(670);
-        blacksmith.setLayoutY(690);
+        blacksmith.setLayoutY(750);
         blacksmith.setFitHeight(70);
         blacksmith.setFitWidth(70);
         blacksmith.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "blacksmith");
         blacksmith.toFront();
         armourer.setLayoutX(750);
-        armourer.setLayoutY(690);
+        armourer.setLayoutY(750);
         armourer.setFitWidth(70);
         armourer.setFitHeight(70);
         armourer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armourer");
@@ -276,28 +277,24 @@ public class MapController2 {
     
     private void setImagesIcons5(boolean check) {
         poleturner.setVisible(check);
-        poleturner.toFront();
         fletcher.setVisible(check);
-        fletcher.toFront();
         blacksmith.setVisible(check);
-        blacksmith.toFront();
         armourer.setVisible(check);
-        armourer.toFront();
     }
     
     private void setMenuIcon4() {
         hovel.setLayoutX(500);
-        hovel.setLayoutY(690);
+        hovel.setLayoutY(750);
         hovel.setFitHeight(70);
         hovel.setFitWidth(70);
         hovel.toFront();
         church.setLayoutX(580);
-        church.setLayoutY(690);
+        church.setLayoutY(750);
         church.setFitHeight(70);
         church.setFitWidth(70);
         church.toFront();
         catheral.setLayoutX(660);
-        catheral.setLayoutY(690);
+        catheral.setLayoutY(750);
         catheral.setFitHeight(80);
         catheral.setFitWidth(80);
         catheral.toFront();
@@ -305,34 +302,31 @@ public class MapController2 {
     
     private void setImagesIcons4(boolean check) {
         hovel.setVisible(check);
-        hovel.toFront();
         church.setVisible(check);
-        church.toFront();
         catheral.setVisible(check);
-        catheral.toFront();
     }
     
     private void setMenuIcon3() {
         appleOrchard.setLayoutX(500);
-        appleOrchard.setLayoutY(690);
+        appleOrchard.setLayoutY(750);
         appleOrchard.setFitHeight(70);
         appleOrchard.setFitWidth(70);
         appleOrchard.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "apple orchard");
         appleOrchard.toFront();
         dairyFarmer.setLayoutX(580);
-        dairyFarmer.setLayoutY(690);
+        dairyFarmer.setLayoutY(750);
         dairyFarmer.setFitHeight(70);
         dairyFarmer.setFitWidth(70);
         dairyFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "dairy farmer");
         dairyFarmer.toFront();
         hopsFarmer.setLayoutX(670);
-        hopsFarmer.setLayoutY(690);
+        hopsFarmer.setLayoutY(750);
         hopsFarmer.setFitHeight(70);
         hopsFarmer.setFitWidth(70);
         hopsFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "hops farmer");
         hopsFarmer.toFront();
         wheatFarmer.setLayoutX(750);
-        wheatFarmer.setLayoutY(690);
+        wheatFarmer.setLayoutY(750);
         wheatFarmer.setFitHeight(70);
         wheatFarmer.setFitWidth(70);
         wheatFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "wheat farmer");
@@ -341,48 +335,44 @@ public class MapController2 {
     
     private void setImagesIcons3(boolean check) {
         appleOrchard.setVisible(check);
-        appleOrchard.toFront();
         dairyFarmer.setVisible(check);
-        dairyFarmer.toFront();
         hopsFarmer.setVisible(check);
-        hopsFarmer.toFront();
         wheatFarmer.setVisible(check);
-        wheatFarmer.toFront();
     }
     
     private void setMenuIcon2() {
         stockpile.setLayoutX(500);
-        stockpile.setLayoutY(690);
+        stockpile.setLayoutY(750);
         stockpile.setFitHeight(70);
         stockpile.setFitWidth(70);
         stockpile.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "stockpile");
         stockpile.toFront();
         woodCutter.setLayoutX(580);
-        woodCutter.setLayoutY(690);
+        woodCutter.setLayoutY(750);
         woodCutter.setFitHeight(70);
         woodCutter.setFitHeight(70);
         woodCutter.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "woodcutter");
         woodCutter.toFront();
         quarry.setLayoutX(690);
-        quarry.setLayoutY(690);
+        quarry.setLayoutY(750);
         quarry.setFitHeight(70);
         quarry.setFitWidth(70);
         quarry.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "quarry");
         quarry.toFront();
         oxTether.setLayoutX(750);
-        oxTether.setLayoutY(680);
+        oxTether.setLayoutY(740);
         oxTether.setFitHeight(50);
         oxTether.setFitWidth(50);
         oxTether.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "ox tether");
         oxTether.toFront();
         ironMine.setLayoutX(800);
-        ironMine.setLayoutY(690);
+        ironMine.setLayoutY(750);
         ironMine.setFitHeight(70);
         ironMine.setFitWidth(70);
         ironMine.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "iron mine");
         ironMine.toFront();
         market.setLayoutX(880);
-        market.setLayoutY(690);
+        market.setLayoutY(750);
         market.setFitHeight(70);
         market.setFitWidth(70);
         market.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "market1");
@@ -391,37 +381,37 @@ public class MapController2 {
     
     private void setMenuIcon1() {
         barracks.setLayoutX(500);
-        barracks.setLayoutY(690);
+        barracks.setLayoutY(750);
         barracks.setFitHeight(70);
         barracks.setFitWidth(70);
         barracks.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "barracks1");
         barracks.toFront();
         mercenary.setLayoutX(580);
-        mercenary.setLayoutY(690);
+        mercenary.setLayoutY(750);
         mercenary.setFitHeight(70);
         mercenary.setFitWidth(70);
         mercenary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mercenary post1");
         mercenary.toFront();
         armoury.setLayoutX(640);
-        armoury.setLayoutY(680);
+        armoury.setLayoutY(750);
         armoury.setFitHeight(90);
         armoury.setFitWidth(100);
         armoury.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armoury1");
         armoury.toFront();
         stairs.setLayoutX(750);
-        stairs.setLayoutY(690);
-        stairs.setFitHeight(70);
+        stairs.setLayoutY(760);
+        stairs.setFitHeight(60);
         stairs.setFitWidth(20);
         stairs.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "stairs");
         stairs.toFront();
         shortWall.setLayoutX(800);
-        shortWall.setLayoutY(690);
-        shortWall.setFitHeight(70);
+        shortWall.setLayoutY(770);
+        shortWall.setFitHeight(50);
         shortWall.setFitWidth(20);
         shortWall.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "short wall");
         shortWall.toFront();
         highWall.setLayoutX(850);
-        highWall.setLayoutY(690);
+        highWall.setLayoutY(750);
         highWall.setFitHeight(70);
         highWall.setFitWidth(20);
         highWall.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "high wall");
@@ -430,32 +420,20 @@ public class MapController2 {
     
     private void setImagesIcons2(boolean check) {
         stockpile.setVisible(check);
-        stockpile.toFront();
         woodCutter.setVisible(check);
-        woodCutter.toFront();
         quarry.setVisible(check);
-        quarry.toFront();
         oxTether.setVisible(check);
-        oxTether.toFront();
         ironMine.setVisible(check);
-        ironMine.toFront();
         market.setVisible(check);
-        market.toFront();
     }
     
     private void setImagesIcons1(boolean check) {
         barracks.setVisible(check);
-        barracks.toFront();
         mercenary.setVisible(check);
-        mercenary.toFront();
         armoury.setVisible(check);
-        armoury.toFront();
         stairs.setVisible(check);
-        stairs.toFront();
         highWall.setVisible(check);
-        highWall.toFront();
         shortWall.setVisible(check);
-        shortWall.toFront();
     }
     
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
@@ -483,7 +461,6 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         label.setBackground(background);
-        label.toBack();
         pane.getChildren().add(label);
         pane.setStyle("-fx-spacing: 0");
     }
