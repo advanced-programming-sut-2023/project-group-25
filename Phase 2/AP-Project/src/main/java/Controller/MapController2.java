@@ -10,8 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MapController2 {
-    private boolean isTheFirstTime = false;
-    
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView imageIcon1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i1.png"))));
     private final ImageView imageIcon2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i2.png"))));
@@ -19,34 +17,36 @@ public class MapController2 {
     private final ImageView imageIcon4 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i4.png"))));
     private final ImageView imageIcon5 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i5.png"))));
     private final ImageView imageIcon6 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i6.png"))));
-    private final ImageView barracks = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/TrainingBuilding/barracks0.png"))));
-    private final ImageView mercenary = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/TrainingBuilding/mercenary0.png"))));
-    private final ImageView armoury = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuilding/armoury0.png"))));
-    private final ImageView stairs = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/stairs.png"))));
-    private final ImageView shortWall = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/short wall.png"))));
-    private final ImageView highWall = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/high wall.png"))));
-    private final ImageView stockpile = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuilding/stockpile.png"))));
-    private final ImageView woodCutter = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/woodcutter.png"))));
-    private final ImageView quarry = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/quarry.gif"))));
-    private final ImageView oxTether = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/ox tether.gif"))));
-    private final ImageView ironMine = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/iron mine.png"))));
-    private final ImageView market = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ShopBuilding/market0.png"))));
-    private final ImageView appleOrchard = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/appleOrchard.png"))));
-    private final ImageView dairyFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/dairyFarmer.png"))));
-    private final ImageView hopsFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/hopsFarmer.png"))));
-    private final ImageView wheatFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/wheatFarmer.png"))));
-    private final ImageView hovel = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/hovel.png"))));
-    private final ImageView church = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/church.png"))));
-    private final ImageView catheral = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/catheral.png"))));
-    private final ImageView armourer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/armourer.png"))));
-    private final ImageView blacksmith = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/blacksmith.png"))));
-    private final ImageView fletcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/fletcher.png"))));
-    private final ImageView poleturner = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/poleturner.png"))));
-    private final ImageView granary = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuilding/granary0.png"))));
-    private final ImageView bakery = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/bakery.png"))));
-    private final ImageView brewer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/brewer.png"))));
-    private final ImageView mill = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuilding/mill.gif"))));
-    private final ImageView inn = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuilding/inn.png"))));
+    private final ImageView barracks = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/TrainingBuildings/barracks0.png"))));
+    private final ImageView mercenary = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/TrainingBuildings/mercenary post0.png"))));
+    private final ImageView armoury = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuildings/armoury0.png"))));
+    private final ImageView stairs = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/stairs.png"))));
+    private final ImageView shortWall = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/short wall.png"))));
+    private final ImageView highWall = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/high wall.png"))));
+    private final ImageView stockpile = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuildings/stockpile.png"))));
+    private final ImageView woodCutter = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/woodcutter.png"))));
+    private final ImageView quarry = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/quarry.gif"))));
+    private final ImageView oxTether = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/ox tether.gif"))));
+    private final ImageView ironMine = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/iron mine.png"))));
+    private final ImageView market = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ShopBuildings/market0.png"))));
+    private final ImageView appleOrchard = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/apple orchard.png"))));
+    private final ImageView dairyFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/dairy farmer.png"))));
+    private final ImageView hopsFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/hops farmer.png"))));
+    private final ImageView wheatFarmer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/wheat farmer.png"))));
+    private final ImageView hovel = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/hovel.png"))));
+    private final ImageView church = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/church.png"))));
+    private final ImageView catheral = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/catheral.png"))));
+    private final ImageView armourer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/armourer.png"))));
+    private final ImageView blacksmith = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/blacksmith.png"))));
+    private final ImageView fletcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/fletcher.png"))));
+    private final ImageView poleturner = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/poleturner.png"))));
+    private final ImageView granary = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuildings/granary0.png"))));
+    private final ImageView bakery = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/bakery.png"))));
+    private final ImageView brewer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/brewer.png"))));
+    private final ImageView mill = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/mill.gif"))));
+    private final ImageView inn = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/inn.png"))));
+    public static String clickedBuildingToDrop = null;
+    private boolean isTheFirstTime = false;
     
     public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         
@@ -82,7 +82,7 @@ public class MapController2 {
         imageView.setLayoutX(0);
         imageView.setLayoutY(620);
         imageView.toFront();
-
+        
         imageIcon1.setLayoutX(500);
         imageIcon1.setLayoutY(760);
         imageIcon1.setFitHeight(50);
@@ -206,26 +206,31 @@ public class MapController2 {
         granary.setLayoutY(690);
         granary.setFitHeight(70);
         granary.setFitWidth(70);
+        granary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "granary1");
         granary.toFront();
         bakery.setLayoutX(580);
         bakery.setLayoutY(690);
         bakery.setFitHeight(70);
         bakery.setFitWidth(70);
+        bakery.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "bakery");
         bakery.toFront();
         brewer.setLayoutX(650);
         brewer.setLayoutY(690);
         brewer.setFitHeight(70);
         brewer.setFitWidth(70);
+        brewer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "brewer");
         brewer.toFront();
         mill.setLayoutX(750);
         mill.setLayoutY(690);
         mill.setFitHeight(70);
         mill.setFitWidth(50);
+        mill.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mill");
         mill.toFront();
         inn.setLayoutX(840);
         inn.setLayoutY(690);
         inn.setFitHeight(70);
         inn.setFitWidth(70);
+        inn.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "inn");
         inn.toFront();
     }
     
@@ -247,21 +252,25 @@ public class MapController2 {
         fletcher.setLayoutY(690);
         fletcher.setFitHeight(70);
         fletcher.setFitWidth(70);
+        fletcher.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "fletcher");
         fletcher.toFront();
         poleturner.setLayoutX(590);
         poleturner.setLayoutY(690);
         poleturner.setFitWidth(70);
         poleturner.setFitHeight(70);
+        poleturner.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "poleturner");
         poleturner.toFront();
         blacksmith.setLayoutX(670);
         blacksmith.setLayoutY(690);
         blacksmith.setFitHeight(70);
         blacksmith.setFitWidth(70);
+        blacksmith.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "blacksmith");
         blacksmith.toFront();
         armourer.setLayoutX(750);
         armourer.setLayoutY(690);
         armourer.setFitWidth(70);
         armourer.setFitHeight(70);
+        armourer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armourer");
         armourer.toFront();
     }
     
@@ -308,21 +317,25 @@ public class MapController2 {
         appleOrchard.setLayoutY(690);
         appleOrchard.setFitHeight(70);
         appleOrchard.setFitWidth(70);
+        appleOrchard.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "apple orchard");
         appleOrchard.toFront();
         dairyFarmer.setLayoutX(580);
         dairyFarmer.setLayoutY(690);
         dairyFarmer.setFitHeight(70);
         dairyFarmer.setFitWidth(70);
+        dairyFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "dairy farmer");
         dairyFarmer.toFront();
         hopsFarmer.setLayoutX(670);
         hopsFarmer.setLayoutY(690);
         hopsFarmer.setFitHeight(70);
         hopsFarmer.setFitWidth(70);
+        hopsFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "hops farmer");
         hopsFarmer.toFront();
         wheatFarmer.setLayoutX(750);
         wheatFarmer.setLayoutY(690);
         wheatFarmer.setFitHeight(70);
         wheatFarmer.setFitWidth(70);
+        wheatFarmer.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "wheat farmer");
         wheatFarmer.toFront();
     }
     
@@ -342,31 +355,37 @@ public class MapController2 {
         stockpile.setLayoutY(690);
         stockpile.setFitHeight(70);
         stockpile.setFitWidth(70);
+        stockpile.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "stockpile");
         stockpile.toFront();
         woodCutter.setLayoutX(580);
         woodCutter.setLayoutY(690);
         woodCutter.setFitHeight(70);
         woodCutter.setFitHeight(70);
+        woodCutter.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "woodcutter");
         woodCutter.toFront();
         quarry.setLayoutX(690);
         quarry.setLayoutY(690);
         quarry.setFitHeight(70);
         quarry.setFitWidth(70);
+        quarry.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "quarry");
         quarry.toFront();
         oxTether.setLayoutX(750);
         oxTether.setLayoutY(680);
         oxTether.setFitHeight(50);
         oxTether.setFitWidth(50);
+        oxTether.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "ox tether");
         oxTether.toFront();
         ironMine.setLayoutX(800);
         ironMine.setLayoutY(690);
         ironMine.setFitHeight(70);
         ironMine.setFitWidth(70);
+        ironMine.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "iron mine");
         ironMine.toFront();
         market.setLayoutX(880);
         market.setLayoutY(690);
         market.setFitHeight(70);
         market.setFitWidth(70);
+        market.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "market1");
         market.toFront();
     }
     
@@ -375,31 +394,37 @@ public class MapController2 {
         barracks.setLayoutY(690);
         barracks.setFitHeight(70);
         barracks.setFitWidth(70);
+        barracks.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "barracks1");
         barracks.toFront();
         mercenary.setLayoutX(580);
         mercenary.setLayoutY(690);
         mercenary.setFitHeight(70);
         mercenary.setFitWidth(70);
+        mercenary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mercenary post1");
         mercenary.toFront();
         armoury.setLayoutX(640);
         armoury.setLayoutY(680);
         armoury.setFitHeight(90);
         armoury.setFitWidth(100);
+        armoury.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armoury1");
         armoury.toFront();
         stairs.setLayoutX(750);
         stairs.setLayoutY(690);
         stairs.setFitHeight(70);
         stairs.setFitWidth(20);
+        stairs.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "stairs");
         stairs.toFront();
         shortWall.setLayoutX(800);
         shortWall.setLayoutY(690);
         shortWall.setFitHeight(70);
         shortWall.setFitWidth(20);
+        shortWall.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "short wall");
         shortWall.toFront();
         highWall.setLayoutX(850);
         highWall.setLayoutY(690);
         highWall.setFitHeight(70);
         highWall.setFitWidth(20);
+        highWall.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "high wall");
         highWall.toFront();
     }
     
