@@ -378,16 +378,16 @@ public class MapController2 {
     }
     
     private void showBackground(Pane pane, String material, int x, int y, int edgeLength) {
-        Label imageView = new Label();
-        imageView.setPrefWidth(edgeLength);
-        imageView.setPrefHeight(edgeLength);
-        imageView.setLayoutX(edgeLength * x);
-        imageView.setLayoutY(edgeLength * y);
-        imageView.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
+        Label label = new Label();
+        label.setPrefWidth(edgeLength);
+        label.setPrefHeight(edgeLength);
+        label.setLayoutX(edgeLength * x);
+        label.setLayoutY(edgeLength * y);
+        label.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
-        imageView.setBackground(background);
-        pane.getChildren().add(imageView);
+        label.setBackground(background);
+        pane.getChildren().add(label);
         pane.setStyle("-fx-spacing: 0");
     }
     

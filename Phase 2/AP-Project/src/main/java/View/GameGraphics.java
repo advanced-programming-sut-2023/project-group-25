@@ -28,6 +28,7 @@ public class GameGraphics extends Application {
     private int shownX = 15;
     private int shownY = 7;
     private TradeMenu tradeMenu;
+    private MouseEvent previousClick;
     
     public GameGraphics(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
@@ -59,14 +60,6 @@ public class GameGraphics extends Application {
         this.edgeLength = edgeLength;
     }
     
-    public RegisterLoginController getRegisterLoginController() {
-        return registerLoginController;
-    }
-    
-    public GameController getGameController() {
-        return gameController;
-    }
-    
     public TradeMenu getTradeMenu() {
         return tradeMenu;
     }
@@ -76,51 +69,45 @@ public class GameGraphics extends Application {
     }
     
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         Pane gamePane = new Pane();
         Scene scene = new Scene(gamePane, 750, 1200);
         MapController2 mapController = new MapController2();
         mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
         
-        EventHandler<MouseEvent> scrollingMouseEventHandler = new EventHandler<>() {
+        EventHandler<MouseEvent> scrollingMouseEventHandler1 = mouseEvent -> previousClick = mouseEvent;
+    
+        EventHandler<MouseEvent> scrollingMouseEventHandler2 = new EventHandler<>() {
             //TODO for samin: scrolling smoothly using MOUSE_DRAGGED event
             double x = shownX * edgeLength;
             double y = shownY * edgeLength;
-            double previousClickX, previousClickY;
-            //MouseEvent previousMouseEvent = null;
-            MouseEvent previousClick;
-            
+    
             @Override
             public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getEventType().equals(MouseEvent.MOUSE_PRESSED)) {
-                    previousClick = mouseEvent;
-                } else if (mouseEvent.getEventType().equals(MouseEvent.MOUSE_RELEASED)) {
-                    int dx = (int) (mouseEvent.getX() - previousClick.getX());
-                    int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                    x = x - dx;
-                    y = y - dy;
-                    shownX = (int) x / edgeLength;
-                    shownY = (int) y / edgeLength;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
-                }
-                //previousMouseEvent = mouseEvent;
+                int dx = (int) (mouseEvent.getX() - previousClick.getX());
+                int dy = (int) (mouseEvent.getY() - previousClick.getY());
+                x = x - dx;
+                y = y - dy;
+                shownX = (int) x / edgeLength;
+                shownY = (int) y / edgeLength;
+                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
             }
         };
         
-        EventHandler<KeyEvent> zoomingEventHandler = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.getCode().getName().equals("Add")) {
-                    if (edgeLength <= 90) edgeLength += 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
-                } else if (keyEvent.getCode().getName().equals("Subtract")) {
-                    if (edgeLength >= 0) edgeLength -= 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
-                }
+        EventHandler<KeyEvent> zoomingEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("Add") || keyEvent.getCode().getName().equals("Equals")) {
+                if (edgeLength <= 90) edgeLength += 10;
+                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+            } else if (keyEvent.getCode().getName().equals("Subtract") || keyEvent.getCode().getName().equals("Minus")) {
+                if (edgeLength >= 0) edgeLength -= 10;
+                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
             }
         };
         
-        scene.addEventFilter(MouseEvent.ANY, scrollingMouseEventHandler);
+   
+        
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, zoomingEventHandler);
         stage.setScene(scene);
         stage.setFullScreen(true);
