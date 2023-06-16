@@ -89,11 +89,6 @@ public class MapController2 {
         imageIcon1.setFitWidth(50);
         imageIcon1.toFront();
         setMenuIcon1();
-        setImagesIcons2(false);
-        setImagesIcons3(false);
-        setImagesIcons4(false);
-        setImagesIcons5(false);
-        setImagesIcons6(false);
         imageIcon1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             setImagesIcons1(true);
             setImagesIcons2(false);
@@ -185,6 +180,12 @@ public class MapController2 {
         });
         
         if (!isTheFirstTime) {
+            setImagesIcons1(true);
+            setImagesIcons2(false);
+            setImagesIcons3(false);
+            setImagesIcons4(false);
+            setImagesIcons5(false);
+            setImagesIcons6(false);
             pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                     , barracks, mercenary, armoury, stairs, shortWall, highWall
                     , stockpile, woodCutter, quarry, ironMine, oxTether, market
@@ -193,8 +194,8 @@ public class MapController2 {
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn);
             isTheFirstTime = true;
-            stage.show();
         }
+        stage.show();
     }
     
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
@@ -207,6 +208,11 @@ public class MapController2 {
         granary.setFitHeight(70);
         granary.setFitWidth(70);
         granary.toFront();
+        //TODO: select, move, drop buildings
+//        granary.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
+//            System.out.println("sssssss");
+//            e.consume();
+//        });
         bakery.setLayoutX(580);
         bakery.setLayoutY(690);
         bakery.setFitHeight(70);
@@ -231,15 +237,10 @@ public class MapController2 {
     
     private void setImagesIcons6(boolean check) {
         granary.setVisible(check);
-        granary.toFront();
         bakery.setVisible(check);
-        bakery.toFront();
         brewer.setVisible(check);
-        brewer.toFront();
         mill.setVisible(check);
-        mill.toFront();
         inn.setVisible(check);
-        inn.toFront();
     }
     
     private void setMenuIcon5() {
@@ -267,13 +268,9 @@ public class MapController2 {
     
     private void setImagesIcons5(boolean check) {
         poleturner.setVisible(check);
-        poleturner.toFront();
         fletcher.setVisible(check);
-        fletcher.toFront();
         blacksmith.setVisible(check);
-        blacksmith.toFront();
         armourer.setVisible(check);
-        armourer.toFront();
     }
     
     private void setMenuIcon4() {
@@ -296,11 +293,8 @@ public class MapController2 {
     
     private void setImagesIcons4(boolean check) {
         hovel.setVisible(check);
-        hovel.toFront();
         church.setVisible(check);
-        church.toFront();
         catheral.setVisible(check);
-        catheral.toFront();
     }
     
     private void setMenuIcon3() {
@@ -328,13 +322,9 @@ public class MapController2 {
     
     private void setImagesIcons3(boolean check) {
         appleOrchard.setVisible(check);
-        appleOrchard.toFront();
         dairyFarmer.setVisible(check);
-        dairyFarmer.toFront();
         hopsFarmer.setVisible(check);
-        hopsFarmer.toFront();
         wheatFarmer.setVisible(check);
-        wheatFarmer.toFront();
     }
     
     private void setMenuIcon2() {
@@ -405,32 +395,20 @@ public class MapController2 {
     
     private void setImagesIcons2(boolean check) {
         stockpile.setVisible(check);
-        stockpile.toFront();
         woodCutter.setVisible(check);
-        woodCutter.toFront();
         quarry.setVisible(check);
-        quarry.toFront();
         oxTether.setVisible(check);
-        oxTether.toFront();
         ironMine.setVisible(check);
-        ironMine.toFront();
         market.setVisible(check);
-        market.toFront();
     }
     
     private void setImagesIcons1(boolean check) {
         barracks.setVisible(check);
-        barracks.toFront();
         mercenary.setVisible(check);
-        mercenary.toFront();
         armoury.setVisible(check);
-        armoury.toFront();
         stairs.setVisible(check);
-        stairs.toFront();
         highWall.setVisible(check);
-        highWall.toFront();
         shortWall.setVisible(check);
-        shortWall.toFront();
     }
     
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
@@ -458,7 +436,6 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         label.setBackground(background);
-        label.toBack();
         pane.getChildren().add(label);
         pane.setStyle("-fx-spacing: 0");
     }
