@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MapController2 {
+    public static String clickedBuildingToDrop = null;
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView imageIcon1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i1.png"))));
     private final ImageView imageIcon2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/i2.png"))));
@@ -45,19 +46,18 @@ public class MapController2 {
     private final ImageView brewer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/brewer.png"))));
     private final ImageView mill = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/mill.gif"))));
     private final ImageView inn = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/inn.png"))));
-    public static String clickedBuildingToDrop = null;
     private boolean isTheFirstTime = false;
+    private int edgeLength = 70;
     
     public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
-        
+        this.edgeLength = edgeLength;
         
         //capacity: 31 x 16 (x50 pixels)
-        if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
-            return;
-        }
+        if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) return;
+        
         int xCounter = 0, yCounter = 0;
         
-        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength; i++) {
+        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength + 2; i++) {
             for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
                 Cell cell = map.getCells()[i][j];
                 
@@ -67,7 +67,7 @@ public class MapController2 {
                     showNaturalBlock(pane, i, j, naturalBlock);
                 }
                 
-                showBuilding(pane, map, i, j, cell.getBuilding());
+                showBuilding(pane, i, j, cell.getBuilding());
                 
                 for (Person person : cell.getPeople()) {
                     showPerson(pane, map, i, j, person);
@@ -199,7 +199,7 @@ public class MapController2 {
     }
     
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
-        return x - 15 * 50 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
+        return x - 15 * edgeLength / edgeLength >= 0 && y - 7 * edgeLength / edgeLength >= 0 && x + 16 * edgeLength / edgeLength <= map.getWidth() && y + 8 * edgeLength / edgeLength <= map.getLength();
     }
     
     private void setMenuIcon6() {
@@ -207,7 +207,7 @@ public class MapController2 {
         granary.setLayoutY(750);
         granary.setFitHeight(70);
         granary.setFitWidth(70);
-        granary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "granary1");
+        granary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "granary");
         granary.toFront();
         //TODO: select, move, drop buildings
 //        granary.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
@@ -375,7 +375,7 @@ public class MapController2 {
         market.setLayoutY(750);
         market.setFitHeight(70);
         market.setFitWidth(70);
-        market.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "market1");
+        market.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "market");
         market.toFront();
     }
     
@@ -384,19 +384,19 @@ public class MapController2 {
         barracks.setLayoutY(750);
         barracks.setFitHeight(70);
         barracks.setFitWidth(70);
-        barracks.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "barracks1");
+        barracks.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "barracks");
         barracks.toFront();
         mercenary.setLayoutX(580);
         mercenary.setLayoutY(750);
         mercenary.setFitHeight(70);
         mercenary.setFitWidth(70);
-        mercenary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mercenary post1");
+        mercenary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "mercenary post");
         mercenary.toFront();
         armoury.setLayoutX(640);
         armoury.setLayoutY(750);
         armoury.setFitHeight(90);
         armoury.setFitWidth(100);
-        armoury.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armoury1");
+        armoury.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "armoury");
         armoury.toFront();
         stairs.setLayoutX(750);
         stairs.setLayoutY(760);
@@ -465,7 +465,17 @@ public class MapController2 {
         pane.setStyle("-fx-spacing: 0");
     }
     
-    private void showBuilding(Pane pane, Map map, int i, int j, Building building) {
-        //TODO
+    private void showBuilding(Pane pane, int i, int j, Building building) {
+        if (building == null) return;
+        String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
+                "/" + building.getType() + ".png";
+        ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
+        buildingImageView.setFitHeight(edgeLength);
+        buildingImageView.setFitWidth(edgeLength);
+        System.out.println(i + " " + j);
+        buildingImageView.setLayoutX(i);
+        buildingImageView.setLayoutY(j);
+        buildingImageView.toFront();
+        pane.getChildren().add(buildingImageView);
     }
 }

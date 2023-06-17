@@ -224,7 +224,8 @@ public class GameController {
         String category = FileController.getBuildingCategoryByType(type);
         Building savedBuilding = getBuilding(type, category);
         Building building = new Building(savedBuilding);
-        Building building1 = new Building(type, building.getCategory(), building.getBuildingNeededProducts(), building.getWorkerCounter(), building.getHitPoint());
+        Building building1 = new Building(type, building.getCategory(), building.getBuildingNeededProducts(),
+                building.getWorkerCounter(), building.getHitPoint());
         if (!isLocationValid(x - 1, y - 1))
             return "Invalid input!";
         if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
@@ -291,7 +292,7 @@ public class GameController {
         return type + " added successfully";
     }
 
-    private Building getBuilding(String type, String category) {
+    public Building getBuilding(String type, String category) {
         Building savedBuilding = null;
         if (category.equals("TrainingBuildings")) {
             savedBuilding = FileController.getTrainingBuildingByType(type);

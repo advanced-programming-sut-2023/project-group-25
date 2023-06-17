@@ -4,6 +4,8 @@ import Controller.ChangeMenuController;
 import Controller.FileController;
 import Controller.GameController;
 import Controller.MapController2;
+import Model.Building;
+import Model.Cell;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -19,7 +21,7 @@ import static Controller.MapController2.clickedBuildingToDrop;
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     private final GameController gameController;
-    private int edgeLength = 50;
+    private int edgeLength = 70;
     private int shownX = 15;
     private int shownY = 7;
     private TradeMenu tradeMenu;
@@ -81,7 +83,8 @@ public class GameGraphics extends Application {
                 y = y - dy;
                 shownX = (int) x / edgeLength;
                 shownY = (int) y / edgeLength;
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                        shownX, shownY, edgeLength);
             }
         };
         
@@ -89,10 +92,12 @@ public class GameGraphics extends Application {
             if (clickedBuildingToDrop == null) {
                 if (keyEvent.getCode().getName().equals("Add") || keyEvent.getCode().getName().equals("Equals")) {
                     if (edgeLength <= 90) edgeLength += 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                            shownX, shownY, edgeLength);
                 } else if (keyEvent.getCode().getName().equals("Subtract") || keyEvent.getCode().getName().equals("Minus")) {
                     if (edgeLength >= 0) edgeLength -= 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                            shownX, shownY, edgeLength);
                 }
             }
         };
@@ -100,9 +105,7 @@ public class GameGraphics extends Application {
         EventHandler<MouseEvent> moveClickedBuildingToDropEventHandler = mouseEvent -> {
             if (clickedBuildingToDrop != null) {
                 if (toBeDroppedBuildingImageView == null) {
-                    String buildingNameWithoutNumber = (clickedBuildingToDrop.matches("[a-zA-Z ]+1")) ?
-                            clickedBuildingToDrop.replace("1", "") : clickedBuildingToDrop;
-                    String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(buildingNameWithoutNumber)
+                    String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
                             + "/" + clickedBuildingToDrop + ".png";
                     toBeDroppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
                     toBeDroppedBuildingImageView.toFront();
@@ -118,16 +121,25 @@ public class GameGraphics extends Application {
         EventHandler<MouseEvent> dropOrCancelBuildingEventHandler = mouseEvent -> {
             if (clickedBuildingToDrop != null) {
                 if (mouseEvent.isPrimaryButtonDown()) {
-                    String buildingNameWithoutNumber = (clickedBuildingToDrop.matches("[a-zA-Z ]+1")) ?
-                            clickedBuildingToDrop.replace("1", "") : clickedBuildingToDrop;
-                    String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(buildingNameWithoutNumber)
+                    String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
                             + "/" + clickedBuildingToDrop + ".png";
                     ImageView droppedBuilding = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
                     droppedBuilding.setFitHeight(edgeLength);
                     droppedBuilding.setFitWidth(edgeLength);
                     gamePane.getChildren().add(droppedBuilding);
-                    droppedBuilding.setLayoutX(mouseEvent.getX());
-                    droppedBuilding.setLayoutY(mouseEvent.getY());
+                    int x = (int) mouseEvent.getX() + shownX;
+                    int y = (int) mouseEvent.getY() + shownY;
+                    Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
+                    String category = FileController.getBuildingCategoryByType(clickedBuildingToDrop);
+                    assert category != null;
+                    Building savedBuilding = gameController.getBuilding(clickedBuildingToDrop, category);
+                    Building sampleBuilding = new Building(savedBuilding);
+                    Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
+                            sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
+                            sampleBuilding.getHitPoint());
+                    cell.setBuilding(toBeDroppedBuilding);
+                    droppedBuilding.setLayoutX(cell.getX() * edgeLength);
+                    droppedBuilding.setLayoutY(cell.getY() * edgeLength);
                     droppedBuilding.toFront();
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
