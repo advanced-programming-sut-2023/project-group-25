@@ -143,7 +143,7 @@ public class GameGraphics extends Application {
         
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
-        scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, scrollingMouseEventHandler2);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, zoomingEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, moveClickedBuildingToDropEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, dropOrCancelBuildingEventHandler);
