@@ -38,7 +38,7 @@
                 </HBox>
                 <HBox styleClass="subRegisterFieldContainer">
                     <CheckBox text="random"/>
-                    <CheckBox text="hide/show" onMouseClicked="#showPassword"/>
+                    <CheckBox text="hide" onMouseClicked="#hidePassword"/>
                 </HBox>
             </VBox>
             <VBox alignment="CENTER">

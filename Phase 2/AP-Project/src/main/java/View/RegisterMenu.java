@@ -1,12 +1,15 @@
 package View;
 
+import Controller.FileController;
 import Controller.MainController;
+import Controller.RegisterLoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -17,7 +20,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class RegisterMenu extends Application implements Initializable {
-
+    private final RegisterLoginController registerLoginController = FirstPage.changeMenuController.getRegisterLoginController();
     public ListView<String> listView;
     public ComboBox<String> sloganComboBox;
     public TextField customSlogan;
@@ -29,9 +32,9 @@ public class RegisterMenu extends Application implements Initializable {
     public TextField confirm;
     boolean correctUsername = false;
     boolean correctPassword = false;
-    private String lastPassword;
-    private String lastConfirm;
-    private boolean isStar = false;
+    private String lastPassword = "";
+    private String lastConfirm = "";
+    private boolean hide = false;
     @Override
     public void start(Stage stage) throws Exception {
         GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/RegisterMenu.fxml").toExternalForm()));
@@ -92,8 +95,10 @@ public class RegisterMenu extends Application implements Initializable {
         customSlogan.setText("");
     }
 
-    public void showPassword() {
-        password.setText(FirstPage.changeMenuController.getRegisterLoginController().hideShowPassword(password.getText(), lastPassword));
+    public void hidePassword() {
+        hide = !hide;
+        password.setText(registerLoginController.hideShowPassword(lastPassword,hide));
+        confirm.setText(registerLoginController.hideShowPassword(lastConfirm,hide));
     }
 
     public void usernameCompleting() {
@@ -102,7 +107,7 @@ public class RegisterMenu extends Application implements Initializable {
             correctUsername = false;
             usernameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
         }
-        else if (FirstPage.changeMenuController.getRegisterLoginController().isUsernameValid(username.getText())) {
+        else if (registerLoginController.isUsernameValid(username.getText())) {
             usernameError.setText("Username accepted!");
             correctUsername = true;
             usernameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
@@ -113,19 +118,24 @@ public class RegisterMenu extends Application implements Initializable {
         }
     }
 
-    public void passwordCompleting() {
-        lastPassword = password.getText();
+    public void passwordCompleting(KeyEvent keyEvent) {
+        System.out.println(keyEvent.getCharacter());
+        if(keyEvent.getCharacter().equals("\b")) {
+            lastPassword = registerLoginController.removeLastLetter(lastPassword);
+
+        }
+        lastPassword += keyEvent.getCharacter();
         checkPassword();
     }
 
-    public void confirmCompleting() {
-        lastConfirm = confirm.getText();
+    public void confirmCompleting(KeyEvent keyEvent) {
+        lastConfirm += keyEvent.getCharacter();
         checkPassword();
     }
 
     public void checkPassword() {
-        String result = FirstPage.changeMenuController.getRegisterLoginController().isPasswordWeak(password.getText());
-        if (password.getText().length() == 0) {
+        String result = registerLoginController.isPasswordWeak(password.getText());
+        if (lastPassword.length() == 0) {
             passwordError.setText("Password field is empty!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
@@ -133,11 +143,11 @@ public class RegisterMenu extends Application implements Initializable {
             passwordError.setText(result);
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
-        } else if (confirm.getText().length() == 0) {
+        } else if (lastConfirm.length() == 0) {
             passwordError.setText("Confirm field is empty!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
-        } else if (!confirm.getText().equals(password.getText())) {
+        } else if (!lastPassword.equals(lastConfirm)) {
             passwordError.setText("Password doesn't match the confirm!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
