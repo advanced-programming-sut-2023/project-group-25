@@ -100,7 +100,7 @@ public class MapController2 {
         
         
         imageView.setLayoutX(0);
-        imageView.setLayoutY(685);
+        imageView.setLayoutY(670);
         imageView.toFront();
         
         imageIcon1.setLayoutX(500);
@@ -215,6 +215,7 @@ public class MapController2 {
                     , granary, bakery, brewer, mill, inn);
             isTheFirstTime = true;
         }
+
         stage.show();
     }
     
@@ -229,11 +230,6 @@ public class MapController2 {
         granary.setFitWidth(70);
         granary.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedBuildingToDrop = "granary");
         granary.toFront();
-        //TODO: select, move, drop buildings
-//        granary.addEventHandler(MouseEvent.MOUSE_CLICKED,e->{
-//            System.out.println("sssssss");
-//            e.consume();
-//        });
         bakery.setLayoutX(580);
         bakery.setLayoutY(750);
         bakery.setFitHeight(70);
@@ -455,7 +451,150 @@ public class MapController2 {
         highWall.setVisible(check);
         shortWall.setVisible(check);
     }
-    
+
+    private void setEuropeanUnits(Pane pane){
+        ImageView unitsMenu=new ImageView(new Image(String.valueOf(getClass().getResource("/images/unitMenu.png"))));
+        unitsMenu.setLayoutX(0);
+        unitsMenu.setLayoutY(670);
+        unitsMenu.toFront();
+        ImageView archer=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Archer.png"))));
+        archer.setLayoutX(502);
+        archer.setLayoutY(750);
+        archer.toFront();
+        ImageView crossbowmen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Crossbowmen.png"))));
+        crossbowmen.setLayoutX(572);
+        crossbowmen.setLayoutY(750);
+        crossbowmen.toFront();
+        ImageView knight=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Knight.png"))));
+        knight.setLayoutX(640);
+        knight.setLayoutY(750);
+        knight.toFront();
+        ImageView macemen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Macemen.png"))));
+        macemen.setLayoutX(710);
+        macemen.setLayoutY(750);
+        macemen.toFront();
+        ImageView pikemen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Pikemen.png"))));
+        pikemen.setLayoutX(780);
+        pikemen.setLayoutY(750);
+        pikemen.toFront();
+        ImageView spearmen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Spearmen.png"))));
+        spearmen.setLayoutX(840);
+        spearmen.setLayoutY(750);
+        spearmen.toFront();
+        ImageView swordsmen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Swordsmen.png"))));
+        swordsmen.setLayoutX(910);
+        swordsmen.setLayoutY(760);
+        swordsmen.toFront();
+        ImageView bow=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/bow.png"))));
+        bow.setLayoutX(502);
+        bow.setLayoutY(830);
+        bow.setFitHeight(40);
+        bow.setFitWidth(50);
+        bow.toFront();
+        ImageView crossbow=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/crossbow.png"))));
+        crossbow.setLayoutX(552);
+        crossbow.setLayoutY(830);
+        crossbow.setFitHeight(40);
+        crossbow.setFitWidth(50);
+        crossbow.toFront();
+        ImageView leatherArmour=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/leatherArmour.png"))));
+        leatherArmour.setLayoutX(602);
+        leatherArmour.setLayoutY(830);
+        leatherArmour.setFitHeight(40);
+        leatherArmour.setFitWidth(50);
+        leatherArmour.toFront();
+        ImageView mace=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/mace.png"))));
+        mace.setLayoutX(652);
+        mace.setLayoutY(830);
+        mace.setFitHeight(40);
+        mace.setFitWidth(50);
+        mace.toFront();
+        ImageView metalArmour=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/metalarmour.png"))));
+        metalArmour.setLayoutX(702);
+        metalArmour.setLayoutY(830);
+        metalArmour.setFitHeight(40);
+        metalArmour.setFitWidth(50);
+        metalArmour.toFront();
+        ImageView pike=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/pike.png"))));
+        pike.setLayoutX(752);
+        pike.setLayoutY(830);
+        pike.setFitHeight(40);
+        pike.setFitWidth(50);
+        pike.toFront();
+        ImageView spear=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/spear.png"))));
+        spear.setLayoutX(802);
+        spear.setLayoutY(830);
+        spear.setFitHeight(40);
+        spear.setFitWidth(50);
+        spear.toFront();
+        ImageView sword=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/sword.png"))));
+        sword.setLayoutX(852);
+        sword.setLayoutY(830);
+        sword.setFitHeight(40);
+        sword.setFitWidth(50);
+        sword.toFront();
+
+
+        pane.getChildren().addAll(unitsMenu,archer,crossbowmen,knight,macemen,pikemen,spearmen,swordsmen,bow,crossbow,leatherArmour,mace,metalArmour,pike,spear,sword);
+    }
+
+    private void setArabianUnits(Pane pane){
+        ImageView unitsMenu=new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
+        unitsMenu.setLayoutX(0);
+        unitsMenu.setLayoutY(670);
+        unitsMenu.toFront();
+        ImageView archerBow=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArcherBow.png"))));
+        archerBow.setLayoutX(502);
+        archerBow.setLayoutY(750);
+        archerBow.toFront();
+        ImageView assassin=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Assassins.png"))));
+        assassin.setLayoutX(572);
+        assassin.setLayoutY(750);
+        assassin.toFront();
+        ImageView horseArcher=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/HorseArchers.png"))));
+        horseArcher.setLayoutX(640);
+        horseArcher.setLayoutY(750);
+        horseArcher.toFront();
+        ImageView arabianSwordsmen=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArabianSwordsmen.png"))));
+        arabianSwordsmen.setLayoutX(710);
+        arabianSwordsmen.setLayoutY(750);
+        arabianSwordsmen.toFront();
+        ImageView fireThrowers=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
+        fireThrowers.setLayoutX(780);
+        fireThrowers.setLayoutY(760);
+        fireThrowers.toFront();
+        ImageView slave=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
+        slave.setLayoutX(840);
+        slave.setLayoutY(740);
+        slave.toFront();
+        ImageView slinger=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
+        slinger.setLayoutX(910);
+        slinger.setLayoutY(750);
+        slinger.toFront();
+
+        pane.getChildren().addAll(archerBow,assassin,arabianSwordsmen,fireThrowers,horseArcher,slave,slinger);
+    }
+
+    private void setEngineer(Pane pane){
+        ImageView unitsMenu=new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
+        unitsMenu.setLayoutX(0);
+        unitsMenu.setLayoutY(670);
+        unitsMenu.toFront();
+        ImageView engineer=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Engineer.png"))));
+        engineer.setLayoutX(640);
+        engineer.setLayoutY(750);
+        engineer.toFront();
+        ImageView ladderman=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Laddermen.png"))));
+        ladderman.setLayoutX(700);
+        ladderman.setLayoutY(750);
+        ladderman.toFront();
+        ImageView tunneler=new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Tunneler.png"))));
+        tunneler.setLayoutX(760);
+        tunneler.setLayoutY(750);
+        tunneler.toFront();
+
+        pane.getChildren().addAll(engineer,tunneler,ladderman);
+    }
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
 //        ImageView imageView = new ImageView();
 //        imageView.setFitHeight(30);
