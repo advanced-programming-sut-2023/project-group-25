@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -30,10 +31,13 @@ public class RegisterMenu extends Application implements Initializable {
     public Label usernameError;
     public Label passwordError;
     public TextField confirm;
+    public TextField passwordText;
+    public PasswordField passwordPass;
+    public TextField confirmText;
+    public PasswordField confirmPass;
+    public CheckBox Hide;
     boolean correctUsername = false;
     boolean correctPassword = false;
-    private String lastPassword = "";
-    private String lastConfirm = "";
     private boolean hide = false;
     @Override
     public void start(Stage stage) throws Exception {
@@ -59,6 +63,10 @@ public class RegisterMenu extends Application implements Initializable {
         sloganComboBox.getItems().add("Build and Explore!");
         sloganComboBox.getItems().add("Keep calm and check mate the king!");
         sloganComboBox.getItems().add("Hone your skills!");
+        passwordPass.setTranslateY(-27);
+        confirmPass.setTranslateY(-27);
+        Hide.setSelected(true);
+        hide = true;
     }
 
     public void famousSlogan() {
@@ -97,8 +105,26 @@ public class RegisterMenu extends Application implements Initializable {
 
     public void hidePassword() {
         hide = !hide;
-        password.setText(registerLoginController.hideShowPassword(lastPassword,hide));
-        confirm.setText(registerLoginController.hideShowPassword(lastConfirm,hide));
+        if(hide) {
+            passwordPass.setTranslateY(-27);
+            confirmPass.setTranslateY(-27);
+            passwordText.setTranslateY(0);
+            confirmText.setTranslateY(0);
+            passwordText.setPrefHeight(0);
+            confirmText.setPrefHeight(0);
+            passwordPass.toFront();
+            confirmPass.toFront();
+        }
+        else {
+            passwordPass.setTranslateY(0);
+            confirmPass.setTranslateY(0);
+            passwordText.setTranslateY(-27);
+            confirmText.setTranslateY(-27);
+            passwordPass.setPrefHeight(0);
+            confirmPass.setPrefHeight(0);
+            passwordText.toFront();
+            confirmText.toFront();
+        }
     }
 
     public void usernameCompleting() {
@@ -118,24 +144,9 @@ public class RegisterMenu extends Application implements Initializable {
         }
     }
 
-    public void passwordCompleting(KeyEvent keyEvent) {
-        System.out.println(keyEvent.getCharacter());
-        if(keyEvent.getCharacter().equals("\b")) {
-            lastPassword = registerLoginController.removeLastLetter(lastPassword);
-
-        }
-        lastPassword += keyEvent.getCharacter();
-        checkPassword();
-    }
-
-    public void confirmCompleting(KeyEvent keyEvent) {
-        lastConfirm += keyEvent.getCharacter();
-        checkPassword();
-    }
-
     public void checkPassword() {
         String result = registerLoginController.isPasswordWeak(password.getText());
-        if (lastPassword.length() == 0) {
+        if (passwordText.getText().length() == 0) {
             passwordError.setText("Password field is empty!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
@@ -143,11 +154,11 @@ public class RegisterMenu extends Application implements Initializable {
             passwordError.setText(result);
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
-        } else if (lastConfirm.length() == 0) {
+        } else if (confirmText.getText().length() == 0) {
             passwordError.setText("Confirm field is empty!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
-        } else if (!lastPassword.equals(lastConfirm)) {
+        } else if (!passwordText.getText().equals(confirmText.getText())) {
             passwordError.setText("Password doesn't match the confirm!");
             correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
@@ -156,5 +167,25 @@ public class RegisterMenu extends Application implements Initializable {
             correctPassword = true;
             passwordError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         }
+    }
+
+    public void passwordTextCompleting() {
+        passwordPass.setText(passwordText.getText());
+        checkPassword();
+    }
+
+    public void passwordPassCompleting() {
+        passwordText.setText(passwordPass.getText());
+        checkPassword();
+    }
+
+    public void confirmTextCompleting() {
+        confirmPass.setText(confirmText.getText());
+        checkPassword();
+    }
+
+    public void confirmPassCompleting() {
+        confirmText.setText(confirmPass.getText());
+        checkPassword();
     }
 }
