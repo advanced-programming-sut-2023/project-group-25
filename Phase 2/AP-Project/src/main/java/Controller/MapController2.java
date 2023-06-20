@@ -26,8 +26,8 @@ public class MapController2 {
     private final ImageView highWall = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/high wall.png"))));
     private final ImageView stockpile = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/StorageBuildings/stockpile.png"))));
     private final ImageView woodCutter = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/woodcutter.png"))));
-    private final ImageView quarry = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/quarry.gif"))));
-    private final ImageView oxTether = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/ox tether.gif"))));
+    private final ImageView quarry = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/quarry.png"))));
+    private final ImageView oxTether = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/ox tether.png"))));
     private final ImageView ironMine = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/iron mine.png"))));
     private final ImageView market = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ShopBuildings/market0.png"))));
     private final ImageView appleOrchard = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/apple orchard.png"))));
@@ -48,9 +48,29 @@ public class MapController2 {
     private final ImageView inn = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/OtherBuildings/inn.png"))));
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
+    private int shownX;
+    private int shownY;
+    
+    public int getShownX() {
+        return shownX;
+    }
+    
+    public void setShownX(int shownX) {
+        this.shownX = shownX;
+    }
+    
+    public int getShownY() {
+        return shownY;
+    }
+    
+    public void setShownY(int shownY) {
+        this.shownY = shownY;
+    }
     
     public void loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         this.edgeLength = edgeLength;
+        this.shownX = x;
+        this.shownY = y;
         
         //capacity: 31 x 16 (x50 pixels)
         if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) return;
@@ -67,7 +87,7 @@ public class MapController2 {
                     showNaturalBlock(pane, i, j, naturalBlock);
                 }
                 
-                showBuilding(pane, i, j, cell.getBuilding());
+                showBuilding(pane, map, i, j, cell.getBuilding());
                 
                 for (Person person : cell.getPeople()) {
                     showPerson(pane, map, i, j, person);
@@ -465,16 +485,15 @@ public class MapController2 {
         pane.setStyle("-fx-spacing: 0");
     }
     
-    private void showBuilding(Pane pane, int i, int j, Building building) {
+    private void showBuilding(Pane pane, Map map, int i, int j, Building building) {
         if (building == null) return;
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-        System.out.println(i + " " + j);
-        buildingImageView.setLayoutX(i);
-        buildingImageView.setLayoutY(j);
+//        buildingImageView.setLayoutX();
+//        buildingImageView.setLayoutY();
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }

@@ -52,16 +52,8 @@ public class GameGraphics extends Application {
         return edgeLength;
     }
     
-    public void setEdgeLength(int edgeLength) {
-        this.edgeLength = edgeLength;
-    }
-    
     public TradeMenu getTradeMenu() {
         return tradeMenu;
-    }
-    
-    public void setTradeMenu(TradeMenu tradeMenu) {
-        this.tradeMenu = tradeMenu;
     }
     
     @Override
