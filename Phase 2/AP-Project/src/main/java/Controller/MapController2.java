@@ -98,12 +98,9 @@ public class MapController2 {
             xCounter++;
             yCounter = 0;
         }
-        
-        
         imageView.setLayoutX(0);
         imageView.setLayoutY(670);
         imageView.toFront();
-        
         imageIcon1.setLayoutX(500);
         imageIcon1.setLayoutY(815);
         imageIcon1.setFitHeight(50);

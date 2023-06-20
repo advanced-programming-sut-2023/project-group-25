@@ -34,9 +34,6 @@ public class FirstPage extends Application {
 
     public static void main(String[] args) throws Exception {
         launch();
-        /*canner scanner = new Scanner(System.in);
-        ChangeMenuController controller = new ChangeMenuController();
-        controller.run(scanner);*/
     }
     
     public void register() throws Exception {
