@@ -75,12 +75,8 @@ public class MapController2 {
         }
         imageView.setLayoutX(0);
         imageView.setLayoutY(620);
-<<<<<<< HEAD
         imageView.toFront();
 
-=======
-        
->>>>>>> ec1d07df163ad5506b2b0ebffb95c772e3ec5986
         imageIcon1.setLayoutX(500);
         imageIcon1.setLayoutY(760);
         imageIcon1.setFitHeight(50);
