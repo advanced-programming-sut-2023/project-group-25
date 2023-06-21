@@ -48,6 +48,8 @@ public class RegisterLoginController {
     }
     
     public boolean isUsernameValid(String username) {
+        if(username.length() < 5)
+            return false;
         if (username.matches("^[a-zA-Z0-9_]+$"))
             return true;
         else
@@ -374,5 +376,24 @@ public class RegisterLoginController {
         for (int i = 0; i < nameLength + 6; i++)
             result += "-";
         return result;
+    }
+
+    public String hideShowPassword(String lastContent, boolean hide) {
+        String star = "";
+        char[] chars = lastContent.toCharArray();
+        for(char c : chars) {
+            star += "*";
+        }
+        if(hide)
+            return star;
+        return lastContent;
+    }
+
+    public String removeLastLetter(String word) {
+        String tmp = "";
+        char[] letters = word.toCharArray();
+        for(int i = 0; i<letters.length-1; i++)
+            tmp+=letters[i];
+        return tmp;
     }
 }

@@ -94,8 +94,9 @@ public class MapController2 {
 
         int xCounter = 0, yCounter = 0;
 
-        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength + 2; i++) {
+        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength + 1; i++) {
             for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
+                if (i > map.getLength() || j > map.getLength()) continue;
                 Cell cell = map.getCells()[i][j];
 
                 showBackground(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
@@ -117,6 +118,7 @@ public class MapController2 {
 
         setSizeUnits(imageView,0,670);
         setSizeIcons(imageIcon1, 500, 815, 50, 50);
+
         setMenuIcon1();
         setTowers();
         setMilitaryBuildings();
@@ -282,7 +284,7 @@ public class MapController2 {
                     , granary, bakery, brewer, mill, inn);
             isTheFirstTime = true;
         }
-
+        
         stage.show();
     }
 
@@ -336,7 +338,7 @@ public class MapController2 {
     }
 
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
-        return x - 15 * edgeLength / edgeLength >= 0 && y - 7 * edgeLength / edgeLength >= 0 && x + 16 * edgeLength / edgeLength <= map.getWidth() && y + 8 * edgeLength / edgeLength <= map.getLength();
+        return x - 15 * 50 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
     }
 
     private void setMenuIcon6() {
@@ -575,8 +577,8 @@ public class MapController2 {
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-//        buildingImageView.setLayoutX();
-//        buildingImageView.setLayoutY();
+        buildingImageView.setLayoutX((i + (shownX - 15)) * edgeLength);
+        buildingImageView.setLayoutY((j + (shownY - 7)) * edgeLength);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }

@@ -19,25 +19,34 @@
             <VBox style="-fx-spacing: 8px" alignment="CENTER">
                 <HBox>
                     <Label text="username:" styleClass="registerLabel"/>
-                    <TextField promptText="username" styleClass="textField1"/>
+                    <TextField promptText="username" fx:id="username" styleClass="textField1" onKeyTyped="#usernameCompleting"/>
                 </HBox>
-                <Label text="Username field is empty!" styleClass="errorLabel"/>
+                <Label textAlignment="CENTER" text="Username field is empty!" fx:id="usernameError" styleClass="errorLabel"/>
             </VBox>
         </HBox>
         <VBox styleClass="registerFieldContainer" alignment="CENTER">
             <VBox style="-fx-spacing: 8px">
                 <HBox>
                     <Label text="password:" styleClass="registerLabel"/>
-                    <TextField promptText="password" fx:id="password" styleClass="textField1"/>
-
+                    <VBox>
+                        <TextField promptText="password" fx:id="passwordText" styleClass="textField1" onKeyTyped="#passwordTextCompleting"/>
+                        <PasswordField promptText="password" fx:id="passwordPass" styleClass="textField1" onKeyTyped="#passwordPassCompleting"/>
+                    </VBox>
+                </HBox>
+                <HBox style="-fx-translate-y: -27px; -fx-max-height: 20px">
+                    <Label text="confirm:" styleClass="registerLabel"/>
+                    <VBox>
+                        <TextField promptText="confirm" fx:id="confirmText" styleClass="textField1" onKeyTyped="#confirmTextCompleting"/>
+                        <PasswordField promptText="confirm" fx:id="confirmPass" styleClass="textField1" onKeyTyped="#confirmPassCompleting"/>
+                    </VBox>
                 </HBox>
                 <HBox styleClass="subRegisterFieldContainer">
                     <CheckBox text="random"/>
-                    <CheckBox text="hide/show" onMouseClicked="#showPassword"/>
+                    <CheckBox text="hide" fx:id="Hide" onMouseClicked="#hidePassword"/>
                 </HBox>
             </VBox>
             <VBox alignment="CENTER">
-                <Label text="Password field is empty!" styleClass="errorLabel"/>
+                <Label text="Password field is empty!" fx:id="passwordError"  styleClass="errorLabel"/>
             </VBox>
         </VBox>
         <HBox styleClass="registerFieldContainer" alignment="CENTER">
@@ -66,7 +75,6 @@
                 <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#famousSlogan"/>
                 <Label text="Famous Slogans" styleClass="sloganLabel"/>
                 <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false"/>
-
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
                 <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#randomSlogan"/>

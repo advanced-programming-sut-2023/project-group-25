@@ -109,10 +109,11 @@
 }
 
 .errorLabel {
-    -fx-background-color: rgba(194, 73, 73, 0.58);
-    -fx-padding: 2px 5px;
+    -fx-padding: 5px;
+    -fx-pref-width: 600px;
     -fx-background-radius: 5px;
     -fx-font-size: 15px;
     -fx-font-weight: bold;
-    -fx-text-fill: #980d0d;
+    -fx-background-color: rgb(231, 227, 166);
+    -fx-text-fill: #776605;
 }
