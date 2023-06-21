@@ -119,8 +119,8 @@ public class GameGraphics extends Application {
                     droppedBuilding.setFitHeight(edgeLength);
                     droppedBuilding.setFitWidth(edgeLength);
                     gamePane.getChildren().add(droppedBuilding);
-                    int x = (int) mouseEvent.getX() + shownX;
-                    int y = (int) mouseEvent.getY() + shownY;
+                    int x = (int) mouseEvent.getX() + (shownX - 15) * edgeLength;
+                    int y = (int) mouseEvent.getY() + (shownY - 7) * edgeLength;
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
                     String category = FileController.getBuildingCategoryByType(clickedBuildingToDrop);
                     assert category != null;
@@ -130,8 +130,10 @@ public class GameGraphics extends Application {
                             sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
                             sampleBuilding.getHitPoint());
                     cell.setBuilding(toBeDroppedBuilding);
-                    droppedBuilding.setLayoutX(cell.getX() * edgeLength);
-                    droppedBuilding.setLayoutY(cell.getY() * edgeLength);
+                    droppedBuilding.setTranslateX(cell.getX() * edgeLength);
+                    droppedBuilding.setTranslateY(cell.getY() * edgeLength);
+                    System.out.println("x= " + cell.getX() * edgeLength + ", y= " + cell.getY() * edgeLength);
+                    toBeDroppedBuilding.setLocation(cell);
                     droppedBuilding.toFront();
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);

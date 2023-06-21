@@ -79,7 +79,7 @@ public class MapController2 {
         
         for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength + 1; i++) {
             for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
-                if (i > map.getLength() || j > map.getLength()) continue;
+                if (i >= map.getLength() || j >= map.getWidth()) continue;
                 Cell cell = map.getCells()[i][j];
                 
                 showBackground(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
@@ -88,7 +88,7 @@ public class MapController2 {
                     showNaturalBlock(pane, i, j, naturalBlock);
                 }
                 
-                showBuilding(pane, map, i, j, cell.getBuilding());
+                showBuilding(pane, i, j, cell.getBuilding());
                 
                 for (Person person : cell.getPeople()) {
                     showPerson(pane, map, i, j, person);
@@ -623,15 +623,17 @@ public class MapController2 {
         pane.setStyle("-fx-spacing: 0");
     }
     
-    private void showBuilding(Pane pane, Map map, int i, int j, Building building) {
+    private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
+        System.out.println("loading building");
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-        buildingImageView.setLayoutX((i + (shownX - 15)) * edgeLength);
-        buildingImageView.setLayoutY((j + (shownY - 7)) * edgeLength);
+//        buildingImageView.setTranslateX((i + shownX - 15) * edgeLength);
+//        buildingImageView.setTranslateY((j + shownY - 7) * edgeLength);
+        System.out.println("x= " + (i + shownX - 15) * edgeLength + ", y= " + (j + shownY - 7) * edgeLength);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }
