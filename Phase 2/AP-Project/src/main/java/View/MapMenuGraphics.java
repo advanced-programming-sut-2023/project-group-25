@@ -30,13 +30,13 @@ public class MapMenuGraphics extends Application implements Initializable {
     private final MapController mapController;
     public TextField mapWidth;
     public TextField mapLength;
-    
+
     public MapMenuGraphics() {
         this.changeMenuController = FirstPage.changeMenuController;
         this.gameController = changeMenuController.getgameController();
         this.mapController = changeMenuController.getMapController();
     }
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         AnchorPane firstPage = FXMLLoader.load(new URL(Objects.requireNonNull(FirstPage.class.getResource
@@ -46,16 +46,16 @@ public class MapMenuGraphics extends Application implements Initializable {
         stage.setFullScreen(true);
         stage.show();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    
+
     }
-    
+
     public void submitMapSize() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("Error!");
-        
+
         if (!mapLength.getText().matches("\\d+") || !mapWidth.getText().matches("\\d+")) {
             alert.setContentText("You have to enter the number!");
             alert.show();
@@ -69,7 +69,7 @@ public class MapMenuGraphics extends Application implements Initializable {
             else {
                 initializeTemplateMaps(length, width);
                 Map map = Map.getTemplateMaps()[0];
-                
+
                 gameController.setCurrentGame(new Game(0, new ArrayList<>()));
                 gameController.getCurrentGame().setMap(map);
                 gameController.getCurrentGame().setMapTemplateNumber(0);
@@ -91,7 +91,7 @@ public class MapMenuGraphics extends Application implements Initializable {
             }
         }
     }
-    
+
     private void initializeTemplateMaps(int length, int width) {
         MapController.initializeMapTemplate1(length, width);
         MapController.initializeMapTemplate2(length, width);

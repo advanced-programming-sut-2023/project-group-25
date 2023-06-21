@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class AttackEquipment {
     private String name;
-    private ArrayList<Product> usedMaterials = new ArrayList<>();
+    private ArrayList<Product> usedMaterials;
     private User king;
     private MilitaryPerson engineer;
     
