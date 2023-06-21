@@ -613,7 +613,7 @@ public class MapController2 {
         label.setPrefHeight(edgeLength);
         label.setLayoutX(edgeLength * x);
         label.setLayoutY(edgeLength * y);
-        label.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px; -fx-border-style: dash");
+        label.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px");
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         label.setBackground(background);
