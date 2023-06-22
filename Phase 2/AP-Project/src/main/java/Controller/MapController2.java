@@ -578,8 +578,8 @@ public class MapController2 {
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-//        buildingImageView.setTranslateX((i + shownX - 15) * edgeLength);
-//        buildingImageView.setTranslateY((j + shownY - 7) * edgeLength);
+        buildingImageView.setTranslateX((i + shownX - 15) * edgeLength);
+        buildingImageView.setTranslateY((j + shownY - 7) * edgeLength);
         System.out.println("x= " + (i + shownX - 15) * edgeLength + ", y= " + (j + shownY - 7) * edgeLength);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);

@@ -377,23 +377,4 @@ public class RegisterLoginController {
             result += "-";
         return result;
     }
-
-    public String hideShowPassword(String lastContent, boolean hide) {
-        String star = "";
-        char[] chars = lastContent.toCharArray();
-        for(char c : chars) {
-            star += "*";
-        }
-        if(hide)
-            return star;
-        return lastContent;
-    }
-
-    public String removeLastLetter(String word) {
-        String tmp = "";
-        char[] letters = word.toCharArray();
-        for(int i = 0; i<letters.length-1; i++)
-            tmp+=letters[i];
-        return tmp;
-    }
 }

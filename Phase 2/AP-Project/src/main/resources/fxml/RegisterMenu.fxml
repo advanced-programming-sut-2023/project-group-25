@@ -41,7 +41,7 @@
                     </VBox>
                 </HBox>
                 <HBox styleClass="subRegisterFieldContainer">
-                    <CheckBox text="random"/>
+                    <CheckBox text="random" onMouseClicked="#randomPassword"/>
                     <CheckBox text="hide" fx:id="Hide" onMouseClicked="#hidePassword"/>
                 </HBox>
             </VBox>
@@ -55,7 +55,7 @@
                     <Label text="nickname:" styleClass="registerLabel"/>
                     <TextField promptText="nickname" styleClass="textField1"/>
                 </HBox>
-                <Label text="Nickname field is empty!" styleClass="errorLabel"/>
+                <Label text="Nickname field is empty!" styleClass="errorLabel" onKeyTyped="#nicknameCompleting"/>
             </VBox>
         </HBox>
         <HBox styleClass="registerFieldContainer" alignment="CENTER">

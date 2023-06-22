@@ -37,6 +37,7 @@ public class RegisterMenu extends Application implements Initializable {
     boolean correctUsername = false;
     boolean correctPassword = false;
     private boolean hide = false;
+    private boolean randomPassword = false;
     @Override
     public void start(Stage stage) throws Exception {
         GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/RegisterMenu.fxml").toExternalForm()));
@@ -108,18 +109,14 @@ public class RegisterMenu extends Application implements Initializable {
             confirmPass.setTranslateY(-27);
             passwordText.setTranslateY(0);
             confirmText.setTranslateY(0);
-            passwordText.setPrefHeight(0);
-            confirmText.setPrefHeight(0);
             passwordPass.toFront();
             confirmPass.toFront();
         }
         else {
-            passwordPass.setTranslateY(0);
             confirmPass.setTranslateY(0);
+            passwordPass.setTranslateY(0);
             passwordText.setTranslateY(-27);
             confirmText.setTranslateY(-27);
-            passwordPass.setPrefHeight(0);
-            confirmPass.setPrefHeight(0);
             passwordText.toFront();
             confirmText.toFront();
         }
@@ -188,4 +185,20 @@ public class RegisterMenu extends Application implements Initializable {
     }
 
 
+    public void randomPassword() {
+        randomPassword = !randomPassword;
+        if(randomPassword) {
+           String password = registerLoginController.generateRandomPassword();
+            passwordText.setText(password);
+            passwordPass.setText(password);
+        }
+        else {
+            passwordText.setText("");
+            passwordPass.setText("");
+        }
+        checkPassword();
+    }
+
+    public void nicknameCompleting(KeyEvent keyEvent) {
+    }
 }
