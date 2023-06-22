@@ -6,6 +6,7 @@ import Controller.GameController;
 import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
+import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -71,12 +72,13 @@ public class GameGraphics extends Application {
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
                 int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                x = x - dx;
-                y = y - dy;
-                shownX = (int) x / edgeLength;
-                shownY = (int) y / edgeLength;
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
-                        shownX, shownY, edgeLength);
+                if (mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                        (int) (x - dx) / edgeLength, (int) (y - dy) / edgeLength, edgeLength).equals("success")) {
+                    x = x - dx;
+                    y = y - dy;
+                    shownX = (int) x / edgeLength;
+                    shownY = (int) y / edgeLength;
+                }
             }
         };
         
@@ -153,4 +155,5 @@ public class GameGraphics extends Application {
         stage.setFullScreen(true);
         stage.show();
     }
+    
 }
