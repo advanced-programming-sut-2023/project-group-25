@@ -26,11 +26,9 @@ public class RegisterMenu extends Application implements Initializable {
     public ComboBox<String> sloganComboBox;
     public TextField customSlogan;
     public TextField randomSlogan;
-    public TextField password;
     public TextField username;
     public Label usernameError;
     public Label passwordError;
-    public TextField confirm;
     public TextField passwordText;
     public PasswordField passwordPass;
     public TextField confirmText;
@@ -145,7 +143,7 @@ public class RegisterMenu extends Application implements Initializable {
     }
 
     public void checkPassword() {
-        String result = registerLoginController.isPasswordWeak(password.getText());
+        String result = registerLoginController.isPasswordWeak(passwordText.getText());
         if (passwordText.getText().length() == 0) {
             passwordError.setText("Password field is empty!");
             correctPassword = false;
@@ -188,4 +186,6 @@ public class RegisterMenu extends Application implements Initializable {
         confirmText.setText(confirmPass.getText());
         checkPassword();
     }
+
+
 }
