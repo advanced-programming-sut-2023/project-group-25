@@ -87,7 +87,7 @@ public class MapController2 {
     
     public String loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         //capacity: 31 x 16 (x50 pixels)
-        if (edgeLength < 10 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
+        if (edgeLength < 40 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
             return "bad location";
         }
         

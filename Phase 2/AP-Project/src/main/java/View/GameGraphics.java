@@ -89,7 +89,7 @@ public class GameGraphics extends Application {
                     mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 } else if (keyEvent.getCode().getName().equals("Subtract") || keyEvent.getCode().getName().equals("Minus")) {
-                    if (edgeLength >= 0) edgeLength -= 10;
+                    if (edgeLength > 40) edgeLength -= 10;
                     mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 }
