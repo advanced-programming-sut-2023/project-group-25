@@ -6,6 +6,7 @@ import Controller.GameController;
 import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
+import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -71,12 +72,13 @@ public class GameGraphics extends Application {
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
                 int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                x = x - dx;
-                y = y - dy;
-                shownX = (int) x / edgeLength;
-                shownY = (int) y / edgeLength;
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
-                        shownX, shownY, edgeLength);
+                if (mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                        (int) (x - dx) / edgeLength, (int) (y - dy) / edgeLength, edgeLength).equals("success")) {
+                    x = x - dx;
+                    y = y - dy;
+                    shownX = (int) x / edgeLength;
+                    shownY = (int) y / edgeLength;
+                }
             }
         };
         
@@ -119,8 +121,8 @@ public class GameGraphics extends Application {
                     droppedBuilding.setFitHeight(edgeLength);
                     droppedBuilding.setFitWidth(edgeLength);
                     gamePane.getChildren().add(droppedBuilding);
-                    int x = (int) mouseEvent.getX() + shownX;
-                    int y = (int) mouseEvent.getY() + shownY;
+                    int x = (int) mouseEvent.getX() + (shownX - 15) * edgeLength;
+                    int y = (int) mouseEvent.getY() + (shownY - 7) * edgeLength;
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
                     String category = FileController.getBuildingCategoryByType(clickedBuildingToDrop);
                     assert category != null;
@@ -130,8 +132,10 @@ public class GameGraphics extends Application {
                             sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
                             sampleBuilding.getHitPoint());
                     cell.setBuilding(toBeDroppedBuilding);
-                    droppedBuilding.setLayoutX(cell.getX() * edgeLength);
-                    droppedBuilding.setLayoutY(cell.getY() * edgeLength);
+                    droppedBuilding.setTranslateX(cell.getX() * edgeLength);
+                    droppedBuilding.setTranslateY(cell.getY() * edgeLength);
+                    System.out.println("x= " + cell.getX() * edgeLength + ", y= " + cell.getY() * edgeLength);
+                    toBeDroppedBuilding.setLocation(cell);
                     droppedBuilding.toFront();
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
@@ -151,4 +155,5 @@ public class GameGraphics extends Application {
         stage.setFullScreen(true);
         stage.show();
     }
+    
 }

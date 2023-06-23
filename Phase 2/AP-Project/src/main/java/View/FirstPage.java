@@ -5,17 +5,11 @@ import Controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
-import java.util.Scanner;
+
 
 public class FirstPage extends Application {
     public static Stage stage;
