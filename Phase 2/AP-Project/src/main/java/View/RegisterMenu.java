@@ -8,13 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -34,8 +29,15 @@ public class RegisterMenu extends Application implements Initializable {
     public TextField confirmText;
     public PasswordField confirmPass;
     public CheckBox Hide;
+    public TextField nickname;
+    public TextField email;
+    public Label nicknameError;
+    public Label emailError;
+    public RadioButton famousSloganR;
+    public RadioButton customSloganR;
+    public RadioButton randomSloganR;
+    public RadioButton noSloganR;
     boolean correctUsername = false;
-    boolean correctPassword = false;
     private boolean hide = false;
     private boolean randomPassword = false;
     @Override
@@ -51,11 +53,11 @@ public class RegisterMenu extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        listView.getItems().add("1- What city were you born in?");
-        listView.getItems().add("2- What is your oldest sibling’s middle name?");
-        listView.getItems().add("3- In what city or town did your parents meet?");
-        listView.getItems().add("4- What is your mother’s last name?");
-        listView.getItems().add("5- What was your first pet’s name?");
+//        listView.getItems().add("1- What city were you born in?");
+//        listView.getItems().add("2- What is your oldest sibling’s middle name?");
+//        listView.getItems().add("3- In what city or town did your parents meet?");
+//        listView.getItems().add("4- What is your mother’s last name?");
+//        listView.getItems().add("5- What was your first pet’s name?");
         sloganComboBox.getItems().add("Through adversity comes strength!");
         sloganComboBox.getItems().add("Don’t be afraid to fail!");
         sloganComboBox.getItems().add("Compete with yourself!");
@@ -69,10 +71,21 @@ public class RegisterMenu extends Application implements Initializable {
     }
 
     public void famousSlogan() {
+        if(sloganComboBox.getSelectionModel().getSelectedIndex() == 0)
+            System.out.println("0");
+        else
+            System.out.println("1");
         sloganComboBox.setVisible(true);
         randomSlogan.setVisible(false);
         customSlogan.setVisible(false);
         resetFields();
+    }
+
+    public void selected() {
+        if(sloganComboBox.getSelectionModel().getSelectedIndex() == 0)
+            System.out.println("0");
+        else
+            System.out.println("1");
     }
 
     public void randomSlogan() {
@@ -143,23 +156,18 @@ public class RegisterMenu extends Application implements Initializable {
         String result = registerLoginController.isPasswordWeak(passwordText.getText());
         if (passwordText.getText().length() == 0) {
             passwordError.setText("Password field is empty!");
-            correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
         } else if (!result.equals("success")) {
             passwordError.setText(result);
-            correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
         } else if (confirmText.getText().length() == 0) {
             passwordError.setText("Confirm field is empty!");
-            correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
         } else if (!passwordText.getText().equals(confirmText.getText())) {
             passwordError.setText("Password doesn't match the confirm!");
-            correctPassword = false;
             passwordError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
         } else if (result.equals("success")) {
             passwordError.setText("Password accepted!");
-            correctPassword = true;
             passwordError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         }
     }
@@ -199,6 +207,28 @@ public class RegisterMenu extends Application implements Initializable {
         checkPassword();
     }
 
-    public void nicknameCompleting(KeyEvent keyEvent) {
+    public void nicknameCompleting() {
+        if (nickname.getText().length() == 0) {
+            nicknameError.setText("Nickname field is empty!");
+            nicknameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else {
+            nicknameError.setText("Nickname accepted!");
+            nicknameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        }
+    }
+
+    public void emailCompleting() {
+        System.out.println(email.getText());
+        if (email.getText().length() == 0) {
+            emailError.setText("Email field is empty!");
+            emailError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else if (registerLoginController.isEmailValid(email.getText())) {
+            emailError.setText("Email accepted!");
+            emailError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        } else {
+            emailError.setText("This Email format is invalid");
+            emailError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
     }
 }

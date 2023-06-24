@@ -11,10 +11,10 @@
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
           stylesheets="@../css/Styles.css"
-          alignment="CENTER_LEFT"
+          alignment="CENTER"
           fx:controller="View.RegisterMenu"
           style="-fx-padding: 40px">
-    <VBox styleClass="registerContainer" alignment="CENTER_LEFT">
+    <VBox styleClass="registerContainer" alignment="CENTER">
         <HBox styleClass="registerFieldContainer" alignment="CENTER">
             <VBox style="-fx-spacing: 8px" alignment="CENTER">
                 <HBox>
@@ -53,18 +53,18 @@
             <VBox style="-fx-spacing: 8px" alignment="CENTER">
                 <HBox>
                     <Label text="nickname:" styleClass="registerLabel"/>
-                    <TextField promptText="nickname" styleClass="textField1"/>
+                    <TextField promptText="nickname" fx:id="nickname" styleClass="textField1" onKeyTyped="#nicknameCompleting"/>
                 </HBox>
-                <Label text="Nickname field is empty!" styleClass="errorLabel" onKeyTyped="#nicknameCompleting"/>
+                <Label text="Nickname field is empty!" fx:id="nicknameError" styleClass="errorLabel"/>
             </VBox>
         </HBox>
         <HBox styleClass="registerFieldContainer" alignment="CENTER">
             <VBox  style="-fx-spacing: 8px" alignment="CENTER">
                 <HBox>
                     <Label text="email:" styleClass="registerLabel"/>
-                    <TextField promptText="email" styleClass="textField1"/>
+                    <TextField promptText="email" fx:id="email" styleClass="textField1" onKeyTyped="#emailCompleting"/>
                 </HBox>
-                <Label text="Email field is empty!" styleClass="errorLabel"/>
+                <Label text="Email field is empty!" fx:id="emailError" styleClass="errorLabel"/>
             </VBox>
         </HBox>
         <VBox styleClass="registerFieldContainer" alignment="CENTER">
@@ -72,48 +72,48 @@
                 <ToggleGroup fx:id="group"/>
             </fx:define>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
-                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#famousSlogan"/>
+                <RadioButton styleClass="radioButton" fx:id="famousSloganR" toggleGroup="$group" onMouseClicked="#famousSlogan"/>
                 <Label text="Famous Slogans" styleClass="sloganLabel"/>
-                <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false"/>
+                <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false" onInputMethodTextChanged="#selected"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
-                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#randomSlogan"/>
+                <RadioButton styleClass="radioButton" fx:id="randomSloganR" toggleGroup="$group" onMouseClicked="#randomSlogan"/>
                 <Label text="Random Slogan" styleClass="sloganLabel"/>
                 <TextField promptText="slogan" fx:id="randomSlogan" styleClass="textField3" visible="false"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
-                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#customSlogan"/>
+                <RadioButton styleClass="radioButton" fx:id="customSloganR" toggleGroup="$group" onMouseClicked="#customSlogan"/>
                 <Label text="Custom Slogan" styleClass="sloganLabel"/>
                 <TextField promptText="slogan" fx:id="customSlogan" styleClass="textField3" visible="false"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
-                <RadioButton styleClass="radioButton" toggleGroup="$group" onMouseClicked="#noSlogan"/>
+                <RadioButton styleClass="radioButton" fx:id="noSloganR" toggleGroup="$group" onMouseClicked="#noSlogan" selected="true"/>
                 <Label text="No Slogan" styleClass="sloganLabel"/>
             </HBox>
             <VBox alignment="CENTER">
-                <Label text="No slogan mode has been selected!" styleClass="errorLabel"/>
+                <Label text="Slogan accepted!" styleClass="errorLabel" style="-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;"/>
             </VBox>
         </VBox>
-        <HBox styleClass="registerFieldContainer" style="-fx-pref-height: 200px;" alignment="CENTER">
-            <VBox style="-fx-spacing: 8px" alignment="CENTER">
-                <HBox style="-fx-spacing: 8px" >
-                    <VBox>
-                        <VBox>
-                            <Label text="Security Question:" style="-fx-pref-width: 300px" styleClass="registerLabel"/>
-                        </VBox>
-                        <ListView fx:id="listView" styleClass="listView"/>
-                    </VBox>
-                    <VBox>
-                        <Label text="answer:" styleClass="registerLabel"/>
-                        <TextField promptText="answer" styleClass="textField2"/>
-                        <Label text="" styleClass="registerLabel"/>
-                        <Label text="confirm:" styleClass="registerLabel"/>
-                        <TextField promptText="confirm" styleClass="textField2"/>
-                    </VBox>
-                </HBox>
-                <Label text="No security question has been selected!" styleClass="errorLabel"/>
-            </VBox>
-        </HBox>
+<!--        <HBox styleClass="registerFieldContainer" style="-fx-pref-height: 200px;" alignment="CENTER">-->
+<!--            <VBox style="-fx-spacing: 8px" alignment="CENTER">-->
+<!--                <HBox style="-fx-spacing: 8px" >-->
+<!--                    <VBox>-->
+<!--                        <VBox>-->
+<!--                            <Label text="Security Question:" style="-fx-pref-width: 300px" styleClass="registerLabel"/>-->
+<!--                        </VBox>-->
+<!--                        <ListView fx:id="listView" styleClass="listView"/>-->
+<!--                    </VBox>-->
+<!--                    <VBox>-->
+<!--                        <Label text="answer:" styleClass="registerLabel"/>-->
+<!--                        <TextField promptText="answer" styleClass="textField2"/>-->
+<!--                        <Label text="" styleClass="registerLabel"/>-->
+<!--                        <Label text="confirm:" styleClass="registerLabel"/>-->
+<!--                        <TextField promptText="confirm" styleClass="textField2"/>-->
+<!--                    </VBox>-->
+<!--                </HBox>-->
+<!--                <Label text="No security question has been selected!" styleClass="errorLabel"/>-->
+<!--            </VBox>-->
+<!--        </HBox>-->
         <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
             <Button text="submit" styleClass="submitButton"/>
             <Button text="clear" styleClass="clearButton"/>
