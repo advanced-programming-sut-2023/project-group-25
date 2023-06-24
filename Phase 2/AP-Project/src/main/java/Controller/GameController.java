@@ -1,17 +1,15 @@
 package Controller;
 
-import Model.*;
 import Model.Map;
+import Model.*;
 import View.Commands;
-import View.GameGraphics;
 
 import java.io.File;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Controller.RegisterLoginController.*;
+import static Controller.RegisterLoginController.getCurrentUser;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
@@ -387,7 +385,7 @@ public class GameController {
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             result += popularityFactor.getPopularityAmount();
         }
-        return "Popularity: " + result;
+        return String.valueOf(result);
     }
 
     public String showFoodList() {
