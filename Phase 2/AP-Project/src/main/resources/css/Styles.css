@@ -1,24 +1,17 @@
 .enterMenuButton {
-    -fx-pref-width: 400px;
-    -fx-pref-height: 50px;
-    -fx-font-family: "Arial Narrow";
-    -fx-font-size: 25px;
-    -fx-background-color: white;
-    -fx-font-weight: bolder;
-    -fx-border-radius: 15px;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 190px;
 }
 
 .enterMenuButton:hover{
-    -fx-font-size: 28px;
     -fx-cursor: hand;
-    -fx-background-color: black;
-    -fx-text-fill: white;
+    -fx-pref-width: 320px;
 }
 
 .container1 {
     -fx-padding: 200px 0 0 0;
     -fx-alignment: CENTER;
-    -fx-spacing:8px;
+    -fx-spacing:600px;
 }
 
 .registerContainer {
