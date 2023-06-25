@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import View.GameGraphics;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -68,6 +69,7 @@ public class MapController2 {
     private int edgeLength = 70;
     private int shownX;
     private int shownY;
+    private Map map;
     
     public int getShownX() {
         return shownX;
@@ -88,17 +90,21 @@ public class MapController2 {
     public String loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         //capacity: 31 x 16 (x50 pixels)
         if (edgeLength < 40 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
+//            System.out.println("returned");
             return "bad location";
         }
+
+//        System.out.println("loading");
         
         this.edgeLength = edgeLength;
         this.shownX = x;
         this.shownY = y;
+        this.map = map;
         
         int xCounter = 0, yCounter = 0;
         
-        for (int i = x - 15 * 50 / edgeLength; i < x + 16 * 50 / edgeLength + 1; i++) {
-            for (int j = y - 7 * 50 / edgeLength; j < y + 9 * 50 / edgeLength + 2; j++) {
+        for (int i = x - 11 * 70 / edgeLength; i < x + 12 * 70 / edgeLength + 1; i++) {
+            for (int j = y - 5 * 70 / edgeLength; j < y + 7 * 70 / edgeLength + 2; j++) {
                 if (i >= map.getLength() || j >= map.getWidth()) continue;
                 Cell cell = map.getCells()[i][j];
                 
@@ -342,7 +348,7 @@ public class MapController2 {
     }
     
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
-        return x - 15 * 50 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
+        return x - 11 * 70 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
     }
     
     private void setMenuIcon6() {
@@ -580,19 +586,24 @@ public class MapController2 {
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
-        System.out.println("loading building");
+//        System.out.println("loading building in cell");
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-        buildingImageView.setTranslateX((i + shownX - 15) * edgeLength);
-        buildingImageView.setTranslateY((j + shownY - 7) * edgeLength);
-        System.out.println("x= " + (i + shownX - 15) * edgeLength + ", y= " + (j + shownY - 7) * edgeLength);
-        EventHandler<MouseEvent> showBuildingPanel = mouseEvent -> {
+        buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+        buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+        
+        EventHandler<MouseEvent> showBuildingPanelEventHandler = mouseEvent -> {
             //TODO
         };
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanel);
+        
+        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent ->
+                GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+        
+        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanelEventHandler);
+        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }

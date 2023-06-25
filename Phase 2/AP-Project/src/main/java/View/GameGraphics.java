@@ -6,12 +6,13 @@ import Controller.GameController;
 import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
-import Model.Map;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -21,10 +22,11 @@ import static Controller.MapController2.clickedBuildingToDrop;
 
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
+    public static Building selectedBuilding = null;
     private final GameController gameController;
     private int edgeLength = 70;
-    private int shownX = 15;
-    private int shownY = 7;
+    private int shownX = 11;
+    private int shownY = 5;
     private TradeMenu tradeMenu;
     private MouseEvent previousClick;
     
@@ -117,13 +119,16 @@ public class GameGraphics extends Application {
                 if (mouseEvent.isPrimaryButtonDown()) {
                     String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
                             + "/" + clickedBuildingToDrop + ".png";
-                    ImageView droppedBuilding = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
-                    droppedBuilding.setFitHeight(edgeLength);
-                    droppedBuilding.setFitWidth(edgeLength);
-                    gamePane.getChildren().add(droppedBuilding);
-                    int x = (int) mouseEvent.getX() + (shownX - 15) * edgeLength;
-                    int y = (int) mouseEvent.getY() + (shownY - 7) * edgeLength;
+                    ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+                    droppedBuildingImageView.setFitHeight(edgeLength);
+                    droppedBuildingImageView.setFitWidth(edgeLength);
+//                    System.out.println("x=" + mouseEvent.getX() + " y=" + mouseEvent.getY());
+                    gamePane.getChildren().add(droppedBuildingImageView);
+                    int x = (int) mouseEvent.getX() + (shownX - (11 * 70 / edgeLength)) * edgeLength;
+                    int y = (int) mouseEvent.getY() + (shownY - (5 * 70 / edgeLength)) * edgeLength;
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
+                    droppedBuildingImageView.setTranslateX(cell.getX() * edgeLength);
+                    droppedBuildingImageView.setTranslateY(cell.getY() * edgeLength);
                     String category = FileController.getBuildingCategoryByType(clickedBuildingToDrop);
                     assert category != null;
                     Building savedBuilding = gameController.getBuilding(clickedBuildingToDrop, category);
@@ -132,11 +137,9 @@ public class GameGraphics extends Application {
                             sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
                             sampleBuilding.getHitPoint());
                     cell.setBuilding(toBeDroppedBuilding);
-                    droppedBuilding.setTranslateX(cell.getX() * edgeLength);
-                    droppedBuilding.setTranslateY(cell.getY() * edgeLength);
-                    System.out.println("x= " + cell.getX() * edgeLength + ", y= " + cell.getY() * edgeLength);
+                    //TODO: samin -> use dropBuilding method to build buildings
                     toBeDroppedBuilding.setLocation(cell);
-                    droppedBuilding.toFront();
+                    droppedBuildingImageView.toFront();
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
                     toBeDroppedBuildingImageView = null;
@@ -145,12 +148,18 @@ public class GameGraphics extends Application {
             }
         };
         
+        EventHandler<KeyEvent> copyBuildingEventHandler = keyEvent -> {
+        
+        };
+        
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, zoomingEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, moveClickedBuildingToDropEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, dropOrCancelBuildingEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, copyBuildingEventHandler);
+        
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
