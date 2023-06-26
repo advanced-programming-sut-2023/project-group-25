@@ -377,4 +377,13 @@ public class RegisterLoginController {
             result += "-";
         return result;
     }
+
+    public String getRandomCaptcha() {
+        int[] captchaValue = {1181,1381,1491,1722,1959,2163,2177,3541,4185,5463};
+        Random random = new Random();
+        int number = random.nextInt(10) + 1;
+        String path = "/images/captcha/" + number +".png";
+        path += ("-" + captchaValue[number]);
+        return path;
+    }
 }
