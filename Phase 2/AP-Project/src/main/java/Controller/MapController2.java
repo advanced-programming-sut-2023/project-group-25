@@ -604,9 +604,7 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
-        EventHandler<MouseEvent> selectCell = mouseEvent -> {
-            //TODO
-        };
+        EventHandler<MouseEvent> selectCell = mouseEvent -> GameGraphics.selectedCell = map.getCells()[x][y];
         pictureLabel.setOnMouseClicked(selectCell);
         pane.getChildren().add(pictureLabel);
         pane.setStyle("-fx-spacing: 0");
