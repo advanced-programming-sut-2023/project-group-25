@@ -246,4 +246,15 @@ public class RegisterMenu extends Application implements Initializable {
             alert.showAndWait();
         }
     }
+
+    public void clear(MouseEvent mouseEvent) {
+        username.setText("");
+        passwordPass.setText("");
+        passwordText.setText("");
+        confirmText.setText("");
+        confirmPass.setText("");
+        email.setText("");
+        nickname.setText("");
+        noSloganR.setSelected(true);
+    }
 }

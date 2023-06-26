@@ -116,7 +116,7 @@
 <!--        </HBox>-->
         <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
             <Button text="submit" styleClass="submitButton" onMouseClicked="#submit"/>
-            <Button text="clear" styleClass="clearButton"/>
+            <Button text="clear" onMouseClicked="#clear" styleClass="clearButton"/>
         </HBox>
     </VBox>
 </GridPane>

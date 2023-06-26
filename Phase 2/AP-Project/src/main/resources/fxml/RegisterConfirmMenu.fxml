@@ -27,10 +27,10 @@
                     </VBox>
                     <VBox>
                         <Label text="answer:" styleClass="registerLabel"/>
-                        <TextField promptText="answer" fx:id="answerText" onMouseClicked="#answer" styleClass="textField2"/>
+                        <TextField promptText="answer" fx:id="answerText" onMouseClicked="#answer" onKeyTyped="#answerTyped" styleClass="textField2"/>
                         <Label text="" styleClass="registerLabel"/>
                         <Label text="confirm:" styleClass="registerLabel"/>
-                        <TextField promptText="confirm" fx:id="confirmText" onMouseClicked="#confirm" styleClass="textField2"/>
+                        <TextField promptText="confirm" fx:id="confirmText" onMouseClicked="#confirm" onKeyTyped="#confirmTyped" styleClass="textField2"/>
                     </VBox>
                 </HBox>
                 <Label text="No security question has been selected!" fx:id="securityError" styleClass="errorLabel"/>
@@ -40,10 +40,14 @@
             <VBox style="-fx-spacing: 8px" alignment="CENTER">
                 <Label fx:id="captcha"/>
                 <HBox style="-fx-spacing: 6px">
-                    <TextField promptText="captcha" styleClass="textField4"/>
+                    <TextField promptText="captcha" fx:id="captchaText" styleClass="textField4"/>
                     <Label fx:id="reset" onMouseClicked="#reset"/>
                 </HBox>
             </VBox>
+        </HBox>
+        <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
+            <Button text="register" styleClass="submitButton" onMouseClicked="#register"/>
+            <Button text="clear" onMouseClicked="#clear" styleClass="clearButton"/>
         </HBox>
     </VBox>
 </GridPane>

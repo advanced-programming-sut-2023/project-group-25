@@ -383,7 +383,7 @@ public class RegisterLoginController {
         Random random = new Random();
         int number = random.nextInt(10) + 1;
         String path = "/images/captcha/" + number +".png";
-        path += ("-" + captchaValue[number]);
+        path += ("-" + captchaValue[number -1]);
         return path;
     }
 }
