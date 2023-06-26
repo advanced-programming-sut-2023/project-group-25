@@ -67,7 +67,7 @@
                 <Label text="Email field is empty!" fx:id="emailError" styleClass="errorLabel"/>
             </VBox>
         </HBox>
-        <VBox styleClass="registerFieldContainer" alignment="CENTER">
+        <VBox styleClass="registerFieldContainer" style="-fx-pref-height: 50px" alignment="CENTER">
             <fx:define>
                 <ToggleGroup fx:id="group"/>
             </fx:define>
@@ -115,7 +115,7 @@
 <!--            </VBox>-->
 <!--        </HBox>-->
         <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
-            <Button text="submit" styleClass="submitButton"/>
+            <Button text="submit" styleClass="submitButton" onMouseClicked="#submit"/>
             <Button text="clear" styleClass="clearButton"/>
         </HBox>
     </VBox>

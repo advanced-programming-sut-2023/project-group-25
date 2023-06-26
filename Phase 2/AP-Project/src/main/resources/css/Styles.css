@@ -23,7 +23,6 @@
 .registerFieldContainer {
     -fx-background-color: #FFFFFF;
     -fx-pref-width: 500px;
-    -fx-pref-height: 50px;
     -fx-padding: 7px 10px;
     -fx-font-family: "Arial Narrow";
     -fx-font-size: 15px;
@@ -109,4 +108,18 @@
     -fx-font-weight: bold;
     -fx-background-color: rgb(231, 227, 166);
     -fx-text-fill: #776605;
+}
+
+.textField4 {
+    -fx-pref-width: 450px;
+}
+
+#captcha {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 100px;
+}
+
+#reset {
+    -fx-pref-width: 27px;
+    -fx-pref-height: 27px;
 }
