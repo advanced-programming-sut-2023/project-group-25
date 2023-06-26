@@ -116,22 +116,13 @@ public class Building {
     
     public boolean isMainCastlePart(String type) {
         switch (type) {
-            case "siege tent":
-            case "caged war dogs":
-            case "oil smelter":
-            case "enginner guild":
-            case "mercenary post":
-            case "barracks":
-            case "armoury":
             case "square tower":
             case "defence turret":
             case "perimeter tower":
             case "lookout tower":
             case "round tower":
-            case "drawbridge":
             case "large stone gatehouse":
             case "small stone gatehouse":
-            case "stable":
                 return true;
         }
         return false;

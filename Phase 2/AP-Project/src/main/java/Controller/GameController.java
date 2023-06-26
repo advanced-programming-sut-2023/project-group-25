@@ -236,8 +236,8 @@ public class GameController {
         else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
             return "You can't have a building in this location!";
         else if ((cell.getMaterial().equals("rockLand") || cell.getMaterial().equals("grass") || cell.getMaterial().equals("ironLand"))
-        && (!(type.equals("iron mine")||type.equals("quarry")
-                ||type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))))
+                && (!(type.equals("iron mine") || type.equals("quarry")
+                || type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))))
             return "Invalid ground type for " + type;
         else if (type.equals("church") || type.equals("catheral")) {
             for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
@@ -369,7 +369,8 @@ public class GameController {
         if (!cell.getBuilding().getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername()))
             return "This building doesn't belong to you";
         selectedBuilding = cell.getBuilding();
-        if (selectedBuilding.isMainCastlePart(selectedBuilding.getType())) return "selected, hitpoint: " + selectedBuilding.getHitPoint();
+        if (selectedBuilding.isMainCastlePart(selectedBuilding.getType()))
+            return "selected, hitpoint: " + selectedBuilding.getHitPoint();
         return "selected";
     }
 
@@ -432,7 +433,7 @@ public class GameController {
         int count = 0;
         for (Product product : products) {
             if (product.getName().equals(food))
-                count = (int)product.getCount();
+                count = (int) product.getCount();
         }
         return count;
     }
@@ -712,7 +713,7 @@ public class GameController {
         int enemyY = Integer.parseInt(matcher.group("y"));
         for (Person person : currentGame.getMap().getCells()[enemyX - 1][enemyY - 1].getPeople()) {
             if (!person.getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername())) {
-                String toGetMatcher = "move unit to -x " + (enemyX ) + " -y " + (enemyY );
+                String toGetMatcher = "move unit to -x " + (enemyX) + " -y " + (enemyY);
                 if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
                     return "Selected unit attacked successfully!";
                 } else {
@@ -726,14 +727,14 @@ public class GameController {
     public String aerialAttack(Matcher matcher) {
         int enemyX = Integer.parseInt(matcher.group("x"));
         int enemyY = Integer.parseInt(matcher.group("y"));
-        for (Person person : currentGame.getMap().getCells()[enemyX-1][enemyY-1].getPeople()) {
+        for (Person person : currentGame.getMap().getCells()[enemyX - 1][enemyY - 1].getPeople()) {
             if (!person.getKing().equals(currentGame.turn.getCurrentKing())) {
                 if (selectedUnit.getType().equals("Archer") || selectedUnit.getType().equals("Crossbowmen")
                         || selectedUnit.getType().equals("Archer Bow")) {
                     int dx = enemyX - selectedUnit.getLocation().getX();
                     int dy = enemyY - selectedUnit.getLocation().getY();
-                    if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) dy*dy + dx * dx))) {
-                        currentGame.getMap().getCells()[enemyX-1][enemyY-1].addToKingdomsWithArrows(currentGame
+                    if (((MilitaryPerson) selectedUnit).getShootingRange() >= (Math.sqrt((double) dy * dy + dx * dx))) {
+                        currentGame.getMap().getCells()[enemyX - 1][enemyY - 1].addToKingdomsWithArrows(currentGame
                                 .getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()));
                         return "You made the aerial attack successfully!";
                     } else return "The enemy you want to attack is out of range of the selected unit!";
@@ -872,7 +873,7 @@ public class GameController {
 
     private void fight() {
         Cell[][] cells = currentGame.getMap().getCells();
-        
+
         for (int i = 0; i < currentGame.getMap().getLength(); i++) {
             for (int j = 0; j < currentGame.getMap().getWidth(); j++) {
                 ArrayList<Person> peopleCopy = new ArrayList<>(cells[i][j].getPeople());
@@ -884,8 +885,7 @@ public class GameController {
                             if (unit1.getFirePower() > unit2.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit2);
                                 Objects.requireNonNull(currentGame.getKingdomByKing(unit2.getKing().getUsername())).removePerson(unit2);
-                            }
-                            else if (unit2.getFirePower() > unit1.getDefendPower()) {
+                            } else if (unit2.getFirePower() > unit1.getDefendPower()) {
                                 currentGame.getMap().getCells()[i][j].removePerson(unit1);
                                 Objects.requireNonNull(getKingdomByKing(unit1.getKing())).removePerson(unit1);
                             }
@@ -907,12 +907,13 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange - 1; j <= person.getLocation().getY() + shootingRange; j++) {
                                     if (!isLocationValid(i, j)) continue;
-                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null)
+                                        continue;
                                     if (currentGame.getMap().getCells()[i][j].getBuilding() != null && !currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
-                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() <= 0) {
                                             currentGame.getMap().getCells()[i][j].setBuilding(null);
                                             kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
                                         }
@@ -932,12 +933,13 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange - 1; i <= person.getLocation().getX() + shootingRange; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange - 1; j <= person.getLocation().getY() + shootingRange; j++) {
                                     if (!isLocationValid(i, j)) continue;
-                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null)
+                                        continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
-                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() <= 0) {
                                             currentGame.getMap().getCells()[i][j].setBuilding(null);
                                             kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
                                         }
@@ -963,12 +965,13 @@ public class GameController {
                             for (int i = person.getLocation().getX() - shootingRange / 2 - 1; i <= person.getLocation().getX() + shootingRange / 2; i++) {
                                 for (int j = person.getLocation().getY() - shootingRange / 2 - 1; j <= person.getLocation().getY() + shootingRange / 2; j++) {
                                     if (!isLocationValid(i, j)) continue;
-                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null) continue;
+                                    if (currentGame.getMap().getCells()[i][j].getBuilding() == null || currentGame.getMap().getCells()[i][j].getBuilding().getKing() == null)
+                                        continue;
                                     if (!currentGame.getMap().getCells()[i][j].getBuilding().getKing().equals(kingdom.getKing())) {
                                         currentGame.getMap().getCells()[i][j].getBuilding()
                                                 .setHitPoint(currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()
                                                         - ((MilitaryPerson) person).getFirePower());
-                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint()<= 0) {
+                                        if (currentGame.getMap().getCells()[i][j].getBuilding().getHitPoint() <= 0) {
                                             currentGame.getMap().getCells()[i][j].setBuilding(null);
                                             kingdom.getKingBuildings().remove(currentGame.getMap().getCells()[i][j].getBuilding());
                                         }
@@ -1028,7 +1031,7 @@ public class GameController {
                         for (Person person : currentGame.getMap().getCells()[i][j].getPeople()) {
                             if (person instanceof MilitaryPerson && !person.getKing().getUsername().equals(kingdom.getKing().getUsername())) {
                                 building.setHitPoint(building.getHitPoint() - ((MilitaryPerson) person).getFirePower());
-                                if (building.getHitPoint()<= 0) {
+                                if (building.getHitPoint() <= 0) {
                                     currentGame.getMap().getCells()[i][j].setBuilding(null);
                                     kingdom.getKingBuildings().remove(building);
                                 }
@@ -1122,20 +1125,23 @@ public class GameController {
     }
 
     public void nextTurn() {
+//        TODO: TEST this
         currentGame.turn.setCurrentKing(currentGame.getKingdoms().get(Turn.getTurnCounter() % currentGame.getKingdoms().size()).getKing());
         Turn.setTurnCounter(Turn.getTurnCounter() + 1);
         selectedBuilding = null;
         selectedUnit = null;
         patrollingUnit = null;
         isPatrollingStopped = false;
-        fight();
-        arrowsAct();
-        hittingBuildings();
-        checkToHitBuilding();
-        divideFood();
-        getTax();
-        changePopulation();
-        System.out.println("[" + currentGame.turn.getCurrentKing().getUsername() + "] is now playing!");
+        if (currentGame.turn.getCurrentKing().equals(currentGame.getKingdoms().get(1))) {
+            fight();
+            arrowsAct();
+            hittingBuildings();
+            checkToHitBuilding();
+            divideFood();
+            getTax();
+            changePopulation();
+        }
+//        System.out.println("[" + currentGame.turn.getCurrentKing().getUsername() + "] is now playing!");
     }
 
     public String fetchOil() {

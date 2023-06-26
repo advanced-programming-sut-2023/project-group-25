@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -229,6 +230,20 @@ public class RegisterMenu extends Application implements Initializable {
         } else {
             emailError.setText("This Email format is invalid");
             emailError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
+    }
+
+    public void submit(MouseEvent mouseEvent) throws Exception {
+        if(passwordError.getText().equals("Password accepted!") && usernameError.getText().equals("Username accepted!") &&
+                nicknameError.getText().equals("Nickname accepted!") && emailError.getText().equals("Email accepted!")) {
+            new RegisterConfirmMenu().start(FirstPage.stage);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Register Failed");
+            alert.setContentText("Please fill the register form properly!");
+            alert.showAndWait();
         }
     }
 }
