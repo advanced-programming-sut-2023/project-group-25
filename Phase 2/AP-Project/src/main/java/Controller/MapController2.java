@@ -612,7 +612,6 @@ public class MapController2 {
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
-//        System.out.println("loading building in cell");
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
@@ -620,15 +619,8 @@ public class MapController2 {
         buildingImageView.setFitWidth(edgeLength);
         buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-        
-        EventHandler<MouseEvent> showBuildingPanelEventHandler = mouseEvent -> {
-            //TODO
-        };
-        
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent ->
                 GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
-        
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanelEventHandler);
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);

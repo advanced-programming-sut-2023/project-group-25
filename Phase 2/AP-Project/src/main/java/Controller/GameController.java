@@ -3,12 +3,14 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
+import View.GameGraphics;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static Controller.MapController2.clickedBuildingToDrop;
 import static Controller.RegisterLoginController.getCurrentUser;
 
 public class GameController {
@@ -45,14 +47,13 @@ public class GameController {
     public String newGame(String line) {
         String resultMessage = "";
         String[] lineUsernames = line.split("-");
-        ArrayList<String> usernames = new ArrayList<>();
-        usernames.addAll(Arrays.asList(lineUsernames));
+        ArrayList<String> usernames = new ArrayList<>(Arrays.asList(lineUsernames));
         usernames.add(RegisterLoginController.getCurrentUser().getUsername());
-        for (int i = 0; i < usernames.size(); i++) {
-            if (FileController.getUserByUsername(usernames.get(i)) == null)
-                resultMessage = ("New game creation failed! Username [" + usernames.get(i) + "] does not exist; please try again!");
+        for (String username : usernames) {
+            if (FileController.getUserByUsername(username) == null)
+                resultMessage = ("New game creation failed! Username [" + username + "] does not exist; please try again!");
         }
-        if (hasRepeatedUsername(usernames) && resultMessage == "")
+        if (hasRepeatedUsername(usernames) && resultMessage.equals(""))
             resultMessage = "You have repeated usernames in the list; please try again!";
         else if (resultMessage.equals("")) {
             File Games = new File("src/main/java/Database/Games.txt");
@@ -60,16 +61,15 @@ public class GameController {
             int gameId = content.size() / 4 + 1;
             ArrayList<Kingdom> kingdoms = new ArrayList<>();
             kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
-            Game game = new Game(gameId, kingdoms);
-            currentGame = game;
+            currentGame = new Game(gameId, kingdoms);
             resultMessage = "New game created successfully! Game's ID: " + gameId;
         }
         return resultMessage;
     }
 
     public ArrayList<Kingdom> createKingdomsInitially(ArrayList<Kingdom> kingdoms, ArrayList<String> usernames, int gameId) {
-        for (int i = 0; i < usernames.size(); i++) {
-            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(usernames.get(i)), gameId);
+        for (String username : usernames) {
+            Kingdom newKingdom = new Kingdom(FileController.getUserByUsername(username), gameId);
             ArrayList<Product> products = new ArrayList<>();
             Product bread = FileController.getProductByName("bread");
             bread.setCount(8);
@@ -191,12 +191,10 @@ public class GameController {
         String type = matcher.group("type");
         if (!isLocationValid(x - 1, y - 1)) return "Invalid location!";
         cell = currentGame.getMap().getCells()[x - 1][y - 1];
-        if (matcher.group("object").equals("unit")) {
-            result = dropUnit(x, y, cell, type, matcher.group("count"));
-        } else if (matcher.group("object").equals("tree")) {
-            result = dropTree(x, y, cell, type);
-        } else if (matcher.group("object").equals("building")) {
-            result = dropBuilding(x, y, cell, type);
+        switch (matcher.group("object")) {
+            case "unit" -> result = dropUnit(x, y, cell, type, matcher.group("count"));
+            case "tree" -> result = dropTree(x, y, cell, type);
+            case "building" -> result = dropBuilding(x, y, cell, type);
         }
         return result;
     }
@@ -211,6 +209,7 @@ public class GameController {
         for (NaturalBlock trees : tree) {
             if (trees.getName().equals(type)) {
                 check = true;
+                break;
             }
         }
         if (!check) return "This type of tree doesn't exist";
@@ -220,6 +219,7 @@ public class GameController {
 
     public String dropBuilding(int x, int y, Cell cell, String type) {
         String category = FileController.getBuildingCategoryByType(type);
+        assert category != null;
         Building savedBuilding = getBuilding(type, category);
         Building building = new Building(savedBuilding);
         Building building1 = new Building(type, building.getCategory(), building.getBuildingNeededProducts(),
@@ -249,6 +249,36 @@ public class GameController {
         }
         return buildBuilding(building1, cell, type);
     }
+    
+    public String dropBuildingGraphics(int x, int y, Cell cell, String type) {
+        
+        if ((type.equals("iron mine")) && (!cell.getMaterial().equals("ironLand")))
+            return "Invalid ground type for " + type;
+        else if ((type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))
+                && (!cell.getMaterial().equals("grass")))
+            return "Invalid ground type for " + type;
+        else if ((type.equals("quarry")) && (!cell.getMaterial().equals("rockLand")))
+            return "Invalid ground type for " + type;
+        else if (cell.getMaterial().equals("water") || cell.getMaterial().equals("sea") || cell.getBuilding() != null)
+            return "You can't have a building in this location!";
+        else if ((cell.getMaterial().equals("rockLand") || cell.getMaterial().equals("grass") || cell.getMaterial().equals("ironLand"))
+                && (!(type.equals("iron mine")||type.equals("quarry")
+                ||type.equals("hops farmer") || type.equals("wheat farmer") || (type.equals("apple orchard")))))
+            return "Invalid ground type for " + type;
+        else if (type.equals("church") || type.equals("catheral")) {
+            for (PopularityFactor popularityFactor : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingPopularityFactors()) {
+                if (popularityFactor.getName().equals("religion")) {
+                    popularityFactor.setPopularityAmount(popularityFactor.getPopularityAmount() + 2);
+                    popularityFactor.setRate(2);
+                }
+            }
+        }
+        String category = FileController.getBuildingCategoryByType(type);
+        assert category != null;
+        Building toBeDroppedBuilding = getBuilding(type, category);
+        return buildBuilding(toBeDroppedBuilding, cell, type);
+    }
+    
 
     private String buildBuilding(Building building, Cell cell, String type) {
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
@@ -269,25 +299,24 @@ public class GameController {
                                 }
                             }
                         }
+                        
+                        cell.setBuilding(building);
+                        building.setLocation(cell);
                         building.setWorkerPeople(buildingPeople);
                         cell.setBuilding(building);
                         building.setLocation(cell);
                         building.setKing(currentGame.turn.getCurrentKing());
-                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
-
+                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername())
+                                .getKingBuildings().add(building);
                         product.setCount(product.getCount() - neededProduct.getCount());
                         cell.setBuilding(building);
-                        building.setLocation(cell);
-                        building.setKing(currentGame.turn.getCurrentKing());
-                        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingBuildings().add(building);
                         return type + " added successfully";
                     } else return "You don't have enough " + neededProduct.getName() + " to drop " + type;
                 }
             }
             return "You don't have any " + neededProduct.getName() + "!";
         }
-
-        return type + " added successfully";
+        return "success";
     }
 
     public Building getBuilding(String type, String category) {

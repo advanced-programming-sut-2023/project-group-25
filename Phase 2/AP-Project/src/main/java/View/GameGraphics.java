@@ -9,13 +9,14 @@ import Model.Cell;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.security.Key;
@@ -25,6 +26,7 @@ import static Controller.MapController2.clickedBuildingToDrop;
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     public static Building selectedBuilding = null;
+    public static Cell selectedCell = null; //Selected cell is the cell in map. The place on screen must be calculated.
     private final GameController gameController;
     private Clipboard clipboard;
     private int edgeLength = 70;
@@ -33,7 +35,6 @@ public class GameGraphics extends Application {
     private TradeMenu tradeMenu;
     private MouseEvent previousClick;
     private String pressedKeyName = null;
-    public static Cell selectedCell = null; //Selected cell is the cell in map. The place on screen must be calculated.
     
     public GameGraphics(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
@@ -128,23 +129,16 @@ public class GameGraphics extends Application {
                     ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
                     droppedBuildingImageView.setFitHeight(edgeLength);
                     droppedBuildingImageView.setFitWidth(edgeLength);
-//                    System.out.println("x=" + mouseEvent.getX() + " y=" + mouseEvent.getY());
                     gamePane.getChildren().add(droppedBuildingImageView);
                     int x = (int) mouseEvent.getX() + (shownX - (11 * 70 / edgeLength)) * edgeLength;
                     int y = (int) mouseEvent.getY() + (shownY - (5 * 70 / edgeLength)) * edgeLength;
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
+                    String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, clickedBuildingToDrop);
+                    
+                    
                     droppedBuildingImageView.setLayoutX(cell.getX() * edgeLength);
                     droppedBuildingImageView.setLayoutY(cell.getY() * edgeLength);
-                    String category = FileController.getBuildingCategoryByType(clickedBuildingToDrop);
-                    assert category != null;
-                    Building savedBuilding = gameController.getBuilding(clickedBuildingToDrop, category);
-                    Building sampleBuilding = new Building(savedBuilding);
-                    Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
-                            sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
-                            sampleBuilding.getHitPoint());
-                    cell.setBuilding(toBeDroppedBuilding);
-                    //TODO: samin -> use dropBuilding method to build buildings
-                    toBeDroppedBuilding.setLocation(cell);
+                    
                     droppedBuildingImageView.toFront();
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
@@ -162,18 +156,19 @@ public class GameGraphics extends Application {
                 clipboardContent.putString(selectedBuilding.getType());
                 clipboard.setContent(clipboardContent);
             } else if (keyEvent.getCode().getName().equals("V") && pressedKeyName.equals("Ctrl")
-                    && clipboard.getContentTypes() != null && selectedCell != null) {
-                String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
-                assert category != null;
-                Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
-                Building sampleBuilding = new Building(savedBuilding);
-                Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
-                        sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
-                        sampleBuilding.getHitPoint());
-                selectedCell.setBuilding(toBeDroppedBuilding);
-                //TODO: samin -> use dropBuilding method to build buildings
-                toBeDroppedBuilding.setLocation(selectedCell);
+                    && clipboard.getContent(DataFormat.PLAIN_TEXT) != null && selectedCell != null && selectedBuilding != null) {
+                
                 mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                
+                /*final Stage dialog = new Stage();
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.initOwner(stage);
+                VBox dialogVbox = new VBox(20);
+                Text text = new Text("This is a dialog");
+                dialogVbox.getChildren().add(text);
+                Scene dialogScene = new Scene(dialogVbox, 300, 200);
+                dialog.setScene(dialogScene);
+                dialog.show();*/
             }
         };
         
