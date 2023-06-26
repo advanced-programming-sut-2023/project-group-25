@@ -67,7 +67,7 @@
                 <Label text="Email field is empty!" fx:id="emailError" styleClass="errorLabel"/>
             </VBox>
         </HBox>
-        <VBox styleClass="registerFieldContainer" alignment="CENTER">
+        <VBox styleClass="registerFieldContainer" style="-fx-pref-height: 50px" alignment="CENTER">
             <fx:define>
                 <ToggleGroup fx:id="group"/>
             </fx:define>
