@@ -317,11 +317,11 @@ public class MapController2 {
         return "success";
     }
 
-    private void setRepairMenu(Pane pane) {
+    private void setBuildingMenu(Pane pane) {
         ImageView towerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/towerMenu.png"))));
         ImageView gatehouseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/gatehouseMenu.png"))));
-        setSizeUnits(towerMenu,0,670);
-        setSizeUnits(gatehouseMenu,0,670);
+        setSizeUnits(towerMenu, 0, 670);
+        setSizeUnits(gatehouseMenu, 0, 670);
         String category = FileController.getBuildingCategoryByType(GameGraphics.selectedBuilding.getType());
         Building savedBuilding = gameController.getBuilding(GameGraphics.selectedBuilding.getType(), category);
         ProgressBar progressBar = new ProgressBar();
@@ -329,18 +329,24 @@ public class MapController2 {
         progressBar.setStyle("-fx-accent: green");
         progressBar.setLayoutX(890);
         progressBar.setLayoutY(760);
-        Button repair=new Button("repair");
+        Button repair = new Button("repair");
         repair.setLayoutX(820);
         repair.setLayoutY(760);
         repair.setStyle("-fx-background-color:#AB863F;-fx-text-fill: white;");
         if (GameGraphics.selectedBuilding.getType().equals("lookout tower") || GameGraphics.selectedBuilding.getType().equals("perimeter tower")
                 || GameGraphics.selectedBuilding.getType().equals("square tower") || GameGraphics.selectedBuilding.getType().equals("defence turret")
                 || GameGraphics.selectedBuilding.getType().equals("round tower")) {
-            pane.getChildren().addAll(towerMenu, progressBar,repair);
+            pane.getChildren().addAll(towerMenu, progressBar, repair);
         } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse")) {
-            pane.getChildren().addAll(gatehouseMenu, progressBar,repair);
+            pane.getChildren().addAll(gatehouseMenu, progressBar, repair);
+        } else if (GameGraphics.selectedBuilding.getType().equals("mercenary post")) {
+            setArabianUnits(pane);
+        } else if (GameGraphics.selectedBuilding.getType().equals("barracks")) {
+            setEuropeanUnits(pane);
+        } else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) {
+            setEngineer(pane);
         }
-        repair.addEventHandler(MouseEvent.MOUSE_CLICKED,mouseEvent -> {
+        repair.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             //TODO: popup alert for ok,repaired,error
         });
     }
@@ -546,9 +552,9 @@ public class MapController2 {
         setSizeUnits(pikemen, 780, 750);
         setSizeUnits(spearmen, 840, 750);
         setSizeUnits(swordsmen, 910, 760);
-        addWeapons(pane);
 
         pane.getChildren().addAll(unitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen);
+        addWeapons(pane);
     }
 
     private void addWeapons(Pane pane) {
@@ -596,7 +602,7 @@ public class MapController2 {
         setSizeUnits(slave, 840, 740);
         setSizeUnits(slinger, 910, 750);
 
-        pane.getChildren().addAll(archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
+        pane.getChildren().addAll(unitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
     }
 
     private void setEngineer(Pane pane) {
@@ -609,7 +615,7 @@ public class MapController2 {
         setSizeUnits(ladderman, 700, 750);
         setSizeUnits(tunneler, 760, 750);
 
-        pane.getChildren().addAll(engineer, tunneler, ladderman);
+        pane.getChildren().addAll(unitsMenu, engineer, tunneler, ladderman);
     }
 
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
@@ -660,7 +666,7 @@ public class MapController2 {
 
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
-            setRepairMenu(pane);
+            setBuildingMenu(pane);
         };
 
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanelEventHandler);
