@@ -9,6 +9,7 @@ import Model.Cell;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
@@ -17,8 +18,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.security.Key;
 
 import static Controller.MapController2.clickedBuildingToDrop;
 
@@ -176,7 +175,15 @@ public class GameGraphics extends Application {
                 mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
             }
         };
-        
+
+        Button nextTurn=new Button("Next Turn");
+        nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
+        nextTurn.setLayoutX(1460);
+        nextTurn.setLayoutY(700);
+        EventHandler<MouseEvent> changeTurnHandler=event->{
+
+        };
+
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
@@ -185,7 +192,7 @@ public class GameGraphics extends Application {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, dropOrCancelBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, copyOrPasteBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
-        
+        gamePane.getChildren().add(nextTurn);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();

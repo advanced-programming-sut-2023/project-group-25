@@ -3,7 +3,9 @@ package Controller;
 import Model.*;
 import View.GameGraphics;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -271,6 +273,7 @@ public class MapController2 {
             back.setVisible(true);
             popularityMenu.setVisible(false);
         });
+        setPopularityMenu(pane);
 
         back.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             setImagesIcons1(true);
@@ -307,18 +310,39 @@ public class MapController2 {
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu);
             isTheFirstTime = true;
-            setTowersMenu(pane);
-            setPopularityMenu(pane);
         }
+
 
         stage.show();
         return "success";
     }
 
-    private void setTowersMenu(Pane pane) {
+    private void setRepairMenu(Pane pane) {
         ImageView towerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/towerMenu.png"))));
-
-        pane.getChildren().addAll(towerMenu);
+        ImageView gatehouseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/gatehouseMenu.png"))));
+        setSizeUnits(towerMenu,0,670);
+        setSizeUnits(gatehouseMenu,0,670);
+        String category = FileController.getBuildingCategoryByType(GameGraphics.selectedBuilding.getType());
+        Building savedBuilding = gameController.getBuilding(GameGraphics.selectedBuilding.getType(), category);
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setProgress(GameGraphics.selectedBuilding.getHitPoint() / savedBuilding.getHitPoint());
+        progressBar.setStyle("-fx-accent: green");
+        progressBar.setLayoutX(890);
+        progressBar.setLayoutY(760);
+        Button repair=new Button("repair");
+        repair.setLayoutX(820);
+        repair.setLayoutY(760);
+        repair.setStyle("-fx-background-color:#AB863F;-fx-text-fill: white;");
+        if (GameGraphics.selectedBuilding.getType().equals("lookout tower") || GameGraphics.selectedBuilding.getType().equals("perimeter tower")
+                || GameGraphics.selectedBuilding.getType().equals("square tower") || GameGraphics.selectedBuilding.getType().equals("defence turret")
+                || GameGraphics.selectedBuilding.getType().equals("round tower")) {
+            pane.getChildren().addAll(towerMenu, progressBar,repair);
+        } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse")) {
+            pane.getChildren().addAll(gatehouseMenu, progressBar,repair);
+        }
+        repair.addEventHandler(MouseEvent.MOUSE_CLICKED,mouseEvent -> {
+            //TODO: popup alert for ok,repaired,error
+        });
     }
 
     private void setPopularityMenu(Pane pane) {
@@ -634,8 +658,10 @@ public class MapController2 {
             //TODO
         };
 
-        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent ->
-                GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
+            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+            setRepairMenu(pane);
+        };
 
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanelEventHandler);
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
