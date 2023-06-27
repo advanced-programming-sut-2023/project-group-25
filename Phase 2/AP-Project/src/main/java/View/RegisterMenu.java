@@ -2,6 +2,7 @@ package View;
 
 import Controller.MainController;
 import Controller.RegisterLoginController;
+import Model.User;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 public class RegisterMenu extends Application implements Initializable {
@@ -48,6 +50,7 @@ public class RegisterMenu extends Application implements Initializable {
     private static String userPassword;
     private static String userNickname;
     private static String userEmail;
+    private static User registeringUser;
     @Override
     public void start(Stage stage) throws Exception {
         GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/RegisterMenu.fxml").toExternalForm()));
@@ -275,6 +278,7 @@ public class RegisterMenu extends Application implements Initializable {
             userPassword = passwordText.getText();
             userNickname = nickname.getText();
             userEmail = email.getText();
+            setRegisteringUser();
             new RegisterConfirmMenu().start(FirstPage.stage);
         }
         else {
@@ -323,5 +327,14 @@ public class RegisterMenu extends Application implements Initializable {
 
     public static String getUserPassword() {
         return userPassword;
+    }
+
+    public void setRegisteringUser() throws NoSuchAlgorithmException {
+        userPassword = RegisterLoginController.passwordToSHA(userPassword);
+        registeringUser = new User(userUsername,userPassword,userPassword,userNickname,userEmail,userSlogan);
+    }
+
+    public static User getRegisteringUser() {
+        return registeringUser;
     }
 }

@@ -1,5 +1,6 @@
 package View;
 
+import Controller.FileController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 import Model.User;
@@ -29,9 +30,6 @@ public class RegisterConfirmMenu extends Application implements Initializable {
     public TextField answerText;
     public TextField captchaText;
     private String captchaValue;
-
-    private String securityQuestion;
-    private String answer;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -129,7 +127,10 @@ public class RegisterConfirmMenu extends Application implements Initializable {
             alert.setHeaderText("Register Succeeded");
             alert.setContentText("User registered successfully!");
             alert.showAndWait();
-        }
+            User user = RegisterMenu.getRegisteringUser();
+            user.setSecurityQuestion(listView.getSelectionModel().getSelectedItem());
+            user.setSecurityAnswer(answerText.getText());
+            FileController.addUserToFile(user);
             new FirstPage().start(FirstPage.stage);
         }
         else {

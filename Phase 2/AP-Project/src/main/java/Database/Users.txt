@@ -9,22 +9,12 @@
 --STAY LOGGED IN? (boolean)--
 _____________________________________________________
 hoora
-ef39112b6d995935c6877dbcafb4f42359766ac0abe90b615bd417fe5708b020
-hooriaaaa
+48201388afc4e9ae52b1e65dc1ae98bc826d6b95ce936ad1216b00f06205392c
+hooria
 hoora@gmail.com
-
+Don’t be afraid to fail!
 0
-1- What city were you born in?
-ans
+3- In what city or town did your parents meet?
+tehran
 false
-_____________________________________________________
-samin
-861270a1ce32a0bff51bb8c64292c159957072e1b990dddba94287b7e8d68b47
-samiiiin
-samin@gmail.com
-
-0
-1- What city were you born in?
-ans
-true
 _____________________________________________________

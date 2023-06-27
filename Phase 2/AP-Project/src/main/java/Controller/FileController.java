@@ -110,6 +110,7 @@ public class FileController {
 
     public static void addUserToFile(User user) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
+        initializeUsersFile();
         content.add(user.getUsername());
         content.add(RegisterLoginController.passwordToSHA(user.getPassword()));
         content.add(user.getNickname());
