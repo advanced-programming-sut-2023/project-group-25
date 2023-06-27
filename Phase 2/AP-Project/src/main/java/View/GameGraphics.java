@@ -10,13 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.awt.*;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
@@ -190,9 +193,13 @@ public class GameGraphics extends Application {
         
         EventHandler<MouseEvent> rectangleSelectionEventHandler = mouseEvent -> {
             if (previousMouseEvent.isSecondaryButtonDown()) {
+                double minX = Math.min(previousClick.getX(), mouseEvent.getX());
+                double maxX = Math.max(previousClick.getX(), mouseEvent.getX());
+                double minY = Math.min(previousClick.getY(), mouseEvent.getY());
+                double maxY = Math.max(previousClick.getY(), mouseEvent.getY());
                 Cell[][] cells = gameController.getCurrentGame().getMap().getCells();
-                for (int i = (int) previousClick.getX() / edgeLength; i < mouseEvent.getX() / edgeLength; i++) {
-                    for (int j = (int) previousClick.getY() / edgeLength; j < mouseEvent.getY() / edgeLength; j++) {
+                for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
+                    for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
                         GameGraphics.selectedCell = null;
                         Label frontLabel = new Label();
                         frontLabel.setPrefWidth(edgeLength);
@@ -200,8 +207,12 @@ public class GameGraphics extends Application {
                         frontLabel.setLayoutX(i * edgeLength);
                         frontLabel.setLayoutY(j * edgeLength);
                         frontLabel.toFront();
-                        frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF; -fx-opacity: 0.3; -fx-border-style: solid;");
+                        frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
+                                " -fx-opacity: 0.3; -fx-border-style: solid;");
                         gamePane.getChildren().add(frontLabel);
+                        
+                        
+                        
                         //TODO: calculating the correct location of cell
                         //TODO: showing information
                     }
@@ -226,3 +237,6 @@ public class GameGraphics extends Application {
     }
     
 }
+/*
+i - shownX + (float) 11 * 70 / edgeLength) * edgeLength
+ */
