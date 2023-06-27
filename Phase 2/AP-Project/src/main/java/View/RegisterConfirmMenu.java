@@ -2,6 +2,7 @@ package View;
 
 import Controller.MainController;
 import Controller.RegisterLoginController;
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -122,8 +123,15 @@ public class RegisterConfirmMenu extends Application implements Initializable {
 
     public void register(MouseEvent mouseEvent) throws Exception {
         System.out.println(captchaValue);
-        if(securityError.getText().equals("Security question accepted!") && captchaText.getText().equals(captchaValue))
+        if(securityError.getText().equals("Security question accepted!") && captchaText.getText().equals(captchaValue)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText("Register Succeeded");
+            alert.setContentText("User registered successfully!");
+            alert.showAndWait();
+        }
             new FirstPage().start(FirstPage.stage);
+        }
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");

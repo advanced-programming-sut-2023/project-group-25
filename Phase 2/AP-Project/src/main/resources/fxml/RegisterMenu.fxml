@@ -74,7 +74,7 @@
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
                 <RadioButton styleClass="radioButton" fx:id="famousSloganR" toggleGroup="$group" onMouseClicked="#famousSlogan"/>
                 <Label text="Famous Slogans" styleClass="sloganLabel"/>
-                <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false" onInputMethodTextChanged="#selected"/>
+                <ComboBox fx:id="sloganComboBox" styleClass="famousSlogan" visible="false" onAction="#selectFamousSlogan"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
                 <RadioButton styleClass="radioButton" fx:id="randomSloganR" toggleGroup="$group" onMouseClicked="#randomSlogan"/>
@@ -84,14 +84,14 @@
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
                 <RadioButton styleClass="radioButton" fx:id="customSloganR" toggleGroup="$group" onMouseClicked="#customSlogan"/>
                 <Label text="Custom Slogan" styleClass="sloganLabel"/>
-                <TextField promptText="slogan" fx:id="customSlogan" styleClass="textField3" visible="false"/>
+                <TextField promptText="slogan" fx:id="customSlogan" onKeyTyped="#customSloganTyped" styleClass="textField3" visible="false"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" style="-fx-spacing: 10px">
                 <RadioButton styleClass="radioButton" fx:id="noSloganR" toggleGroup="$group" onMouseClicked="#noSlogan" selected="true"/>
                 <Label text="No Slogan" styleClass="sloganLabel"/>
             </HBox>
             <VBox alignment="CENTER">
-                <Label text="Slogan accepted!" styleClass="errorLabel" style="-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;"/>
+                <Label text="Slogan accepted!" fx:id="sloganError" styleClass="errorLabel" style="-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;"/>
             </VBox>
         </VBox>
 <!--        <HBox styleClass="registerFieldContainer" style="-fx-pref-height: 200px;" alignment="CENTER">-->

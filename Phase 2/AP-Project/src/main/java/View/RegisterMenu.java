@@ -1,13 +1,14 @@
 package View;
 
-import Controller.FileController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -38,9 +39,15 @@ public class RegisterMenu extends Application implements Initializable {
     public RadioButton customSloganR;
     public RadioButton randomSloganR;
     public RadioButton noSloganR;
+    public Label sloganError;
     boolean correctUsername = false;
     private boolean hide = false;
     private boolean randomPassword = false;
+    private static String userSlogan;
+    private static String userUsername;
+    private static String userPassword;
+    private static String userNickname;
+    private static String userEmail;
     @Override
     public void start(Stage stage) throws Exception {
         GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/RegisterMenu.fxml").toExternalForm()));
@@ -69,24 +76,15 @@ public class RegisterMenu extends Application implements Initializable {
         confirmPass.setTranslateY(-27);
         Hide.setSelected(true);
         hide = true;
+        randomSlogan.setEditable(false);
     }
 
     public void famousSlogan() {
-        if(sloganComboBox.getSelectionModel().getSelectedIndex() == 0)
-            System.out.println("0");
-        else
-            System.out.println("1");
+        checkFamousSlogan();
         sloganComboBox.setVisible(true);
         randomSlogan.setVisible(false);
         customSlogan.setVisible(false);
         resetFields();
-    }
-
-    public void selected() {
-        if(sloganComboBox.getSelectionModel().getSelectedIndex() == 0)
-            System.out.println("0");
-        else
-            System.out.println("1");
     }
 
     public void randomSlogan() {
@@ -94,13 +92,46 @@ public class RegisterMenu extends Application implements Initializable {
         sloganComboBox.setVisible(false);
         customSlogan.setVisible(false);
         resetFields();
+        sloganError.setText("Slogan accepted!");
+        sloganError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        userSlogan = registerLoginController.generateRandomSlogan();
+        randomSlogan.setText(userSlogan);
     }
 
     public void customSlogan() {
         customSlogan.setVisible(true);
         sloganComboBox.setVisible(false);
         randomSlogan.setVisible(false);
+        checkCustomSlogan();
         resetFields();
+    }
+
+    public void checkCustomSlogan() {
+        if(customSlogan.getText().equals("")) {
+            sloganError.setText("Slogan field is empty!");
+            sloganError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else {
+            userSlogan = customSlogan.getText();
+            sloganError.setText("Slogan accepted!");
+            sloganError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        }
+    }
+
+    public void checkFamousSlogan() {
+        if(sloganComboBox.getSelectionModel().getSelectedItem() == null) {
+            sloganError.setText("Slogan field is empty!");
+            sloganError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else {
+            userSlogan = sloganComboBox.getSelectionModel().getSelectedItem();
+            System.out.println(userSlogan);
+            sloganError.setText("Slogan accepted!");
+            sloganError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        }
+    }
+    public void selectFamousSlogan(ActionEvent mouseEvent) {
+       checkFamousSlogan();
     }
 
     public void noSlogan() {
@@ -108,6 +139,9 @@ public class RegisterMenu extends Application implements Initializable {
         sloganComboBox.setVisible(false);
         randomSlogan.setVisible(false);
         resetFields();
+        userSlogan = "";
+        sloganError.setText("Slogan accepted!");
+        sloganError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
     }
 
     public void resetFields() {
@@ -235,7 +269,12 @@ public class RegisterMenu extends Application implements Initializable {
 
     public void submit(MouseEvent mouseEvent) throws Exception {
         if(passwordError.getText().equals("Password accepted!") && usernameError.getText().equals("Username accepted!") &&
-                nicknameError.getText().equals("Nickname accepted!") && emailError.getText().equals("Email accepted!")) {
+                nicknameError.getText().equals("Nickname accepted!") && emailError.getText().equals("Email accepted!")
+                && sloganError.getText().equals("Slogan accepted!")) {
+            userUsername = username.getText();
+            userPassword = passwordText.getText();
+            userNickname = nickname.getText();
+            userEmail = email.getText();
             new RegisterConfirmMenu().start(FirstPage.stage);
         }
         else {
@@ -256,5 +295,33 @@ public class RegisterMenu extends Application implements Initializable {
         email.setText("");
         nickname.setText("");
         noSloganR.setSelected(true);
+    }
+
+    public void customSloganTyped(KeyEvent keyEvent) {
+        checkCustomSlogan();
+    }
+
+    public static String getUserNickname() {
+        return userNickname;
+    }
+
+    public static String getUserEmail() {
+        return userEmail;
+    }
+
+    public RegisterLoginController getRegisterLoginController() {
+        return registerLoginController;
+    }
+
+    public static String getUserSlogan() {
+        return userSlogan;
+    }
+
+    public static String getUserUsername() {
+        return userUsername;
+    }
+
+    public static String getUserPassword() {
+        return userPassword;
     }
 }
