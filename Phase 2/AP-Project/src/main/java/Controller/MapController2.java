@@ -113,7 +113,7 @@ public class MapController2 {
                 if (i >= map.getLength() || j >= map.getWidth()) continue;
                 Cell cell = map.getCells()[i][j];
 
-                showBackground(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
+                showBackgrounds(pane, cell.getMaterial(), xCounter, yCounter, edgeLength);
 
                 for (NaturalBlock naturalBlock : cell.getNaturalBlocks()) {
                     showNaturalBlock(pane, i, j, naturalBlock);
@@ -633,7 +633,7 @@ public class MapController2 {
         //TODO
     }
 
-    private void showBackground(Pane pane, String material, int x, int y, int edgeLength) {
+    private void showBackgrounds(Pane pane, String material, int x, int y, int edgeLength) {
         Label pictureLabel = new Label();
         pictureLabel.setPrefWidth(edgeLength);
         pictureLabel.setPrefHeight(edgeLength);
@@ -643,8 +643,20 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
-        EventHandler<MouseEvent> selectCell = mouseEvent -> GameGraphics.selectedCell = map.getCells()[x][y];
-        pictureLabel.setOnMouseClicked(selectCell);
+        EventHandler<MouseEvent> selectCell = mouseEvent -> {
+            GameGraphics.selectedCell = map.getCells()[(int) (x - shownX + (float) 11 * 70 / edgeLength)]
+                    [(int) (y - shownY + (float) 5 * 70 / edgeLength)];
+            Label frontLabel = new Label();
+            frontLabel.setPrefWidth(edgeLength);
+            frontLabel.setPrefHeight(edgeLength);
+            frontLabel.setLayoutX(pictureLabel.getLayoutX());
+            frontLabel.setLayoutY(pictureLabel.getLayoutY());
+            frontLabel.setBackground(background);
+            frontLabel.toFront();
+            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF; -fx-opacity: 0.3; -fx-border-style: solid;");
+            pane.getChildren().add(frontLabel);
+        };
+        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
         pane.getChildren().add(pictureLabel);
         pane.setStyle("-fx-spacing: 0");
     }
@@ -659,16 +671,11 @@ public class MapController2 {
         buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
 
-        EventHandler<MouseEvent> showBuildingPanelEventHandler = mouseEvent -> {
-            //TODO
-        };
-
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
         };
 
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, showBuildingPanelEventHandler);
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
