@@ -74,6 +74,10 @@ public class GameGraphics extends Application {
         Pane gamePane = new Pane();
         Scene scene = new Scene(gamePane, 750, 1200);
         MapController2 mapController = new MapController2();
+        
+        
+        System.out.println(gameController.getCurrentGame().getMap());
+        
         mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
         
         EventHandler<MouseEvent> previousClickEventHandler = mouseEvent -> {
@@ -140,7 +144,6 @@ public class GameGraphics extends Application {
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
                     String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, clickedBuildingToDrop);
                     if (Pattern.compile("success").matcher(result).find()) {
-                        System.out.println("yes");
                         ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
                         droppedBuildingImageView.setFitHeight(edgeLength);
                         droppedBuildingImageView.setFitWidth(edgeLength);

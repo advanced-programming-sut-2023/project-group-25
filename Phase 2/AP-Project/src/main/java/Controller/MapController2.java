@@ -97,13 +97,15 @@ public class MapController2 {
     public String loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         gameController = new GameController();
         
+        if (map == null) System.out.println("map is null");
+        
         //capacity: 31 x 16 (x50 pixels)
         if (edgeLength < 40 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
 //            System.out.println("returned");
             return "bad location";
         }
 
-//        System.out.println("loading");
+        System.out.println("loading");
         
         this.edgeLength = edgeLength;
         this.shownX = x;
@@ -653,7 +655,7 @@ public class MapController2 {
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
         EventHandler<MouseEvent> selectCell = mouseEvent -> {
-            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
+//            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
             GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
             Label frontLabel = new Label();
             frontLabel.setPrefWidth(edgeLength);
