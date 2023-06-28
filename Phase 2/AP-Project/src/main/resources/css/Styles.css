@@ -148,7 +148,7 @@
     -fx-pref-height: 400px;
     -fx-spacing: 10px;
     -fx-translate-y: -50px;
-    -fx-translate-x: 50px;
+    -fx-translate-x: 1000px;
 }
 
 #allUsers {
@@ -163,4 +163,11 @@
     -fx-background-color: #774f2a;
     -fx-translate-y: 30px;
     -fx-text-fill:#fff;
+}
+
+#enterProfile {
+    -fx-translate-y: -125px;
+    -fx-translate-x: 100px;
+    -fx-pref-width: 160px;
+    -fx-pref-height: 160px;
 }

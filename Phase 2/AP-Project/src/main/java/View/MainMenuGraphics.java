@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -28,6 +27,7 @@ public class MainMenuGraphics extends Application implements Initializable {
     public VBox newGameContainer;
     public ListView allUsers;
     public Button start;
+    public Button enterProfile;
     private ArrayList<CheckBox> listViewCheckBoxes = new ArrayList<>();
     @Override
     public void start(Stage stage) throws Exception {
@@ -54,6 +54,8 @@ public class MainMenuGraphics extends Application implements Initializable {
         setUsernames();
         Background newGame = new Background(MainController.setFirstPageBackground("/images/newGameContainer.png"));
         newGameContainer.setBackground(newGame);
+        Background enterProf = new Background(MainController.setFirstPageBackground("/images/enterProfile.png"));
+        enterProfile.setBackground(enterProf);
         allUsers.setEditable(false);
     }
 
@@ -93,5 +95,19 @@ public class MainMenuGraphics extends Application implements Initializable {
         }
         selectedUsernames.add(RegisterLoginController.getCurrentUser().getUsername());
         return selectedUsernames;
+    }
+
+    public void enterProfileMenu(MouseEvent mouseEvent) throws Exception {
+        new FirstPage().start(FirstPage.stage);
+    }
+
+    public void profileHover(MouseEvent mouseDragEvent) {
+        Background enterProf = new Background(MainController.setFirstPageBackground("/images/enterProfile2.png"));
+        enterProfile.setBackground(enterProf);
+    }
+
+    public void profileUnhove(MouseEvent mouseEvent) {
+        Background enterProf = new Background(MainController.setFirstPageBackground("/images/enterProfile.png"));
+        enterProfile.setBackground(enterProf);
     }
 }
