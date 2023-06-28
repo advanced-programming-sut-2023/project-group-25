@@ -1,30 +1,34 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.FileController;
-import Controller.GameController;
-import Controller.MapController2;
+import Controller.*;
 import Model.Building;
 import Model.Cell;
+import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+import java.awt.*;
+import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
 
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     public static Building selectedBuilding = null;
-    public static Cell selectedCell = null; //Selected cell is the cell in map. The place on screen must be calculated.
+    public static Cell selectedCell = null; //Selected cell is the cell on map. The place on screen must be calculated.
     private final GameController gameController;
     private Clipboard clipboard;
     private int edgeLength = 70;
@@ -33,6 +37,7 @@ public class GameGraphics extends Application {
     private TradeMenu tradeMenu;
     private MouseEvent previousClick;
     private String pressedKeyName = null;
+    private MouseEvent previousMouseEvent = null;
     
     public GameGraphics(ChangeMenuController changeMenuController) {
         this.gameController = changeMenuController.getgameController();
@@ -71,10 +76,15 @@ public class GameGraphics extends Application {
         MapController2 mapController = new MapController2();
         mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
         
-        EventHandler<MouseEvent> scrollingMouseEventHandler1 = mouseEvent -> previousClick = mouseEvent;
+        EventHandler<MouseEvent> previousClickEventHandler = mouseEvent -> {
+            previousClick = mouseEvent;
+            previousMouseEvent = mouseEvent;
+            if (mouseEvent.isSecondaryButtonDown())
+                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+        };
         
-        EventHandler<MouseEvent> scrollingMouseEventHandler2 = mouseEvent -> {
-            if (clickedBuildingToDrop == null) {
+        EventHandler<MouseEvent> scrollingMouseEventHandler = mouseEvent -> {
+            if (clickedBuildingToDrop == null && previousClick.isPrimaryButtonDown()) {
                 double x = shownX * edgeLength;
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
@@ -124,20 +134,24 @@ public class GameGraphics extends Application {
                 if (mouseEvent.isPrimaryButtonDown()) {
                     String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
                             + "/" + clickedBuildingToDrop + ".png";
-                    ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
-                    droppedBuildingImageView.setFitHeight(edgeLength);
-                    droppedBuildingImageView.setFitWidth(edgeLength);
-                    gamePane.getChildren().add(droppedBuildingImageView);
                     int x = (int) mouseEvent.getX() + (shownX - (11 * 70 / edgeLength)) * edgeLength;
                     int y = (int) mouseEvent.getY() + (shownY - (5 * 70 / edgeLength)) * edgeLength;
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
                     String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, clickedBuildingToDrop);
-                    
-                    
-                    droppedBuildingImageView.setLayoutX(cell.getX() * edgeLength);
-                    droppedBuildingImageView.setLayoutY(cell.getY() * edgeLength);
-                    
-                    droppedBuildingImageView.toFront();
+                    if (Pattern.compile("success").matcher(result).find()) {
+                        ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+                        droppedBuildingImageView.setFitHeight(edgeLength);
+                        droppedBuildingImageView.setFitWidth(edgeLength);
+                        gamePane.getChildren().add(droppedBuildingImageView);
+                        droppedBuildingImageView.setLayoutX(cell.getX() * edgeLength);
+                        droppedBuildingImageView.setLayoutY(cell.getY() * edgeLength);
+                        droppedBuildingImageView.toFront();
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("Drop Building Error");
+                        alert.setContentText(result);
+                        alert.show();
+                    }
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
                     toBeDroppedBuildingImageView = null;
@@ -169,23 +183,69 @@ public class GameGraphics extends Application {
                 dialog.show();*/
             }
         };
-
-        Button nextTurn=new Button("Next Turn");
+        
+        Button nextTurn = new Button("Next Turn");
         nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
         nextTurn.setLayoutX(1460);
         nextTurn.setLayoutY(700);
-        EventHandler<MouseEvent> changeTurnHandler=event->{
-
-        };
-
+        EventHandler<MouseEvent> changeTurnHandler = event -> {
         
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
-        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
+        };
+        
+        EventHandler<MouseEvent> rectangleSelectionEventHandler = mouseEvent -> {
+            if (previousMouseEvent.isSecondaryButtonDown()) {
+                double minX = Math.min(previousClick.getX(), mouseEvent.getX());
+                double maxX = Math.max(previousClick.getX(), mouseEvent.getX());
+                double minY = Math.min(previousClick.getY(), mouseEvent.getY());
+                double maxY = Math.max(previousClick.getY(), mouseEvent.getY());
+                Cell[][] cells = gameController.getCurrentGame().getMap().getCells();
+                Tooltip tooltip = new Tooltip();
+                tooltip.setStyle("-fx-font-size: 15px;");
+                String s = null;
+                int totalNumberOfPeople = 0;
+                boolean isGroup = false;
+                if ((Math.abs(minX - maxX)/edgeLength > 1) || (Math.abs(minY - maxY)/edgeLength > 1)) {
+                    isGroup = true;
+                    s = "Total number of people: ";
+                }
+                for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
+                    for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
+                        GameGraphics.selectedCell = null;
+                        Label frontLabel = new Label();
+                        frontLabel.setPrefWidth(edgeLength);
+                        frontLabel.setPrefHeight(edgeLength);
+                        frontLabel.setLayoutX(i * edgeLength);
+                        frontLabel.setLayoutY(j * edgeLength);
+                        frontLabel.toFront();
+                        frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
+                                " -fx-opacity: 0.3; -fx-border-style: solid;");
+                        
+                        gamePane.getChildren().add(frontLabel);
+                        if (isGroup) frontLabel.setTooltip(tooltip);
+                        else frontLabel.setTooltip(mapController.getTooltipForACell(cells[mapController.getXLocationByPixel(i)]
+                                [mapController.getYLocationByPixel(j)]));
+                        totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
+                                .getPeople().size();
+                    }
+                }
+                
+                if (s != null) {
+                    s += totalNumberOfPeople;
+                    tooltip.setText(s);
+                }
+            }
+        };
+        
+        
+        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, previousClickEventHandler);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, zoomingEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_MOVED, moveClickedBuildingToDropEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, dropOrCancelBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, copyOrPasteBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
+        scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
+        
         gamePane.getChildren().add(nextTurn);
         stage.setScene(scene);
         stage.setFullScreen(true);
