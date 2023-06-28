@@ -9,7 +9,6 @@ import Model.Cell;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
@@ -69,7 +68,7 @@ public class GameGraphics extends Application {
         Pane gamePane = new Pane();
         Scene scene = new Scene(gamePane, 750, 1200);
         MapController2 mapController = new MapController2();
-        mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+        mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
         
         EventHandler<MouseEvent> scrollingMouseEventHandler1 = mouseEvent -> previousClick = mouseEvent;
         
@@ -79,7 +78,7 @@ public class GameGraphics extends Application {
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
                 int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                if (mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                if (mapController.loadMapToShow(scene,stage, gamePane, gameController.getCurrentGame().getMap(),
                         (int) (x - dx) / edgeLength, (int) (y - dy) / edgeLength, edgeLength).equals("success")) {
                     x = x - dx;
                     y = y - dy;
@@ -93,11 +92,11 @@ public class GameGraphics extends Application {
             if (clickedBuildingToDrop == null) {
                 if (keyEvent.getCode().getName().equals("Add") || keyEvent.getCode().getName().equals("Equals")) {
                     if (edgeLength <= 90) edgeLength += 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 } else if (keyEvent.getCode().getName().equals("Subtract") || keyEvent.getCode().getName().equals("Minus")) {
                     if (edgeLength > 40) edgeLength -= 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 }
             }
@@ -172,18 +171,9 @@ public class GameGraphics extends Application {
                 selectedCell.setBuilding(toBeDroppedBuilding);
                 //TODO: samin -> use dropBuilding method to build buildings
                 toBeDroppedBuilding.setLocation(selectedCell);
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
             }
         };
-
-        Button nextTurn=new Button("Next Turn");
-        nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
-        nextTurn.setLayoutX(1460);
-        nextTurn.setLayoutY(700);
-        EventHandler<MouseEvent> changeTurnHandler=event->{
-
-        };
-
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, scrollingMouseEventHandler1);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler2);
@@ -192,7 +182,6 @@ public class GameGraphics extends Application {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, dropOrCancelBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, copyOrPasteBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
-        gamePane.getChildren().add(nextTurn);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
