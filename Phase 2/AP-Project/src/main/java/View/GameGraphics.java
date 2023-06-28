@@ -141,24 +141,7 @@ public class GameGraphics extends Application {
 //                    System.out.println("mouseEvent: " + mouseEvent.getX() / edgeLength + " " + mouseEvent.getY() / edgeLength);
                     
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
-                    String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, clickedBuildingToDrop);
-                    if (Pattern.compile("success").matcher(result).find()) {
-                        ImageView droppedBuildingImageView = new ImageView
-                                (new Image(String.valueOf(getClass().getResource(address))));
-                        droppedBuildingImageView.setFitHeight(edgeLength);
-                        droppedBuildingImageView.setFitWidth(edgeLength);
-                        gamePane.getChildren().add(droppedBuildingImageView);
-                        droppedBuildingImageView.setLayoutX
-                                ((int) (cell.getX() - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
-                        droppedBuildingImageView.setLayoutY
-                                ((int) (cell.getY() - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-                        droppedBuildingImageView.toFront();
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setHeaderText("Drop Building Error");
-                        alert.setContentText(result);
-                        alert.show();
-                    }
+                    buildBuildingAndShowMessage(gamePane, address, cell, clickedBuildingToDrop);
                 } else if (mouseEvent.isSecondaryButtonDown()) {
                     gamePane.getChildren().remove(toBeDroppedBuildingImageView);
                     toBeDroppedBuildingImageView = null;
@@ -176,18 +159,21 @@ public class GameGraphics extends Application {
                 clipboard.setContent(clipboardContent);
             } else if (keyEvent.getCode().getName().equals("V") && pressedKeyName.equals("Ctrl")
                     && clipboard.getContentTypes() != null && selectedCell != null) {
-                String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
-                assert category != null;
-                Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
-                Building sampleBuilding = new Building(savedBuilding);
-                Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
-                        sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
-                        sampleBuilding.getHitPoint());
-                selectedCell.setBuilding(toBeDroppedBuilding);
-                //TODO: samin -> use dropBuilding method to build buildings
-                toBeDroppedBuilding.setLocation(selectedCell);
-                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
-                        , shownX, shownY, edgeLength);
+//                String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
+//                assert category != null;
+//                Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
+//                Building sampleBuilding = new Building(savedBuilding);
+//                Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
+//                        sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
+//                        sampleBuilding.getHitPoint());
+//                selectedCell.setBuilding(toBeDroppedBuilding);
+//                //TODO: samin -> use dropBuilding method to build buildings
+//                toBeDroppedBuilding.setLocation(selectedCell);
+//                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+//                        , shownX, shownY, edgeLength);
+                String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(selectedBuilding.getType())
+                        + "/" + selectedBuilding.getType() + ".png";
+                buildBuildingAndShowMessage(gamePane, address, selectedCell, selectedBuilding.getType());
             }
         };
 
@@ -210,7 +196,7 @@ public class GameGraphics extends Application {
                 }
                 for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
                     for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
-                        GameGraphics.selectedCell = null;
+                        selectedCell = null;
                         Label frontLabel = new Label();
                         frontLabel.setPrefWidth(edgeLength);
                         frontLabel.setPrefHeight(edgeLength);
@@ -222,11 +208,13 @@ public class GameGraphics extends Application {
                         
                         gamePane.getChildren().add(frontLabel);
                         if (isGroup) frontLabel.setTooltip(tooltip);
-                        else
+                        else {
                             frontLabel.setTooltip(mapController.getTooltipForACell(cells[mapController.getXLocationByPixel(i)]
                                     [mapController.getYLocationByPixel(j)]));
-                        totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
-                                .getPeople().size();
+                            totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
+                                    .getPeople().size();
+                            selectedCell = cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)];
+                        }
                     }
                 }
                 
@@ -234,7 +222,13 @@ public class GameGraphics extends Application {
                     s += totalNumberOfPeople;
                     tooltip.setText(s);
                 }
+            } else if (mouseEvent.isPrimaryButtonDown()) {
+                selectedCell = null;
             }
+        };
+        
+        EventHandler<KeyEvent> showClipBoardEventHandler = keyEvent -> {
+        
         };
         
         
@@ -246,10 +240,32 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, copyOrPasteBuildingEventHandler);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
         
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
+    }
+    
+    private void buildBuildingAndShowMessage(Pane gamePane, String address, Cell cell, String type) {
+        String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, type);
+        if (Pattern.compile("success").matcher(result).find()) {
+            ImageView droppedBuildingImageView = new ImageView
+                    (new Image(String.valueOf(getClass().getResource(address))));
+            droppedBuildingImageView.setFitHeight(edgeLength);
+            droppedBuildingImageView.setFitWidth(edgeLength);
+            gamePane.getChildren().add(droppedBuildingImageView);
+            droppedBuildingImageView.setLayoutX
+                    ((int) (cell.getX() - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+            droppedBuildingImageView.setLayoutY
+                    ((int) (cell.getY() - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+            droppedBuildingImageView.toFront();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Drop Building Error");
+            alert.setContentText(result);
+            alert.show();
+        }
     }
     
 }
