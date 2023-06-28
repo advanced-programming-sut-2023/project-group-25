@@ -1,5 +1,6 @@
 package View;
 
+import Controller.FileController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 import Model.User;
@@ -42,6 +43,7 @@ public class RegisterMenu extends Application implements Initializable {
     public RadioButton randomSloganR;
     public RadioButton noSloganR;
     public Label sloganError;
+    public Button back;
     boolean correctUsername = false;
     private boolean hide = false;
     private boolean randomPassword = false;
@@ -64,6 +66,7 @@ public class RegisterMenu extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        back.setTooltip(new Tooltip("salam"));
 //        listView.getItems().add("1- What city were you born in?");
 //        listView.getItems().add("2- What is your oldest sibling’s middle name?");
 //        listView.getItems().add("3- In what city or town did your parents meet?");
@@ -80,6 +83,7 @@ public class RegisterMenu extends Application implements Initializable {
         Hide.setSelected(true);
         hide = true;
         randomSlogan.setEditable(false);
+        back.setText("\n\nFirst Page");
     }
 
     public void famousSlogan() {
@@ -178,13 +182,17 @@ public class RegisterMenu extends Application implements Initializable {
             usernameError.setText("Username field is empty!");
             correctUsername = false;
             usernameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else if(FileController.getUserByUsername(username.getText()) != null) {
+            usernameError.setText("This username already exists!");
+            correctUsername = false;
+            usernameError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
         }
         else if (registerLoginController.isUsernameValid(username.getText())) {
             usernameError.setText("Username accepted!");
             correctUsername = true;
             usernameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         } else {
-            usernameError.setText("This username format is invalid");
+            usernameError.setText("This username format is invalid!");
             correctUsername = false;
             usernameError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
         }
@@ -336,5 +344,9 @@ public class RegisterMenu extends Application implements Initializable {
 
     public static User getRegisteringUser() {
         return registeringUser;
+    }
+
+    public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
+        new FirstPage().start(FirstPage.stage);
     }
 }

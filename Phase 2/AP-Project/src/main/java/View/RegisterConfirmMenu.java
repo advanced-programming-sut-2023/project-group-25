@@ -29,6 +29,7 @@ public class RegisterConfirmMenu extends Application implements Initializable {
     public TextField confirmText;
     public TextField answerText;
     public TextField captchaText;
+    public Button back;
     private String captchaValue;
 
     @Override
@@ -52,6 +53,7 @@ public class RegisterConfirmMenu extends Application implements Initializable {
         listView.getItems().add("5- What was your first pet’s name?");
         Background background = new Background(MainController.setFirstPageBackground("/images/captcha/reset.png"));
         reset.setBackground(background);
+        back.setText("\n\nFirst Page");
     }
 
     public void setCaptcha() {
@@ -139,6 +141,11 @@ public class RegisterConfirmMenu extends Application implements Initializable {
             alert.setHeaderText("Register Failed");
             alert.setContentText("Please fill the security form properly!");
             alert.showAndWait();
+            setCaptcha();
         }
+    }
+
+    public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
+        new FirstPage().start(FirstPage.stage);
     }
 }

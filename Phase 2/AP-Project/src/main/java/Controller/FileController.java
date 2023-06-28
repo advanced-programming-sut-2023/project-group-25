@@ -494,10 +494,10 @@ public class FileController {
         return null;
     }
 
-    public ArrayList<User> getAllUsers(String path) {
+    public static ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
+        for (int i = 1; i < (content.size() / 10); i++) {
             allUsers.add(getUserByUsername(content.get(10 * i)));
         }
         return allUsers;

@@ -43,7 +43,7 @@ public class FirstPage extends Application implements Initializable {
     }
     
     public void login() throws Exception {
-        new MapMenuGraphics().start(FirstPage.stage);
+        new LoginMenu().start(FirstPage.stage);
     }
 
     @Override
