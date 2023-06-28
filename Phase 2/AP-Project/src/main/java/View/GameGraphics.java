@@ -74,14 +74,14 @@ public class GameGraphics extends Application {
         Pane gamePane = new Pane();
         Scene scene = new Scene(gamePane, 750, 1200);
         MapController2 mapController = new MapController2();
-        
-        mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+        mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
         
         EventHandler<MouseEvent> previousClickEventHandler = mouseEvent -> {
             previousClick = mouseEvent;
             previousMouseEvent = mouseEvent;
             if (mouseEvent.isSecondaryButtonDown())
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                        , shownX, shownY, edgeLength);
         };
         
         EventHandler<MouseEvent> scrollingMouseEventHandler = mouseEvent -> {
@@ -90,7 +90,7 @@ public class GameGraphics extends Application {
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
                 int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                if (mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                if (mapController.loadMapToShow(scene,stage, gamePane, gameController.getCurrentGame().getMap(),
                         (int) (x - dx) / edgeLength, (int) (y - dy) / edgeLength, edgeLength).equals("success")) {
                     x = x - dx;
                     y = y - dy;
@@ -104,11 +104,11 @@ public class GameGraphics extends Application {
             if (clickedBuildingToDrop == null) {
                 if (keyEvent.getCode().getName().equals("Add") || keyEvent.getCode().getName().equals("Equals")) {
                     if (edgeLength <= 90) edgeLength += 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 } else if (keyEvent.getCode().getName().equals("Subtract") || keyEvent.getCode().getName().equals("Minus")) {
                     if (edgeLength > 40) edgeLength -= 10;
-                    mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(),
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(),
                             shownX, shownY, edgeLength);
                 }
             }
@@ -175,18 +175,22 @@ public class GameGraphics extends Application {
                 clipboardContent.putString(selectedBuilding.getType());
                 clipboard.setContent(clipboardContent);
             } else if (keyEvent.getCode().getName().equals("V") && pressedKeyName.equals("Ctrl")
-                    && clipboard.getContent(DataFormat.PLAIN_TEXT) != null && selectedCell != null && selectedBuilding != null) {
-                mapController.loadMapToShow(stage, gamePane, gameController.getCurrentGame().getMap(), shownX, shownY, edgeLength);
+                    && clipboard.getContentTypes() != null && selectedCell != null) {
+                String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
+                assert category != null;
+                Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
+                Building sampleBuilding = new Building(savedBuilding);
+                Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
+                        sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
+                        sampleBuilding.getHitPoint());
+                selectedCell.setBuilding(toBeDroppedBuilding);
+                //TODO: samin -> use dropBuilding method to build buildings
+                toBeDroppedBuilding.setLocation(selectedCell);
+                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                        , shownX, shownY, edgeLength);
             }
         };
-        
-        Button nextTurn = new Button("Next Turn");
-        nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
-        nextTurn.setLayoutX(1460);
-        nextTurn.setLayoutY(700);
-        EventHandler<MouseEvent> changeTurnHandler = event -> {
-        
-        };
+
         
         EventHandler<MouseEvent> rectangleSelectionEventHandler = mouseEvent -> {
             if (previousMouseEvent.isSecondaryButtonDown() && clickedBuildingToDrop == null) {
@@ -243,7 +247,6 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
         
-        gamePane.getChildren().add(nextTurn);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
