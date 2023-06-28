@@ -3,6 +3,7 @@ package Controller;
 import Model.*;
 import View.GameGraphics;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -12,6 +13,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -71,12 +74,81 @@ public class MapController2 {
     private final ImageView engineerGuild = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/TrainingBuildings/engineers guild0.png"))));
     private final ImageView stable = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/stable.png"))));
     private final ImageView oilSmelter = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Buildings/ProductionBuildings/oil smelter.png"))));
+    private final ImageView churchMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/church.png"))));
+    private final ImageView catheralMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/cathedral.png"))));
+    private final ImageView armouryMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/Armoury.png"))));
+    private final ImageView woodcutterMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/woodcutter.png"))));
+    private final ImageView cageMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/caged war dog.png"))));
+    private final ImageView killingPitMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/killing pit.png"))));
+    private final ImageView stableMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/stables.png"))));
+    private final ImageView stockpileMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/stockpile.png"))));
+    private final ImageView appleOrchardMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/apple orchard.png"))));
+    private final ImageView dairyFarmMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/dairy farm.png"))));
+    private final ImageView hopsFarmMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/hops farm.png"))));
+    private final ImageView hovelMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/hovel.png"))));
+    private final ImageView ironMineMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/iron mine.png"))));
+    private final ImageView oxTetherMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/ox tether.png"))));
+    private final ImageView quarryMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/quarry.png"))));
+    private final ImageView wheatFarmMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/wheat farm.png"))));
+    private final ImageView bakeryMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/bakery.png"))));
+    private final ImageView breweryMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/brewery.png"))));
+    private final ImageView innMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/inn.png"))));
+    private final ImageView millMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/mill.png"))));
+    private final ImageView fletcherMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/fletcher.png"))));
+    private final ImageView armorerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/armorer.png"))));
+    private final ImageView blacksmithMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/blacksmith.png"))));
+    private final ImageView poleturnerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/poleturner.png"))));
+    private final ImageView bowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/bow.png"))));
+    private final ImageView crossbowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/crossbow.png"))));
+    private final ImageView leatherMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/leather.png"))));
+    private final ImageView maceMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/mace.png"))));
+    private final ImageView metalMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/metal.png"))));
+    private final ImageView pikeMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/pike.png"))));
+    private final ImageView spearMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/spear.png"))));
+    private final ImageView swordMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/sword.png"))));
+    private final ImageView monk = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/monk.png"))));
+    private final ImageView ArabianUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
+    private final ImageView archerBow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArcherBow.png"))));
+    private final ImageView assassin = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Assassins.png"))));
+    private final ImageView horseArcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/HorseArchers.png"))));
+    private final ImageView arabianSwordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArabianSwordsmen.png"))));
+    private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
+    private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
+    private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
     private GameController gameController;
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
     private int shownX;
     private int shownY;
     private Map map;
+    
+    public static void initializeMapTemplate(int length, int width) {
+        Map map = new Map(length, width);
+        initializeCastlesLocation(map, length, width);
+        initializeIronLandsTemplate2(map, length, width);
+        initializeRockLandsTemplate2(map, length, width);
+        for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
+            for (int j = width / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = length / 6; i < (5 * length) / 6; i++)
+            for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        
+        setDefaultLand(length, width, map);
+        Map.setTemplateMap(1, map);
+    }
     
     public int getShownX() {
         return shownX;
@@ -93,8 +165,8 @@ public class MapController2 {
     public void setShownY(int shownY) {
         this.shownY = shownY;
     }
-    
-    public String loadMapToShow(Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
+
+    public String loadMapToShow(Scene scene, Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         gameController = new GameController();
         
         if (map == null) System.out.println("map is null");
@@ -104,8 +176,8 @@ public class MapController2 {
 //            System.out.println("returned");
             return "bad location";
         }
-
-        System.out.println("loading");
+        
+//        System.out.println("loading");
         
         this.edgeLength = edgeLength;
         this.shownX = x;
@@ -135,6 +207,15 @@ public class MapController2 {
             xCounter++;
             yCounter = 0;
         }
+
+        EventHandler<MouseEvent> ccc = ev -> {
+            double xScene = ev.getX();
+            double yScene = ev.getY();
+            if (xScene >= 0 && xScene <= 1528.8 && yScene >= 2.4 && yScene <= 692){
+                setArabianUnits(false);
+            }
+        };
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, ccc);
         
         setSizeUnits(imageView, 0, 670);
         setSizeIcons(imageIcon1, 500, 815, 50, 50);
@@ -250,6 +331,7 @@ public class MapController2 {
             setImagesIconGatehouse(false);
             back.setVisible(true);
             popularityMenu.setVisible(false);
+            event.consume();
         });
         
         militaryBuildings.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -264,6 +346,7 @@ public class MapController2 {
             setImagesIconGatehouse(false);
             back.setVisible(true);
             popularityMenu.setVisible(false);
+            event.consume();
         });
         
         gatehouse.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -292,9 +375,24 @@ public class MapController2 {
             setImagesIconMilitaryBuildings(false);
             setImagesIconGatehouse(false);
             popularityMenu.setVisible(false);
+            event.consume();
         });
+
+        Button nextTurn = new Button("Next Turn");
+        nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
+        nextTurn.setLayoutX(1460);
+        nextTurn.setLayoutY(700);
+        nextTurn.toFront();
+        pane.getChildren().add(nextTurn);
+        nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            gameController.nextTurn();
+            event.consume();
+        });
+
+        setArabianUnitsSize();
         
         if (!isTheFirstTime) {
+            setArabianUnits(false);
             setImagesIcons1(true);
             setImagesIcons2(false);
             setImagesIcons3(false);
@@ -314,7 +412,8 @@ public class MapController2 {
                     , appleOrchard, wheatFarmer, hopsFarmer, dairyFarmer
                     , hovel, church, catheral
                     , poleturner, armourer, blacksmith, fletcher
-                    , granary, bakery, brewer, mill, inn, popularityMenu);
+                    , granary, bakery, brewer, mill, inn, popularityMenu
+                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
             isTheFirstTime = true;
         }
         
@@ -342,19 +441,69 @@ public class MapController2 {
         if (GameGraphics.selectedBuilding.getType().equals("lookout tower") || GameGraphics.selectedBuilding.getType().equals("perimeter tower")
                 || GameGraphics.selectedBuilding.getType().equals("square tower") || GameGraphics.selectedBuilding.getType().equals("defence turret")
                 || GameGraphics.selectedBuilding.getType().equals("round tower")) {
-            pane.getChildren().addAll(towerMenu, progressBar, repair);
-        } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse")) {
+            Text text = new Text(GameGraphics.selectedBuilding.getType());
+            text.toFront();
+            text.setLayoutX(650);
+            text.setLayoutY(780);
+            text.setFont(Font.font(20));
+            pane.getChildren().addAll(towerMenu, progressBar, repair, text);
+        } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse"))
             pane.getChildren().addAll(gatehouseMenu, progressBar, repair);
-        } else if (GameGraphics.selectedBuilding.getType().equals("mercenary post")) {
-            setArabianUnits(pane);
-        } else if (GameGraphics.selectedBuilding.getType().equals("barracks")) {
-            setEuropeanUnits(pane);
-        } else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) {
-            setEngineer(pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("mercenary post")) setArabianUnits(true);
+        else if (GameGraphics.selectedBuilding.getType().equals("barracks")) setEuropeanUnits(pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) setEngineer(pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("church")) setAllMenus(churchMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("catheral")) {
+            setAllMenus(catheralMenu, pane);
+            setSizeUnits(monk, 750, 740);
+            pane.getChildren().add(monk);
+        } else if (GameGraphics.selectedBuilding.getType().equals("armoury")) setAllMenus(armouryMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("hovel")) setAllMenus(hovelMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("market")) ; //TODO: Hoora
+        else if (GameGraphics.selectedBuilding.getType().equals("woodcutter")) setAllMenus(woodcutterMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("caged war dogs")) setAllMenus(cageMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("pits")) setAllMenus(killingPitMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("stable")) setAllMenus(stableMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("stockpile")) setAllMenus(stockpileMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("apple orchard")) setAllMenus(appleOrchardMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("dairy farmer")) setAllMenus(dairyFarmMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("hops farmer")) setAllMenus(hopsFarmMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("wheat farmer")) setAllMenus(wheatFarmMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("quarry")) setAllMenus(quarryMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("iron mine")) setAllMenus(ironMineMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("ox tether")) setAllMenus(oxTetherMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("inn")) setAllMenus(innMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("mill")) setAllMenus(millMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("bakery")) setAllMenus(bakeryMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("brewer")) setAllMenus(breweryMenu, pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("poleturner")) {
+            setAllMenus(poleturnerMenu, pane);
+            setSizeUnits(pikeMenu, 750, 760);
+            setSizeUnits(spearMenu, 800, 760);
+            pane.getChildren().addAll(pikeMenu, spearMenu);
+        } else if (GameGraphics.selectedBuilding.getType().equals("armourer")) {
+            setAllMenus(armorerMenu, pane);
+            setSizeUnits(metalMenu, 750, 760);
+            setSizeUnits(leatherMenu, 800, 760);
+            pane.getChildren().addAll(metalMenu, leatherMenu);
+        } else if (GameGraphics.selectedBuilding.getType().equals("blacksmith")) {
+            setAllMenus(blacksmithMenu, pane);
+            setSizeUnits(swordMenu, 750, 760);
+            setSizeUnits(maceMenu, 800, 760);
+            pane.getChildren().addAll(maceMenu, swordMenu);
+        } else if (GameGraphics.selectedBuilding.getType().equals("fletcher")) {
+            setAllMenus(fletcherMenu, pane);
+            setSizeUnits(bowMenu, 750, 760);
+            setSizeUnits(crossbowMenu, 800, 760);
+            pane.getChildren().addAll(bowMenu, crossbowMenu);
         }
         repair.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             //TODO: popup alert for ok,repaired,error
         });
+    }
+
+    private void setAllMenus(ImageView menu, Pane pane) {
+        setSizeUnits(menu, 0, 670);
     }
     
     private void setPopularityMenu(Pane pane) {
@@ -370,6 +519,7 @@ public class MapController2 {
                 popularityMenu.setVisible(true);
                 back.setVisible(true);
                 back.toFront();
+                mouseEvent.consume();
             }
         });
     }
@@ -572,6 +722,7 @@ public class MapController2 {
         ImageView pike = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/pike.png"))));
         ImageView spear = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/spear.png"))));
         ImageView sword = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/sword.png"))));
+        ImageView horse = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/horse.png"))));
         setSizeIcons(bow, 502, 830, 40, 50);
         setSizeIcons(crossbow, 552, 830, 40, 50);
         setSizeIcons(leatherArmour, 602, 830, 40, 50);
@@ -580,8 +731,10 @@ public class MapController2 {
         setSizeIcons(pike, 752, 830, 40, 50);
         setSizeIcons(spear, 802, 830, 40, 50);
         setSizeIcons(sword, 852, 830, 40, 50);
-        
-        pane.getChildren().addAll(bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword);
+        setSizeIcons(horse, 902, 830, 40, 50);
+
+        pane.getChildren().addAll(bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse);
+
     }
     
     private void setSizeUnits(ImageView unit, int x, int y) {
@@ -589,17 +742,9 @@ public class MapController2 {
         unit.setLayoutY(y);
         unit.toFront();
     }
-    
-    private void setArabianUnits(Pane pane) {
-        ImageView unitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
-        ImageView archerBow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArcherBow.png"))));
-        ImageView assassin = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Assassins.png"))));
-        ImageView horseArcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/HorseArchers.png"))));
-        ImageView arabianSwordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArabianSwordsmen.png"))));
-        ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
-        ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
-        ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
-        setSizeUnits(unitsMenu, 0, 670);
+
+    private void setArabianUnitsSize() {
+        setSizeUnits(ArabianUnitsMenu, 0, 670);
         setSizeUnits(archerBow, 502, 750);
         setSizeUnits(assassin, 572, 750);
         setSizeUnits(horseArcher, 640, 750);
@@ -607,8 +752,16 @@ public class MapController2 {
         setSizeUnits(fireThrowers, 780, 760);
         setSizeUnits(slave, 840, 740);
         setSizeUnits(slinger, 910, 750);
-        
-        pane.getChildren().addAll(unitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
+    }
+    private void setArabianUnits(boolean check) {
+        ArabianUnitsMenu.setVisible(check);
+        archerBow.setVisible(check);
+        assassin.setVisible(check);
+        horseArcher.setVisible(check);
+        arabianSwordsmen.setVisible(check);
+        fireThrowers.setVisible(check);
+        slave.setVisible(check);
+        slinger.setVisible(check);
     }
     
     private void setEngineer(Pane pane) {
@@ -654,22 +807,22 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
-        EventHandler<MouseEvent> selectCell = mouseEvent -> {
-//            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
-            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
-            Label frontLabel = new Label();
-            frontLabel.setPrefWidth(edgeLength);
-            frontLabel.setPrefHeight(edgeLength);
-            frontLabel.setLayoutX(pictureLabel.getLayoutX());
-            frontLabel.setLayoutY(pictureLabel.getLayoutY());
-            frontLabel.setBackground(background);
-            frontLabel.toFront();
-            frontLabel.setTooltip(tooltip);
-            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
-                    " -fx-opacity: 0.3; -fx-border-style: solid;");
-            pane.getChildren().add(frontLabel);
-        };
-        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
+//        EventHandler<MouseEvent> selectCell = mouseEvent -> {
+////            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
+//            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
+//            Label frontLabel = new Label();
+//            frontLabel.setPrefWidth(edgeLength);
+//            frontLabel.setPrefHeight(edgeLength);
+//            frontLabel.setLayoutX(pictureLabel.getLayoutX());
+//            frontLabel.setLayoutY(pictureLabel.getLayoutY());
+//            frontLabel.setBackground(background);
+//            frontLabel.toFront();
+//            frontLabel.setTooltip(tooltip);
+//            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
+//                    " -fx-opacity: 0.3; -fx-border-style: solid;");
+//            pane.getChildren().add(frontLabel);
+//        };
+//        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
         pane.getChildren().add(pictureLabel);
         pane.setStyle("-fx-spacing: 0");
     }
@@ -698,23 +851,28 @@ public class MapController2 {
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
+//        System.out.println("show building x=" + i + " y=" + j);
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-        buildingImageView.setLayoutX(getXLocationByPixel(i));
-        buildingImageView.setLayoutY(getYLocationByPixel(j));
-        
-        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
-            setBuildingMenu(pane);
-        };
-        
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
+        buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+        buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+//        buildingImageView.setLayoutY(getYLocationByPixel(j));
+
+//        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
+//            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+//            setBuildingMenu(pane);
+//        };
+//
+//
+//        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }
+    //x1 = x + shownX - 11 * 70 / edgeLength
+    //x = x1 - shownX + 11*70/edgeLength
     
     public int getXLocationByPixel(double x) {
         return (int) (x + shownX - (float) 11 * 70 / edgeLength);
@@ -722,33 +880,5 @@ public class MapController2 {
     
     public int getYLocationByPixel(double y) {
         return (int) (y + shownY - (float) 5 * 70 / edgeLength);
-    }
-    
-    public static void initializeMapTemplate(int length, int width) {
-        Map map = new Map(length, width);
-        initializeCastlesLocation(map, length, width);
-        initializeIronLandsTemplate2(map, length, width);
-        initializeRockLandsTemplate2(map, length, width);
-        for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
-            for (int j = width / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "sea");
-        for (int i = length / 6; i < (5 * length) / 6; i++)
-            for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
-                map.getCells()[i][j] = new Cell(i, j, "sea");
-        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
-            for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
-            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
-            for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
-            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        
-        setDefaultLand(length, width, map);
-        Map.setTemplateMap(1, map);
     }
 }
