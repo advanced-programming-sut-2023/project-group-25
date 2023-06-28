@@ -1,9 +1,6 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.FileController;
-import Controller.MainController;
-import Controller.RegisterLoginController;
+import Controller.*;
 import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +21,7 @@ import java.util.ResourceBundle;
 
 public class MainMenuGraphics extends Application implements Initializable {
     private final RegisterLoginController registerLoginController = FirstPage.changeMenuController.getRegisterLoginController();
+    private final GameController gameController = FirstPage.changeMenuController.getgameController();
     public static Stage stage;
 
     public Button back;
@@ -64,7 +62,7 @@ public class MainMenuGraphics extends Application implements Initializable {
     }
 
     public void setUsernames() {
-        ArrayList<User> users = FileController.getAllUsers("src/main/java/Database/Users.txt");
+        ArrayList<User> users = FileController.getAllUsersWithoutOwner("src/main/java/Database/Users.txt",RegisterLoginController.getCurrentUser().getUsername());
         for(int i = 0; i<users.size(); i++) {
                 listViewCheckBoxes.add(new CheckBox(users.get(i).getUsername()));
                 allUsers.getItems().add(listViewCheckBoxes.get(i));
@@ -72,6 +70,27 @@ public class MainMenuGraphics extends Application implements Initializable {
     }
 
     public void start(MouseEvent mouseEvent) throws Exception {
-        new MapMenuGraphics().start(FirstPage.stage);
+        if(getSelectedUsernames().size() == 1) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("New Game Creation Failed");
+            alert.setContentText("Please choose at least one user");
+            alert.showAndWait();
+        }
+        else {
+            gameController.newGameGraphics(getSelectedUsernames());
+            new MapMenuGraphics().start(FirstPage.stage);
+        }
+    }
+
+    public ArrayList<String> getSelectedUsernames() {
+        ArrayList<String> selectedUsernames = new ArrayList<>();
+        for(int i = 0; i<listViewCheckBoxes.size(); i++) {
+            if(listViewCheckBoxes.get(i).isSelected()) {
+                selectedUsernames.add(listViewCheckBoxes.get(i).getText());
+            }
+        }
+        selectedUsernames.add(RegisterLoginController.getCurrentUser().getUsername());
+        return selectedUsernames;
     }
 }

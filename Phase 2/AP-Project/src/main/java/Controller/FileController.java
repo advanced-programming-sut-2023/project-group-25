@@ -597,4 +597,14 @@ public class FileController {
         return allProducts;
     }
 
+    public static ArrayList<User> getAllUsersWithoutOwner(String path, String owner) {
+        ArrayList<User> allUsers = new ArrayList<>();
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if(!content.get(10*i).equals(owner)) {
+                allUsers.add(getUserByUsername(content.get(10 * i)));
+            }
+        }
+        return allUsers;
+    }
 }

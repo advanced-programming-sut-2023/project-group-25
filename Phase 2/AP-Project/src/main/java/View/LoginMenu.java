@@ -1,6 +1,7 @@
 package View;
 
 import Controller.FileController;
+import Controller.GameController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
 import Model.User;
@@ -22,6 +23,7 @@ import java.util.ResourceBundle;
 
 public class LoginMenu extends Application implements Initializable {
     private final RegisterLoginController registerLoginController = FirstPage.changeMenuController.getRegisterLoginController();
+    private final GameController gameController  = FirstPage.changeMenuController.getgameController();
     public TextField username;
     public TextField passwordText;
     public PasswordField passwordPass;
@@ -96,6 +98,7 @@ public class LoginMenu extends Application implements Initializable {
             setCaptcha();
         }
         else if (result.equals("success")) {
+            RegisterLoginController.setCurrentUser(FileController.getUserByUsername(username.getText()));
             new MainMenuGraphics().start(FirstPage.stage);
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

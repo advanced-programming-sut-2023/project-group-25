@@ -1464,6 +1464,7 @@ public class GameController {
         ArrayList<Kingdom> kingdoms = new ArrayList<>();
         kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
         Game game = new Game(gameId, kingdoms);
+        FileController.addGameToFile(game);
         currentGame = game;
     }
 }
