@@ -32,6 +32,7 @@ public class LoginMenu extends Application implements Initializable {
     public Label captcha;
     public Button back;
     public Label reset;
+    public CheckBox stayLoggedIn;
     private String captchaValue;
 
     private boolean hide = false;
@@ -98,6 +99,8 @@ public class LoginMenu extends Application implements Initializable {
             setCaptcha();
         }
         else if (result.equals("success")) {
+            if(stayLoggedIn.isSelected())
+                FileController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(),true);
             RegisterLoginController.setCurrentUser(FileController.getUserByUsername(username.getText()));
             new MainMenuGraphics().start(FirstPage.stage);
         } else {

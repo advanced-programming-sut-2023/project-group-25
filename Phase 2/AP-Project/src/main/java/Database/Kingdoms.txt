@@ -124,3 +124,21 @@ bread,wood,stone,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
+5
+sssss
+4000.0
+
+bread,wood,stone,
+
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+5
+aliii
+4000.0
+
+bread,wood,stone,
+
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
