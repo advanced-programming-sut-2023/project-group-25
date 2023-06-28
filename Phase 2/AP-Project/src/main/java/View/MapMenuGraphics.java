@@ -63,7 +63,6 @@ public class MapMenuGraphics extends Application {
             else {
                 initializeTemplateMaps(length, width);
                 Map map = Map.getTemplateMaps()[0];
-                gameController.setCurrentGame(new Game(0, new ArrayList<>()));
                 gameController.getCurrentGame().setMap(map);
                 gameController.getCurrentGame().setMapTemplateNumber(0);
                 Turn.setTurnCounter(0);

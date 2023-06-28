@@ -134,11 +134,13 @@ public class GameGraphics extends Application {
                 if (mouseEvent.isPrimaryButtonDown()) {
                     String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
                             + "/" + clickedBuildingToDrop + ".png";
-                    int x = (int) mouseEvent.getX() + (shownX - (11 * 70 / edgeLength)) * edgeLength;
-                    int y = (int) mouseEvent.getY() + (shownY - (5 * 70 / edgeLength)) * edgeLength;
+                    int x = mapController.getXLocationByPixel(mouseEvent.getX() / edgeLength) * edgeLength;
+                    int y = mapController.getYLocationByPixel(mouseEvent.getY() / edgeLength) * edgeLength;
+                    System.out.println("x=" + x + " y=" + y);
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
                     String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, clickedBuildingToDrop);
                     if (Pattern.compile("success").matcher(result).find()) {
+                        System.out.println("yes");
                         ImageView droppedBuildingImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
                         droppedBuildingImageView.setFitHeight(edgeLength);
                         droppedBuildingImageView.setFitWidth(edgeLength);
@@ -204,7 +206,7 @@ public class GameGraphics extends Application {
                 String s = null;
                 int totalNumberOfPeople = 0;
                 boolean isGroup = false;
-                if ((Math.abs(minX - maxX)/edgeLength > 1) || (Math.abs(minY - maxY)/edgeLength > 1)) {
+                if ((Math.abs(minX - maxX) / edgeLength > 1) || (Math.abs(minY - maxY) / edgeLength > 1)) {
                     isGroup = true;
                     s = "Total number of people: ";
                 }
@@ -222,8 +224,9 @@ public class GameGraphics extends Application {
                         
                         gamePane.getChildren().add(frontLabel);
                         if (isGroup) frontLabel.setTooltip(tooltip);
-                        else frontLabel.setTooltip(mapController.getTooltipForACell(cells[mapController.getXLocationByPixel(i)]
-                                [mapController.getYLocationByPixel(j)]));
+                        else
+                            frontLabel.setTooltip(mapController.getTooltipForACell(cells[mapController.getXLocationByPixel(i)]
+                                    [mapController.getYLocationByPixel(j)]));
                         totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
                                 .getPeople().size();
                     }
