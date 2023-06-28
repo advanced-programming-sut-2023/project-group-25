@@ -6,6 +6,7 @@ import Model.Cell;
 import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -198,6 +199,15 @@ public class GameGraphics extends Application {
                 double minY = Math.min(previousClick.getY(), mouseEvent.getY());
                 double maxY = Math.max(previousClick.getY(), mouseEvent.getY());
                 Cell[][] cells = gameController.getCurrentGame().getMap().getCells();
+                Tooltip tooltip = new Tooltip();
+                tooltip.setStyle("-fx-font-size: 15px;");
+                String s = null;
+                int totalNumberOfPeople = 0;
+                boolean isGroup = false;
+                if ((Math.abs(minX - maxX)/edgeLength > 1) || (Math.abs(minY - maxY)/edgeLength > 1)) {
+                    isGroup = true;
+                    s = "Total number of people: ";
+                }
                 for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
                     for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
                         GameGraphics.selectedCell = null;
@@ -209,13 +219,19 @@ public class GameGraphics extends Application {
                         frontLabel.toFront();
                         frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
                                 " -fx-opacity: 0.3; -fx-border-style: solid;");
+                        
                         gamePane.getChildren().add(frontLabel);
-                        
-                        
-                        
-                        //TODO: calculating the correct location of cell
-                        //TODO: showing information
+                        if (isGroup) frontLabel.setTooltip(tooltip);
+                        else frontLabel.setTooltip(mapController.getTooltipForACell(cells[mapController.getXLocationByPixel(i)]
+                                [mapController.getYLocationByPixel(j)]));
+                        totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
+                                .getPeople().size();
                     }
+                }
+                
+                if (s != null) {
+                    s += totalNumberOfPeople;
+                    tooltip.setText(s);
                 }
             }
         };
@@ -237,6 +253,3 @@ public class GameGraphics extends Application {
     }
     
 }
-/*
-i - shownX + (float) 11 * 70 / edgeLength) * edgeLength
- */

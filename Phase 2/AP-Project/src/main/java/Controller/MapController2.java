@@ -15,6 +15,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import static Controller.MapController.*;
+
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
@@ -644,6 +646,33 @@ public class MapController2 {
         pictureLabel.setStyle("-fx-border-color: #ffffff; -fx-border-width: 0.2px");
         
         Cell cell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
+        Tooltip tooltip = getTooltipForACell(cell);
+        pictureLabel.setTooltip(tooltip);
+        
+        String address = "/images/" + material + ".jpg";
+        Background background = new Background(MainController.setFirstPageBackground(address));
+        pictureLabel.setBackground(background);
+        EventHandler<MouseEvent> selectCell = mouseEvent -> {
+            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
+            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
+            Label frontLabel = new Label();
+            frontLabel.setPrefWidth(edgeLength);
+            frontLabel.setPrefHeight(edgeLength);
+            frontLabel.setLayoutX(pictureLabel.getLayoutX());
+            frontLabel.setLayoutY(pictureLabel.getLayoutY());
+            frontLabel.setBackground(background);
+            frontLabel.toFront();
+            frontLabel.setTooltip(tooltip);
+            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
+                    " -fx-opacity: 0.3; -fx-border-style: solid;");
+            pane.getChildren().add(frontLabel);
+        };
+        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
+        pane.getChildren().add(pictureLabel);
+        pane.setStyle("-fx-spacing: 0");
+    }
+    
+    public Tooltip getTooltipForACell(Cell cell) {
         Tooltip tooltip = new Tooltip();
         StringBuilder tooltipText = new StringBuilder();
         if (cell.getBuilding() != null)
@@ -662,28 +691,7 @@ public class MapController2 {
         tooltip.setText(tooltipText.toString());
         tooltip.setStyle("-fx-font-size: 15px;");
         tooltip.setShowDelay(new Duration(500));
-        pictureLabel.setTooltip(tooltip);
-        
-        String address = "/images/" + material + ".jpg";
-        Background background = new Background(MainController.setFirstPageBackground(address));
-        pictureLabel.setBackground(background);
-        EventHandler<MouseEvent> selectCell = mouseEvent -> {
-            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
-            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
-            Label frontLabel = new Label();
-            frontLabel.setPrefWidth(edgeLength);
-            frontLabel.setPrefHeight(edgeLength);
-            frontLabel.setLayoutX(pictureLabel.getLayoutX());
-            frontLabel.setLayoutY(pictureLabel.getLayoutY());
-            frontLabel.setBackground(background);
-            frontLabel.toFront();
-            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
-                    " -fx-opacity: 0.3; -fx-border-style: solid;");
-            pane.getChildren().add(frontLabel);
-        };
-        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
-        pane.getChildren().add(pictureLabel);
-        pane.setStyle("-fx-spacing: 0");
+        return tooltip;
     }
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
@@ -707,10 +715,38 @@ public class MapController2 {
     }
     
     public int getXLocationByPixel(double x) {
-        return (int) (x - shownX + (float) 11 * 70 / edgeLength);
+        return (int) (x + shownX - (float) 11 * 70 / edgeLength);
     }
     
     public int getYLocationByPixel(double y) {
-        return (int) (y - shownY + (float) 5 * 70 / edgeLength);
+        return (int) (y + shownY - (float) 5 * 70 / edgeLength);
+    }
+    
+    public static void initializeMapTemplate(int length, int width) {
+        Map map = new Map(length, width);
+        initializeCastlesLocation(map, length, width);
+        initializeIronLandsTemplate2(map, length, width);
+        initializeRockLandsTemplate2(map, length, width);
+        for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
+            for (int j = width / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = length / 6; i < (5 * length) / 6; i++)
+            for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        
+        setDefaultLand(length, width, map);
+        Map.setTemplateMap(1, map);
     }
 }
