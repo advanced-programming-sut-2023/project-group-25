@@ -111,6 +111,27 @@ public class MapController2 {
     private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
     private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
     private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
+    private final ImageView enginnerUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
+    private final ImageView engineer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Engineer.png"))));
+    private final ImageView ladderman = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Laddermen.png"))));
+    private final ImageView tunneler = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Tunneler.png"))));
+    private final ImageView europeanUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/unitMenu.png"))));
+    private final ImageView archer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Archer.png"))));
+    private final ImageView crossbowmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Crossbowmen.png"))));
+    private final ImageView knight = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Knight.png"))));
+    private final ImageView macemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Macemen.png"))));
+    private final ImageView pikemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Pikemen.png"))));
+    private final ImageView spearmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Spearmen.png"))));
+    private final ImageView swordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Swordsmen.png"))));
+    private final ImageView bow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/bow.png"))));
+    private final ImageView crossbow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/crossbow.png"))));
+    private final ImageView leatherArmour = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/leatherArmour.png"))));
+    private final ImageView mace = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/mace.png"))));
+    private final ImageView metalArmour = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/metalarmour.png"))));
+    private final ImageView pike = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/pike.png"))));
+    private final ImageView spear = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/spear.png"))));
+    private final ImageView sword = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/sword.png"))));
+    private final ImageView horse = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/horse.png"))));
     private GameController gameController;
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
@@ -177,8 +198,13 @@ public class MapController2 {
         EventHandler<MouseEvent> ccc = ev -> {
             double xScene = ev.getX();
             double yScene = ev.getY();
-            if (xScene >= 0 && xScene <= 1528.8 && yScene >= 2.4 && yScene <= 692){
+            if (xScene >= 0 && xScene <= 1528.8 && yScene >= 2.4 && yScene <= 692) {
                 setArabianUnits(false);
+                setEngineer(false);
+                monk.setVisible(false);
+                catheralMenu.setVisible(false);
+                setEuropeanUnits(false);
+                setWeapons(false);
             }
         };
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, ccc);
@@ -356,9 +382,19 @@ public class MapController2 {
         });
 
         setArabianUnitsSize();
+        setEngineerSize();
+        setAllMenus(catheralMenu, pane);
+        setSizeUnits(monk, 750, 720);
+        setEuropeanUnitsSize();
+        addWeapons();
 
         if (!isTheFirstTime) {
             setArabianUnits(false);
+            setEngineer(false);
+            monk.setVisible(false);
+            catheralMenu.setVisible(false);
+            setEuropeanUnits(false);
+            setWeapons(false);
             setImagesIcons1(true);
             setImagesIcons2(false);
             setImagesIcons3(false);
@@ -376,10 +412,12 @@ public class MapController2 {
                     , lookoutTower, defenceTower, perimeterTower, roundTower, squareTower
                     , stockpile, woodCutter, quarry, ironMine, oxTether, market
                     , appleOrchard, wheatFarmer, hopsFarmer, dairyFarmer
-                    , hovel, church, catheral
+                    , hovel, church, catheral, catheralMenu, monk
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu
-                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
+                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
+                    , europeanUnitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen
+                    , bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse);
             isTheFirstTime = true;
         }
 
@@ -416,13 +454,14 @@ public class MapController2 {
         } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse"))
             pane.getChildren().addAll(gatehouseMenu, progressBar, repair);
         else if (GameGraphics.selectedBuilding.getType().equals("mercenary post")) setArabianUnits(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("barracks")) setEuropeanUnits(pane);
-        else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) setEngineer(pane);
+        else if (GameGraphics.selectedBuilding.getType().equals("barracks")) {
+            setEuropeanUnits(true);
+            setWeapons(true);
+        } else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) setEngineer(true);
         else if (GameGraphics.selectedBuilding.getType().equals("church")) setAllMenus(churchMenu, pane);
         else if (GameGraphics.selectedBuilding.getType().equals("catheral")) {
-            setAllMenus(catheralMenu, pane);
-            setSizeUnits(monk, 750, 740);
-            pane.getChildren().add(monk);
+            catheralMenu.setVisible(true);
+            monk.setVisible(true);
         } else if (GameGraphics.selectedBuilding.getType().equals("armoury")) setAllMenus(armouryMenu, pane);
         else if (GameGraphics.selectedBuilding.getType().equals("hovel")) setAllMenus(hovelMenu, pane);
         else if (GameGraphics.selectedBuilding.getType().equals("market")) ; //TODO: Hoora
@@ -657,16 +696,8 @@ public class MapController2 {
 
     }
 
-    private void setEuropeanUnits(Pane pane) {
-        ImageView unitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/unitMenu.png"))));
-        ImageView archer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Archer.png"))));
-        ImageView crossbowmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Crossbowmen.png"))));
-        ImageView knight = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Knight.png"))));
-        ImageView macemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Macemen.png"))));
-        ImageView pikemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Pikemen.png"))));
-        ImageView spearmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Spearmen.png"))));
-        ImageView swordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Swordsmen.png"))));
-        setSizeUnits(unitsMenu, 0, 670);
+    private void setEuropeanUnitsSize() {
+        setSizeUnits(europeanUnitsMenu, 0, 670);
         setSizeUnits(archer, 502, 750);
         setSizeUnits(crossbowmen, 572, 750);
         setSizeUnits(knight, 640, 750);
@@ -674,21 +705,20 @@ public class MapController2 {
         setSizeUnits(pikemen, 780, 750);
         setSizeUnits(spearmen, 840, 750);
         setSizeUnits(swordsmen, 910, 760);
-
-        pane.getChildren().addAll(unitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen);
-        addWeapons(pane);
     }
 
-    private void addWeapons(Pane pane) {
-        ImageView bow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/bow.png"))));
-        ImageView crossbow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/crossbow.png"))));
-        ImageView leatherArmour = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/leatherArmour.png"))));
-        ImageView mace = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/mace.png"))));
-        ImageView metalArmour = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/metalarmour.png"))));
-        ImageView pike = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/pike.png"))));
-        ImageView spear = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/spear.png"))));
-        ImageView sword = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/sword.png"))));
-        ImageView horse = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/horse.png"))));
+    private void setEuropeanUnits(boolean check) {
+        europeanUnitsMenu.setVisible(check);
+        archer.setVisible(check);
+        crossbowmen.setVisible(check);
+        knight.setVisible(check);
+        macemen.setVisible(check);
+        pikemen.setVisible(check);
+        spearmen.setVisible(check);
+        swordsmen.setVisible(check);
+    }
+
+    private void addWeapons() {
         setSizeIcons(bow, 502, 830, 40, 50);
         setSizeIcons(crossbow, 552, 830, 40, 50);
         setSizeIcons(leatherArmour, 602, 830, 40, 50);
@@ -698,8 +728,17 @@ public class MapController2 {
         setSizeIcons(spear, 802, 830, 40, 50);
         setSizeIcons(sword, 852, 830, 40, 50);
         setSizeIcons(horse, 902, 830, 40, 50);
-
-        pane.getChildren().addAll(bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse);
+    }
+    private void setWeapons(boolean check){
+        bow.setVisible(check);
+        crossbow.setVisible(check);
+        leatherArmour.setVisible(check);
+        mace.setVisible(check);
+        metalArmour.setVisible(check);
+        pike.setVisible(check);
+        spear.setVisible(check);
+        sword.setVisible(check);
+        horse.setVisible(check);
     }
 
     private void setSizeUnits(ImageView unit, int x, int y) {
@@ -730,17 +769,18 @@ public class MapController2 {
         slinger.setVisible(check);
     }
 
-    private void setEngineer(Pane pane) {
-        ImageView unitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
-        ImageView engineer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Engineer.png"))));
-        ImageView ladderman = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Laddermen.png"))));
-        ImageView tunneler = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Tunneler.png"))));
-        setSizeUnits(unitsMenu, 0, 670);
+    private void setEngineerSize() {
+        setSizeUnits(enginnerUnitsMenu, 0, 670);
         setSizeUnits(engineer, 640, 750);
         setSizeUnits(ladderman, 700, 750);
         setSizeUnits(tunneler, 760, 750);
+    }
 
-        pane.getChildren().addAll(unitsMenu, engineer, tunneler, ladderman);
+    private void setEngineer(boolean check) {
+        enginnerUnitsMenu.setVisible(check);
+        engineer.setVisible(check);
+        ladderman.setVisible(check);
+        tunneler.setVisible(check);
     }
 
     private void showNaturalBlock(Pane pane, int i, int j, NaturalBlock naturalBlock) {
