@@ -22,11 +22,10 @@ public class RegisterLoginController {
     int timeToWait = 0;
 
 
-
     public static User getCurrentUser() {
         return currentUser;
     }
-    
+
     public static void setCurrentUser(User currentUser) {
         RegisterLoginController.currentUser = currentUser;
     }
@@ -46,9 +45,9 @@ public class RegisterLoginController {
             captchaNumber /= 10;
         }
     }
-    
+
     public boolean isUsernameValid(String username) {
-        if(username.length() < 5)
+        if (username.length() < 5)
             return false;
         if (username.matches("^[a-zA-Z0-9_]+$"))
             return true;
@@ -138,7 +137,7 @@ public class RegisterLoginController {
             System.out.println(line[i]);
         }
     }
-    
+
     private void callFillingLineMethods(int digit, int lineNumber, String[] lines) {
         if (lineNumber == 1) fillCaptchaLine1(digit, lines);
         else if (lineNumber == 2) fillCaptchaLine2(digit, lines);
@@ -148,21 +147,21 @@ public class RegisterLoginController {
         else if (lineNumber == 6) fillCaptchaLine6(digit, lines);
         else if (lineNumber == 7) fillCaptchaLine7(digit, lines);
     }
-    
+
     private void fillCaptchaLine1(int number, String[] lines) {
         if (number == 0) lines[1] += " *****      ";
         else if (number == 1) lines[1] += "*     ";
         else if (number == 4) lines[1] += "*     *     ";
         else lines[1] += "*******     ";
     }
-    
+
     private void fillCaptchaLine2(int number, String[] lines) {
         if (number == 1) lines[2] += "*     ";
         else if (number == 2 || number == 3) lines[2] += "      *     ";
         else if (number == 5 || number == 6) lines[2] += "*           ";
         else lines[2] += "*     *     ";
     }
-    
+
     private void fillCaptchaLine3(int number, String[] lines) {
         if (number == 0) lines[3] += "*     *     ";
         else if (number == 1) lines[3] += "*     ";
@@ -171,7 +170,7 @@ public class RegisterLoginController {
         else if (number == 5 || number == 6) lines[3] += "*           ";
         else lines[3] += "*     *     ";
     }
-    
+
     private void fillCaptchaLine4(int number, String[] lines) {
         if (number == 0) lines[4] += "*     *     ";
         else if (number == 1) lines[4] += "*     ";
@@ -179,21 +178,21 @@ public class RegisterLoginController {
         else if (number == 4 || number == 7) lines[4] += "      *     ";
         else lines[4] += "*******     ";
     }
-    
+
     private void fillCaptchaLine5(int number, String[] lines) {
         if (number == 0 || number == 6 || number == 8) lines[5] += "*     *     ";
         else if (number == 1) lines[5] += "*     ";
         else if (number == 2) lines[5] += "*           ";
         else lines[5] += "      *     ";
     }
-    
+
     private void fillCaptchaLine6(int number, String[] lines) {
         if (number == 0 || number == 6 || number == 8) lines[6] += "*     *     ";
         else if (number == 1) lines[6] += "*     ";
         else if (number == 2) lines[6] += "*           ";
         else lines[6] += "      *     ";
     }
-    
+
     private void fillCaptchaLine7(int number, String[] lines) {
         if (number == 0) lines[7] += " *****      ";
         else if (number == 1) lines[7] += "*     ";
@@ -338,7 +337,7 @@ public class RegisterLoginController {
         }
         return resultMessage;
     }
-    
+
     public String forgotPasswordShowQuestion(Matcher matcher) {
         User user = FileController.getUserByUsername(matcher.group("username"));
         if (user == null)
@@ -379,11 +378,24 @@ public class RegisterLoginController {
     }
 
     public String getRandomCaptcha() {
-        int[] captchaValue = {1181,1381,1491,1722,1959,2163,2177,3541,4185,5463};
+        int[] captchaValue = {1181, 1381, 1491, 1722, 1959, 2163, 2177, 3541, 4185, 5463};
         Random random = new Random();
         int number = random.nextInt(10) + 1;
-        String path = "/images/captcha/" + number +".png";
-        path += ("-" + captchaValue[number]);
+        String path = "/images/captcha/" + number + ".png";
+        path += ("-" + captchaValue[number - 1]);
         return path;
+    }
+
+    public String graphicLogin(String username, String password) throws NoSuchAlgorithmException {
+        String resultMessage;
+        if (FileController.isUserNameUnique(username))
+            resultMessage = "This username doesn't exist!";
+        else if (!FileController.isPasswordCorrect(username, password)) {
+            resultMessage = ("Username and password didn't match!");
+        } else {
+            currentUser = FileController.getUserByUsername(username);
+            resultMessage = "success";
+        }
+        return resultMessage;
     }
 }

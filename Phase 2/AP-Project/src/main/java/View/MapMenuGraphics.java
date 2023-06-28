@@ -1,15 +1,10 @@
 package View;
 
-import Controller.ChangeMenuController;
-import Controller.GameController;
-import Controller.MapController;
-import Controller.RegisterLoginController;
-import Model.Game;
+import Controller.*;
 import Model.Map;
 import Model.Turn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -18,13 +13,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 import static View.FirstPage.stage;
 
-public class MapMenuGraphics extends Application implements Initializable {
+public class MapMenuGraphics extends Application {
     private final ChangeMenuController changeMenuController;
     private final GameController gameController;
     private final MapController mapController;
@@ -47,10 +40,6 @@ public class MapMenuGraphics extends Application implements Initializable {
         stage.show();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
 
     public void submitMapSize() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -68,11 +57,9 @@ public class MapMenuGraphics extends Application implements Initializable {
             }
             else {
                 initializeTemplateMaps(length, width);
-                Map map = Map.getTemplateMaps()[0];
-
-                gameController.setCurrentGame(new Game(0, new ArrayList<>()));
+                Map map = Map.getTemplateMaps()[1];
                 gameController.getCurrentGame().setMap(map);
-                gameController.getCurrentGame().setMapTemplateNumber(0);
+                gameController.getCurrentGame().setMapTemplateNumber(1);
                 Turn.setTurnCounter(0);
                 gameController.getCurrentGame().turn= new Turn(RegisterLoginController.getCurrentUser());
                 gameController.initializeTrees();
@@ -91,10 +78,8 @@ public class MapMenuGraphics extends Application implements Initializable {
             }
         }
     }
-
+    
     private void initializeTemplateMaps(int length, int width) {
-        MapController.initializeMapTemplate1(length, width);
-        MapController.initializeMapTemplate2(length, width);
-        MapController.initializeMapTemplate3(length, width);
+        MapController2.initializeMapTemplate(length, width);
     }
 }

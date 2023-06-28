@@ -30,7 +30,7 @@ public class MapController {
     }
 
 
-    private static void setDefaultLand(int length, int width, Map map) {
+    static void setDefaultLand(int length, int width, Map map) {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
                 if (map.getCells()[i][j] != null) continue;
@@ -166,7 +166,7 @@ public class MapController {
         Map.setTemplateMap(1, map);
     }
 
-    private static void initializeRockLandsTemplate2(Map map, int length, int width) {
+    static void initializeRockLandsTemplate2(Map map, int length, int width) {
         for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
                 map.getCells()[i][j] = new Cell(i, j, "rockLand");
@@ -181,7 +181,7 @@ public class MapController {
                 map.getCells()[i][j] = new Cell(i, j, "rockLand");
     }
 
-    private static void initializeIronLandsTemplate2(Map map, int length, int width) {
+    static void initializeIronLandsTemplate2(Map map, int length, int width) {
         for (int i = length / 6; i < (2 * length) / 6; i++)
             for (int j = (2 * width) / 6; j < (3 * width) / 6 - width / 8; j++)
                 map.getCells()[i][j] = new Cell(i, j, "ironLand");

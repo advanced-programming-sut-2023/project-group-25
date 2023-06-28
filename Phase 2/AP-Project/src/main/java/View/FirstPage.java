@@ -1,7 +1,10 @@
 package View;
 
 import Controller.ChangeMenuController;
+import Controller.FileController;
 import Controller.MainController;
+import Controller.RegisterLoginController;
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,13 +28,19 @@ public class FirstPage extends Application implements Initializable {
     @Override
     public void start(Stage stage) throws Exception {
         FirstPage.stage = stage;
-        GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/FirstPage.fxml").toExternalForm()));
-        Background background = new Background(MainController.setFirstPageBackground("/images/FirstPage.png"));
-        firstPage.setBackground(background);
-        Scene scene = new Scene(firstPage);
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
+        User current = FileController.getFirstStayLoggedIn();
+        if(current != null) {
+            RegisterLoginController.setCurrentUser(current);
+            new MainMenuGraphics().start(FirstPage.stage);
+        } else {
+            GridPane firstPage = FXMLLoader.load(new URL(FirstPage.class.getResource("/fxml/FirstPage.fxml").toExternalForm()));
+            Background background = new Background(MainController.setFirstPageBackground("/images/FirstPage.png"));
+            firstPage.setBackground(background);
+            Scene scene = new Scene(firstPage);
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.show();
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -43,7 +52,7 @@ public class FirstPage extends Application implements Initializable {
     }
     
     public void login() throws Exception {
-        new MapMenuGraphics().start(FirstPage.stage);
+        new LoginMenu().start(FirstPage.stage);
     }
 
     @Override

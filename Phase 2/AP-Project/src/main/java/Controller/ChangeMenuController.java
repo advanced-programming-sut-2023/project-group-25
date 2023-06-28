@@ -20,7 +20,7 @@ public class ChangeMenuController {
     private final GameGraphics gameGraphics = new GameGraphics(this);
     private final ProfileMenu profileMenu = new ProfileMenu(this);
     private final TradeMenu tradeMenu = new TradeMenu(this);
-    private final MapMenu mapMenu = new MapMenu(this);
+//    private final MapMenu mapMenu = new MapMenu(this);
 
 //    public MapMenuGraphics getMapMenuGraphics() {
 //        return mapMenuGraphics;
@@ -64,7 +64,7 @@ public class ChangeMenuController {
                 }
                 case "game menu" -> gameMenu.run(scanner);
                 case "map menu" -> {
-                    mapMenu.run(scanner);
+//                    mapMenu.run(scanner);
                     gameMenu.run(scanner);
                 }
                 case "profile menu" -> profileMenu.run(scanner);
