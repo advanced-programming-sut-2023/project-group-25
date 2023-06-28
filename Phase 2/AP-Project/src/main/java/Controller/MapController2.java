@@ -859,15 +859,14 @@ public class MapController2 {
         buildingImageView.setFitWidth(edgeLength);
         buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-//        buildingImageView.setLayoutY(getYLocationByPixel(j));
 
-//        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-//            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
-//            setBuildingMenu(pane);
-//        };
-//
-//
-//        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
+        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
+            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+            setBuildingMenu(pane);
+        };
+
+
+        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }
