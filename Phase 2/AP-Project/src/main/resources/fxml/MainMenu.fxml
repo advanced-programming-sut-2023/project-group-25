@@ -16,8 +16,12 @@
           alignment="BOTTOM_LEFT"
           fx:controller="View.MainMenuGraphics">
     <Button style="-fx-translate-y: -670px; -fx-translate-x: -10px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
-    <VBox fx:id="newGameContainer" alignment="CENTER">
-        <ListView fx:id="allUsers" styleClass="listView"/>
-        <Button text="start" fx:id="start" onMouseClicked="#start"/>
-    </VBox>
+    <HBox>
+        <Button fx:id="enterProfile" onMouseClicked="#enterProfileMenu" onMouseEntered="#profileHover" onMouseExited="#profileUnhove"/>
+        <VBox fx:id="newGameContainer" alignment="CENTER">
+            <ListView fx:id="allUsers" styleClass="listView"/>
+            <Button text="start" fx:id="start" onMouseClicked="#start"/>
+        </VBox>
+    </HBox>
+
 </GridPane>
