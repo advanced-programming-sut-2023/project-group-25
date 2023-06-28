@@ -1488,4 +1488,15 @@ public class GameController {
             return "sell process succeeded!";
         }
     }
+
+    public void newGameGraphics(ArrayList<String> usernames) {
+        File Games = new File("src/main/java/Database/Games.txt");
+        ArrayList<String> content = FileController.readFileContent("src/main/java/Database/Games.txt");
+        int gameId = content.size() / 4 + 1;
+        ArrayList<Kingdom> kingdoms = new ArrayList<>();
+        kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
+        Game game = new Game(gameId, kingdoms);
+        FileController.addGameToFile(game);
+        currentGame = game;
+    }
 }

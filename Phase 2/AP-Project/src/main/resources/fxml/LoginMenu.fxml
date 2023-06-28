@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Line?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.LoginMenu"
+          style="-fx-padding: 40px">
+    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <VBox styleClass="registerContainer" alignment="CENTER">
+        <HBox styleClass="registerFieldContainer" alignment="CENTER">
+            <Label text="username:" styleClass="registerLabel"/>
+            <TextField promptText="username" fx:id="username" styleClass="textField1"/>
+        </HBox>
+        <VBox styleClass="registerFieldContainer" alignment="CENTER">
+            <HBox>
+                <Label text="password:" styleClass="registerLabel"/>
+                <VBox>
+                    <TextField promptText="password" fx:id="passwordText" styleClass="textField1" onKeyTyped="#passwordTextCompleting"/>
+                    <PasswordField promptText="password" fx:id="passwordPass" styleClass="textField1" onKeyTyped="#passwordPassCompleting"/>
+                </VBox>
+            </HBox>
+            <HBox styleClass="subRegisterFieldContainer">
+                <CheckBox text="hide" fx:id="Hide" onMouseClicked="#hidePassword"/>
+            </HBox>
+        </VBox>
+        <HBox styleClass="registerFieldContainer" alignment="CENTER">
+            <VBox style="-fx-spacing: 8px" alignment="CENTER">
+                <Label fx:id="captcha"/>
+                <HBox style="-fx-spacing: 6px">
+                    <TextField promptText="captcha" fx:id="captchaText" styleClass="textField4"/>
+                    <Label fx:id="reset" onMouseClicked="#reset"/>
+                </HBox>
+            </VBox>
+        </HBox>
+        <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
+            <Button text="submit" styleClass="submitButton" onMouseClicked="#login"/>
+            <Button text="clear" onMouseClicked="#clear" styleClass="clearButton"/>
+        </HBox>
+    </VBox>
+</GridPane>

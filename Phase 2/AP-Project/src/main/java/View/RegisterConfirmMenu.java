@@ -1,7 +1,9 @@
 package View;
 
+import Controller.FileController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -25,10 +28,9 @@ public class RegisterConfirmMenu extends Application implements Initializable {
     public Label securityError;
     public TextField confirmText;
     public TextField answerText;
+    public TextField captchaText;
+    public Button back;
     private String captchaValue;
-
-    private String securityQuestion;
-    private String answer;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -51,6 +53,7 @@ public class RegisterConfirmMenu extends Application implements Initializable {
         listView.getItems().add("5- What was your first pet’s name?");
         Background background = new Background(MainController.setFirstPageBackground("/images/captcha/reset.png"));
         reset.setBackground(background);
+        back.setText("\n\nFirst Page");
     }
 
     public void setCaptcha() {
@@ -66,16 +69,25 @@ public class RegisterConfirmMenu extends Application implements Initializable {
     }
 
     public void checkSecurityQuestion() {
-        if (listView.getSelectionModel().getSelectedItem() == null)
+        if (listView.getSelectionModel().getSelectedItem() == null) {
             securityError.setText("No security question has been selected!");
-        else if (answerText.getText().equals(""))
+            securityError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else if (answerText.getText().equals("")) {
             securityError.setText("No answer has been provided!");
-        else if (confirmText.getText().equals(""))
+            securityError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else if (confirmText.getText().equals("")) {
             securityError.setText("No answer confirm has been provided!");
-        else if (!confirmText.getText().equals(answerText.getText()))
+            securityError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else if (!confirmText.getText().equals(answerText.getText())) {
             securityError.setText("Answer doesn't match the confirm!");
+            securityError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
         else{
             securityError.setText("Security question accepted!");
+            securityError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         }
     }
 
@@ -89,5 +101,51 @@ public class RegisterConfirmMenu extends Application implements Initializable {
 
     public void confirm(MouseEvent mouseEvent) {
         checkSecurityQuestion();
+    }
+
+    public void answerTyped(KeyEvent keyEvent) {
+        checkSecurityQuestion();
+    }
+
+    public void confirmTyped(KeyEvent keyEvent) {
+        checkSecurityQuestion();
+    }
+
+    public void submit(MouseEvent mouseEvent) {
+
+    }
+
+    public void clear(MouseEvent mouseEvent) {
+        answerText.setText("");
+        confirmText.setText("");
+        captchaText.setText("");
+    }
+
+    public void register(MouseEvent mouseEvent) throws Exception {
+        System.out.println(captchaValue);
+        if(securityError.getText().equals("Security question accepted!") && captchaText.getText().equals(captchaValue)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText("Register Succeeded");
+            alert.setContentText("User registered successfully!");
+            alert.showAndWait();
+            User user = RegisterMenu.getRegisteringUser();
+            user.setSecurityQuestion(listView.getSelectionModel().getSelectedItem());
+            user.setSecurityAnswer(answerText.getText());
+            FileController.addUserToFile(user);
+            new FirstPage().start(FirstPage.stage);
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Register Failed");
+            alert.setContentText("Please fill the security form properly!");
+            alert.showAndWait();
+            setCaptcha();
+        }
+    }
+
+    public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
+        new FirstPage().start(FirstPage.stage);
     }
 }

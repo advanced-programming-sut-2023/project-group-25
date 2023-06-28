@@ -110,6 +110,7 @@ public class FileController {
 
     public static void addUserToFile(User user) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
+        initializeUsersFile();
         content.add(user.getUsername());
         content.add(RegisterLoginController.passwordToSHA(user.getPassword()));
         content.add(user.getNickname());
@@ -493,10 +494,10 @@ public class FileController {
         return null;
     }
 
-    public ArrayList<User> getAllUsers(String path) {
+    public static ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
+        for (int i = 1; i < (content.size() / 10); i++) {
             allUsers.add(getUserByUsername(content.get(10 * i)));
         }
         return allUsers;
@@ -596,4 +597,14 @@ public class FileController {
         return allProducts;
     }
 
+    public static ArrayList<User> getAllUsersWithoutOwner(String path, String owner) {
+        ArrayList<User> allUsers = new ArrayList<>();
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 1; i < (content.size() / 10); i++) {
+            if(!content.get(10*i).equals(owner)) {
+                allUsers.add(getUserByUsername(content.get(10 * i)));
+            }
+        }
+        return allUsers;
+    }
 }
