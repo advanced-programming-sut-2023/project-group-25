@@ -78,6 +78,34 @@ public class MapController2 {
     private int shownY;
     private Map map;
     
+    public static void initializeMapTemplate(int length, int width) {
+        Map map = new Map(length, width);
+        initializeCastlesLocation(map, length, width);
+        initializeIronLandsTemplate2(map, length, width);
+        initializeRockLandsTemplate2(map, length, width);
+        for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
+            for (int j = width / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = length / 6; i < (5 * length) / 6; i++)
+            for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
+                map.getCells()[i][j] = new Cell(i, j, "sea");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = width / 6; j < (2 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
+            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
+                map.getCells()[i][j] = new Cell(i, j, "grass");
+        
+        setDefaultLand(length, width, map);
+        Map.setTemplateMap(1, map);
+    }
+    
     public int getShownX() {
         return shownX;
     }
@@ -104,8 +132,8 @@ public class MapController2 {
 //            System.out.println("returned");
             return "bad location";
         }
-
-        System.out.println("loading");
+        
+//        System.out.println("loading");
         
         this.edgeLength = edgeLength;
         this.shownX = x;
@@ -654,22 +682,22 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
-        EventHandler<MouseEvent> selectCell = mouseEvent -> {
-//            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
-            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
-            Label frontLabel = new Label();
-            frontLabel.setPrefWidth(edgeLength);
-            frontLabel.setPrefHeight(edgeLength);
-            frontLabel.setLayoutX(pictureLabel.getLayoutX());
-            frontLabel.setLayoutY(pictureLabel.getLayoutY());
-            frontLabel.setBackground(background);
-            frontLabel.toFront();
-            frontLabel.setTooltip(tooltip);
-            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
-                    " -fx-opacity: 0.3; -fx-border-style: solid;");
-            pane.getChildren().add(frontLabel);
-        };
-        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
+//        EventHandler<MouseEvent> selectCell = mouseEvent -> {
+////            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
+//            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
+//            Label frontLabel = new Label();
+//            frontLabel.setPrefWidth(edgeLength);
+//            frontLabel.setPrefHeight(edgeLength);
+//            frontLabel.setLayoutX(pictureLabel.getLayoutX());
+//            frontLabel.setLayoutY(pictureLabel.getLayoutY());
+//            frontLabel.setBackground(background);
+//            frontLabel.toFront();
+//            frontLabel.setTooltip(tooltip);
+//            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
+//                    " -fx-opacity: 0.3; -fx-border-style: solid;");
+//            pane.getChildren().add(frontLabel);
+//        };
+//        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
         pane.getChildren().add(pictureLabel);
         pane.setStyle("-fx-spacing: 0");
     }
@@ -698,23 +726,28 @@ public class MapController2 {
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
+//        System.out.println("show building x=" + i + " y=" + j);
         String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
-        buildingImageView.setLayoutX(getXLocationByPixel(i));
-        buildingImageView.setLayoutY(getYLocationByPixel(j));
-        
-        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
-            setBuildingMenu(pane);
-        };
-        
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
+        buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+        buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+//        buildingImageView.setLayoutY(getYLocationByPixel(j));
+
+//        EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
+//            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+//            setBuildingMenu(pane);
+//        };
+//
+//
+//        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }
+    //x1 = x + shownX - 11 * 70 / edgeLength
+    //x = x1 - shownX + 11*70/edgeLength
     
     public int getXLocationByPixel(double x) {
         return (int) (x + shownX - (float) 11 * 70 / edgeLength);
@@ -722,33 +755,5 @@ public class MapController2 {
     
     public int getYLocationByPixel(double y) {
         return (int) (y + shownY - (float) 5 * 70 / edgeLength);
-    }
-    
-    public static void initializeMapTemplate(int length, int width) {
-        Map map = new Map(length, width);
-        initializeCastlesLocation(map, length, width);
-        initializeIronLandsTemplate2(map, length, width);
-        initializeRockLandsTemplate2(map, length, width);
-        for (int i = (3 * length) / 6 - length / 8; i < (3 * length) / 6 + length / 8; i++)
-            for (int j = width / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "sea");
-        for (int i = length / 6; i < (5 * length) / 6; i++)
-            for (int j = (3 * width) / 6 - width / 8; j < (3 * width) / 6 + width / 8; j++)
-                map.getCells()[i][j] = new Cell(i, j, "sea");
-        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
-            for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (2 * length) / 6; i < (3 * length) / 6 - length / 8; i++)
-            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
-            for (int j = width / 6; j < (2 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        for (int i = (3 * length) / 6 + length / 8; i < (4 * length) / 6; i++)
-            for (int j = (4 * width) / 6; j < (5 * width) / 6; j++)
-                map.getCells()[i][j] = new Cell(i, j, "grass");
-        
-        setDefaultLand(length, width, map);
-        Map.setTemplateMap(1, map);
     }
 }
