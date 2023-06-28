@@ -48,7 +48,7 @@ public class MainMenuGraphics extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        back.setText("\n\nFirst Page");
+        back.setText("\n\nLogout");
         allUsers.setMaxWidth(260);
         start.setMaxWidth(260);
         setUsernames();
@@ -58,6 +58,7 @@ public class MainMenuGraphics extends Application implements Initializable {
     }
 
     public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
+        FileController.addStayLoggedInForUser(RegisterLoginController.getCurrentUser().getUsername(),false);
         new FirstPage().start(FirstPage.stage);
     }
 

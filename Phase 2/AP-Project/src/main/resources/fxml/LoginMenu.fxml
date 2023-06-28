@@ -42,8 +42,9 @@
             </VBox>
         </HBox>
         <HBox styleClass="registerFieldContainer" style="-fx-spacing: 10px" alignment="CENTER">
-            <Button text="submit" styleClass="submitButton" onMouseClicked="#login"/>
-            <Button text="clear" onMouseClicked="#clear" styleClass="clearButton"/>
+            <Button text="login" style="-fx-pref-width: 165px" styleClass="submitButton" onMouseClicked="#login"/>
+            <Button text="clear" style="-fx-pref-width: 165px" onMouseClicked="#clear" styleClass="clearButton"/>
+            <CheckBox text="Stay Logged In" fx:id="stayLoggedIn"/>
         </HBox>
     </VBox>
 </GridPane>
