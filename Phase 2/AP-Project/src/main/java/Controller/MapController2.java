@@ -22,7 +22,7 @@ import static Controller.MapController.*;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
-    private final ImageView miniMapImageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/miniMap.png"))));
+    private final Label miniMapLabel = new Label();
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView popularityMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/popularityMenu.png"))));
     private final ImageView back = new ImageView(new Image(String.valueOf(getClass().getResource("/images/back.png"))));
@@ -208,13 +208,15 @@ public class MapController2 {
             xCounter++;
             yCounter = 0;
         }
-        
-        miniMapImageView.setFitHeight(135);
-        miniMapImageView.setFitWidth(135);
-        miniMapImageView.setLayoutX(1401);
-        miniMapImageView.setLayoutY(729);
-        miniMapImageView.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-style: solid;");
-        miniMapImageView.toFront();
+    
+        Background background = new Background(MainController.setFirstPageBackground("/images/miniMap.png"));
+        miniMapLabel.setBackground(background);
+        miniMapLabel.setPrefHeight(135);
+        miniMapLabel.setPrefWidth(135);
+        miniMapLabel.setLayoutX(1401);//1401
+        miniMapLabel.setLayoutY(729);//729
+        miniMapLabel.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-style: solid;");
+        miniMapLabel.toFront();
         
         EventHandler<MouseEvent> ccc = ev -> {
             double xScene = ev.getX();
@@ -422,7 +424,7 @@ public class MapController2 {
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu
                     , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen
-                    , fireThrowers, horseArcher, slave, slinger, miniMapImageView);
+                    , fireThrowers, horseArcher, slave, slinger, miniMapLabel);
             isTheFirstTime = true;
         }
         
