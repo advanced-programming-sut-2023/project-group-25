@@ -98,7 +98,7 @@ public class MainMenuGraphics extends Application implements Initializable {
     }
 
     public void enterProfileMenu(MouseEvent mouseEvent) throws Exception {
-        new FirstPage().start(FirstPage.stage);
+        new ProfileMenuGraphics().start(FirstPage.stage);
     }
 
     public void profileHover(MouseEvent mouseDragEvent) {
