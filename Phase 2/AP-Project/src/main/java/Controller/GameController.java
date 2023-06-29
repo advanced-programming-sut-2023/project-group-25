@@ -3,6 +3,7 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
+import javafx.scene.control.Alert;
 
 import java.io.File;
 import java.util.*;
@@ -409,15 +410,15 @@ public class GameController {
         return count;
     }
 
-    public String ratePopularityFactor(Matcher matcher) {
-        if (matcher.group("popularityFactor").equals("food"))
-            return rateFood(matcher.group("rateNumber"));
-        if (matcher.group("popularityFactor").equals("fear"))
-            return rateFear(matcher.group("rateNumber"));
-        if (matcher.group("popularityFactor").equals("tax"))
-            return rateTax(matcher.group("rateNumber"));
-        return null;
-    }
+//    public String ratePopularityFactor(Matcher matcher) {
+//        if (matcher.group("popularityFactor").equals("food"))
+//            return rateFood(matcher.group("rateNumber"));
+//        if (matcher.group("popularityFactor").equals("fear"))
+//            return rateFear(matcher.group("rateNumber"));
+//        if (matcher.group("popularityFactor").equals("tax"))
+//            return rateTax(matcher.group("rateNumber"));
+//        return null;
+//    }
 
     private String rateTax(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
@@ -447,18 +448,18 @@ public class GameController {
         return "success";
     }
 
-    private String rateFood(String rateNumber) {
+    public void rateFood(String rateNumber) {
         int rate = Integer.parseInt(rateNumber);
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
             if (popularityFactor.getName().equals("food")) {
-                if (!(rate >= -2 && rate <= 2))
-                    return "Invalid rate";
+//                if (!(rate >= -2 && rate <= 2))
+//                    return "Invalid rate";
                 popularityFactor.setPopularityAmount(rate * 4);
                 popularityFactor.setRate(rate);
             }
         }
-        return "success";
+//        return "success";
     }
 
     public String showPopularityFactorRate(Matcher matcher) {
@@ -802,23 +803,21 @@ public class GameController {
         unit.setLocation(destination);
     }
 
-    public String repair() {
-        String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
-        Building savedBuilding = getBuilding(selectedBuilding.getType(), category);
+    public void repair(Building savedBuilding, Building selectedBuilding) {
+        String result = null;
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
-        if (selectedBuilding == null)
-            return "You haven't selected a building yet";
-        if (!selectedBuilding.isMainCastlePart(selectedBuilding.getType()))
-            return "You can't repair a non-castle building";
         if (selectedBuilding.getHitPoint() < savedBuilding.getHitPoint()) {
-            String result = checkResourses(kingdom, selectedBuilding);
-            if (result != null)
-                return result;
+            result = checkResourses(kingdom, selectedBuilding);
         } else if (selectedBuilding.getHitPoint() == savedBuilding.getHitPoint()) {
-            return selectedBuilding.getType() + " doesn't need to be repaired";
+            result = selectedBuilding.getType() + " doesn't need to be repaired";
+        } else if(result==null) {
+            selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
+            result = "You have repaired " + selectedBuilding.getType();
         }
-        selectedBuilding.setHitPoint(savedBuilding.getHitPoint());
-        return "You have repaired " + selectedBuilding.getType();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("INFORMATION!");
+        alert.setHeaderText(result);
+        alert.showAndWait();
     }
 
     private String checkResourses(Kingdom kingdom, Building selectedBuilding) {
@@ -1047,7 +1046,7 @@ public class GameController {
         }
     }
 
-    private int getNumberOfFoods() {
+    public int getNumberOfFoods() {
         int foodCount = 0;
         for (Product product : currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProducts()) {
             if (product.getName().equals("apple") || product.getName().equals("meat") ||
