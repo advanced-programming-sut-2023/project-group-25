@@ -1,26 +1,27 @@
 package View;
 
-import Controller.*;
+import Controller.ChangeMenuController;
+import Controller.FileController;
+import Controller.GameController;
+import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
-import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
-import javafx.scene.layout.Background;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
-import java.awt.*;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
@@ -40,7 +41,7 @@ public class GameGraphics extends Application {
     private MouseEvent previousMouseEvent = null;
     
     public GameGraphics(ChangeMenuController changeMenuController) {
-        this.gameController = changeMenuController.getgameController();
+        this.gameController = changeMenuController.getGameController();
         this.tradeMenu = new TradeMenu(changeMenuController);
     }
     
@@ -159,19 +160,7 @@ public class GameGraphics extends Application {
                 clipboard.setContent(clipboardContent);
             } else if (keyEvent.getCode().getName().equals("V") && pressedKeyName.equals("Ctrl")
                     && clipboard.getContentTypes() != null && selectedCell != null) {
-//                String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
-//                assert category != null;
-//                Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
-//                Building sampleBuilding = new Building(savedBuilding);
-//                Building toBeDroppedBuilding = new Building(sampleBuilding.getType(), sampleBuilding.getCategory(),
-//                        sampleBuilding.getBuildingNeededProducts(), sampleBuilding.getWorkerCounter(),
-//                        sampleBuilding.getHitPoint());
-//                selectedCell.setBuilding(toBeDroppedBuilding);
-//                //TODO: samin -> use dropBuilding method to build buildings
-//                toBeDroppedBuilding.setLocation(selectedCell);
-//                mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
-//                        , shownX, shownY, edgeLength);
-                String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(selectedBuilding.getType())
+                String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clipboard.getString())
                         + "/" + selectedBuilding.getType() + ".png";
                 buildBuildingAndShowMessage(gamePane, address, selectedCell, selectedBuilding.getType());
             }
@@ -228,7 +217,12 @@ public class GameGraphics extends Application {
         };
         
         EventHandler<KeyEvent> showClipBoardEventHandler = keyEvent -> {
-        
+            if (keyEvent.getCode().getName().equals("Windows")) pressedKeyName = "Windows";
+            else if (keyEvent.getCode().getName().equals("V") && pressedKeyName.equals("Windows")) {
+                Dialog<Image> dialog = new Dialog<>();
+                dialog.setGraphic(new ImageView(clipboard.getImage()));
+                dialog.show();
+            }
         };
         
         
@@ -241,6 +235,7 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
+        
         
         stage.setScene(scene);
         stage.setFullScreen(true);

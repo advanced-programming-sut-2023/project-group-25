@@ -2,7 +2,6 @@ package View;
 
 import Controller.*;
 import Model.Kingdom;
-import Model.Trade;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class TradeMenu {
         this.changeMenuController = changeMenuController;
         this.tradeController = changeMenuController.getTradeController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getgameController();
+        this.gameController = changeMenuController.getGameController();
     }
 
     public void run(Scanner scanner) throws NoSuchAlgorithmException {

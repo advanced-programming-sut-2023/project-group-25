@@ -1,7 +1,6 @@
 package View;
 
 import Controller.*;
-import javafx.scene.input.MouseEvent;
 
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -18,7 +17,7 @@ public class MainMenu {
         this.changeMenuController = changeMenuController;
         this.maincontroller = changeMenuController.getMainController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
-        this.gameController = changeMenuController.getgameController();
+        this.gameController = changeMenuController.getGameController();
     }
     
     public String run(Scanner scanner) {

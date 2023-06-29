@@ -20,16 +20,20 @@ import java.util.ResourceBundle;
 
 
 public class FirstPage extends Application implements Initializable {
+    public final static ChangeMenuController changeMenuController = new ChangeMenuController();
     public static Stage stage;
-    public final static ChangeMenuController changeMenuController =new ChangeMenuController();
     public javafx.scene.control.Button registerBtn;
     public Button loginBtn;
-
+    
+    public static void main(String[] args) throws Exception {
+        launch();
+    }
+    
     @Override
     public void start(Stage stage) throws Exception {
         FirstPage.stage = stage;
         User current = FileController.getFirstStayLoggedIn();
-        if(current != null) {
+        if (current != null) {
             RegisterLoginController.setCurrentUser(current);
             new MainMenuGraphics().start(FirstPage.stage);
         } else {
@@ -42,10 +46,6 @@ public class FirstPage extends Application implements Initializable {
             stage.show();
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        launch();
-    }
     
     public void register() throws Exception {
         new RegisterMenu().start(FirstPage.stage);
@@ -54,7 +54,7 @@ public class FirstPage extends Application implements Initializable {
     public void login() throws Exception {
         new LoginMenu().start(FirstPage.stage);
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Background register = new Background(MainController.setFirstPageBackground("/images/registerBtn.png"));

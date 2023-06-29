@@ -4,26 +4,22 @@ import Controller.FileController;
 import Controller.GameController;
 import Controller.MainController;
 import Controller.RegisterLoginController;
-import Model.User;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 public class LoginMenu extends Application implements Initializable {
     private final RegisterLoginController registerLoginController = FirstPage.changeMenuController.getRegisterLoginController();
-    private final GameController gameController  = FirstPage.changeMenuController.getgameController();
+    private final GameController gameController  = FirstPage.changeMenuController.getGameController();
     public TextField username;
     public TextField passwordText;
     public PasswordField passwordPass;

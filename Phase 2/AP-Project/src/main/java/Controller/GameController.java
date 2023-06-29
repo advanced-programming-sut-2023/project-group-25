@@ -3,7 +3,10 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
+import View.FirstPage;
 import View.GameGraphics;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.io.File;
 import java.util.*;
@@ -12,6 +15,7 @@ import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
 import static Controller.RegisterLoginController.getCurrentUser;
+import static View.FirstPage.stage;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
@@ -1496,8 +1500,15 @@ public class GameController {
         ArrayList<Kingdom> kingdoms = new ArrayList<>();
         kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
         Game game = new Game(gameId, kingdoms);
-        
-        FileController.addGameToFile(game);
         currentGame = game;
+        MapController2.initializeMapTemplate(80, 80);
+        game.setMap(Map.getTemplateMaps()[1]);
+        game.setMapTemplateNumber(1);
+        Turn.setTurnCounter(0);
+        game.turn = new Turn(RegisterLoginController.getCurrentUser());
+        initializeTrees();
+
+//
+        FileController.addGameToFile(game);
     }
 }

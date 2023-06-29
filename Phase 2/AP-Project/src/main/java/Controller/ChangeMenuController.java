@@ -2,7 +2,6 @@ package Controller;
 
 import View.*;
 
-import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
 
@@ -38,7 +37,7 @@ public class ChangeMenuController {
         return mainController;
     }
     
-    public GameController getgameController() {
+    public GameController getGameController() {
         return gameController;
     }
     

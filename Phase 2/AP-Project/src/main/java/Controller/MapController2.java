@@ -22,6 +22,7 @@ import static Controller.MapController.*;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
+    private final ImageView miniMapImageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/miniMap.png"))));
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView popularityMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/popularityMenu.png"))));
     private final ImageView back = new ImageView(new Image(String.valueOf(getClass().getResource("/images/back.png"))));
@@ -165,7 +166,7 @@ public class MapController2 {
     public void setShownY(int shownY) {
         this.shownY = shownY;
     }
-
+    
     public String loadMapToShow(Scene scene, Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         gameController = new GameController();
         
@@ -176,7 +177,7 @@ public class MapController2 {
 //            System.out.println("returned");
             return "bad location";
         }
-        
+
 //        System.out.println("loading");
         
         this.edgeLength = edgeLength;
@@ -207,11 +208,18 @@ public class MapController2 {
             xCounter++;
             yCounter = 0;
         }
-
+        
+        miniMapImageView.setFitHeight(135);
+        miniMapImageView.setFitWidth(135);
+        miniMapImageView.setLayoutX(1401);
+        miniMapImageView.setLayoutY(729);
+        miniMapImageView.setStyle("-fx-border-color: black; -fx-border-width: 5px; -fx-border-style: solid;");
+        miniMapImageView.toFront();
+        
         EventHandler<MouseEvent> ccc = ev -> {
             double xScene = ev.getX();
             double yScene = ev.getY();
-            if (xScene >= 0 && xScene <= 1528.8 && yScene >= 2.4 && yScene <= 692){
+            if (xScene >= 0 && xScene <= 1528.8 && yScene >= 2.4 && yScene <= 692) {
                 setArabianUnits(false);
             }
         };
@@ -377,7 +385,7 @@ public class MapController2 {
             popularityMenu.setVisible(false);
             event.consume();
         });
-
+        
         Button nextTurn = new Button("Next Turn");
         nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
         nextTurn.setLayoutX(1460);
@@ -388,7 +396,7 @@ public class MapController2 {
             gameController.nextTurn();
             event.consume();
         });
-
+        
         setArabianUnitsSize();
         
         if (!isTheFirstTime) {
@@ -413,7 +421,8 @@ public class MapController2 {
                     , hovel, church, catheral
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu
-                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger);
+                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen
+                    , fireThrowers, horseArcher, slave, slinger, miniMapImageView);
             isTheFirstTime = true;
         }
         
@@ -501,7 +510,7 @@ public class MapController2 {
             //TODO: popup alert for ok,repaired,error
         });
     }
-
+    
     private void setAllMenus(ImageView menu, Pane pane) {
         setSizeUnits(menu, 0, 670);
     }
@@ -732,9 +741,9 @@ public class MapController2 {
         setSizeIcons(spear, 802, 830, 40, 50);
         setSizeIcons(sword, 852, 830, 40, 50);
         setSizeIcons(horse, 902, 830, 40, 50);
-
+        
         pane.getChildren().addAll(bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse);
-
+        
     }
     
     private void setSizeUnits(ImageView unit, int x, int y) {
@@ -742,7 +751,7 @@ public class MapController2 {
         unit.setLayoutY(y);
         unit.toFront();
     }
-
+    
     private void setArabianUnitsSize() {
         setSizeUnits(ArabianUnitsMenu, 0, 670);
         setSizeUnits(archerBow, 502, 750);
@@ -753,6 +762,7 @@ public class MapController2 {
         setSizeUnits(slave, 840, 740);
         setSizeUnits(slinger, 910, 750);
     }
+    
     private void setArabianUnits(boolean check) {
         ArabianUnitsMenu.setVisible(check);
         archerBow.setVisible(check);
@@ -807,22 +817,6 @@ public class MapController2 {
         String address = "/images/" + material + ".jpg";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
-//        EventHandler<MouseEvent> selectCell = mouseEvent -> {
-////            if (!isLocationAppropriateToShow(getXLocationByPixel(x), getYLocationByPixel(y), map, edgeLength)) return;
-//            GameGraphics.selectedCell = map.getCells()[getXLocationByPixel(x)][getYLocationByPixel(y)];
-//            Label frontLabel = new Label();
-//            frontLabel.setPrefWidth(edgeLength);
-//            frontLabel.setPrefHeight(edgeLength);
-//            frontLabel.setLayoutX(pictureLabel.getLayoutX());
-//            frontLabel.setLayoutY(pictureLabel.getLayoutY());
-//            frontLabel.setBackground(background);
-//            frontLabel.toFront();
-//            frontLabel.setTooltip(tooltip);
-//            frontLabel.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: #174D8AFF;" +
-//                    " -fx-opacity: 0.3; -fx-border-style: solid;");
-//            pane.getChildren().add(frontLabel);
-//        };
-//        pictureLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectCell);
         pane.getChildren().add(pictureLabel);
         pane.setStyle("-fx-spacing: 0");
     }
@@ -859,13 +853,13 @@ public class MapController2 {
         buildingImageView.setFitWidth(edgeLength);
         buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-
+        
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
         };
-
-
+        
+        
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
