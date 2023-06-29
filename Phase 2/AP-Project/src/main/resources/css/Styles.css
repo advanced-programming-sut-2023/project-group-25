@@ -3,7 +3,7 @@
     -fx-pref-height: 190px;
 }
 
-.enterMenuButton:hover{
+.enterMenuButton:hover {
     -fx-cursor: hand;
     -fx-pref-width: 320px;
 }
@@ -11,13 +11,13 @@
 .container1 {
     -fx-padding: 200px 0 0 0;
     -fx-alignment: CENTER;
-    -fx-spacing:600px;
+    -fx-spacing: 600px;
 }
 
 .registerContainer {
     -fx-background-radius: 8px;
     -fx-padding: 5px;
-    -fx-spacing:5px;
+    -fx-spacing: 5px;
 }
 
 .registerFieldContainer {
@@ -162,7 +162,7 @@
     -fx-font-family: "Arial Narrow";
     -fx-background-color: #774f2a;
     -fx-translate-y: 30px;
-    -fx-text-fill:#fff;
+    -fx-text-fill: #fff;
 }
 
 #enterProfile {
@@ -170,4 +170,8 @@
     -fx-translate-x: 100px;
     -fx-pref-width: 160px;
     -fx-pref-height: 160px;
+}
+
+#enterProfile:hover {
+    -fx-cursor: hand;
 }
