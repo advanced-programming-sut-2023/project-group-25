@@ -116,11 +116,31 @@ public class MapController2 {
     private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
     private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
     private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
+    public final Label miniMapShowingLabel = new Label();
     private GameController gameController;
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
     private int shownX;
     private int shownY;
+    private int miniMapShowingX = 1401;
+    private int miniMapShowingY = 729;
+    
+    public int getMiniMapShowingX() {
+        return miniMapShowingX;
+    }
+    
+    public void setMiniMapShowingX(int miniMapShowingX) {
+        this.miniMapShowingX = miniMapShowingX;
+    }
+    
+    public int getMiniMapShowingY() {
+        return miniMapShowingY;
+    }
+    
+    public void setMiniMapShowingY(int miniMapShowingY) {
+        this.miniMapShowingY = miniMapShowingY;
+    }
+    
     private Map map;
     
     public static void initializeMapTemplate(int length, int width) {
@@ -189,6 +209,7 @@ public class MapController2 {
         
         for (int i = x - 11 * 70 / edgeLength; i < x + 12 * 70 / edgeLength + 1; i++) {
             for (int j = y - 5 * 70 / edgeLength; j < y + 7 * 70 / edgeLength + 2; j++) {
+                assert map != null;
                 if (i >= map.getLength() || j >= map.getWidth()) continue;
                 Cell cell = map.getCells()[i][j];
                 
@@ -208,15 +229,24 @@ public class MapController2 {
             xCounter++;
             yCounter = 0;
         }
-    
+        
         Background background = new Background(MainController.setFirstPageBackground("/images/miniMap.png"));
         miniMapLabel.setBackground(background);
         miniMapLabel.setPrefHeight(135);
         miniMapLabel.setPrefWidth(135);
-        miniMapLabel.setLayoutX(1401);//1401
-        miniMapLabel.setLayoutY(729);//729
+        miniMapLabel.setLayoutX(1401);
+        miniMapLabel.setLayoutY(729);
         miniMapLabel.setStyle("-fx-border-color: gray; -fx-border-width: 2px; -fx-border-style: solid;");
         miniMapLabel.toFront();
+        
+        
+        miniMapShowingLabel.setStyle("-fx-background-color: #fff0; -fx-border-style: solid;" +
+                " -fx-border-width: 2; -fx-border-color: white;");
+        miniMapShowingLabel.setPrefWidth(20);
+        miniMapShowingLabel.setPrefHeight(20);
+        miniMapShowingLabel.setLayoutX(miniMapShowingX);
+        miniMapShowingLabel.setLayoutY(miniMapShowingY);
+        miniMapShowingLabel.toFront();
         
         EventHandler<MouseEvent> ccc = ev -> {
             double xScene = ev.getX();
@@ -424,7 +454,7 @@ public class MapController2 {
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu
                     , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen
-                    , fireThrowers, horseArcher, slave, slinger, miniMapLabel);
+                    , fireThrowers, horseArcher, slave, slinger, miniMapLabel, miniMapShowingLabel);
             isTheFirstTime = true;
         }
         
@@ -866,8 +896,6 @@ public class MapController2 {
         buildingImageView.toFront();
         pane.getChildren().add(buildingImageView);
     }
-    //x1 = x + shownX - 11 * 70 / edgeLength
-    //x = x1 - shownX + 11*70/edgeLength
     
     public int getXLocationByPixel(double x) {
         return (int) (x + shownX - (float) 11 * 70 / edgeLength);

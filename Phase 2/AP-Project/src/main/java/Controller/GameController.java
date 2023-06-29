@@ -28,6 +28,8 @@ public class GameController {
     private Cell cell;
     private int shownMapX;
     private int shownMapY;
+    private final int mapLength = 80;
+    private final int mapWidth = 80;
     private Building selectedBuilding;
 
 
@@ -1501,7 +1503,7 @@ public class GameController {
         kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
         Game game = new Game(gameId, kingdoms);
         currentGame = game;
-        MapController2.initializeMapTemplate(80, 80);
+        MapController2.initializeMapTemplate(mapLength, mapWidth);
         game.setMap(Map.getTemplateMaps()[1]);
         game.setMapTemplateNumber(1);
         Turn.setTurnCounter(0);

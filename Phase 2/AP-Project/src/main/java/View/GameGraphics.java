@@ -6,6 +6,7 @@ import Controller.GameController;
 import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
+import Model.Map;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -91,13 +92,17 @@ public class GameGraphics extends Application {
                 double y = shownY * edgeLength;
                 int dx = (int) (mouseEvent.getX() - previousClick.getX());
                 int dy = (int) (mouseEvent.getY() - previousClick.getY());
-                if (mapController.loadMapToShow(scene,stage, gamePane, gameController.getCurrentGame().getMap(),
+                if (mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap(),
                         (int) (x - dx) / edgeLength, (int) (y - dy) / edgeLength, edgeLength).equals("success")) {
                     x = x - dx;
                     y = y - dy;
                     shownX = (int) x / edgeLength;
                     shownY = (int) y / edgeLength;
                 }
+                Map map = gameController.getCurrentGame().getMap();
+                //mapController.setMiniMapShowingX((shownX - 11 + 1411 * map.getLength() - 22 / 115) * 115 / 58);
+                mapController.setMiniMapShowingX((shownX - 11 + 1411 * (map.getLength() - 22) / 115) * 115 / (map.getLength() - 22));
+                mapController.setMiniMapShowingY((shownY - 5 + 729 * (map.getWidth() - 10) / 115) * 115 / (map.getWidth() - 10));
             }
         };
         
@@ -138,7 +143,7 @@ public class GameGraphics extends Application {
                             + "/" + clickedBuildingToDrop + ".png";
                     int x = mapController.getXLocationByPixel(mouseEvent.getX() / edgeLength) * edgeLength;
                     int y = mapController.getYLocationByPixel(mouseEvent.getY() / edgeLength) * edgeLength;
-                    
+
 //                    System.out.println("mouseEvent: " + mouseEvent.getX() / edgeLength + " " + mouseEvent.getY() / edgeLength);
                     
                     Cell cell = gameController.getCurrentGame().getMap().getCells()[x / edgeLength][y / edgeLength];
@@ -165,7 +170,7 @@ public class GameGraphics extends Application {
                 buildBuildingAndShowMessage(gamePane, address, selectedCell, selectedBuilding.getType());
             }
         };
-
+        
         
         EventHandler<MouseEvent> rectangleSelectionEventHandler = mouseEvent -> {
             if (previousMouseEvent.isSecondaryButtonDown() && clickedBuildingToDrop == null) {
@@ -225,6 +230,17 @@ public class GameGraphics extends Application {
             }
         };
         
+        EventHandler<MouseEvent> moveOnMiniMap = mouseEvent -> {
+            if (mouseEvent.getX() >= 1411 && mouseEvent.getX() <= 1526 && mouseEvent.getY() >= 739 && mouseEvent.getY() <= 854) {
+                mapController.setMiniMapShowingX((int) mouseEvent.getX() - 10);
+                mapController.setMiniMapShowingY((int) mouseEvent.getY() - 10);
+                Map map = gameController.getCurrentGame().getMap();
+                shownX = (int) (((map.getLength() - 22) * (mouseEvent.getX() - 10)) / 115 + 11 - (1411 * (map.getLength() - 22) / 115));
+                shownY = (int) (((map.getWidth() - 10) * (mouseEvent.getY() - 10)) / 115 + 5 - (739 * (map.getWidth() - 10) / 115));
+                mapController.loadMapToShow(scene, stage, gamePane, map, shownX, shownY, edgeLength);
+            }
+        };
+        
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, previousClickEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler);
@@ -235,7 +251,7 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
-        
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveOnMiniMap);
         
         stage.setScene(scene);
         stage.setFullScreen(true);
