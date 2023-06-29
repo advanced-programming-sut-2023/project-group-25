@@ -100,7 +100,6 @@ public class GameGraphics extends Application {
                     shownY = (int) y / edgeLength;
                 }
                 Map map = gameController.getCurrentGame().getMap();
-                //mapController.setMiniMapShowingX((shownX - 11 + 1411 * map.getLength() - 22 / 115) * 115 / 58);
                 mapController.setMiniMapShowingX((shownX - 11 + 1411 * (map.getLength() - 22) / 115) * 115 / (map.getLength() - 22));
                 mapController.setMiniMapShowingY((shownY - 5 + 729 * (map.getWidth() - 10) / 115) * 115 / (map.getWidth() - 10));
             }

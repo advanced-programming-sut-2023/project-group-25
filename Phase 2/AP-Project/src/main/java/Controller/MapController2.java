@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.*;
+import View.FirstPage;
 import View.GameGraphics;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -22,6 +23,8 @@ import static Controller.MapController.*;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
+    private static GameController gameController = FirstPage.changeMenuController.getGameController();
+    public final Label miniMapShowingLabel = new Label();
     private final Label miniMapLabel = new Label();
     private final ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
     private final ImageView popularityMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/popularityMenu.png"))));
@@ -116,31 +119,12 @@ public class MapController2 {
     private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
     private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
     private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
-    public final Label miniMapShowingLabel = new Label();
-    private GameController gameController;
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
     private int shownX;
     private int shownY;
     private int miniMapShowingX = 1401;
     private int miniMapShowingY = 729;
-    
-    public int getMiniMapShowingX() {
-        return miniMapShowingX;
-    }
-    
-    public void setMiniMapShowingX(int miniMapShowingX) {
-        this.miniMapShowingX = miniMapShowingX;
-    }
-    
-    public int getMiniMapShowingY() {
-        return miniMapShowingY;
-    }
-    
-    public void setMiniMapShowingY(int miniMapShowingY) {
-        this.miniMapShowingY = miniMapShowingY;
-    }
-    
     private Map map;
     
     public static void initializeMapTemplate(int length, int width) {
@@ -169,6 +153,56 @@ public class MapController2 {
         
         setDefaultLand(length, width, map);
         Map.setTemplateMap(1, map);
+    }
+    
+    public static void initializeCastlesLocation(Map map, int length, int width) {
+        Building castle = new Building("castle", "otherBuilding", null, 0, 10000);
+        int[][] castlePositions = new int[8][2];
+        castlePositions[0][0] = 2;
+        castlePositions[0][1] = 2;
+        castlePositions[1][0] = length - 3;
+        castlePositions[1][1] = width - 3;
+        castlePositions[2][0] = 2;
+        castlePositions[2][1] = width - 3;
+        castlePositions[3][0] = length - 3;
+        castlePositions[3][1] = 2;
+        castlePositions[4][0] = 2;
+        castlePositions[4][1] = width / 2;
+        castlePositions[5][0] = length - 3;
+        castlePositions[5][1] = width / 2;
+        castlePositions[6][0] = length / 2;
+        castlePositions[6][1] = 2;
+        castlePositions[7][0] = length / 2;
+        castlePositions[7][1] = width - 3;
+        for (int i = 0; i < gameController.getCurrentGame().getNumberOfPlayers(); i++) {
+            map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0]
+                    , castlePositions[i][1], "castle");//TODO: difference between players' castles
+            map.getCells()[castlePositions[i][0]][castlePositions[i][1]].setBuilding(castle);
+            castle.setKing(gameController.getCurrentGame().getKingdoms().get(i).getKing());
+            gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()
+                    [castlePositions[i][0]][castlePositions[i][1]]);
+            if (!gameController.getCurrentGame().isFirstLoaded())
+                for (int j = 0; j < 8; j++) {
+                    addJoblessInitially(gameController.getCurrentGame().getKingdoms().get(i));
+                }
+        }
+        //gameController.getCurrentGame().setFirstLoaded(true);
+    }
+    
+    public int getMiniMapShowingX() {
+        return miniMapShowingX;
+    }
+    
+    public void setMiniMapShowingX(int miniMapShowingX) {
+        this.miniMapShowingX = miniMapShowingX;
+    }
+    
+    public int getMiniMapShowingY() {
+        return miniMapShowingY;
+    }
+    
+    public void setMiniMapShowingY(int miniMapShowingY) {
+        this.miniMapShowingY = miniMapShowingY;
     }
     
     public int getShownX() {
@@ -847,6 +881,7 @@ public class MapController2 {
         pictureLabel.setTooltip(tooltip);
         
         String address = "/images/" + material + ".jpg";
+        if (material.equals("castle")) address = "/images/castle.png";
         Background background = new Background(MainController.setFirstPageBackground(address));
         pictureLabel.setBackground(background);
         pane.getChildren().add(pictureLabel);
@@ -878,8 +913,12 @@ public class MapController2 {
     private void showBuilding(Pane pane, int i, int j, Building building) {
         if (building == null) return;
 //        System.out.println("show building x=" + i + " y=" + j);
-        String imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
+        String imageAddress;
+        if (building.getType().equals("castle")) imageAddress = "/images/castle.png";
+        else imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
                 "/" + building.getType() + ".png";
+//        System.out.println(gameController.getCurrentGame().getNumberOfPlayers());
+        System.out.println(gameController);
         ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
         buildingImageView.setFitHeight(edgeLength);
         buildingImageView.setFitWidth(edgeLength);
@@ -890,7 +929,6 @@ public class MapController2 {
             GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
         };
-        
         
         buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingImageView.toFront();
@@ -904,4 +942,5 @@ public class MapController2 {
     public int getYLocationByPixel(double y) {
         return (int) (y + shownY - (float) 5 * 70 / edgeLength);
     }
+    
 }
