@@ -1,8 +1,6 @@
 package View;
 
 import Controller.*;
-import Model.Cell;
-import Model.Kingdom;
 import Model.User;
 
 import java.security.NoSuchAlgorithmException;
@@ -79,7 +77,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SELECT_BUILDING)) != null) {
                 System.out.println(gameController.selectBuilding(matcher));
             } else if ((matcher = getMatcher(input, Commands.REPAIR)) != null) {
-                System.out.println(gameController.repair());
+//                System.out.println(gameController.repair(category, savedBuilding, GameGraphics.selectedBuilding));
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTORS)) != null) {
                 System.out.print(gameController.showPopularityFactors());
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY)) != null) {
@@ -87,7 +85,7 @@ public class GameMenu {
             } else if ((matcher = getMatcher(input, Commands.SHOW_FOOD_LIST)) != null) {
                 System.out.println(gameController.showFoodList());
             } else if ((matcher = getMatcher(input, Commands.RATE_POPULARITY_FACTOR)) != null) {
-                System.out.println(gameController.ratePopularityFactor(matcher));
+//                System.out.println(gameController.ratePopularityFactor(matcher));
             } else if ((matcher = getMatcher(input, Commands.SHOW_POPULARITY_FACTOR_RATE)) != null) {
                 System.out.println(gameController.showPopularityFactorRate(matcher));
             } else if ((matcher = getMatcher(input, Commands.NEXT_TURN)) != null) {
