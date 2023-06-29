@@ -3,27 +3,14 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import View.GameGraphics;
-=======
 import javafx.scene.control.Alert;
->>>>>>> Melika
-=======
-import View.FirstPage;
-import View.GameGraphics;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
->>>>>>> 7398c3653845568bd558dfd5a08be2d1c16158d4
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static Controller.MapController2.clickedBuildingToDrop;
 import static Controller.RegisterLoginController.getCurrentUser;
-import static View.FirstPage.stage;
 
 public class GameController {
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};

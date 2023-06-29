@@ -3,6 +3,8 @@ package Controller;
 import Model.*;
 import View.FirstPage;
 import View.GameGraphics;
+import View.MainMenu;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -546,25 +548,19 @@ public class MapController2 {
             popularityMenu.setVisible(false);
             pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                     , barracks, mercenary, armoury, stairs, shortWall, highWall
-                    , towers, militaryBuildings, gatehouse, back
-                    , smallGate, largeGate, cage, pit, engineerGuild, stable, oilSmelter
+                    , towers, militaryBuildings, gatehouse, back, smallGate, largeGate, cage, pit, engineerGuild, stable, oilSmelter
                     , lookoutTower, defenceTower, perimeterTower, roundTower, squareTower
-                    , stockpile, woodCutter, quarry, ironMine, oxTether, market
-                    , appleOrchard, wheatFarmer, hopsFarmer, dairyFarmer
-                    , hovel, church, catheral, catheralMenu, monk
-                    , poleturner, armourer, blacksmith, fletcher
-                    , granary, bakery, brewer, mill, inn, popularityMenu
+                    , stockpile, woodCutter, quarry, ironMine, oxTether, market, appleOrchard, wheatFarmer, hopsFarmer, dairyFarmer
+                    , hovel, church, catheral, catheralMenu, monk, poleturner, armourer, blacksmith, fletcher
+                    , granary, bakery, brewer, mill, inn, popularityMenu, fletcherMenu, blacksmithMenu, armorerMenu, poleturnerMenu
                     , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
                     , europeanUnitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen
                     , bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse
-                    , fletcherMenu, blacksmithMenu, armorerMenu, poleturnerMenu
                     , maceMenu, swordMenu, bowMenu, crossbowMenu, metalMenu, leatherMenu, pikeMenu, spearMenu
                     , churchMenu, armouryMenu, hovelMenu, woodcutterMenu, cageMenu, killingPitMenu
                     , stableMenu, stockpileMenu, appleOrchardMenu, dairyFarmMenu, hopsFarmMenu, wheatFarmMenu
                     , quarryMenu, ironMineMenu, oxTetherMenu, innMenu, millMenu, bakeryMenu, breweryMenu, granaryMenu
-                    , first, second, third, forth, fifth, foodNumber
-                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen
-                    , fireThrowers, horseArcher, slave, slinger, miniMapLabel, miniMapShowingLabel);
+                    , first, second, third, forth, fifth, foodNumber, miniMapLabel, miniMapShowingLabel);
             isTheFirstTime = true;
         }
 
@@ -1184,25 +1180,34 @@ public class MapController2 {
 //        System.out.println("show building x=" + i + " y=" + j);
         String imageAddress;
         if (building.getType().equals("castle")) imageAddress = "/images/castle.png";
-        else
-            imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
-                    "/" + building.getType() + ".png";
-//        System.out.println(gameController.getCurrentGame().getNumberOfPlayers());
-        System.out.println(gameController);
-        ImageView buildingImageView = new ImageView(String.valueOf(getClass().getResource(imageAddress)));
-        buildingImageView.setFitHeight(edgeLength);
-        buildingImageView.setFitWidth(edgeLength);
-        buildingImageView.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
-        buildingImageView.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+        else imageAddress = "/images/Buildings/" + FileController.getBuildingCategoryByType(building.getType()) +
+                "/" + building.getType() + ".png";
+        
+        Label buildingLabel = new Label();
+        buildingLabel.setBackground(new Background(MainController.setFirstPageBackground(imageAddress)));
+        buildingLabel.setPrefHeight(edgeLength);
+        buildingLabel.setPrefWidth(edgeLength);
+        buildingLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+        buildingLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+        
+        String s = "King: "+ building.getKing().getUsername() + "\nType: " + building.getType() + "\nCategory: " + building.getCategory()
+                + "\nHitPoint: " +  building.getHitPoint() + "\nNumber of workers: " + building.getWorkerCounter();
+        Tooltip tooltip = new Tooltip(s);
+        tooltip.setStyle("-fx-font-size: 15px;");
+        buildingLabel.setTooltip(tooltip);
 
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
         };
+    
+        EventHandler<MouseEvent> hoverBuildingEventHandler = mouseEvent -> {
+            System.out.println("yes");
+        };
 
-        buildingImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
-        buildingImageView.toFront();
-        pane.getChildren().add(buildingImageView);
+        buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
+        buildingLabel.toFront();
+        pane.getChildren().add(buildingLabel);
     }
 
     public int getXLocationByPixel(double x) {
