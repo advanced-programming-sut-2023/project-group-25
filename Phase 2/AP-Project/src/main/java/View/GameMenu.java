@@ -20,7 +20,7 @@ public class GameMenu {
     private TradeMenu tradeMenu;
 
     public GameMenu(ChangeMenuController changeMenuController) {
-        this.gameController = changeMenuController.getgameController();
+        this.gameController = changeMenuController.getGameController();
         this.registerLoginController = changeMenuController.getRegisterLoginController();
         this.mapController = changeMenuController.getMapController();
         this.tradeMenu = new TradeMenu(changeMenuController);

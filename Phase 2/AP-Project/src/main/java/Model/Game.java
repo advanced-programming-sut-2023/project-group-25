@@ -3,8 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 public class Game {
-    private ArrayList<Kingdom> kingdoms = new ArrayList<Kingdom>();
-    private int numberOfPlayers = 4;
+    private ArrayList<Kingdom> kingdoms;
+    private int numberOfPlayers;
     private int gameId;
     public Turn turn;
     private int mapTemplateNumber;
