@@ -4850,7 +4850,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 238
-melika
+sssss
 4000.0
 
 bread,wood,stone,
@@ -4859,7 +4859,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 238
-zahra
+aliii
 4000.0
 
 bread,wood,stone,
@@ -5457,7 +5457,7 @@ aliii
 4000.0
 
 bread,wood,stone,
-
+jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -5466,7 +5466,7 @@ melika
 4000.0
 
 bread,wood,stone,
-jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,
+jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -5475,7 +5475,7 @@ aliii
 4000.0
 
 bread,wood,stone,
-
+jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
@@ -5488,8 +5488,8 @@ jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-240
-melika
+242
+sssss
 4000.0
 
 bread,wood,stone,
@@ -5497,8 +5497,8 @@ jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-240
-zahra
+242
+melika
 4000.0
 
 bread,wood,stone,
@@ -5506,8 +5506,8 @@ jobless|x:2-y:77,jobless|x:2-y:77,jobless|x:2-y:77,jobless|x:2-y:77,jobless|x:2-
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
-240
-majid
+242
+aliii
 4000.0
 
 bread,wood,stone,
@@ -5579,7 +5579,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 243
-majid
+aliii
 4000.0
 
 bread,wood,stone,
@@ -5588,7 +5588,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 244
-melika
+hoora
 4000.0
 
 bread,wood,stone,
@@ -5597,7 +5597,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 244
-majid
+aliii
 4000.0
 
 bread,wood,stone,
@@ -5606,7 +5606,7 @@ food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
 245
-melika
+sssss
 4000.0
 
 bread,wood,stone,

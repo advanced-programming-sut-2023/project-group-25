@@ -66,7 +66,6 @@ public class RegisterMenu extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        back.setTooltip(new Tooltip("salam"));
 //        listView.getItems().add("1- What city were you born in?");
 //        listView.getItems().add("2- What is your oldest sibling’s middle name?");
 //        listView.getItems().add("3- In what city or town did your parents meet?");
