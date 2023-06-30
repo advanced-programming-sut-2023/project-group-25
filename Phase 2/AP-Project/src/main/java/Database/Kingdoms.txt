@@ -4993,3 +4993,21 @@ jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|
 food:0,tax:0,religion:0,fear:0,
 
 _____________________________________________________
+245
+sssss
+4000.0
+
+bread,wood,stone,
+jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,jobless|x:2-y:2,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________
+245
+aliii
+4000.0
+
+bread,wood,stone,
+jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,jobless|x:77-y:77,
+food:0,tax:0,religion:0,fear:0,
+
+_____________________________________________________

@@ -7,6 +7,7 @@ import Controller.MapController2;
 import Model.Building;
 import Model.Cell;
 import Model.Map;
+import Model.MilitaryPerson;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
@@ -30,7 +32,8 @@ import static Controller.MapController2.clickedBuildingToDrop;
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     public static Building selectedBuilding = null;
-    public static Cell selectedCell = null; //Selected cell is the cell on map. The place on screen must be calculated.
+    public static Cell selectedCell = null;
+    public static ArrayList<MilitaryPerson> selectedUnits = new ArrayList<>();
     private final GameController gameController;
     private Clipboard clipboard;
     private int edgeLength = 70;
@@ -187,9 +190,12 @@ public class GameGraphics extends Application {
                     isGroup = true;
                     s = "Total number of people: ";
                 }
+                ArrayList<MilitaryPerson> units = new ArrayList<>();
                 for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
                     for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
                         selectedCell = null;
+//                        cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
+                        //TODO: select units
                         Label frontLabel = new Label();
                         frontLabel.setPrefWidth(edgeLength);
                         frontLabel.setPrefHeight(edgeLength);
@@ -207,6 +213,7 @@ public class GameGraphics extends Application {
                             totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
                                     .getPeople().size();
                             selectedCell = cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)];
+                            
                         }
                     }
                 }
