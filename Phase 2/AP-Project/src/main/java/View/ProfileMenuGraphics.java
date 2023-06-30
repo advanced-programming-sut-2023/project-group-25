@@ -35,7 +35,7 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Button email;
     public VBox changeEmail;
     public Button slogan;
-    public Button changeSlogan;
+    public VBox changeSlogan;
     public VBox avatar;
     public HBox changeAvatar;
     public Button avatarImg;
@@ -57,6 +57,7 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Label nicknameError;
     public TextField newEmail;
     public Label emailError;
+    public TextField newSlogan;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -90,9 +91,11 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         email.setText("EMAIL: " + RegisterLoginController.getCurrentUser().getEmail());
         changeEmail.setBackground(usernameChangeBack);
         slogan.setBackground(usernameBack);
-        slogan.setText("SLOGAN: " + RegisterLoginController.getCurrentUser().getSlogan());
+        if (RegisterLoginController.getCurrentUser().getSlogan().equals(""))
+            slogan.setText("SLOGAN: Slogan is empty!");
+        else
+            slogan.setText("SLOGAN: " + RegisterLoginController.getCurrentUser().getSlogan());
         changeSlogan.setBackground(usernameChangeBack);
-        changeSlogan.setText("Change Slogan ...");
         Background avatarBack = new Background(MainController.setFirstPageBackground("/images/avatarContainer.png"));
         Background avatarChangeBack = new Background(MainController.setFirstPageBackground("/images/changeAvatar.png"));
         Background img = new Background(MainController.setFirstPageBackground(RegisterLoginController.getCurrentUser().getAvatarPath()));
@@ -160,19 +163,19 @@ public class ProfileMenuGraphics extends Application implements Initializable {
 
     public void changeAvatar(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
         String path = "/images/avatar/";
-        if(r1.isSelected())
+        if (r1.isSelected())
             path += "2.png";
-        else if(r2.isSelected())
+        else if (r2.isSelected())
             path += "3.png";
-        else if(r3.isSelected())
+        else if (r3.isSelected())
             path += "4.png";
-        else if(r4.isSelected())
+        else if (r4.isSelected())
             path += "5.png";
-        else if(r5.isSelected())
+        else if (r5.isSelected())
             path += "6.png";
-        else if(r6.isSelected())
+        else if (r6.isSelected())
             path += "1.png";
-        FileController.changeAvatar(RegisterLoginController.getCurrentUser().getUsername(),path);
+        FileController.changeAvatar(RegisterLoginController.getCurrentUser().getUsername(), path);
         RegisterLoginController.getCurrentUser().setAvatarPath(path);
         Background img = new Background(MainController.setFirstPageBackground(path));
         avatarImg.setBackground(img);
@@ -182,11 +185,10 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         if (newUsername.getText().length() == 0) {
             usernameError.setText("Username field is empty!");
             usernameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
-        } else if(FileController.getUserByUsername(newUsername.getText()) != null) {
+        } else if (FileController.getUserByUsername(newUsername.getText()) != null) {
             usernameError.setText("This username already exists!");
             usernameError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
-        }
-        else if (registerLoginController.isUsernameValid(newUsername.getText())) {
+        } else if (registerLoginController.isUsernameValid(newUsername.getText())) {
             usernameError.setText("Username accepted!");
             usernameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         } else {
@@ -196,8 +198,8 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     }
 
     public void changeUsername(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
-        if(usernameError.getText().equals("Username accepted!")) {
-            FileController.changeUsername(RegisterLoginController.getCurrentUser().getUsername(),newUsername.getText());
+        if (usernameError.getText().equals("Username accepted!")) {
+            FileController.changeUsername(RegisterLoginController.getCurrentUser().getUsername(), newUsername.getText());
             RegisterLoginController.getCurrentUser().setUsername(newUsername.getText());
             username.setText("USERNAME: " + newUsername.getText());
             newUsername.clear();
@@ -213,8 +215,8 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     }
 
     public void changeNickname(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
-        if(nicknameError.getText().equals("Nickname accepted!")) {
-            FileController.changeNickname(RegisterLoginController.getCurrentUser().getUsername(),newNickname.getText());
+        if (nicknameError.getText().equals("Nickname accepted!")) {
+            FileController.changeNickname(RegisterLoginController.getCurrentUser().getUsername(), newNickname.getText());
             RegisterLoginController.getCurrentUser().setNickname(newNickname.getText());
             nickname.setText("NICKNAME: " + newNickname.getText());
             newNickname.clear();
@@ -233,8 +235,7 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         if (newNickname.getText().length() == 0) {
             nicknameError.setText("Nickname field is empty!");
             nicknameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
-        }
-        else {
+        } else {
             nicknameError.setText("Nickname accepted!");
             nicknameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         }
@@ -245,8 +246,7 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         if (newEmail.getText().length() == 0) {
             emailError.setText("New email field is empty!");
             emailError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
-        }
-        else if (registerLoginController.isEmailValid(newEmail.getText())) {
+        } else if (registerLoginController.isEmailValid(newEmail.getText())) {
             emailError.setText("Email accepted!");
             emailError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
         } else {
@@ -256,8 +256,8 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     }
 
     public void changeEmail(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
-        if(emailError.getText().equals("Email accepted!")) {
-            FileController.changeEmail(RegisterLoginController.getCurrentUser().getUsername(),newEmail.getText());
+        if (emailError.getText().equals("Email accepted!")) {
+            FileController.changeEmail(RegisterLoginController.getCurrentUser().getUsername(), newEmail.getText());
             RegisterLoginController.getCurrentUser().setEmail(newEmail.getText());
             email.setText("EMAIL: " + newEmail.getText());
             newEmail.clear();
@@ -270,5 +270,22 @@ public class ProfileMenuGraphics extends Application implements Initializable {
             alert.setContentText("Please fill the text field properly!");
             alert.showAndWait();
         }
+    }
+
+    public void changeSlogan(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        String newSlog = newSlogan.getText();
+        if (newSlogan.getText().equals(""))
+            newSlog = "Slogan is empty!";
+        FileController.changeSlogan(RegisterLoginController.getCurrentUser().getUsername(), newSlogan.getText());
+        RegisterLoginController.getCurrentUser().setSlogan(newSlogan.getText());
+        slogan.setText("SLOGAN: " + newSlog);
+        newSlogan.clear();
+    }
+
+    public void deleteSlogan(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        FileController.changeSlogan(RegisterLoginController.getCurrentUser().getUsername(), "");
+        RegisterLoginController.getCurrentUser().setSlogan("");
+        slogan.setText("SLOGAN: Slogan is empty!");
+        newSlogan.clear();
     }
 }
