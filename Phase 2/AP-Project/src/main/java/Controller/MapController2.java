@@ -563,8 +563,7 @@ public class MapController2 {
                     , stableMenu, stockpileMenu, appleOrchardMenu, dairyFarmMenu, hopsFarmMenu, wheatFarmMenu
                     , quarryMenu, ironMineMenu, oxTetherMenu, innMenu, millMenu, bakeryMenu, breweryMenu, granaryMenu
                     , first, second, third, forth, fifth, foodNumber
-                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen
-                    , fireThrowers, horseArcher, slave, slinger, miniMapLabel, miniMapShowingLabel);
+                    , miniMapLabel, miniMapShowingLabel);
             isTheFirstTime = true;
         }
 

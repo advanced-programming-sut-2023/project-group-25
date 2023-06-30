@@ -71,4 +71,8 @@ public class ChangeMenuController {
             }
         }
     }
+
+    public GameController getgameController() {
+        return gameController;
+    }
 }
