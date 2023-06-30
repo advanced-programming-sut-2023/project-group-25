@@ -44,6 +44,7 @@ public class RegisterMenu extends Application implements Initializable {
     public RadioButton noSloganR;
     public Label sloganError;
     public Button back;
+    public Label usernameError2;
     boolean correctUsername = false;
     private boolean hide = false;
     private boolean randomPassword = false;

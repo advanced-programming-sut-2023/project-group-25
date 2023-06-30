@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.TextField?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
@@ -28,38 +29,50 @@
                     <ToggleGroup fx:id="group"/>
                 </fx:define>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton  fx:id="r1" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv1" styleClass="avatarImg"/>
                 </HBox>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton fx:id="r2" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv2" styleClass="avatarImg"/>
                 </HBox>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton  fx:id="r3" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv3" styleClass="avatarImg"/>
                 </HBox>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton  fx:id="r4" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv4" styleClass="avatarImg"/>
                 </HBox>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton  fx:id="r5" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv5" styleClass="avatarImg"/>
                 </HBox>
                 <HBox>
-                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <RadioButton  fx:id="r6" styleClass="radioButton" toggleGroup="$group" onMouseClicked="#changeAvatar"/>
                     <Button fx:id="defAv6" styleClass="avatarImg"/>
                 </HBox>
             </HBox>
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="username" styleClass="profileInfo" onMouseEntered="#showUsernameChange" wrapText="true" onMouseExited="#hideUsernameChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeUsername" styleClass="changeInfo" visible="false"  onMouseEntered="#showUsernameChange" onMouseExited="#hideUsernameChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeUsername" styleClass="changeInfo" visible="false"  onMouseEntered="#showUsernameChange" onMouseExited="#hideUsernameChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new username" fx:id="newUsername" styleClass="textField1" onKeyTyped="#usernameCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeUsername"/>
+                </HBox>
+                <Label text="New username field is empty!" styleClass="errorLabel" fx:id="usernameError"/>
+            </VBox>
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="nickname" styleClass="profileInfo" onMouseEntered="#showNicknameChange" wrapText="true" onMouseExited="#hideNicknameChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeNickname" styleClass="changeInfo" visible="false"  onMouseEntered="#showNicknameChange" onMouseExited="#hideNicknameChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeNickname" styleClass="changeInfo" visible="false"  onMouseEntered="#showNicknameChange" onMouseExited="#hideNicknameChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new nickname" fx:id="newNickname" styleClass="textField1" onKeyTyped="#nicknameCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeNickname"/>
+                </HBox>
+                <Label text="New nickname field is empty!" styleClass="errorLabel" fx:id="nicknameError"/>
+            </VBox>
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="email" styleClass="profileInfo" onMouseEntered="#showEmailChange" wrapText="true" onMouseExited="#hideEmailChange"/>

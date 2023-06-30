@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -18,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -27,9 +29,9 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public static Stage stage;
     public Button back;
     public Button username;
-    public Button changeUsername;
+    public VBox changeUsername;
     public Button nickname;
-    public Button changeNickname;
+    public VBox changeNickname;
     public Button email;
     public Button changeEmail;
     public Button slogan;
@@ -43,6 +45,16 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Button defAv4;
     public Button defAv5;
     public Button defAv6;
+    public RadioButton r1;
+    public RadioButton r2;
+    public RadioButton r3;
+    public RadioButton r4;
+    public RadioButton r5;
+    public RadioButton r6;
+    public TextField newUsername;
+    public Label usernameError;
+    public TextField newNickname;
+    public Label nicknameError;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -69,11 +81,9 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         username.setText("USERNAME: " + RegisterLoginController.getCurrentUser().getUsername());
         Background usernameChangeBack = new Background(MainController.setFirstPageBackground("/images/changeInfo.png"));
         changeUsername.setBackground(usernameChangeBack);
-        changeUsername.setText("Change Username ...");
         nickname.setBackground(usernameBack);
         nickname.setText("NICKNAME: " + RegisterLoginController.getCurrentUser().getNickname());
         changeNickname.setBackground(usernameChangeBack);
-        changeNickname.setText("Change Nickname ...");
         email.setBackground(usernameBack);
         email.setText("EMAIL: " + RegisterLoginController.getCurrentUser().getEmail());
         changeEmail.setBackground(usernameChangeBack);
@@ -145,5 +155,79 @@ public class ProfileMenuGraphics extends Application implements Initializable {
 
     public void showAvtarChange(MouseEvent mouseEvent) {
         changeAvatar.setVisible(true);
+    }
+
+    public void changeAvatar(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        String path = "/images/avatar/";
+        if(r1.isSelected())
+            path += "2.png";
+        else if(r2.isSelected())
+            path += "3.png";
+        else if(r3.isSelected())
+            path += "4.png";
+        else if(r4.isSelected())
+            path += "5.png";
+        else if(r5.isSelected())
+            path += "6.png";
+        else if(r6.isSelected())
+            path += "1.png";
+        FileController.changeAvatar(RegisterLoginController.getCurrentUser().getUsername(),path);
+        RegisterLoginController.getCurrentUser().setAvatarPath(path);
+        Background img = new Background(MainController.setFirstPageBackground(path));
+        avatarImg.setBackground(img);
+    }
+
+    public void usernameCompleting(KeyEvent keyEvent) {
+        if (newUsername.getText().length() == 0) {
+            usernameError.setText("Username field is empty!");
+            usernameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else if(FileController.getUserByUsername(newUsername.getText()) != null) {
+            usernameError.setText("This username already exists!");
+            usernameError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
+        else if (registerLoginController.isUsernameValid(newUsername.getText())) {
+            usernameError.setText("Username accepted!");
+            usernameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        } else {
+            usernameError.setText("This username format is invalid!");
+            usernameError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
+    }
+
+    public void changeUsername(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        if(usernameError.getText().equals("Username accepted!")) {
+            FileController.changeUsername(RegisterLoginController.getCurrentUser().getUsername(),newUsername.getText());
+            RegisterLoginController.getCurrentUser().setUsername(newUsername.getText());
+            username.setText("USERNAME: " + newUsername.getText());
+            newUsername.clear();
+            usernameError.setText("New username field is empty!");
+            usernameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Change Info Failed");
+            alert.setContentText("Please fill the text field properly!");
+            alert.showAndWait();
+        }
+    }
+
+    public void changeNickname(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        if(usernameError.getText().equals("Nickname accepted!")) {
+            FileController.changeNickname(RegisterLoginController.getCurrentUser().getUsername(),newNickname.getText());
+            RegisterLoginController.getCurrentUser().setUsername(newNickname.getText());
+            nickname.setText("USERNAME: " + newNickname.getText());
+            newNickname.clear();
+            nicknameError.setText("New nickname field is empty!");
+            nicknameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Change Info Failed");
+            alert.setContentText("Please fill the text field properly!");
+            alert.showAndWait();
+        }
+    }
+
+    public void nicknameCompleting(KeyEvent keyEvent) {
     }
 }
