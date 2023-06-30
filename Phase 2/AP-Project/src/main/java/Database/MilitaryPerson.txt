@@ -2,7 +2,7 @@
 --fire power--
 --defend power--
 --speed--
---nationality--
+--category--
 --needed products (seperated with ,)--
 _____________________________________________
 Archer
@@ -58,21 +58,21 @@ Tunneler
 300
 100
 4
-European
+Engineer
 
 _____________________________________________
 Laddermen
 0
 100
 4
-European
+Engineer
 ladder
 _____________________________________________
 Engineer
 0
 100
 3
-European
+Engineer
 
 _____________________________________________
 BlackMonk
@@ -86,48 +86,48 @@ ArcherBow
 200
 200
 4
-Arab
+Arabian
 arch
 _____________________________________________
 Slaves
 100
 0
 4
-Arab
+Arabian
 
 _____________________________________________
 Slingers
 200
 100
 4
-Arab
+Arabian
 
 _____________________________________________
 Assassins
 300
 300
 3
-Arab
+Arabian
 
 _____________________________________________
 HorseArchers
 200
 300
 5
-Arab
+Arabian
 horse,bow
 _____________________________________________
 ArabianSwordsmen
 400
 400
 5
-Arab
+Arabian
 sword
 _____________________________________________
 FireThrowers
 400
 200
 5
-Arab
+Arabian
 bomb
 _____________________________________________

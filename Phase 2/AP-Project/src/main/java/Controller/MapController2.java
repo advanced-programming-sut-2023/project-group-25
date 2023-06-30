@@ -1,17 +1,11 @@
 package Controller;
 
+import Model.Cell;
 import Model.*;
-import Model.Map;
 import View.FirstPage;
-import View.GameGraphics;
-import View.MainMenu;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -22,13 +16,17 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.*;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static Controller.MapController.*;
+import static View.GameGraphics.selectedBuilding;
+import static View.GameGraphics.toCreateUnitImageView;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
-    public static String clickedUnitToCreate = null;
+    //    public static String clickedUnitToCreate = null;
     private static int stableCount = 0;
     private static int horseCount = 0;
     private static GameController gameController = FirstPage.changeMenuController.getGameController();
@@ -169,6 +167,7 @@ public class MapController2 {
     private int miniMapShowingX = 1401;
     private int miniMapShowingY = 729;
     private Map map;
+    private Pane pane;
     private Button first = new Button("-2");
     private Button second = new Button("-1");
     private Button third = new Button("0");
@@ -224,7 +223,7 @@ public class MapController2 {
         castlePositions[7][1] = width - 3;
         for (int i = 0; i < gameController.getCurrentGame().getNumberOfPlayers(); i++) {
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]] = new Cell(castlePositions[i][0]
-                    , castlePositions[i][1], "castle");//TODO: difference between players' castles
+                    , castlePositions[i][1], "land");
             map.getCells()[castlePositions[i][0]][castlePositions[i][1]].setBuilding(castle);
             castle.setKing(gameController.getCurrentGame().getKingdoms().get(i).getKing());
             gameController.getCurrentGame().getKingdoms().get(i).setMainCastleLocation(map.getCells()
@@ -272,8 +271,6 @@ public class MapController2 {
     public String loadMapToShow(Scene scene, Stage stage, Pane pane, Map map, int x, int y, int edgeLength) {
         gameController = new GameController();
         
-        if (map == null) System.out.println("map is null");
-        
         //capacity: 31 x 16 (x50 pixels)
         if (edgeLength < 40 || edgeLength >= 100 || !isLocationAppropriateToShow(x, y, map, edgeLength)) {
 //            System.out.println("returned");
@@ -286,6 +283,7 @@ public class MapController2 {
         this.shownX = x;
         this.shownY = y;
         this.map = map;
+        this.pane = pane;
         
         int xCounter = 0, yCounter = 0;
         
@@ -303,9 +301,8 @@ public class MapController2 {
                 
                 showBuilding(pane, i, j, cell.getBuilding());
                 
-                for (Person person : cell.getPeople()) {
-                    showPerson(pane, map, i, j, person);
-                }
+                showPeople(pane, map, i, j);
+                
                 yCounter++;
             }
             xCounter++;
@@ -521,7 +518,7 @@ public class MapController2 {
         setArabianUnitsSize();
         setEngineerSize();
         setAllMenusSize();
-        setSizeUnits(monk,"monk", 750, 720);
+        setSizeUnits(monk, "monk", 750, 720);
         setEuropeanUnitsSize();
         addWeapons();
         makeHorse();
@@ -555,13 +552,7 @@ public class MapController2 {
                     , hovel, church, catheral, catheralMenu, monk, poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu, fletcherMenu, blacksmithMenu, armorerMenu, poleturnerMenu
                     , archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
-                    , stockpile, woodCutter, quarry, ironMine, oxTether, market
-                    , appleOrchard, wheatFarmer, hopsFarmer, dairyFarmer
-                    , hovel, church, catheral, catheralMenu, monk
-                    , poleturner, armourer, blacksmith, fletcher
-                    , granary, bakery, brewer, mill, inn, popularityMenu
-                    , arabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
-                    , europeanUnitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen
+                    , arabianUnitsMenu, europeanUnitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen
                     , bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse
                     , maceMenu, swordMenu, bowMenu, crossbowMenu, metalMenu, leatherMenu, pikeMenu, spearMenu
                     , churchMenu, armouryMenu, hovelMenu, woodcutterMenu, cageMenu, killingPitMenu
@@ -575,7 +566,7 @@ public class MapController2 {
         stage.show();
         return "success";
     }
-
+    
     private void setSizeMenuIcons(ImageView icon, int x, int y) {
         icon.setLayoutX(x);
         icon.setLayoutY(y);
@@ -613,11 +604,11 @@ public class MapController2 {
         ImageView gatehouseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/gatehouseMenu.png"))));
         setSizeMenuIcons(towerMenu, 0, 670);
         setSizeMenuIcons(gatehouseMenu, 0, 670);
-        Text text = new Text(GameGraphics.selectedBuilding.getType());
-        String category = FileController.getBuildingCategoryByType(GameGraphics.selectedBuilding.getType());
-        Building savedBuilding = gameController.getBuilding(GameGraphics.selectedBuilding.getType(), category);
+        Text text = new Text(selectedBuilding.getType());
+        String category = FileController.getBuildingCategoryByType(selectedBuilding.getType());
+        Building savedBuilding = gameController.getBuilding(selectedBuilding.getType(), category);
         ProgressBar progressBar = new ProgressBar();
-        progressBar.setProgress(GameGraphics.selectedBuilding.getHitPoint() / savedBuilding.getHitPoint());
+        progressBar.setProgress(selectedBuilding.getHitPoint() / savedBuilding.getHitPoint());
         progressBar.setStyle("-fx-accent: green");
         progressBar.setLayoutX(890);
         progressBar.setLayoutY(760);
@@ -625,64 +616,64 @@ public class MapController2 {
         repair.setLayoutX(820);
         repair.setLayoutY(760);
         repair.setStyle("-fx-background-color:#AB863F;-fx-text-fill: white;");
-        if (GameGraphics.selectedBuilding.getType().equals("lookout tower") || GameGraphics.selectedBuilding.getType().equals("perimeter tower")
-                || GameGraphics.selectedBuilding.getType().equals("square tower") || GameGraphics.selectedBuilding.getType().equals("defence turret")
-                || GameGraphics.selectedBuilding.getType().equals("round tower")) {
+        if (selectedBuilding.getType().equals("lookout tower") || selectedBuilding.getType().equals("perimeter tower")
+                || selectedBuilding.getType().equals("square tower") || selectedBuilding.getType().equals("defence turret")
+                || selectedBuilding.getType().equals("round tower")) {
             text.toFront();
             text.setLayoutX(650);
             text.setLayoutY(780);
             text.setFont(Font.font(20));
             pane.getChildren().addAll(towerMenu, progressBar, repair, text);
-        } else if (GameGraphics.selectedBuilding.getType().equals("small stone gatehouse") || GameGraphics.selectedBuilding.getType().equals("large stone gatehouse"))
+        } else if (selectedBuilding.getType().equals("small stone gatehouse") || selectedBuilding.getType().equals("large stone gatehouse"))
             pane.getChildren().addAll(gatehouseMenu, progressBar, repair);
-        else if (GameGraphics.selectedBuilding.getType().equals("mercenary post")) setArabianUnits(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("barracks")) {
+        else if (selectedBuilding.getType().equals("mercenary post")) setArabianUnits(true);
+        else if (selectedBuilding.getType().equals("barracks")) {
             setEuropeanUnits(true);
             setWeapons(true);
-        } else if (GameGraphics.selectedBuilding.getType().equals("engineers guild")) setEngineer(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("church")) churchMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("catheral")) {
+        } else if (selectedBuilding.getType().equals("engineers guild")) setEngineer(true);
+        else if (selectedBuilding.getType().equals("church")) churchMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("catheral")) {
             catheralMenu.setVisible(true);
             monk.setVisible(true);
-        } else if (GameGraphics.selectedBuilding.getType().equals("armoury")) setArmoury();
-        else if (GameGraphics.selectedBuilding.getType().equals("hovel")) hovelMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("market")) setMarketMenu();
-        else if (GameGraphics.selectedBuilding.getType().equals("granary")) setGranary();
-        else if (GameGraphics.selectedBuilding.getType().equals("woodcutter")) woodcutterMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("caged war dogs")) cageMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("pits")) killingPitMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("stable")) setStable();
-        else if (GameGraphics.selectedBuilding.getType().equals("stockpile")) stockpileMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("apple orchard")) appleOrchardMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("dairy farmer")) dairyFarmMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("hops farmer")) hopsFarmMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("wheat farmer")) wheatFarmMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("quarry")) quarryMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("iron mine")) ironMineMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("ox tether")) oxTetherMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("inn")) innMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("mill")) millMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("bakery")) bakeryMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("brewer")) breweryMenu.setVisible(true);
-        else if (GameGraphics.selectedBuilding.getType().equals("poleturner")) {
+        } else if (selectedBuilding.getType().equals("armoury")) setArmoury();
+        else if (selectedBuilding.getType().equals("hovel")) hovelMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("market")) setMarketMenu();
+        else if (selectedBuilding.getType().equals("granary")) setGranary();
+        else if (selectedBuilding.getType().equals("woodcutter")) woodcutterMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("caged war dogs")) cageMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("pits")) killingPitMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("stable")) setStable();
+        else if (selectedBuilding.getType().equals("stockpile")) stockpileMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("apple orchard")) appleOrchardMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("dairy farmer")) dairyFarmMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("hops farmer")) hopsFarmMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("wheat farmer")) wheatFarmMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("quarry")) quarryMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("iron mine")) ironMineMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("ox tether")) oxTetherMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("inn")) innMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("mill")) millMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("bakery")) bakeryMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("brewer")) breweryMenu.setVisible(true);
+        else if (selectedBuilding.getType().equals("poleturner")) {
             poleturnerMenu.setVisible(true);
             pikeMenu.setVisible(true);
             spearMenu.setVisible(true);
-        } else if (GameGraphics.selectedBuilding.getType().equals("armourer")) {
+        } else if (selectedBuilding.getType().equals("armourer")) {
             armorerMenu.setVisible(true);
             metalMenu.setVisible(true);
             leatherMenu.setVisible(true);
-        } else if (GameGraphics.selectedBuilding.getType().equals("blacksmith")) {
+        } else if (selectedBuilding.getType().equals("blacksmith")) {
             blacksmithMenu.setVisible(true);
             maceMenu.setVisible(true);
             swordMenu.setVisible(true);
-        } else if (GameGraphics.selectedBuilding.getType().equals("fletcher")) {
+        } else if (selectedBuilding.getType().equals("fletcher")) {
             fletcherMenu.setVisible(true);
             bowMenu.setVisible(true);
             crossbowMenu.setVisible(true);
         }
         repair.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            gameController.repair(savedBuilding, GameGraphics.selectedBuilding);
+            gameController.repair(savedBuilding, selectedBuilding);
         });
     }
     
@@ -802,7 +793,7 @@ public class MapController2 {
         setSizeMenuIcons(tradeWeaponsMenu, 0, 670);
         setSizeMenuIcons(allMarketMenu, 0, 670);
         setSizeMenuIcons(sellBuyMenu, 0, 670);
-
+        
         setSizeMenuIcons(pikeMenu, 750, 760);
         setSizeMenuIcons(spearMenu, 800, 760);
         setSizeMenuIcons(metalMenu, 750, 760);
@@ -811,7 +802,7 @@ public class MapController2 {
         setSizeMenuIcons(maceMenu, 800, 760);
         setSizeMenuIcons(bowMenu, 750, 760);
         setSizeMenuIcons(crossbowMenu, 800, 760);
-
+        
         setSizeMenuIcons(foodMenu, 750, 760);
     }
     
@@ -923,7 +914,8 @@ public class MapController2 {
     }
     
     private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
-        return x - 11 * 70 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth() && y + 8 * 50 / edgeLength <= map.getLength();
+        return x - 11 * 70 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth()
+                && y + 8 * 50 / edgeLength <= map.getLength();
     }
     
     private void setMenuIcon6() {
@@ -1088,12 +1080,40 @@ public class MapController2 {
         sword.setVisible(check);
         horse.setVisible(check);
     }
-
+    
     private void setSizeUnits(ImageView unit, String name, int x, int y) {
         unit.setLayoutX(x);
         unit.setLayoutY(y);
         unit.toFront();
-        unit.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedUnitToCreate = name);
+        unit.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            Cell[][] cells = GameController.currentGame.getMap().getCells();
+            if (selectedBuilding != null) {
+                if (toCreateUnitImageView == null) {
+                    String address = "/images/Units/" + name + ".png";
+                    toCreateUnitImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+                    toCreateUnitImageView.toFront();
+                    pane.getChildren().add(toCreateUnitImageView);
+                }
+                String result = gameController.createUnitGraphics(name);
+                if (result.equals("Unit created successfully!")) {
+                    int x2 = (int) (selectedBuilding.getLocation().getX() - shownX + (float) 11 * 70 / edgeLength) * edgeLength
+                            + new Random().nextInt(3) - 1;
+                    int y2 = (int) (selectedBuilding.getLocation().getY() - shownY + (float) 5 * 70 / edgeLength) * edgeLength
+                            + new Random().nextInt(3) - 1;
+                    toCreateUnitImageView.setFitHeight(30);
+                    toCreateUnitImageView.setFitWidth(30);
+                    toCreateUnitImageView.setLayoutX(x2);
+                    toCreateUnitImageView.setLayoutY(y2);
+                    gameController.dropUnit(x2 / edgeLength, y2 / edgeLength, cells[x2 / edgeLength][y2 / edgeLength]
+                            , name, "1");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Create Unit Error");
+                    alert.setContentText(result);
+                    alert.show();
+                }
+            }
+        });
     }
     
     private void setArabianUnitsSize() {
@@ -1143,9 +1163,43 @@ public class MapController2 {
 //        pane.getChildren().add(imageView);
     }
     
-    private void showPerson(Pane pane, Map map, int i, int j, Person person) {
-        //TODO
+    private void showPeople(Pane pane, Map map, int i, int j) {
+        Cell cell = map.getCells()[getXLocationByPixel(i)][getYLocationByPixel(j)];
+        if (cell.getPeople().size() == 0) return;
+        for (Person person : cell.getPeople()) {
+            String imageAddress;
+            if (person instanceof MilitaryPerson) {
+                System.out.println(person.getType());
+                System.out.println(((MilitaryPerson) person).getNationality());
+                imageAddress = "/images/Units/" + ((MilitaryPerson) person).getNationality() +
+                        "/" + person.getType() + ".png";
+                Label buildingLabel = new Label();
+                buildingLabel.setBackground(new Background(MainController.setFirstPageBackground(imageAddress)));
+                buildingLabel.setPrefHeight(edgeLength);
+                buildingLabel.setPrefWidth(edgeLength);
+                buildingLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+                buildingLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+                
+                String s = "King: " + person.getKing().getUsername() + "\nType: " + person.getType();
+                Tooltip tooltip = new Tooltip(s);
+                tooltip.setStyle("-fx-font-size: 15px;");
+                buildingLabel.setTooltip(tooltip);
+                
+                EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
+                    selectedBuilding = map.getCells()[i][j].getBuilding();
+                    setBuildingMenu(pane);
+                };
+                
+                
+                buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
+                buildingLabel.toFront();
+                pane.getChildren().add(buildingLabel);
+            } else {
+                //TODO: workers...
+            }
+        }
     }
+    
     
     private void showBackgrounds(Pane pane, String material, int x, int y, int edgeLength) {
         Label pictureLabel = new Label();
@@ -1201,7 +1255,7 @@ public class MapController2 {
 //
 //        for (int i = 0; i < )
 //        //TODO
-            return result;
+        return result;
     }
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
@@ -1226,12 +1280,13 @@ public class MapController2 {
         buildingLabel.setTooltip(tooltip);
         
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-            GameGraphics.selectedBuilding = map.getCells()[i][j].getBuilding();
+            selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
         };
         
         EventHandler<MouseEvent> hoverBuildingEventHandler = mouseEvent -> {
-            System.out.println("yes");
+//            System.out.println("yes");
+            //TODO
         };
         
         buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);

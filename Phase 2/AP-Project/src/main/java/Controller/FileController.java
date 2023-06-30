@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileController {
-
+    
     public static ArrayList<String> readFileContent(String path) {
         ArrayList<String> content = new ArrayList<>();
         File Users = new File(path);
@@ -28,8 +28,8 @@ public class FileController {
         }
         return content;
     }
-
-
+    
+    
     public static void writeToFileContent(String path, ArrayList<String> content, boolean isAppend) {
         File Users = new File(path);
         try {
@@ -43,7 +43,7 @@ public class FileController {
         } catch (Exception e) {
         }
     }
-
+    
     public static void initializeUsersFile() {
         File Users = new File("src/main/java/Database/Users.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
@@ -62,7 +62,7 @@ public class FileController {
             writeToFileContent("src/main/java/Database/Users.txt", initial, false);
         }
     }
-
+    
     public static User getUserByUsername(String username) {
         User wantedUser;
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
@@ -77,7 +77,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static boolean isUserNameUnique(String username) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -87,7 +87,7 @@ public class FileController {
         }
         return true;
     }
-
+    
     public static boolean isEmailUnique(String email) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -97,7 +97,7 @@ public class FileController {
         }
         return true;
     }
-
+    
     public static User getFirstStayLoggedIn() {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -107,7 +107,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static void addUserToFile(User user) throws NoSuchAlgorithmException {
         ArrayList<String> content = new ArrayList<>();
         initializeUsersFile();
@@ -123,7 +123,7 @@ public class FileController {
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Users.txt", content, true);
     }
-
+    
     public static boolean isPasswordCorrect(String username, String password) throws NoSuchAlgorithmException {
         User user = getUserByUsername(username);
         password = RegisterLoginController.passwordToSHA(password);
@@ -131,14 +131,14 @@ public class FileController {
             return true;
         return false;
     }
-
+    
     public static boolean isAnswerCorrect(String username, String answer) {
         User user = getUserByUsername(username);
         if (user.getSecurityAnswer().equals(answer))
             return true;
         return false;
     }
-
+    
     public static void addStayLoggedInForUser(String username, boolean isLoggedIn) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -149,7 +149,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void changePassword(String username, String password) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -160,7 +160,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void changeUsername(String username, String newUsername) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -171,7 +171,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void changeNickname(String username, String nickname) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -182,7 +182,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void changeEmail(String username, String email) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -193,7 +193,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void changeSlogan(String username, String slogan) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 0; i < (content.size() / 10); i++) {
@@ -204,7 +204,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
     }
-
+    
     public static void initializeGamesFile() {
         File Games = new File("src/main/java/Database/Games.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Games.txt");
@@ -217,7 +217,7 @@ public class FileController {
             writeToFileContent("src/main/java/Database/Games.txt", initial, false);
         }
     }
-
+    
     public static void addGameToFile(Game game) {
         initializeGamesFile();
         ArrayList<String> content = new ArrayList<>();
@@ -231,7 +231,7 @@ public class FileController {
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Games.txt", content, true);
     }
-
+    
     public static void initializeKingdomsFile() {
         File Kingdoms = new File("src/main/java/Database/Kingdoms.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Kingdoms.txt");
@@ -249,7 +249,7 @@ public class FileController {
             writeToFileContent("src/main/java/Database/Kingdoms.txt", initial, false);
         }
     }
-
+    
     public static void addKingdomToFile(Kingdom kingdom) {
         initializeKingdomsFile();
         String tmp = "";
@@ -273,7 +273,7 @@ public class FileController {
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, true);
     }
-
+    
     public static void updateKingPeopleInFile(Person person, Kingdom kingdom, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Kingdoms.txt");
         for (int i = 0; i < (content.size() / 9); i++) {
@@ -286,7 +286,7 @@ public class FileController {
         }
         writeToFileContent("src/main/java/Database/Kingdoms.txt", content, false);
     }
-
+    
     public static ShopBuildings getShopBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/ShopBuilding.txt");
         for (int i = 0; i < (content.size() / 6); i++) {
@@ -307,7 +307,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static TrainingBuildings getTrainingBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/TrainingBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
@@ -328,7 +328,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static ProductionBuildings getProductionBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/ProductionBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
@@ -349,7 +349,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static StorageBuildings getStorageBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/StorageBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
@@ -370,19 +370,19 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static OtherBuildings getOtherBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/OtherBuilding.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
                 for (int j = 0; j < content.get(7 * i + 2).split(":\\d-?").length; j++) {
-                    if (content.get(7*i+2).split(":\\d+-?")[j].equals("gold")) {
+                    if (content.get(7 * i + 2).split(":\\d+-?")[j].equals("gold")) {
                     
                     }
                     Product product = getProductByName(content.get(7 * i + 2).split(":\\d+-?")[j]);
                     if (j < content.get(7 * i + 2).split(":\\d-?").length - 1)
-                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j+1]));
+                        product.increaseCount(Integer.parseInt(content.get(7 * i + 2).split("-?[a-zA-Z]+:")[j + 1]));
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -394,7 +394,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static FightingBuildings getFightingBuildingByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/FightingBuilding.txt");
         for (int i = 0; i < (content.size() / 8); i++) {
@@ -415,7 +415,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static String getBuildingCategoryByType(String type) {
         String[] TrainingBuilding = new String[]{"barracks", "mercenary post", "enginner guild"};
         String[] ProductionBuilding = new String[]{"mill", "iron mine", "ox tether", "quarry", "woodcutter", "armourer",
@@ -453,14 +453,14 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static MilitaryPerson getMilitaryPersonByType(String Type) {
         ArrayList<String> content = readFileContent("src/main/java/Database/MilitaryPerson.txt");
         for (int i = 0; i < (content.size() / 7); i++) {
             if (content.get(7 * i).equals(Type)) {
                 ArrayList<Product> neededProduct = new ArrayList<>();
-                for (int j = 0; j < content.get(7 * i + 4).split(",").length; j++) {
-                    Product product = getProductByName(content.get(7 * i + 4).split(",")[j]);
+                for (int j = 0; j < content.get(7 * i + 5).split(",").length; j++) {
+                    Product product = getProductByName(content.get(7 * i + 5).split(",")[j]);
                     if (product != null)
                         neededProduct.add(product);
                 }
@@ -470,7 +470,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static Product getProductByName(String name) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Product.txt");
         for (int i = 0; i < (content.size() / 6); i++) {
@@ -493,7 +493,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
@@ -502,7 +502,7 @@ public class FileController {
         }
         return allUsers;
     }
-
+    
     public static void initializeTradeRequestFile() {
         File TradeRequest = new File("src/main/java/Database/Trades.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
@@ -521,14 +521,14 @@ public class FileController {
             writeToFileContent("src/main/java/Database/Trades.txt", initial, false);
         }
     }
-
+    
     public static int generateTradeId() {
         File TradeRequest = new File("src/main/java/Database/Trades.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         int lineNumber = content.size();
         return (lineNumber / 7);
     }
-
+    
     public static void addTradeToFile(Trade trade, Game currentGame) throws NoSuchAlgorithmException {
         initializeTradeRequestFile();
         ArrayList<String> content = new ArrayList<>();
@@ -544,7 +544,7 @@ public class FileController {
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Trades.txt", content, true);
     }
-
+    
     public static ArrayList<Trade> getAllTradesByKing(String receiverUsername, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         ArrayList<Trade> allTrades = new ArrayList<>();
@@ -558,7 +558,7 @@ public class FileController {
         }
         return allTrades;
     }
-
+    
     public static Trade getTradeByID(int tradeId, Game currentGame) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Trades.txt");
         for (int i = 1; i < (content.size() / 10); i++) {
@@ -571,7 +571,7 @@ public class FileController {
         }
         return null;
     }
-
+    
     public static ArrayList<Product> getAllProducts(Game currentGame) {
         ArrayList<Product> allProducts = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Product.txt");
@@ -596,12 +596,12 @@ public class FileController {
         }
         return allProducts;
     }
-
+    
     public static ArrayList<User> getAllUsersWithoutOwner(String path, String owner) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
         for (int i = 1; i < (content.size() / 10); i++) {
-            if(!content.get(10*i).equals(owner)) {
+            if (!content.get(10 * i).equals(owner)) {
                 allUsers.add(getUserByUsername(content.get(10 * i)));
             }
         }

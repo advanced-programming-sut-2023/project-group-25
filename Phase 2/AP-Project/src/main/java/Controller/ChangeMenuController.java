@@ -15,7 +15,7 @@ public class ChangeMenuController {
     private final RegisterLoginMenu registerLoginMenu = new RegisterLoginMenu(this);
     private final MainMenu mainMenu = new MainMenu(this);
     private final GameMenu gameMenu = new GameMenu(this);
-//    private final MapMenuGraphics mapMenuGraphics = new MapMenuGraphics(this);
+    //    private final MapMenuGraphics mapMenuGraphics = new MapMenuGraphics(this);
     private final GameGraphics gameGraphics = new GameGraphics(this);
     private final ProfileMenu profileMenu = new ProfileMenu(this);
     private final TradeMenu tradeMenu = new TradeMenu(this);
@@ -71,7 +71,7 @@ public class ChangeMenuController {
             }
         }
     }
-
+    
     public GameController getgameController() {
         return gameController;
     }

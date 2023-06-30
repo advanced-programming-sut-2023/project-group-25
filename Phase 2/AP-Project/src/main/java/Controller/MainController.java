@@ -34,6 +34,7 @@ public class MainController {
     }
 
     public static BackgroundImage setFirstPageBackground(String path) {
+//        System.out.println(path);
         Image image = new Image(FirstPage.class.getResource(path).toExternalForm());
         BackgroundImage backgroundImage = new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT,
