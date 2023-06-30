@@ -82,7 +82,7 @@ public class GameController {
             stone.setCount(50);
             products.add(stone);
             newKingdom.setKingProducts(products);
-            FileController.addKingdomToFile(newKingdom);
+//            FileController.addKingdomToFile(newKingdom);
             kingdoms.add(newKingdom);
         }
         return kingdoms;
@@ -1516,6 +1516,6 @@ public class GameController {
         initializeTrees();
 
 //
-        FileController.addGameToFile(game);
+//        FileController.addGameToFile(game);
     }
 }
