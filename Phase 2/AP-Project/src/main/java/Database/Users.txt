@@ -17,6 +17,17 @@ Keep calm and check mate the king!
 0
 3- In what city or town did your parents meet?
 zahra
-true
+false
 /images/avatar/6.png
+_____________________________________________________
+gholi
+e27a4050ec240e571727fae5a3c6b92b7559c9f75a3c21234772ffa64d1a0e97
+agha gholi
+gholi@yahoo.com
+Get invited to play!
+0
+1- What city were you born in?
+Qom
+true
+/images/avatar/4.png
 _____________________________________________________
