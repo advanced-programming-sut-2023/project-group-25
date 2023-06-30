@@ -15,5 +15,27 @@
           stylesheets="@../css/Styles.css"
           alignment="TOP_LEFT"
           fx:controller="View.ProfileMenuGraphics">
-    <Button style="-fx-translate-x: -10px; -fx-translate-y: -100px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
+    <Button style="-fx-translate-x: -10px; -fx-translate-y: -140px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
+    <VBox style="-fx-translate-y: 200px; -fx-spacing: 10px">
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" wrapText="true" onMouseExited="#hideAvaterChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="changeAvatar" styleClass="changeInfo" visible="false"  onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange"/>
+        </HBox>
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="username" styleClass="profileInfo" onMouseEntered="#showUsernameChange" wrapText="true" onMouseExited="#hideUsernameChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="changeUsername" styleClass="changeInfo" visible="false"  onMouseEntered="#showUsernameChange" onMouseExited="#hideUsernameChange"/>
+        </HBox>
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="nickname" styleClass="profileInfo" onMouseEntered="#showNicknameChange" wrapText="true" onMouseExited="#hideNicknameChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="changeNickname" styleClass="changeInfo" visible="false"  onMouseEntered="#showNicknameChange" onMouseExited="#hideNicknameChange"/>
+        </HBox>
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="email" styleClass="profileInfo" onMouseEntered="#showEmailChange" wrapText="true" onMouseExited="#hideEmailChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="changeEmail" styleClass="changeInfo" visible="false"  onMouseEntered="#showEmailChange" onMouseExited="#hideEmailChange"/>
+        </HBox>
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="slogan" styleClass="profileInfo" onMouseEntered="#showSloganChange" wrapText="true" onMouseExited="#hideSloganChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="changeSlogan" styleClass="changeInfo" visible="false"  onMouseEntered="#showSloganChange" onMouseExited="#hideSloganChange"/>
+        </HBox>
+    </VBox>
 </GridPane>

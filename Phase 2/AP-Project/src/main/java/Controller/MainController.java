@@ -33,7 +33,8 @@ public class MainController {
             return false;
     }
 
-    public static BackgroundImage setFirstPageBackground(String path) {
+    public static
+    BackgroundImage setFirstPageBackground(String path) {
         Image image = new Image(FirstPage.class.getResource(path).toExternalForm());
         BackgroundImage backgroundImage = new BackgroundImage(image,
                 BackgroundRepeat.NO_REPEAT,

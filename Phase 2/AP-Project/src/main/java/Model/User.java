@@ -15,7 +15,7 @@ public class User {
     private String securityAnswer;
     private boolean isPasswordRandom;
     private boolean isSloganRandom;
-    
+    private String avatarPath;
     public User(String username, String password, String passwordConfirmation, String nickname, String email, String slogan) {
         this.username = username;
         this.password = password;
@@ -52,10 +52,15 @@ public class User {
         return isSloganRandom;
     }
 
-   
-    
-    
-    
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
     public String getUsername() {
         return username;
     }

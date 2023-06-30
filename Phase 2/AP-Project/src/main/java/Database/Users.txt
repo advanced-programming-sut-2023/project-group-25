@@ -7,104 +7,16 @@
 --SECURITY QUESTION--
 --SECURITY ANSWER--
 --STAY LOGGED IN? (boolean)--
+--AVATAR PATH--
 _____________________________________________________
 hoora
-48201388afc4e9ae52b1e65dc1ae98bc826d6b95ce936ad1216b00f06205392c
-hooria
+76ec1b6977fc2bf00d05743fd288885033d502396c7b82ec181715e54ba744b8
+hoor hoori
 hoora@gmail.com
-Don’t be afraid to fail!
+Keep calm and check mate the king!
 0
 3- In what city or town did your parents meet?
-tehran
-false
-_____________________________________________________
-aliii
-fb9691d38d17133b9a355f8a6695b1049f54ba8907f94ce4bffc716a459f1f72
-aliiiii
-ali@gmail.com
-Play with anyone, anywhere, on any device!
-0
-1- What city were you born in?
-tehran
-false
-_____________________________________________________
-sssss
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-sssssssssssss.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-melika
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-m.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
 zahra
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-zah.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-mahdi
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-mah.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-moein
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-mo.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-amir
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-am.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-samin
-57bdd91cac319d30e51853e9296d4e30c7d40cb27dba8c6a24e30ae22729e1c7
-sssssssssssssssss
-sam.@.GMAIL.C
-A game is never over until it’s over!
-0
-1- What city were you born in?
-T
-false
-_____________________________________________________
-majid
-0fe0ca82ab0d47aa30c2b5d99337a1170e2c8272ebb18675b105057e4337f39b
-majiiiid
-majid@gamil.com
-Compete with yourself!
-0
-1- What city were you born in?
-Tehran
 true
+/images/avatar/6.png
 _____________________________________________________
