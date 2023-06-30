@@ -111,15 +111,36 @@ public class MapController2 {
     private final ImageView poleturnerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/poleturner.png"))));
 
     private final ImageView mainMarketMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/market.png"))));
+    private final ImageView backMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/back.png"))));
+
     private final ImageView foodMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/food.png"))));
     private final ImageView sourcesMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/sources.png"))));
     private final ImageView weaponsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/weapns.png"))));
     private final ImageView totalMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/t.png"))));
     private final ImageView tradeFoodMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/trade food.png"))));
-    private final ImageView tradeResourcesMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/trade weapons.png"))));
-    private final ImageView tradeWeaponsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/trade materials.png"))));
+    private final ImageView tradeResourcesMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/trade materials.png"))));
+    private final ImageView tradeWeaponsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/trade weapons.png"))));
     private final ImageView allMarketMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/all.png"))));
     private final ImageView sellBuyMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/buy sell panel.png"))));
+    private final ImageView meatMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/meat.png"))));
+    private final ImageView cheeseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/cheese.png"))));
+    private final ImageView hopMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/hop.png"))));
+    private final ImageView wheatMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/g.png"))));
+    private final ImageView breadMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/bread.png"))));
+    private final ImageView appleMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/apple.png"))));
+    private final ImageView bearMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/bear.png"))));
+    private final ImageView flowerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/flower.png"))));
+    private final ImageView woodMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/wood.png"))));
+    private final ImageView rockMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/rock.png"))));
+    private final ImageView ironMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/iron.png"))));
+    private final ImageView bowMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/bow.png"))));
+    private final ImageView crossbowMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/crossbow.png"))));
+    private final ImageView leatherMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/leatherArmour.png"))));
+    private final ImageView metalMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/metalarmour.png"))));
+    private final ImageView maceMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/mace.png"))));
+    private final ImageView pikeMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/pike.png"))));
+    private final ImageView swordMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/sword.png"))));
+    private final ImageView spearMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/spear.png"))));
 
     private final ImageView bowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/bow.png"))));
     private final ImageView crossbowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/crossbow.png"))));
@@ -505,6 +526,8 @@ public class MapController2 {
             event.consume();
         });
 
+        backMarket.addEventHandler(MouseEvent.MOUSE_CLICKED,event->addBackForMarket());
+
         Button nextTurn = new Button("Next Turn");
         nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
         nextTurn.setLayoutX(1460);
@@ -519,7 +542,7 @@ public class MapController2 {
         setArabianUnitsSize();
         setEngineerSize();
         setAllMenusSize();
-        setSizeUnits(monk,"monk", 750, 720);
+        setSizeUnits(monk, "monk", 750, 720);
         setEuropeanUnitsSize();
         addWeapons();
         makeHorse();
@@ -564,13 +587,35 @@ public class MapController2 {
                     , stableMenu, stockpileMenu, appleOrchardMenu, dairyFarmMenu, hopsFarmMenu, wheatFarmMenu
                     , quarryMenu, ironMineMenu, oxTetherMenu, innMenu, millMenu, bakeryMenu, breweryMenu, granaryMenu
                     , first, second, third, forth, fifth, foodNumber
-                    , miniMapLabel, miniMapShowingLabel);
+                    , miniMapLabel, miniMapShowingLabel
+                    , mainMarketMenu, foodMenu, sourcesMenu, weaponsMenu, totalMenu
+                    , tradeFoodMenu, tradeResourcesMenu, tradeWeaponsMenu, allMarketMenu, sellBuyMenu
+                    , woodMenu, ironMenu, rockMenu,backMarket
+                    , meatMenu, cheeseMenu, appleMenu, hopMenu, bearMenu, wheatMenu, flowerMenu, breadMenu
+                    , bowMarket, crossbowMarket, leatherMarket, metalMarket, maceMarket, pikeMarket, spearMarket, swordMarket);
             isTheFirstTime = true;
         }
 
 
         stage.show();
         return "success";
+    }
+
+    private void addBackForMarket() {
+        mainMarketMenu.setVisible(true);
+        foodMenu.setVisible(true);
+        sourcesMenu.setVisible(true);
+        weaponsMenu.setVisible(true);
+        totalMenu.setVisible(true);
+        backMarket.setVisible(false);
+        tradeFoodMenu.setVisible(false);
+        tradeResourcesMenu.setVisible(false);
+        tradeWeaponsMenu.setVisible(false);
+        allMarketMenu.setVisible(false);
+        sellBuyMenu.setVisible(false);
+        addFoodsToList(false);
+        addSourceToList(false);
+        addWeaponsToList(false);
     }
 
     private void setSizeMenuIcons(ImageView icon, int x, int y) {
@@ -684,13 +729,113 @@ public class MapController2 {
     }
 
     private void setMarketMenu() {
+        //TODO: shop HOORA
         mainMarketMenu.setVisible(true);
+        foodMenu.setVisible(true);
+        sourcesMenu.setVisible(true);
+        weaponsMenu.setVisible(true);
+        totalMenu.setVisible(true);
+        foodMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterFoodMenu());
+        sourcesMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterSourceMenu());
+        weaponsMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterWeaponsMenu());
+        totalMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterTotalMenu());
+//        sellBuyMenu.setVisible(true);
+    }
 
-        tradeFoodMenu.setVisible(true);
-        tradeResourcesMenu.setVisible(true);
-        tradeWeaponsMenu.setVisible(true);
+    private void enterTotalMenu() {
+        backMarket.setVisible(true);
+        mainMarketMenu.setVisible(false);
+        foodMenu.setVisible(false);
+        sourcesMenu.setVisible(false);
+        weaponsMenu.setVisible(false);
+        totalMenu.setVisible(false);
+        tradeFoodMenu.setVisible(false);
+        tradeResourcesMenu.setVisible(false);
+        tradeWeaponsMenu.setVisible(false);
         allMarketMenu.setVisible(true);
-        sellBuyMenu.setVisible(true);
+        sellBuyMenu.setVisible(false);
+        addFoodsToList(false);
+        addSourceToList(false);
+        //TODO: HOORA: text for each in format "buy/sell" price
+    }
+
+    private void enterWeaponsMenu() {
+        backMarket.setVisible(true);
+        mainMarketMenu.setVisible(false);
+        foodMenu.setVisible(false);
+        sourcesMenu.setVisible(false);
+        weaponsMenu.setVisible(false);
+        totalMenu.setVisible(false);
+        tradeFoodMenu.setVisible(false);
+        tradeResourcesMenu.setVisible(false);
+        tradeWeaponsMenu.setVisible(true);
+        allMarketMenu.setVisible(false);
+        sellBuyMenu.setVisible(false);
+        addFoodsToList(false);
+        addSourceToList(false);
+        addWeaponsToList(true);
+    }
+
+    private void enterSourceMenu() {
+        backMarket.setVisible(true);
+        mainMarketMenu.setVisible(false);
+        foodMenu.setVisible(false);
+        sourcesMenu.setVisible(false);
+        weaponsMenu.setVisible(false);
+        totalMenu.setVisible(false);
+        tradeFoodMenu.setVisible(false);
+        tradeResourcesMenu.setVisible(true);
+        tradeWeaponsMenu.setVisible(false);
+        allMarketMenu.setVisible(false);
+        sellBuyMenu.setVisible(false);
+        addFoodsToList(false);
+        addSourceToList(true);
+        addWeaponsToList(false);
+    }
+
+    private void enterFoodMenu() {
+        backMarket.setVisible(true);
+        mainMarketMenu.setVisible(false);
+        foodMenu.setVisible(false);
+        sourcesMenu.setVisible(false);
+        weaponsMenu.setVisible(false);
+        totalMenu.setVisible(false);
+        tradeFoodMenu.setVisible(true);
+        tradeResourcesMenu.setVisible(false);
+        tradeWeaponsMenu.setVisible(false);
+        allMarketMenu.setVisible(false);
+        sellBuyMenu.setVisible(false);
+        addFoodsToList(true);
+        addSourceToList(false);
+        addWeaponsToList(false);
+    }
+
+    private void addWeaponsToList(boolean check) {
+        bowMarket.setVisible(check);
+        crossbowMarket.setVisible(check);
+        leatherMarket.setVisible(check);
+        metalMarket.setVisible(check);
+        maceMarket.setVisible(check);
+        pikeMarket.setVisible(check);
+        swordMarket.setVisible(check);
+        spearMarket.setVisible(check);
+    }
+
+    private void addSourceToList(boolean check) {
+        woodMenu.setVisible(check);
+        rockMenu.setVisible(check);
+        ironMenu.setVisible(check);
+    }
+
+    private void addFoodsToList(boolean check) {
+        meatMenu.setVisible(check);
+        cheeseMenu.setVisible(check);
+        appleMenu.setVisible(check);
+        hopMenu.setVisible(check);
+        bearMenu.setVisible(check);
+        wheatMenu.setVisible(check);
+        flowerMenu.setVisible(check);
+        breadMenu.setVisible(check);
     }
 
     private void setGranary() {
@@ -799,6 +944,30 @@ public class MapController2 {
         setSizeMenuIcons(tradeWeaponsMenu, 0, 670);
         setSizeMenuIcons(allMarketMenu, 0, 670);
         setSizeMenuIcons(sellBuyMenu, 0, 670);
+        setSizeMenuIcons(foodMenu, 650, 760);
+        setSizeMenuIcons(sourcesMenu, 700, 760);
+        setSizeMenuIcons(weaponsMenu, 750, 760);
+        setSizeMenuIcons(totalMenu, 820, 760);
+        setSizeMenuIcons(meatMenu, 500, 760);
+        setSizeMenuIcons(cheeseMenu, 550, 760);
+        setSizeMenuIcons(appleMenu, 600, 760);
+        setSizeMenuIcons(hopMenu, 650, 760);
+        setSizeMenuIcons(bearMenu, 700, 760);
+        setSizeMenuIcons(wheatMenu, 750, 760);
+        setSizeMenuIcons(flowerMenu, 800, 760);
+        setSizeMenuIcons(breadMenu, 850, 760);
+        setSizeMenuIcons(woodMenu, 650, 760);
+        setSizeMenuIcons(rockMenu, 700, 760);
+        setSizeMenuIcons(ironMenu, 750, 760);
+        setSizeIcons(bowMarket, 500, 760,30,30);
+        setSizeIcons(crossbowMarket, 550, 760,30,30);
+        setSizeIcons(leatherMarket, 600, 760,30,30);
+        setSizeIcons(metalMarket, 650, 760,30,30);
+        setSizeIcons(maceMarket, 700, 760,30,30);
+        setSizeIcons(pikeMarket, 750, 760,30,30);
+        setSizeIcons(spearMarket, 800, 760,30,30);
+        setSizeIcons(swordMarket, 850, 760,30,30);
+        setSizeIcons(backMarket, 500, 790, 35, 35);
 
         setSizeMenuIcons(pikeMenu, 750, 760);
         setSizeMenuIcons(spearMenu, 800, 760);
@@ -809,7 +978,6 @@ public class MapController2 {
         setSizeMenuIcons(bowMenu, 750, 760);
         setSizeMenuIcons(crossbowMenu, 800, 760);
 
-        setSizeMenuIcons(foodMenu, 750, 760);
     }
 
     private void setAllMenus() {
@@ -844,6 +1012,30 @@ public class MapController2 {
         tradeWeaponsMenu.setVisible(false);
         allMarketMenu.setVisible(false);
         sellBuyMenu.setVisible(false);
+        foodMenu.setVisible(false);
+        sourcesMenu.setVisible(false);
+        weaponsMenu.setVisible(false);
+        totalMenu.setVisible(false);
+        meatMenu.setVisible(false);
+        cheeseMenu.setVisible(false);
+        appleMenu.setVisible(false);
+        hopMenu.setVisible(false);
+        bearMenu.setVisible(false);
+        wheatMenu.setVisible(false);
+        flowerMenu.setVisible(false);
+        breadMenu.setVisible(false);
+        woodMenu.setVisible(false);
+        rockMenu.setVisible(false);
+        ironMenu.setVisible(false);
+        bowMarket.setVisible(false);
+        crossbowMarket.setVisible(false);
+        leatherMarket.setVisible(false);
+        metalMarket.setVisible(false);
+        maceMarket.setVisible(false);
+        pikeMarket.setVisible(false);
+        swordMarket.setVisible(false);
+        spearMarket.setVisible(false);
+        backMarket.setVisible(false);
 
         pikeMenu.setVisible(false);
         spearMenu.setVisible(false);
