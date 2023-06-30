@@ -33,7 +33,7 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Button nickname;
     public VBox changeNickname;
     public Button email;
-    public Button changeEmail;
+    public VBox changeEmail;
     public Button slogan;
     public Button changeSlogan;
     public VBox avatar;
@@ -55,6 +55,8 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Label usernameError;
     public TextField newNickname;
     public Label nicknameError;
+    public TextField newEmail;
+    public Label emailError;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -87,7 +89,6 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         email.setBackground(usernameBack);
         email.setText("EMAIL: " + RegisterLoginController.getCurrentUser().getEmail());
         changeEmail.setBackground(usernameChangeBack);
-        changeEmail.setText("Change Email ...");
         slogan.setBackground(usernameBack);
         slogan.setText("SLOGAN: " + RegisterLoginController.getCurrentUser().getSlogan());
         changeSlogan.setBackground(usernameChangeBack);
@@ -212,10 +213,10 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     }
 
     public void changeNickname(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
-        if(usernameError.getText().equals("Nickname accepted!")) {
+        if(nicknameError.getText().equals("Nickname accepted!")) {
             FileController.changeNickname(RegisterLoginController.getCurrentUser().getUsername(),newNickname.getText());
-            RegisterLoginController.getCurrentUser().setUsername(newNickname.getText());
-            nickname.setText("USERNAME: " + newNickname.getText());
+            RegisterLoginController.getCurrentUser().setNickname(newNickname.getText());
+            nickname.setText("NICKNAME: " + newNickname.getText());
             newNickname.clear();
             nicknameError.setText("New nickname field is empty!");
             nicknameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
@@ -229,5 +230,45 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     }
 
     public void nicknameCompleting(KeyEvent keyEvent) {
+        if (newNickname.getText().length() == 0) {
+            nicknameError.setText("Nickname field is empty!");
+            nicknameError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else {
+            nicknameError.setText("Nickname accepted!");
+            nicknameError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        }
+    }
+
+    public void emailCompleting(KeyEvent keyEvent) {
+        System.out.println(newEmail.getText());
+        if (newEmail.getText().length() == 0) {
+            emailError.setText("New email field is empty!");
+            emailError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        }
+        else if (registerLoginController.isEmailValid(newEmail.getText())) {
+            emailError.setText("Email accepted!");
+            emailError.setStyle("-fx-background-color: rgb(140,196,140); -fx-text-fill: #075407;");
+        } else {
+            emailError.setText("This Email format is invalid");
+            emailError.setStyle("-fx-background-color: rgba(217,150,150,0.68); -fx-text-fill: #830c0c;");
+        }
+    }
+
+    public void changeEmail(MouseEvent mouseEvent) throws NoSuchAlgorithmException {
+        if(emailError.getText().equals("Email accepted!")) {
+            FileController.changeEmail(RegisterLoginController.getCurrentUser().getUsername(),newEmail.getText());
+            RegisterLoginController.getCurrentUser().setEmail(newEmail.getText());
+            email.setText("EMAIL: " + newEmail.getText());
+            newEmail.clear();
+            emailError.setText("New Email field is empty!");
+            emailError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Change Info Failed");
+            alert.setContentText("Please fill the text field properly!");
+            alert.showAndWait();
+        }
     }
 }

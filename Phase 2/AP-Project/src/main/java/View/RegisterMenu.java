@@ -265,7 +265,6 @@ public class RegisterMenu extends Application implements Initializable {
     }
 
     public void emailCompleting() {
-        System.out.println(email.getText());
         if (email.getText().length() == 0) {
             emailError.setText("Email field is empty!");
             emailError.setStyle("-fx-background-color: rgb(231, 227, 166); -fx-text-fill: #776605;");

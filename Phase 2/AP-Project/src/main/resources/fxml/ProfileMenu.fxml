@@ -18,7 +18,7 @@
           stylesheets="@../css/Styles.css"
           alignment="TOP_LEFT"
           fx:controller="View.ProfileMenuGraphics">
-    <Button style="-fx-translate-x: -10px; -fx-translate-y: -140px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
+    <Button style="-fx-translate-x: -10px; -fx-translate-y: -240px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
     <VBox style="-fx-translate-y: 200px; -fx-spacing: 10px">
         <HBox>
             <VBox alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange">
@@ -76,7 +76,13 @@
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="email" styleClass="profileInfo" onMouseEntered="#showEmailChange" wrapText="true" onMouseExited="#hideEmailChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeEmail" styleClass="changeInfo" visible="false"  onMouseEntered="#showEmailChange" onMouseExited="#hideEmailChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeEmail" styleClass="changeInfo" visible="false"  onMouseEntered="#showEmailChange" onMouseExited="#hideEmailChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new nickname" fx:id="newEmail" styleClass="textField1" onKeyTyped="#emailCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeEmail"/>
+                </HBox>
+                <Label text="New Email field is empty!" styleClass="errorLabel" fx:id="emailError"/>
+            </VBox>
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="slogan" styleClass="profileInfo" onMouseEntered="#showSloganChange" wrapText="true" onMouseExited="#hideSloganChange"/>
