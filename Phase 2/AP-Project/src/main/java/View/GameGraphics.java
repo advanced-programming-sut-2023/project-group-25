@@ -26,9 +26,11 @@ import javafx.stage.Stage;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
+import static Controller.MapController2.clickedUnitToCreate;
 
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
+    public static ImageView toCreateUnitImageView = null;
     public static Building selectedBuilding = null;
     public static Cell selectedCell = null; //Selected cell is the cell on map. The place on screen must be calculated.
     private final GameController gameController;
@@ -117,6 +119,23 @@ public class GameGraphics extends Application {
                             shownX, shownY, edgeLength);
                 }
             }
+        };
+
+        EventHandler<MouseEvent> createClickedUnitEventHandler=mouseEvent -> {
+          if(clickedUnitToCreate!=null&&selectedBuilding!=null){
+              if(toCreateUnitImageView==null){
+                  String address = "/images/Units/" + clickedUnitToCreate + ".png";
+                  toCreateUnitImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+                  toCreateUnitImageView.toFront();
+                  gamePane.getChildren().add(toCreateUnitImageView);
+              }
+              int x = mapController.getXLocationByPixel(selectedBuilding.getLocation().getX());
+              int y = mapController.getYLocationByPixel(selectedBuilding.getLocation().getY());
+              toCreateUnitImageView.setFitHeight(30);
+              toCreateUnitImageView.setFitWidth(30);
+              toCreateUnitImageView.setLayoutX(x);
+              toCreateUnitImageView.setLayoutY(y);
+          }
         };
         
         EventHandler<MouseEvent> moveClickedBuildingToDropEventHandler = mouseEvent -> {
@@ -251,6 +270,7 @@ public class GameGraphics extends Application {
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveOnMiniMap);
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, createClickedUnitEventHandler);
         
         stage.setScene(scene);
         stage.setFullScreen(true);

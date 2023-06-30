@@ -26,6 +26,7 @@ import static Controller.MapController.*;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
+    public static String clickedUnitToCreate = null;
     private static int stableCount = 0;
     private static int horseCount = 0;
     private static GameController gameController = FirstPage.changeMenuController.getGameController();
@@ -129,26 +130,26 @@ public class MapController2 {
     private final ImageView spearMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/spear.png"))));
     private final ImageView swordMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/sword.png"))));
     private final ImageView monk = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/monk.png"))));
-    private final ImageView ArabianUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
-    private final ImageView archerBow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArcherBow.png"))));
-    private final ImageView assassin = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Assassins.png"))));
-    private final ImageView horseArcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/HorseArchers.png"))));
-    private final ImageView arabianSwordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/ArabianSwordsmen.png"))));
-    private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/FireThrowers.png"))));
-    private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slaves.png"))));
-    private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Arabian/Slingers.png"))));
+    private final ImageView arabianUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
+    private final ImageView archerBow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/ArcherBow.png"))));
+    private final ImageView assassin = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Assassins.png"))));
+    private final ImageView horseArcher = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/HorseArchers.png"))));
+    private final ImageView arabianSwordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/ArabianSwordsmen.png"))));
+    private final ImageView fireThrowers = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/FireThrowers.png"))));
+    private final ImageView slave = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Slaves.png"))));
+    private final ImageView slinger = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Slingers.png"))));
     private final ImageView enginnerUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/menu.png"))));
-    private final ImageView engineer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Engineer.png"))));
-    private final ImageView ladderman = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Laddermen.png"))));
-    private final ImageView tunneler = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer/Tunneler.png"))));
+    private final ImageView engineer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Engineer.png"))));
+    private final ImageView ladderman = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Laddermen.png"))));
+    private final ImageView tunneler = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Tunneler.png"))));
     private final ImageView europeanUnitsMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/unitMenu.png"))));
-    private final ImageView archer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Archer.png"))));
-    private final ImageView crossbowmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Crossbowmen.png"))));
-    private final ImageView knight = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Knight.png"))));
-    private final ImageView macemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Macemen.png"))));
-    private final ImageView pikemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Pikemen.png"))));
-    private final ImageView spearmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Spearmen.png"))));
-    private final ImageView swordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/European/Swordsmen.png"))));
+    private final ImageView archer = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Archer.png"))));
+    private final ImageView crossbowmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Crossbowmen.png"))));
+    private final ImageView knight = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Knight.png"))));
+    private final ImageView macemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Macemen.png"))));
+    private final ImageView pikemen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Pikemen.png"))));
+    private final ImageView spearmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Spearmen.png"))));
+    private final ImageView swordsmen = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/Swordsmen.png"))));
     private final ImageView bow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/bow.png"))));
     private final ImageView crossbow = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/crossbow.png"))));
     private final ImageView leatherArmour = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/leatherArmour.png"))));
@@ -343,7 +344,7 @@ public class MapController2 {
         };
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, ccc);
 
-        setSizeUnits(imageView, 0, 670);
+        setSizeMenuIcons(imageView, 0, 670);
         setSizeIcons(imageIcon1, 500, 815, 50, 50);
         setSizeIcons(back, 500, 790, 35, 35);
 
@@ -518,7 +519,7 @@ public class MapController2 {
         setArabianUnitsSize();
         setEngineerSize();
         setAllMenusSize();
-        setSizeUnits(monk, 750, 720);
+        setSizeUnits(monk,"monk", 750, 720);
         setEuropeanUnitsSize();
         addWeapons();
         makeHorse();
@@ -554,7 +555,7 @@ public class MapController2 {
                     , hovel, church, catheral, catheralMenu, monk
                     , poleturner, armourer, blacksmith, fletcher
                     , granary, bakery, brewer, mill, inn, popularityMenu
-                    , ArabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
+                    , arabianUnitsMenu, archerBow, assassin, arabianSwordsmen, fireThrowers, horseArcher, slave, slinger
                     , europeanUnitsMenu, archer, crossbowmen, knight, macemen, pikemen, spearmen, swordsmen
                     , bow, crossbow, leatherArmour, mace, metalArmour, pike, spear, sword, horse
                     , fletcherMenu, blacksmithMenu, armorerMenu, poleturnerMenu
@@ -570,6 +571,12 @@ public class MapController2 {
 
         stage.show();
         return "success";
+    }
+
+    private void setSizeMenuIcons(ImageView icon, int x, int y) {
+        icon.setLayoutX(x);
+        icon.setLayoutY(y);
+        icon.toFront();
     }
 
     private void addGranaryButton() {
@@ -601,8 +608,8 @@ public class MapController2 {
     private void setBuildingMenu(Pane pane) {
         ImageView towerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/towerMenu.png"))));
         ImageView gatehouseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/gatehouseMenu.png"))));
-        setSizeUnits(towerMenu, 0, 670);
-        setSizeUnits(gatehouseMenu, 0, 670);
+        setSizeMenuIcons(towerMenu, 0, 670);
+        setSizeMenuIcons(gatehouseMenu, 0, 670);
         Text text = new Text(GameGraphics.selectedBuilding.getType());
         String category = FileController.getBuildingCategoryByType(GameGraphics.selectedBuilding.getType());
         Building savedBuilding = gameController.getBuilding(GameGraphics.selectedBuilding.getType(), category);
@@ -742,14 +749,14 @@ public class MapController2 {
 
     private void setArmoury() {
         armouryMenu.setVisible(true);
-        setSizeUnits(pikeMenu, 600, 760);
-        setSizeUnits(spearMenu, 650, 760);
-        setSizeUnits(metalMenu, 700, 760);
-        setSizeUnits(leatherMenu, 750, 760);
-        setSizeUnits(swordMenu, 800, 760);
-        setSizeUnits(maceMenu, 850, 760);
-        setSizeUnits(bowMenu, 900, 760);
-        setSizeUnits(crossbowMenu, 950, 760);
+        setSizeMenuIcons(pikeMenu, 600, 760);
+        setSizeMenuIcons(spearMenu, 650, 760);
+        setSizeMenuIcons(metalMenu, 700, 760);
+        setSizeMenuIcons(leatherMenu, 750, 760);
+        setSizeMenuIcons(swordMenu, 800, 760);
+        setSizeMenuIcons(maceMenu, 850, 760);
+        setSizeMenuIcons(bowMenu, 900, 760);
+        setSizeMenuIcons(crossbowMenu, 950, 760);
         pikeMenu.setVisible(true);
         spearMenu.setVisible(true);
         metalMenu.setVisible(true);
@@ -761,48 +768,48 @@ public class MapController2 {
     }
 
     private void setAllMenusSize() {
-        setSizeUnits(fletcherMenu, 0, 670);
-        setSizeUnits(blacksmithMenu, 0, 670);
-        setSizeUnits(armorerMenu, 0, 670);
-        setSizeUnits(poleturnerMenu, 0, 670);
-        setSizeUnits(catheralMenu, 0, 670);
-        setSizeUnits(churchMenu, 0, 670);
-        setSizeUnits(cageMenu, 0, 670);
-        setSizeUnits(granaryMenu, 0, 670);
-        setSizeUnits(woodcutterMenu, 0, 670);
-        setSizeUnits(armouryMenu, 0, 670);
-        setSizeUnits(hovelMenu, 0, 670);
-        setSizeUnits(killingPitMenu, 0, 670);
-        setSizeUnits(stableMenu, 0, 670);
-        setSizeUnits(stockpileMenu, 0, 670);
-        setSizeUnits(appleOrchardMenu, 0, 670);
-        setSizeUnits(dairyFarmMenu, 0, 670);
-        setSizeUnits(hopsFarmMenu, 0, 670);
-        setSizeUnits(quarryMenu, 0, 670);
-        setSizeUnits(wheatFarmMenu, 0, 670);
-        setSizeUnits(ironMineMenu, 0, 670);
-        setSizeUnits(oxTetherMenu, 0, 670);
-        setSizeUnits(innMenu, 0, 670);
-        setSizeUnits(millMenu, 0, 670);
-        setSizeUnits(bakeryMenu, 0, 670);
-        setSizeUnits(breweryMenu, 0, 670);
-        setSizeUnits(mainMarketMenu, 0, 670);
-        setSizeUnits(tradeFoodMenu, 0, 670);
-        setSizeUnits(tradeResourcesMenu, 0, 670);
-        setSizeUnits(tradeWeaponsMenu, 0, 670);
-        setSizeUnits(allMarketMenu, 0, 670);
-        setSizeUnits(sellBuyMenu, 0, 670);
+        setSizeMenuIcons(fletcherMenu, 0, 670);
+        setSizeMenuIcons(blacksmithMenu, 0, 670);
+        setSizeMenuIcons(armorerMenu, 0, 670);
+        setSizeMenuIcons(poleturnerMenu, 0, 670);
+        setSizeMenuIcons(catheralMenu, 0, 670);
+        setSizeMenuIcons(churchMenu, 0, 670);
+        setSizeMenuIcons(cageMenu, 0, 670);
+        setSizeMenuIcons(granaryMenu, 0, 670);
+        setSizeMenuIcons(woodcutterMenu, 0, 670);
+        setSizeMenuIcons(armouryMenu, 0, 670);
+        setSizeMenuIcons(hovelMenu, 0, 670);
+        setSizeMenuIcons(killingPitMenu, 0, 670);
+        setSizeMenuIcons(stableMenu, 0, 670);
+        setSizeMenuIcons(stockpileMenu, 0, 670);
+        setSizeMenuIcons(appleOrchardMenu, 0, 670);
+        setSizeMenuIcons(dairyFarmMenu, 0, 670);
+        setSizeMenuIcons(hopsFarmMenu, 0, 670);
+        setSizeMenuIcons(quarryMenu, 0, 670);
+        setSizeMenuIcons(wheatFarmMenu, 0, 670);
+        setSizeMenuIcons(ironMineMenu, 0, 670);
+        setSizeMenuIcons(oxTetherMenu, 0, 670);
+        setSizeMenuIcons(innMenu, 0, 670);
+        setSizeMenuIcons(millMenu, 0, 670);
+        setSizeMenuIcons(bakeryMenu, 0, 670);
+        setSizeMenuIcons(breweryMenu, 0, 670);
+        setSizeMenuIcons(mainMarketMenu, 0, 670);
+        setSizeMenuIcons(tradeFoodMenu, 0, 670);
+        setSizeMenuIcons(tradeResourcesMenu, 0, 670);
+        setSizeMenuIcons(tradeWeaponsMenu, 0, 670);
+        setSizeMenuIcons(allMarketMenu, 0, 670);
+        setSizeMenuIcons(sellBuyMenu, 0, 670);
 
-        setSizeUnits(pikeMenu, 750, 760);
-        setSizeUnits(spearMenu, 800, 760);
-        setSizeUnits(metalMenu, 750, 760);
-        setSizeUnits(leatherMenu, 800, 760);
-        setSizeUnits(swordMenu, 750, 760);
-        setSizeUnits(maceMenu, 800, 760);
-        setSizeUnits(bowMenu, 750, 760);
-        setSizeUnits(crossbowMenu, 800, 760);
+        setSizeMenuIcons(pikeMenu, 750, 760);
+        setSizeMenuIcons(spearMenu, 800, 760);
+        setSizeMenuIcons(metalMenu, 750, 760);
+        setSizeMenuIcons(leatherMenu, 800, 760);
+        setSizeMenuIcons(swordMenu, 750, 760);
+        setSizeMenuIcons(maceMenu, 800, 760);
+        setSizeMenuIcons(bowMenu, 750, 760);
+        setSizeMenuIcons(crossbowMenu, 800, 760);
 
-        setSizeUnits(foodMenu, 750, 760);
+        setSizeMenuIcons(foodMenu, 750, 760);
     }
 
     private void setAllMenus() {
@@ -851,7 +858,7 @@ public class MapController2 {
     private void setPopularityMenu(Pane pane) {
         //TODO: .... popularity numbers and mask icons for each (we don't have turn yet)
 //        TextField popularityAmount=new TextField(gameController.showPopularity());
-        setSizeUnits(popularityMenu, 0, 670);
+        setSizeMenuIcons(popularityMenu, 0, 670);
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             double menuX = mouseEvent.getX();
             double menuY = mouseEvent.getY();
@@ -1034,14 +1041,14 @@ public class MapController2 {
     }
 
     private void setEuropeanUnitsSize() {
-        setSizeUnits(europeanUnitsMenu, 0, 670);
-        setSizeUnits(archer, 502, 750);
-        setSizeUnits(crossbowmen, 572, 750);
-        setSizeUnits(knight, 640, 750);
-        setSizeUnits(macemen, 710, 750);
-        setSizeUnits(pikemen, 780, 750);
-        setSizeUnits(spearmen, 840, 750);
-        setSizeUnits(swordsmen, 910, 760);
+        setSizeMenuIcons(europeanUnitsMenu, 0, 670);
+        setSizeUnits(archer, "Archer", 502, 750);
+        setSizeUnits(crossbowmen, "Crossbowmen", 572, 750);
+        setSizeUnits(knight, "Knight", 640, 750);
+        setSizeUnits(macemen, "Macemen", 710, 750);
+        setSizeUnits(pikemen, "Pikemen", 780, 750);
+        setSizeUnits(spearmen, "Spearmen", 840, 750);
+        setSizeUnits(swordsmen, "Swordsmen", 910, 760);
     }
 
     private void setEuropeanUnits(boolean check) {
@@ -1079,25 +1086,26 @@ public class MapController2 {
         horse.setVisible(check);
     }
 
-    private void setSizeUnits(ImageView unit, int x, int y) {
+    private void setSizeUnits(ImageView unit, String name, int x, int y) {
         unit.setLayoutX(x);
         unit.setLayoutY(y);
         unit.toFront();
+        unit.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> clickedUnitToCreate = name);
     }
 
     private void setArabianUnitsSize() {
-        setSizeUnits(ArabianUnitsMenu, 0, 670);
-        setSizeUnits(archerBow, 502, 750);
-        setSizeUnits(assassin, 572, 750);
-        setSizeUnits(horseArcher, 640, 750);
-        setSizeUnits(arabianSwordsmen, 710, 750);
-        setSizeUnits(fireThrowers, 780, 760);
-        setSizeUnits(slave, 840, 740);
-        setSizeUnits(slinger, 910, 750);
+        setSizeMenuIcons(arabianUnitsMenu, 0, 670);
+        setSizeUnits(archerBow, "ArcherBow", 502, 750);
+        setSizeUnits(assassin, "Assassins", 572, 750);
+        setSizeUnits(horseArcher, "HorseArchers", 640, 750);
+        setSizeUnits(arabianSwordsmen, "ArabianSwordsmen", 710, 750);
+        setSizeUnits(fireThrowers, "FireThrowers", 780, 760);
+        setSizeUnits(slave, "Slaves", 840, 740);
+        setSizeUnits(slinger, "Slingers", 910, 750);
     }
 
     private void setArabianUnits(boolean check) {
-        ArabianUnitsMenu.setVisible(check);
+        arabianUnitsMenu.setVisible(check);
         archerBow.setVisible(check);
         assassin.setVisible(check);
         horseArcher.setVisible(check);
@@ -1108,10 +1116,10 @@ public class MapController2 {
     }
 
     private void setEngineerSize() {
-        setSizeUnits(enginnerUnitsMenu, 0, 670);
-        setSizeUnits(engineer, 640, 750);
-        setSizeUnits(ladderman, 700, 750);
-        setSizeUnits(tunneler, 760, 750);
+        setSizeMenuIcons(enginnerUnitsMenu, 0, 670);
+        setSizeUnits(engineer, "Engineer", 640, 750);
+        setSizeUnits(ladderman, "Laddermen", 700, 750);
+        setSizeUnits(tunneler, "Tunneler", 760, 750);
     }
 
     private void setEngineer(boolean check) {
