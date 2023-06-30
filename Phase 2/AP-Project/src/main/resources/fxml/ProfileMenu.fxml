@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
@@ -18,8 +20,38 @@
     <Button style="-fx-translate-x: -10px; -fx-translate-y: -140px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
     <VBox style="-fx-translate-y: 200px; -fx-spacing: 10px">
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" wrapText="true" onMouseExited="#hideAvaterChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeAvatar" styleClass="changeInfo" visible="false"  onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange">
+                <Button fx:id="avatarImg" styleClass="avatarImg"/>
+            </VBox>
+            <HBox alignment="CENTER_LEFT" fx:id="changeAvatar" styleClass="changeInfo" visible="false"  onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange">
+                <fx:define>
+                    <ToggleGroup fx:id="group"/>
+                </fx:define>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv1" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv2" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv3" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv4" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv5" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton styleClass="radioButton" toggleGroup="$group"/>
+                    <Button fx:id="defAv6" styleClass="avatarImg"/>
+                </HBox>
+            </HBox>
         </HBox>
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="username" styleClass="profileInfo" onMouseEntered="#showUsernameChange" wrapText="true" onMouseExited="#hideUsernameChange"/>

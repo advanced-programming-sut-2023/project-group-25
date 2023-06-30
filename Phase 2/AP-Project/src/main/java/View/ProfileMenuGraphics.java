@@ -9,13 +9,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -36,8 +34,16 @@ public class ProfileMenuGraphics extends Application implements Initializable {
     public Button changeEmail;
     public Button slogan;
     public Button changeSlogan;
-    public Button avatar;
-    public Button changeAvatar;
+    public VBox avatar;
+    public HBox changeAvatar;
+    public Button avatarImg;
+    public Button defAv1;
+    public Button defAv2;
+    public Button defAv3;
+    public Button defAv4;
+    public Button defAv5;
+    public Button defAv6;
+
     @Override
     public void start(Stage stage) throws Exception {
         ProfileMenuGraphics.stage = stage;
@@ -78,8 +84,22 @@ public class ProfileMenuGraphics extends Application implements Initializable {
         changeSlogan.setText("Change Slogan ...");
         Background avatarBack = new Background(MainController.setFirstPageBackground("/images/avatarContainer.png"));
         Background avatarChangeBack = new Background(MainController.setFirstPageBackground("/images/changeAvatar.png"));
+        Background img = new Background(MainController.setFirstPageBackground(RegisterLoginController.getCurrentUser().getAvatarPath()));
+        avatarImg.setBackground(img);
         avatar.setBackground(avatarBack);
         changeAvatar.setBackground(avatarChangeBack);
+        Background av1 = new Background(MainController.setFirstPageBackground("/images/avatar/2.png"));
+        Background av2 = new Background(MainController.setFirstPageBackground("/images/avatar/3.png"));
+        Background av3 = new Background(MainController.setFirstPageBackground("/images/avatar/4.png"));
+        Background av4 = new Background(MainController.setFirstPageBackground("/images/avatar/5.png"));
+        Background av5 = new Background(MainController.setFirstPageBackground("/images/avatar/6.png"));
+        Background av6 = new Background(MainController.setFirstPageBackground("/images/avatar/1.png"));
+        defAv1.setBackground(av1);
+        defAv2.setBackground(av2);
+        defAv3.setBackground(av3);
+        defAv4.setBackground(av4);
+        defAv5.setBackground(av5);
+        defAv6.setBackground(av6);
     }
 
     public void backToMainMenu(MouseEvent mouseEvent) throws Exception {

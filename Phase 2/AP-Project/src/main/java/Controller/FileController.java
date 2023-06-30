@@ -71,6 +71,7 @@ public class FileController {
             if (content.get(11 * i).equals(username)) {
                 wantedUser = new User(content.get(11 * i), content.get((11 * i) + 1), content.get((11 * i) + 1), content.get((11 * i) + 2)
                         , content.get((11 * i) + 3), content.get((11 * i) + 4));
+                wantedUser.setAvatarPath(content.get((11 * i) + 9));
                 wantedUser.setSecurityQuestion(content.get((11 * i) + 6));
                 wantedUser.setSecurityAnswer(content.get((11 * i) + 7));
                 return wantedUser;

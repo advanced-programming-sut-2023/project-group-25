@@ -188,7 +188,7 @@
 
 .changeInfo {
     -fx-padding: 0 60px;
-    -fx-translate-x: -10px;
+    -fx-translate-x: -20px;
     -fx-pref-width: 280px;
     -fx-pref-height: 60px;
     -fx-text-fill: white;
@@ -202,11 +202,20 @@
 }
 
 #avatar {
-    -fx-pref-width: 240px;
-    -fx-pref-height: 200px;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 150px;
+    -fx-padding: 30px;
 }
 
 #changeAvatar {
-    -fx-pref-width: 900px;
-    -fx-pref-height: 200px;
+    -fx-pref-width: 800px;
+    -fx-pref-height: 150px;
+    -fx-padding: 30px;
+    -fx-spacing: 15px;
+    -fx-translate-x: -20px;
+}
+
+.avatarImg {
+    -fx-pref-height: 90px;
+    -fx-pref-width: 90px;
 }
