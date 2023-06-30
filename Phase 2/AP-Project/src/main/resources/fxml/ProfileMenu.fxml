@@ -15,7 +15,7 @@
           stylesheets="@../css/Styles.css"
           alignment="TOP_LEFT"
           fx:controller="View.ProfileMenuGraphics">
-    <Button style="-fx-translate-x: -10px; -fx-translate-y: -140px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
+    <Button style="-fx-translate-x: -10px; -fx-translate-y: -220px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
     <VBox style="-fx-translate-y: 200px; -fx-spacing: 10px">
         <HBox>
             <Button alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" wrapText="true" onMouseExited="#hideAvaterChange"/>
