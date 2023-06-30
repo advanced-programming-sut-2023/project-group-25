@@ -132,6 +132,7 @@ public class RegisterConfirmMenu extends Application implements Initializable {
             User user = RegisterMenu.getRegisteringUser();
             user.setSecurityQuestion(listView.getSelectionModel().getSelectedItem());
             user.setSecurityAnswer(answerText.getText());
+            user.setAvatarPath(registerLoginController.getRandomAvatar());
             FileController.addUserToFile(user);
             new FirstPage().start(FirstPage.stage);
         }
