@@ -175,3 +175,38 @@
 #enterProfile:hover {
     -fx-cursor: hand;
 }
+
+.profileInfo {
+    -fx-pref-width: 360px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: #413b2d;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial Narrow";
+    -fx-padding: 0 40px;
+}
+
+.changeInfo {
+    -fx-padding: 0 60px;
+    -fx-translate-x: -10px;
+    -fx-pref-width: 280px;
+    -fx-pref-height: 60px;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Arial Narrow";
+}
+
+.changeInfo:hover {
+    -fx-cursor: hand;
+}
+
+#avatar {
+    -fx-pref-width: 240px;
+    -fx-pref-height: 200px;
+}
+
+#changeAvatar {
+    -fx-pref-width: 900px;
+    -fx-pref-height: 200px;
+}

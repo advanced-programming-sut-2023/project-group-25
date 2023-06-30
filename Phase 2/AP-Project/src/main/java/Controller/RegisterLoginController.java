@@ -386,6 +386,13 @@ public class RegisterLoginController {
         return path;
     }
 
+    public String getRandomAvatar() {
+        Random random = new Random();
+        int number = random.nextInt(6) + 1;
+        String path = "/images/avatar/"+number+".png";
+        return path;
+    }
+
     public String graphicLogin(String username, String password) throws NoSuchAlgorithmException {
         String resultMessage;
         if (FileController.isUserNameUnique(username))

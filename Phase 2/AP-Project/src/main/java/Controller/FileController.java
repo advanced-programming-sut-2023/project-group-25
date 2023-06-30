@@ -47,7 +47,7 @@ public class FileController {
     public static void initializeUsersFile() {
         File Users = new File("src/main/java/Database/Users.txt");
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        if (content.size() < 9) {
+        if (content.size() < 10) {
             ArrayList<String> initial = new ArrayList<>();
             initial.add("--USERNAME--");
             initial.add("--PASSWORD--");
@@ -58,6 +58,7 @@ public class FileController {
             initial.add("--SECURITY QUESTION--");
             initial.add("--SECURITY ANSWER--");
             initial.add("--STAY LOGGED IN? (boolean)--");
+            initial.add("--AVATAR PATH--");
             initial.add("_____________________________________________________");
             writeToFileContent("src/main/java/Database/Users.txt", initial, false);
         }
@@ -66,12 +67,12 @@ public class FileController {
     public static User getUserByUsername(String username) {
         User wantedUser;
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                wantedUser = new User(content.get(10 * i), content.get((10 * i) + 1), content.get((10 * i) + 1), content.get((10 * i) + 2)
-                        , content.get((10 * i) + 3), content.get((10 * i) + 4));
-                wantedUser.setSecurityQuestion(content.get((10 * i) + 6));
-                wantedUser.setSecurityAnswer(content.get((10 * i) + 7));
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                wantedUser = new User(content.get(11 * i), content.get((11 * i) + 1), content.get((11 * i) + 1), content.get((11 * i) + 2)
+                        , content.get((11 * i) + 3), content.get((11 * i) + 4));
+                wantedUser.setSecurityQuestion(content.get((11 * i) + 6));
+                wantedUser.setSecurityAnswer(content.get((11 * i) + 7));
                 return wantedUser;
             }
         }
@@ -80,8 +81,8 @@ public class FileController {
     
     public static boolean isUserNameUnique(String username) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
                 return false;
             }
         }
@@ -90,8 +91,8 @@ public class FileController {
     
     public static boolean isEmailUnique(String email) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get((10 * i) + 3).equals(email)) {
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get((11 * i) + 3).equals(email)) {
                 return false;
             }
         }
@@ -100,9 +101,9 @@ public class FileController {
     
     public static User getFirstStayLoggedIn() {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get((10 * i) + 8).equals("true")) {
-                return getUserByUsername(content.get(10 * i));
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get((11 * i) + 8).equals("true")) {
+                return getUserByUsername(content.get(11 * i));
             }
         }
         return null;
@@ -120,6 +121,7 @@ public class FileController {
         content.add(user.getSecurityQuestion());
         content.add(user.getSecurityAnswer());
         content.add("false");
+        content.add(user.getAvatarPath());
         content.add("_____________________________________________________");
         writeToFileContent("src/main/java/Database/Users.txt", content, true);
     }
@@ -141,10 +143,10 @@ public class FileController {
     
     public static void addStayLoggedInForUser(String username, boolean isLoggedIn) {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 8);
-                content.add(((10 * i) + 8), String.valueOf(isLoggedIn));
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 8);
+                content.add(((11 * i) + 8), String.valueOf(isLoggedIn));
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -152,10 +154,10 @@ public class FileController {
     
     public static void changePassword(String username, String password) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 1);
-                content.add(((10 * i) + 1), RegisterLoginController.passwordToSHA(password));
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 1);
+                content.add(((11 * i) + 1), RegisterLoginController.passwordToSHA(password));
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -163,10 +165,10 @@ public class FileController {
     
     public static void changeUsername(String username, String newUsername) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove(10 * i);
-                content.add((10 * i), newUsername);
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove(11 * i);
+                content.add((11 * i), newUsername);
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -174,10 +176,10 @@ public class FileController {
     
     public static void changeNickname(String username, String nickname) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 2);
-                content.add(((10 * i) + 2), nickname);
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 2);
+                content.add(((11 * i) + 2), nickname);
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -185,10 +187,10 @@ public class FileController {
     
     public static void changeEmail(String username, String email) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 3);
-                content.add(((10 * i) + 3), email);
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 3);
+                content.add(((11 * i) + 3), email);
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -196,10 +198,21 @@ public class FileController {
     
     public static void changeSlogan(String username, String slogan) throws NoSuchAlgorithmException {
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 0; i < (content.size() / 10); i++) {
-            if (content.get(10 * i).equals(username)) {
-                content.remove((10 * i) + 4);
-                content.add(((10 * i) + 4), slogan);
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 4);
+                content.add(((11 * i) + 4), slogan);
+            }
+        }
+        writeToFileContent("src/main/java/Database/Users.txt", content, false);
+    }
+    
+    public static void changeAvatar(String username, String avatar) throws NoSuchAlgorithmException {
+        ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
+        for (int i = 0; i < (content.size() / 11); i++) {
+            if (content.get(11 * i).equals(username)) {
+                content.remove((11 * i) + 9);
+                content.add(((11 * i) + 9), avatar);
             }
         }
         writeToFileContent("src/main/java/Database/Users.txt", content, false);
@@ -497,8 +510,8 @@ public class FileController {
     public static ArrayList<User> getAllUsers(String path) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
-            allUsers.add(getUserByUsername(content.get(10 * i)));
+        for (int i = 1; i < (content.size() / 11); i++) {
+            allUsers.add(getUserByUsername(content.get(11 * i)));
         }
         return allUsers;
     }
@@ -600,9 +613,9 @@ public class FileController {
     public static ArrayList<User> getAllUsersWithoutOwner(String path, String owner) {
         ArrayList<User> allUsers = new ArrayList<>();
         ArrayList<String> content = readFileContent("src/main/java/Database/Users.txt");
-        for (int i = 1; i < (content.size() / 10); i++) {
-            if (!content.get(10 * i).equals(owner)) {
-                allUsers.add(getUserByUsername(content.get(10 * i)));
+        for (int i = 1; i < (content.size() / 11); i++) {
+            if (!content.get(11 * i).equals(owner)) {
+                allUsers.add(getUserByUsername(content.get(11 * i)));
             }
         }
         return allUsers;
