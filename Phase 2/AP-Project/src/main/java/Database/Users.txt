@@ -10,14 +10,14 @@
 --AVATAR PATH--
 _____________________________________________________
 hoora
-76ec1b6977fc2bf00d05743fd288885033d502396c7b82ec181715e54ba744b8
+1f6f86681547c4cec3b4c9e9c3c7033a64e185908b42469991bb65c33ab19c9d
 hoor hoori
-hoora@gmail.com
-Keep calm and check mate the king!
+hoora@yahoo.com
+Be Strong!!
 0
 3- In what city or town did your parents meet?
-zahra
-false
+tehran
+true
 /images/avatar/6.png
 _____________________________________________________
 gholi
@@ -28,6 +28,6 @@ Get invited to play!
 0
 1- What city were you born in?
 Qom
-true
+false
 /images/avatar/4.png
 _____________________________________________________
