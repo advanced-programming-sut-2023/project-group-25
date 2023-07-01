@@ -9,33 +9,141 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.CheckBox?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
           stylesheets="@../css/Styles.css"
           alignment="TOP_LEFT"
           fx:controller="View.ProfileMenuGraphics">
-    <Button style="-fx-translate-x: -10px; -fx-translate-y: -220px" fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToMainMenu"/>
-    <VBox style="-fx-translate-y: 200px; -fx-spacing: 10px">
+    <Button style="-fx-translate-x: 1350px; -fx-translate-y: -400px" fx:id="back" styleClass="backToFirstPage"
+            onMouseClicked="#backToMainMenu"/>
+    <VBox style="-fx-spacing: 10px">
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange" wrapText="true" onMouseExited="#hideAvaterChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeAvatar" styleClass="changeInfo" visible="false"  onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="avatar" onMouseEntered="#showAvtarChange"
+                  onMouseExited="#hideAvaterChange">
+                <Button fx:id="avatarImg" styleClass="avatarImg"/>
+            </VBox>
+            <HBox alignment="CENTER_LEFT" fx:id="changeAvatar" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showAvtarChange" onMouseExited="#hideAvaterChange">
+                <fx:define>
+                    <ToggleGroup fx:id="group"/>
+                </fx:define>
+                <HBox>
+                    <RadioButton fx:id="r1" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv1" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton fx:id="r2" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv2" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton fx:id="r3" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv3" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton fx:id="r4" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv4" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton fx:id="r5" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv5" styleClass="avatarImg"/>
+                </HBox>
+                <HBox>
+                    <RadioButton fx:id="r6" styleClass="radioButton" toggleGroup="$group"
+                                 onMouseClicked="#changeAvatar"/>
+                    <Button fx:id="defAv6" styleClass="avatarImg"/>
+                </HBox>
+            </HBox>
         </HBox>
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="username" styleClass="profileInfo" onMouseEntered="#showUsernameChange" wrapText="true" onMouseExited="#hideUsernameChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeUsername" styleClass="changeInfo" visible="false"  onMouseEntered="#showUsernameChange" onMouseExited="#hideUsernameChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="username" styleClass="profileInfo"
+                    onMouseEntered="#showUsernameChange" wrapText="true" onMouseExited="#hideUsernameChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeUsername" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showUsernameChange" onMouseExited="#hideUsernameChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new username" fx:id="newUsername" styleClass="textField1"
+                               onKeyTyped="#usernameCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeUsername"/>
+                </HBox>
+                <Label text="New username field is empty!" styleClass="errorLabel" fx:id="usernameError"/>
+            </VBox>
         </HBox>
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="nickname" styleClass="profileInfo" onMouseEntered="#showNicknameChange" wrapText="true" onMouseExited="#hideNicknameChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeNickname" styleClass="changeInfo" visible="false"  onMouseEntered="#showNicknameChange" onMouseExited="#hideNicknameChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="nickname" styleClass="profileInfo"
+                    onMouseEntered="#showNicknameChange" wrapText="true" onMouseExited="#hideNicknameChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeNickname" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showNicknameChange" onMouseExited="#hideNicknameChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new nickname" fx:id="newNickname" styleClass="textField1"
+                               onKeyTyped="#nicknameCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeNickname"/>
+                </HBox>
+                <Label text="New nickname field is empty!" styleClass="errorLabel" fx:id="nicknameError"/>
+            </VBox>
         </HBox>
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="email" styleClass="profileInfo" onMouseEntered="#showEmailChange" wrapText="true" onMouseExited="#hideEmailChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeEmail" styleClass="changeInfo" visible="false"  onMouseEntered="#showEmailChange" onMouseExited="#hideEmailChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="email" styleClass="profileInfo" onMouseEntered="#showEmailChange"
+                    wrapText="true" onMouseExited="#hideEmailChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeEmail" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showEmailChange" onMouseExited="#hideEmailChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new nickname" fx:id="newEmail" styleClass="textField1"
+                               onKeyTyped="#emailCompleting"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeEmail"/>
+                </HBox>
+                <Label text="New Email field is empty!" styleClass="errorLabel" fx:id="emailError"/>
+            </VBox>
         </HBox>
         <HBox>
-            <Button alignment="CENTER_LEFT" fx:id="slogan" styleClass="profileInfo" onMouseEntered="#showSloganChange" wrapText="true" onMouseExited="#hideSloganChange"/>
-            <Button alignment="CENTER_LEFT" fx:id="changeSlogan" styleClass="changeInfo" visible="false"  onMouseEntered="#showSloganChange" onMouseExited="#hideSloganChange"/>
+            <Button alignment="CENTER_LEFT" fx:id="slogan" styleClass="profileInfo" onMouseEntered="#showSloganChange"
+                    wrapText="true" onMouseExited="#hideSloganChange"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changeSlogan" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showSloganChange" onMouseExited="#hideSloganChange">
+                <HBox style="-fx-spacing: 5px">
+                    <TextField promptText="new slogan" fx:id="newSlogan" styleClass="textField1"/>
+                    <Button text="confirm" styleClass="submitButton" onMouseClicked="#changeSlogan"/>
+                    <Button text="delete" styleClass="clearButton" onMouseClicked="#deleteSlogan"/>
+                </HBox>
+            </VBox>
+        </HBox>
+        <HBox>
+            <Button alignment="CENTER_LEFT" fx:id="password" styleClass="profileInfo" onMouseEntered="#showPasswordChange"
+                    onMouseExited="#hidePasswordChange" text="PASSWORD: !!HIDDEN!!"/>
+            <VBox alignment="CENTER_LEFT" fx:id="changePassword" styleClass="changeInfo" visible="false"
+                  onMouseEntered="#showPasswordChange" onMouseExited="#hidePasswordChange" style="-fx-spacing: 10px">
+                <HBox>
+                    <Label text="password:" styleClass="registerLabel"/>
+                    <VBox>
+                        <TextField promptText="password" fx:id="passwordText" styleClass="textField1" onKeyTyped="#passwordTextCompleting"/>
+                        <PasswordField promptText="password" fx:id="passwordPass" styleClass="textField1" onKeyTyped="#passwordPassCompleting"/>
+                    </VBox>
+                </HBox>
+                <HBox style="-fx-translate-y: -27px; -fx-max-height: 20px">
+                    <Label text="confirm:" styleClass="registerLabel"/>
+                    <VBox>
+                        <TextField promptText="confirm" fx:id="confirmText" styleClass="textField1" onKeyTyped="#confirmTextCompleting"/>
+                        <PasswordField promptText="confirm" fx:id="confirmPass" styleClass="textField1" onKeyTyped="#confirmPassCompleting"/>
+                    </VBox>
+                </HBox>
+                <HBox styleClass="subRegisterFieldContainer">
+                    <CheckBox text="random" onMouseClicked="#randomPassword"/>
+                    <CheckBox text="hide" fx:id="Hide" onMouseClicked="#hidePassword"/>
+                    <Button fx:id="submitChange" text="confirm" styleClass="submitButton" onMouseClicked="#changePassword"/>
+                </HBox>
+                <VBox alignment="CENTER">
+                    <Label text="New Password field is empty!" fx:id="passwordError"  styleClass="errorLabel"/>
+                </VBox>
+            </VBox>
         </HBox>
     </VBox>
 </GridPane>

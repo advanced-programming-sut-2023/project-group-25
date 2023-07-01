@@ -177,8 +177,8 @@
 }
 
 .profileInfo {
-    -fx-pref-width: 360px;
-    -fx-pref-height: 60px;
+    -fx-pref-width: 480px;
+    -fx-pref-height: 80px;
     -fx-text-fill: #413b2d;
     -fx-font-size: 20px;
     -fx-font-weight: bold;
@@ -188,13 +188,13 @@
 
 .changeInfo {
     -fx-padding: 0 60px;
-    -fx-translate-x: -10px;
-    -fx-pref-width: 280px;
-    -fx-pref-height: 60px;
+    -fx-translate-x: -40px;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 80px;
     -fx-text-fill: white;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
+    -fx-font-size: 15px;
     -fx-font-family: "Arial Narrow";
+    -fx-spacing: 5px;
 }
 
 .changeInfo:hover {
@@ -202,11 +202,25 @@
 }
 
 #avatar {
-    -fx-pref-width: 240px;
-    -fx-pref-height: 200px;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 150px;
+    -fx-padding: 30px;
 }
 
 #changeAvatar {
-    -fx-pref-width: 900px;
-    -fx-pref-height: 200px;
+    -fx-pref-width: 800px;
+    -fx-pref-height: 150px;
+    -fx-padding: 30px;
+    -fx-spacing: 15px;
+    -fx-translate-x: -20px;
+}
+
+.avatarImg {
+    -fx-pref-height: 90px;
+    -fx-pref-width: 90px;
+}
+
+#changePassword {
+    -fx-pref-height: 250px;
+    -fx-pref-width: 550px;
 }
