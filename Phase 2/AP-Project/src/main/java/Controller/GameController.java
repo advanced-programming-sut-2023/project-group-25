@@ -4,7 +4,10 @@ import Model.Map;
 import Model.*;
 import View.Commands;
 import View.MovingUnitAnimation;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.*;
@@ -534,12 +537,16 @@ public class GameController {
         return "Unit has been moved successfully!";
     }
     
-    public String moveUnitGraphics(MilitaryPerson unit, Cell home, Cell destination) {
+    public String moveUnitGraphics(MilitaryPerson unit, Cell home, Cell destination, Scene scene, Stage stage, Map map
+            , double shownX, double shownY, Pane pane, int edgeLength) {
         List<Cell> pathCells = PathFinder.findPath(home, destination, currentGame.getMap());
-        if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(selectedUnit.getLocation())))
+        if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(unit.getLocation()))) {
             return "The path is blocked!";
+        }
         for (Cell cell : pathCells) {
-            MovingUnitAnimation movingUnitAnimation = new MovingUnitAnimation(unit, cell);
+            MovingUnitAnimation movingUnitAnimation = new MovingUnitAnimation(unit, cell, scene, stage, map, shownX
+                    , shownY, pane, edgeLength);
+            movingUnitAnimation.play();
         }
         return "Unit has been moved successfully!";
     }
