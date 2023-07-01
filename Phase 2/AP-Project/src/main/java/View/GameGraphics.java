@@ -285,7 +285,8 @@ public class GameGraphics extends Application {
 //                    selectedUnit.getLocation().removePerson(selectedUnit);
 //                    selectedUnit.setLocation(cell);
 //                    cell.addPerson(selectedUnit);
-                    
+                    gameController.moveUnitGraphics(selectedUnit, selectedUnit.getLocation(), cell, scene, stage
+                            , gameController.getCurrentGame().getMap(), shownX, shownY, gamePane, edgeLength);
                     mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
                             , shownX, shownY, edgeLength);
                 }
