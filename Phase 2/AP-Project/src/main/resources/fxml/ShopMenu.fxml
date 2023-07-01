@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.ShopMenuGraphics">
+    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <HBox>
+        <Button fx:id="meat"/>
+        <Button fx:id="bread"/>
+        <Button fx:id="cheese"/>
+        <Button fx:id="apple"/>
+        <Button fx:id="wheat"/>
+        <Button fx:id="flour"/>
+        <Button fx:id="wood"/>
+        <Button fx:id="stone"/>
+        <Button fx:id="iron"/>
+        <Button fx:id="spear"/>
+        <Button fx:id="bow"/>
+        <Button fx:id="mace"/>
+        <Button fx:id="crossbow"/>
+        <Button fx:id="pike"/>
+        <Button fx:id="sword"/>
+        <Button fx:id="leatherArmor"/>
+        <Button fx:id="metalArmor"/>
+        <Button fx:id="ale"/>
+        <Button fx:id="hop"/>
+    </HBox>
+</GridPane>

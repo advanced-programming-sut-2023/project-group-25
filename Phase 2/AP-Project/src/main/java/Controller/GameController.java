@@ -400,12 +400,14 @@ public class GameController {
         return result.toString();
     }
 
-    public String showPopularityFactors() {
+    public String showPopularityFactors(String name) {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
-        result.append("Popularity Factors: \n");
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
-            result.append(popularityFactor.getName()).append(": ").append(popularityFactor.getRate()).append("\n");
+            if (popularityFactor.getName().equals(name)){
+                result.append(popularityFactor.getRate());
+                break;
+            }
         }
         return result.toString();
     }
@@ -560,7 +562,7 @@ public class GameController {
         String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
-        
+
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         //Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());

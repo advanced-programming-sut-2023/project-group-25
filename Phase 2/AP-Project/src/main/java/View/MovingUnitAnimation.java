@@ -62,11 +62,11 @@ public class MovingUnitAnimation extends Transition {
         person.setLocation(cell);
         cell.addPerson(person);
 //        mapController.loadMapToShow(scene, stage, pane, map, (int) shownX, (int) shownY, edgeLength);
-        String address = "/images/Units/" + person.getType() + ".png";
-        ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
-        imageView.setFitWidth(20);
-        imageView.setFitHeight(20);
-        imageView.setLayoutX();
+//        String address = "/images/Units/" + person.getType() + ".png";
+//        ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+//        imageView.setFitWidth(20);
+//        imageView.setFitHeight(20);
+//        imageView.setLayoutX();
         if (person.getLocation().getX() == destination.getX() && person.getLocation().getY() != destination.getY())
             signDx = 0;
         if (person.getLocation().getY() == destination.getY() && person.getLocation().getX() != destination.getX())
