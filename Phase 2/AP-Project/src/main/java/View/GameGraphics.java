@@ -4,27 +4,30 @@ import Controller.ChangeMenuController;
 import Controller.FileController;
 import Controller.GameController;
 import Controller.MapController2;
-import Model.Building;
+import Model.*;
 import Model.Cell;
-import Model.Map;
-import Model.MilitaryPerson;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
+import javax.swing.plaf.multi.MultiListUI;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
@@ -32,8 +35,10 @@ import static Controller.MapController2.clickedBuildingToDrop;
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     public static ImageView toCreateUnitImageView = null;
+    public static ImageView lastBuildingImage;
     public static Building selectedBuilding = null;
     public static Cell selectedCell = null;
+    public static Building lastBuildingDropped;
     public static ArrayList<MilitaryPerson> selectedUnits = new ArrayList<>();
     private final GameController gameController;
     private Clipboard clipboard;
@@ -189,12 +194,27 @@ public class GameGraphics extends Application {
                     isGroup = true;
                     s = "Total number of people: ";
                 }
-                ArrayList<MilitaryPerson> units = new ArrayList<>();
+                
+                selectedUnits.clear();
                 for (int i = (int) minX / edgeLength; i < maxX / edgeLength; i++) {
                     for (int j = (int) minY / edgeLength; j < maxY / edgeLength; j++) {
                         selectedCell = null;
-//                        cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
-                        //TODO: select units
+                        selectedUnits.clear();
+                        Cell cell = cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)];
+                        selectUnits(cell);
+//
+//                        TextInputDialog dialog = new TextInputDialog("0");
+//                        dialog.setTitle("Selecting Units");
+//                        dialog.setHeaderText("Look, a Text Input Dialog");
+//                        dialog.setContentText("Please enter your name:");
+//
+//                        Optional<String> result = dialog.showAndWait();
+//                        result.ifPresent(name -> System.out.println("Your name: " + name));
+//
+//
+//                        for (Person person : cell.getPeople()) {
+//                            if (person instanceof MilitaryPerson) selectedUnits.add((MilitaryPerson) person);
+//                        }
                         Label frontLabel = new Label();
                         frontLabel.setPrefWidth(edgeLength);
                         frontLabel.setPrefHeight(edgeLength);
@@ -212,7 +232,9 @@ public class GameGraphics extends Application {
                             totalNumberOfPeople += cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)]
                                     .getPeople().size();
                             selectedCell = cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)];
-                            
+//                            for (Person person : selectedCell.getPeople()) {
+//                                if (person instanceof MilitaryPerson) selectedUnits.add((MilitaryPerson) person);
+//                            }
                         }
                     }
                 }
@@ -223,6 +245,7 @@ public class GameGraphics extends Application {
                 }
             } else if (mouseEvent.isPrimaryButtonDown()) {
                 selectedCell = null;
+                selectedUnits.clear();
             }
         };
         
@@ -235,17 +258,40 @@ public class GameGraphics extends Application {
             }
         };
         
-        EventHandler<MouseEvent> moveOnMiniMap = mouseEvent -> {
-            if (mouseEvent.getX() >= 1411 && mouseEvent.getX() <= 1526 && mouseEvent.getY() >= 739 && mouseEvent.getY() <= 854) {
-                mapController.setMiniMapShowingX((int) mouseEvent.getX() - 10);
-                mapController.setMiniMapShowingY((int) mouseEvent.getY() - 10);
-                Map map = gameController.getCurrentGame().getMap();
-                shownX = (int) (((map.getLength() - 22) * (mouseEvent.getX() - 10)) / 115 + 11 - (1411 * (map.getLength() - 22) / 115));
-                shownY = (int) (((map.getWidth() - 10) * (mouseEvent.getY() - 10)) / 115 + 5 - (739 * (map.getWidth() - 10) / 115));
-                mapController.loadMapToShow(scene, stage, gamePane, map, shownX, shownY, edgeLength);
+        EventHandler<MouseEvent> moveOnMiniMapeEventHandler = mouseEvent -> {
+            Map map = gameController.getCurrentGame().getMap();
+            if (mapController.isLocationAppropriateToShow(
+                    (int) (((map.getLength() - 22) * (mouseEvent.getX() - 10)) / 115 + 11 - (1411 * (map.getLength() - 22) / 115))
+                    , (int) (((map.getWidth() - 10) * (mouseEvent.getY() - 10)) / 115 + 5 - (739 * (map.getWidth() - 10) / 115))
+                    , map, edgeLength)) {
+                if (mouseEvent.getX() >= 1411 && mouseEvent.getX() <= 1526 && mouseEvent.getY() >= 739 && mouseEvent.getY() <= 854) {
+                    mapController.setMiniMapShowingX((int) mouseEvent.getX() - 10);
+                    mapController.setMiniMapShowingY((int) mouseEvent.getY() - 10);
+                    shownX = (int) (((map.getLength() - 22) * (mouseEvent.getX() - 10)) / 115 + 11 - (1411 * (map.getLength() - 22) / 115));
+                    shownY = (int) (((map.getWidth() - 10) * (mouseEvent.getY() - 10)) / 115 + 5 - (739 * (map.getWidth() - 10) / 115));
+                    mapController.loadMapToShow(scene, stage, gamePane, map, shownX, shownY, edgeLength);
+                }
             }
         };
         
+        EventHandler<MouseEvent> moveUnitEventHandler = mouseEvent -> {
+            
+            if (previousMouseEvent.isPrimaryButtonDown() && selectedUnits.size() != 0) {
+                Cell cell = GameController.currentGame.getMap().getCells()
+                        [mapController.getXLocationByPixel(mouseEvent.getX() / edgeLength)]
+                        [mapController.getYLocationByPixel(mouseEvent.getY() / edgeLength)];
+                //TODO: samin --> path finder
+                for (MilitaryPerson selectedUnit : selectedUnits) {
+//                    selectedUnit.getLocation().removePerson(selectedUnit);
+//                    selectedUnit.setLocation(cell);
+//                    cell.addPerson(selectedUnit);
+                    
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                            , shownX, shownY, edgeLength);
+                }
+                selectedUnits.clear();
+            }
+        };
         
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, previousClickEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler);
@@ -256,16 +302,56 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> pressedKeyName = null);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, rectangleSelectionEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
-        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveOnMiniMap);
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveOnMiniMapeEventHandler);
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveUnitEventHandler);
+        
         
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.show();
     }
     
+    private void selectUnits(Cell cell) {
+//        if (cell.getPeople().size() == 0) return;
+//        HashMap<String, Integer> numberOfPeople = new HashMap<>();
+//        for (Person person : cell.getPeople()) {
+//            numberOfPeople.put(person.getType(), 0);
+//        }
+//        for (Person person : cell.getPeople()) {
+//            numberOfPeople.put(person.getType(), numberOfPeople.get(person.getType()) + 1);
+//        }
+//
+//        HashMap<String, Integer> wantedNumbers = new HashMap<>();
+//        TextField[] numbers = new TextField[numberOfPeople.size()];
+//        Dialog<Pair<String, String>> dialog = new Dialog<>();
+//        dialog.setTitle("Selecting Units");
+//        dialog.setHeaderText("Choose how many of each unit you want to select.");
+//        GridPane grid = new GridPane();
+//        grid.setHgap(10);
+//        grid.setVgap(10);
+//        for (int i = 0; i < cell.getPeople().size(); i++) {
+//            Person person = cell.getPeople().get(i);
+//            TextField number = new TextField("0");
+//            grid.add(new Label(person.getType() + ":"), 0, i);
+//            grid.add(number, 1, i);
+//            dialog.getDialogPane().setContent(grid);
+//        }
+//        ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+//        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+//        Optional<Pair<String, String>> result = dialog.showAndWait();
+//        if (result.isPresent()) {
+//            //TODO
+//        }
+        for (Person person : cell.getPeople()) {
+            if (person instanceof MilitaryPerson) selectedUnits.add((MilitaryPerson) person);
+        }
+    }
+    
     private void buildBuildingAndShowMessage(Pane gamePane, String address, Cell cell, String type) {
         String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, type);
         if (Pattern.compile("success").matcher(result).find()) {
+            lastBuildingDropped=gameController.lastBuilding;
+            lastBuildingImage=new ImageView(new Image(String.valueOf(getClass().getResource(address))));
             ImageView droppedBuildingImageView = new ImageView
                     (new Image(String.valueOf(getClass().getResource(address))));
             droppedBuildingImageView.setFitHeight(edgeLength);
