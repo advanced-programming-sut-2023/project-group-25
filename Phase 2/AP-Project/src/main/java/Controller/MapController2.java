@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Cell;
 import Model.*;
-import Model.Map;
 import View.FirstPage;
 import View.GameGraphics;
 import View.MainMenuGraphics;
@@ -14,24 +13,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-=======
-import java.util.*;
->>>>>>> 58f1ce67201d1fc176b1df59d90b4a97500cf7ac
 
 import static Controller.MapController.*;
 import static View.GameGraphics.selectedBuilding;
 import static View.GameGraphics.toCreateUnitImageView;
-import static java.util.Map.entry;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
@@ -149,7 +144,7 @@ public class MapController2 {
     private final ImageView pikeMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/pike.png"))));
     private final ImageView swordMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/sword.png"))));
     private final ImageView spearMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/spear.png"))));
-    
+
     private final ImageView bowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/bow.png"))));
     private final ImageView crossbowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/crossbow.png"))));
     private final ImageView leatherMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/leather.png"))));
@@ -198,6 +193,18 @@ public class MapController2 {
     private final ImageView greenMask = new ImageView(new Image(String.valueOf(getClass().getResource("/images/green.png"))));
     private final ImageView yellowMask = new ImageView(new Image(String.valueOf(getClass().getResource("/images/yellow.png"))));
     private final ImageView redMask = new ImageView(new Image(String.valueOf(getClass().getResource("/images/red.png"))));
+    private final ImageView greenMask1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/green.png"))));
+    private final ImageView yellowMask1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/yellow.png"))));
+    private final ImageView redMask1 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/red.png"))));
+    private final ImageView greenMask2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/green.png"))));
+    private final ImageView yellowMask2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/yellow.png"))));
+    private final ImageView redMask2 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/red.png"))));
+    private final ImageView greenMask3 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/green.png"))));
+    private final ImageView yellowMask3 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/yellow.png"))));
+    private final ImageView redMask3 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/red.png"))));
+    private final ImageView greenMask4 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/green.png"))));
+    private final ImageView yellowMask4 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/yellow.png"))));
+    private final ImageView redMask4 = new ImageView(new Image(String.valueOf(getClass().getResource("/images/red.png"))));
     private final HashMap<String, Integer> hasGivenHandler = new HashMap<>();
     Text foodNumber = new Text();
     private Button backToGame = new Button("Back To Game");
@@ -545,7 +552,7 @@ public class MapController2 {
             back.setVisible(true);
             popularityMenu.setVisible(false);
         });
-        setPopularityMenu(pane);
+        setPopularityMenu();
 
         back.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             setImagesIcons1(true);
@@ -560,7 +567,7 @@ public class MapController2 {
             popularityMenu.setVisible(false);
             event.consume();
         });
-        
+
         backMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> addBackForMarket());
         Button nextTurn = new Button("Next Turn");
         nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
@@ -601,7 +608,7 @@ public class MapController2 {
             setImagesIconGatehouse(false);
             popularityMenu.setVisible(false);
             setSizeIcons(imageIcon6, 750, 825, 40, 40);
-            
+
             setAllMenusSize();
             pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                     , barracks, mercenary, armoury, stairs, shortWall, highWall
@@ -617,13 +624,15 @@ public class MapController2 {
                     , churchMenu, armouryMenu, hovelMenu, woodcutterMenu, cageMenu, killingPitMenu
                     , stableMenu, stockpileMenu, appleOrchardMenu, dairyFarmMenu, hopsFarmMenu, wheatFarmMenu
                     , quarryMenu, ironMineMenu, oxTetherMenu, innMenu, millMenu, bakeryMenu, breweryMenu, granaryMenu
-                    , first, second, third, forth, fifth, foodNumber
+                    , first, second, third, forth, fifth, foodNumber, redMask, yellowMask, greenMask
                     , miniMapLabel, miniMapShowingLabel, exit, resume, briefingMenu, backToGame
                     , mainMarketMenu, foodMenu, sourcesMenu, weaponsMenu, totalMenu, options
                     , tradeFoodMenu, tradeResourcesMenu, tradeWeaponsMenu, allMarketMenu, sellBuyMenu
                     , woodMenu, ironMenu, rockMenu, backMarket, redMenu, stop, briefing, undo, delete
                     , meatMenu, cheeseMenu, appleMenu, hopMenu, bearMenu, wheatMenu, flowerMenu, breadMenu
-                    , bowMarket, crossbowMarket, leatherMarket, metalMarket, maceMarket, pikeMarket, spearMarket, swordMarket);
+                    , bowMarket, crossbowMarket, leatherMarket, metalMarket, maceMarket, pikeMarket, spearMarket, swordMarket
+                    , redMask1, redMask2, redMask3, greenMask1, greenMask2, greenMask3, yellowMask1, yellowMask2, yellowMask3
+                    ,redMask4,greenMask4,yellowMask4);
             isTheFirstTime = true;
         }
 
@@ -734,7 +743,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(false);
     }
-    
+
     private void setSizeMenuIcons(ImageView icon, int x, int y) {
         icon.setLayoutX(x);
         icon.setLayoutY(y);
@@ -858,7 +867,7 @@ public class MapController2 {
         totalMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterTotalMenu());
 //        sellBuyMenu.setVisible(true);
     }
-    
+
     private void enterTotalMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -875,7 +884,7 @@ public class MapController2 {
         addSourceToList(false);
         //TODO: HOORA: text for each in format "buy/sell" price
     }
-    
+
     private void enterWeaponsMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -892,7 +901,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(true);
     }
-    
+
     private void enterSourceMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -909,7 +918,7 @@ public class MapController2 {
         addSourceToList(true);
         addWeaponsToList(false);
     }
-    
+
     private void enterFoodMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -926,7 +935,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(false);
     }
-    
+
     private void addWeaponsToList(boolean check) {
         bowMarket.setVisible(check);
         crossbowMarket.setVisible(check);
@@ -937,13 +946,13 @@ public class MapController2 {
         swordMarket.setVisible(check);
         spearMarket.setVisible(check);
     }
-    
+
     private void addSourceToList(boolean check) {
         woodMenu.setVisible(check);
         rockMenu.setVisible(check);
         ironMenu.setVisible(check);
     }
-    
+
     private void addFoodsToList(boolean check) {
         meatMenu.setVisible(check);
         cheeseMenu.setVisible(check);
@@ -957,6 +966,7 @@ public class MapController2 {
 
     private void setGranary() {
         granaryMenu.setVisible(true);
+        granaryMenu.toFront();
         setGranaryButtons(true);
         foodNumber.setVisible(true);
         foodNumber.setText(gameController.getNumberOfFoods() + " units of food.");
@@ -965,10 +975,15 @@ public class MapController2 {
         third.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> gameController.rateFood("0"));
         forth.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> gameController.rateFood("1"));
         fifth.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> gameController.rateFood("2"));
+        first.toFront();
+        second.toFront();
+        third.toFront();
+        forth.toFront();
+        fifth.toFront();
         foodNumber.setLayoutX(500);
         foodNumber.setLayoutY(800);
         foodNumber.toFront();
-        foodNumber.setFont(Font.font(20));
+        foodNumber.setFont(Font.font(15));
     }
 
     private void setStable() {
@@ -1162,6 +1177,18 @@ public class MapController2 {
         redMask.setVisible(false);
         yellowMask.setVisible(false);
         greenMask.setVisible(false);
+        redMask1.setVisible(false);
+        yellowMask1.setVisible(false);
+        greenMask1.setVisible(false);
+        redMask2.setVisible(false);
+        yellowMask2.setVisible(false);
+        greenMask2.setVisible(false);
+        redMask3.setVisible(false);
+        yellowMask3.setVisible(false);
+        greenMask3.setVisible(false);
+        redMask4.setVisible(false);
+        yellowMask4.setVisible(false);
+        greenMask4.setVisible(false);
 
         pikeMenu.setVisible(false);
         spearMenu.setVisible(false);
@@ -1173,9 +1200,34 @@ public class MapController2 {
         crossbowMenu.setVisible(false);
     }
 
-    private void setPopularityMenu(Pane pane) {
-        //TODO: .... popularity numbers and mask icons for each (we don't have turn yet)
-//        TextField popularityAmount=new TextField(gameController.showPopularity());
+    private void setPopularityMenu() {
+        Text foodRate = new Text(gameController.showPopularityFactors("food"));
+        foodRate.setLayoutX(620);
+        foodRate.setLayoutY(755);
+        foodRate.setStyle("-fx-font-weight: bold");
+        foodRate.setVisible(false);
+        Text taxRate = new Text(gameController.showPopularityFactors("tax"));
+        taxRate.setLayoutX(620);
+        taxRate.setLayoutY(775);
+        taxRate.setStyle("-fx-font-weight: bold");
+        taxRate.setVisible(false);
+        Text fearRate = new Text(gameController.showPopularityFactors("fear"));
+        fearRate.setLayoutX(780);
+        fearRate.setLayoutY(755);
+        fearRate.setStyle("-fx-font-weight: bold");
+        fearRate.setVisible(false);
+        Text religionRate = new Text(gameController.showPopularityFactors("religion"));
+        religionRate.setLayoutX(780);
+        religionRate.setLayoutY(775);
+        religionRate.setStyle("-fx-font-weight: bold");
+        religionRate.setVisible(false);
+        int all= Integer.parseInt(foodRate.getText())+Integer.parseInt(taxRate.getText())+Integer.parseInt(fearRate.getText())+Integer.parseInt(religionRate.getText());
+        Text allRate = new Text(String.valueOf(all));
+        allRate.setLayoutX(700);
+        allRate.setLayoutY(700);
+        allRate.setStyle("-fx-font-weight: bold");
+        allRate.setVisible(false);
+        pane.getChildren().addAll(foodRate, taxRate, fearRate, religionRate,allRate);
         setSizeMenuIcons(popularityMenu, 0, 670);
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             double menuX = mouseEvent.getX();
@@ -1184,10 +1236,116 @@ public class MapController2 {
                 popularityMenu.setVisible(true);
                 back.setVisible(true);
                 back.toFront();
-
-                mouseEvent.consume();
+                foodRate.setVisible(true);
+                foodRate.toFront();
+                taxRate.toFront();
+                taxRate.setVisible(true);
+                fearRate.toFront();
+                fearRate.setVisible(true);
+                religionRate.toFront();
+                religionRate.setVisible(true);
+                setFoodRate(foodRate);
+                setTaxRate(taxRate);
+                setFearRate(fearRate);
+                setReligionRate(religionRate);
+                setAllRate(allRate);
             }
         });
+    }
+
+    private void setAllRate(Text allRate) {
+        if (Integer.parseInt(allRate.getText()) == 0) {
+            allRate.setFill(Color.YELLOW);
+            setSizeMenuIcons(yellowMask4, 800, 765);
+            yellowMask4.setVisible(true);
+            yellowMask4.toFront();
+        } else if (Integer.parseInt(allRate.getText()) >= 0) {
+            allRate.setFill(Color.GREEN);
+            setSizeMenuIcons(greenMask4, 800, 765);
+            greenMask4.setVisible(true);
+            greenMask4.toFront();
+        } else if (Integer.parseInt(allRate.getText()) <= 0) {
+            allRate.setFill(Color.RED);
+            setSizeMenuIcons(redMask4, 800, 765);
+            redMask4.setVisible(true);
+            redMask4.toFront();
+        }
+    }
+
+    private void setReligionRate(Text religionRate) {
+        if (Integer.parseInt(religionRate.getText()) == 0) {
+            religionRate.setFill(Color.YELLOW);
+            setSizeMenuIcons(yellowMask3, 800, 765);
+            yellowMask3.setVisible(true);
+            yellowMask3.toFront();
+        } else if (Integer.parseInt(religionRate.getText()) >= 0) {
+            religionRate.setFill(Color.GREEN);
+            setSizeMenuIcons(greenMask3, 800, 765);
+            greenMask3.setVisible(true);
+            greenMask3.toFront();
+        } else if (Integer.parseInt(religionRate.getText()) <= 0) {
+            religionRate.setFill(Color.RED);
+            setSizeMenuIcons(redMask3, 800, 765);
+            redMask3.setVisible(true);
+            redMask3.toFront();
+        }
+    }
+
+    private void setFearRate(Text fearRate) {
+        if (Integer.parseInt(fearRate.getText()) == 0) {
+            fearRate.setFill(Color.YELLOW);
+            setSizeMenuIcons(yellowMask2, 800, 745);
+            yellowMask2.setVisible(true);
+            yellowMask2.toFront();
+        } else if (Integer.parseInt(fearRate.getText()) >= 0) {
+            fearRate.setFill(Color.GREEN);
+            setSizeMenuIcons(greenMask2, 800, 745);
+            greenMask2.setVisible(true);
+            greenMask2.toFront();
+        } else if (Integer.parseInt(fearRate.getText()) <= 0) {
+            fearRate.setFill(Color.RED);
+            setSizeMenuIcons(redMask2, 800, 745);
+            redMask2.setVisible(true);
+            redMask2.toFront();
+        }
+    }
+
+    private void setTaxRate(Text taxRate) {
+        if (Integer.parseInt(taxRate.getText()) == 0) {
+            taxRate.setFill(Color.YELLOW);
+            setSizeMenuIcons(yellowMask1, 635, 765);
+            yellowMask1.setVisible(true);
+            yellowMask1.toFront();
+        } else if (Integer.parseInt(taxRate.getText()) >= 0) {
+            taxRate.setFill(Color.GREEN);
+            setSizeMenuIcons(greenMask1, 635, 765);
+            greenMask1.setVisible(true);
+            greenMask1.toFront();
+        } else if (Integer.parseInt(taxRate.getText()) <= 0) {
+            taxRate.setFill(Color.RED);
+            setSizeMenuIcons(redMask1, 635, 765);
+            redMask1.setVisible(true);
+            redMask1.toFront();
+        }
+    }
+
+    private void setFoodRate(Text foodRate) {
+        if (Integer.parseInt(foodRate.getText()) == 0) {
+            foodRate.setFill(Color.YELLOW);
+            setSizeMenuIcons(yellowMask, 635, 745);
+            yellowMask.setVisible(true);
+            yellowMask.toFront();
+        } else if (Integer.parseInt(foodRate.getText()) >= 0) {
+            foodRate.setFill(Color.GREEN);
+            setSizeMenuIcons(greenMask, 635, 745);
+            greenMask.setVisible(true);
+            greenMask.toFront();
+        } else if (Integer.parseInt(foodRate.getText()) <= 0) {
+            foodRate.setFill(Color.RED);
+            setSizeMenuIcons(redMask, 635, 745);
+            redMask.setVisible(true);
+            redMask.toFront();
+        }
     }
 
     private void setGatehouse() {
@@ -1235,7 +1393,7 @@ public class MapController2 {
         roundTower.setVisible(check);
         squareTower.setVisible(check);
     }
-    
+
     public boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
         return x - 11 * 70 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth()
                 && y + 8 * 50 / edgeLength <= map.getLength();
@@ -1500,14 +1658,14 @@ public class MapController2 {
                 unitLabel.setPrefWidth(20);
                 unitLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
                 unitLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-                
+
                 String s = "King: " + person.getKing().getUsername() + "\nType: " + person.getType()
                         + "\nMode: " + ((MilitaryPerson) person).getMode();
-                
+
                 Tooltip tooltip = new Tooltip(s);
                 tooltip.setStyle("-fx-font-size: 15px;");
                 unitLabel.setTooltip(tooltip);
-                
+
                 unitLabel.toFront();
                 pane.getChildren().add(unitLabel);
             } else {
@@ -1596,7 +1754,7 @@ public class MapController2 {
         buildingLabel.setPrefWidth(edgeLength - 5);
         buildingLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
-        
+
         String s = "King: " + building.getKing().getUsername() + "\nType: " + building.getType()
                 + "\nCategory: " + building.getCategory() + "\nHitPoint: " + building.getHitPoint()
                 + "\nNumber of workers: " + building.getWorkerCounter();

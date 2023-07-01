@@ -15,9 +15,9 @@ import static Controller.RegisterLoginController.getCurrentUser;
 
 public class GameController {
     public static Game currentGame;
+    public static Building lastBuilding;
     private final int mapLength = 80;
     private final int mapWidth = 80;
-    public static Building lastBuilding;
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
     public ArrayList<NaturalBlock> tree = new ArrayList<>();
     private Person selectedUnit;
@@ -399,12 +399,14 @@ public class GameController {
         return result.toString();
     }
 
-    public String showPopularityFactors() {
+    public String showPopularityFactors(String name) {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
-        result.append("Popularity Factors: \n");
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
-            result.append(popularityFactor.getName()).append(": ").append(popularityFactor.getRate()).append("\n");
+            if (popularityFactor.getName().equals(name)){
+                result.append(popularityFactor.getRate());
+                break;
+            }
         }
         return result.toString();
     }
@@ -536,7 +538,7 @@ public class GameController {
         }
         return "Unit has been moved successfully!";
     }
-    
+
     public String moveUnitGraphics(MilitaryPerson unit, Cell home, Cell destination) {
         List<Cell> pathCells = PathFinder.findPath(home, destination, currentGame.getMap());
         if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(selectedUnit.getLocation())))
@@ -555,7 +557,7 @@ public class GameController {
         String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
-        
+
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         //Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
