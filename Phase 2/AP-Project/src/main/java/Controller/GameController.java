@@ -3,6 +3,7 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
+import View.MovingUnitAnimation;
 import javafx.scene.control.Alert;
 
 import java.io.File;
@@ -523,16 +524,26 @@ public class GameController {
         if (!isLocationValid(x - 1, y - 1)) return "You have entered invalid location!";
         if (selectedUnit == null) return "You haven't selected a unit!";
         if (selectedUnit.equals(patrollingUnit)) isPatrollingStopped = true;
-        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation(), currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
+        List<Cell> pathCells = PathFinder.findPath(selectedUnit.getLocation()
+                , currentGame.getMap().getCells()[x - 1][y - 1], currentGame.getMap());
         if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(selectedUnit.getLocation())))
             return "The path is blocked!";
-        if ((!(selectedUnit instanceof WorkerPerson)) && pathCells.size() > ((MilitaryPerson) selectedUnit).getMovingRange())
-            return "This move is out of the range of the unit!";
         for (Cell cell : pathCells) {
             removeAndAddInMoving(selectedUnit, cell.getX(), cell.getY());
         }
         return "Unit has been moved successfully!";
     }
+    
+    public String moveUnitGraphics(MilitaryPerson unit, Cell home, Cell destination) {
+        List<Cell> pathCells = PathFinder.findPath(home, destination, currentGame.getMap());
+        if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(selectedUnit.getLocation())))
+            return "The path is blocked!";
+        for (Cell cell : pathCells) {
+            MovingUnitAnimation movingUnitAnimation = new MovingUnitAnimation(unit, cell);
+        }
+        return "Unit has been moved successfully!";
+    }
+    
     
     public boolean isLocationValid(int x, int y) {
         return x >= 0 && y >= 0 && x < currentGame.getMap().getLength() && y < currentGame.getMap().getWidth();
@@ -542,6 +553,7 @@ public class GameController {
         String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
+        
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         //Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
@@ -1506,8 +1518,6 @@ public class GameController {
         kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
         Game game = new Game(gameId, kingdoms);
         currentGame = game;
-        System.out.println("hiiiiii");
-        System.out.println(game);
         MapController2.initializeMapTemplate(mapLength, mapWidth);
         game.setMap(Map.getTemplateMaps()[1]);
         game.setMapTemplateNumber(1);

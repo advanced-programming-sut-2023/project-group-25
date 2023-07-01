@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Cell;
 import Model.*;
+import Model.Map;
 import View.FirstPage;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -16,13 +17,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static Controller.MapController.*;
 import static View.GameGraphics.selectedBuilding;
 import static View.GameGraphics.toCreateUnitImageView;
+import static java.util.Map.entry;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
@@ -140,7 +140,7 @@ public class MapController2 {
     private final ImageView pikeMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/pike.png"))));
     private final ImageView swordMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/sword.png"))));
     private final ImageView spearMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/spear.png"))));
-
+    
     private final ImageView bowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/bow.png"))));
     private final ImageView crossbowMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/crossbow.png"))));
     private final ImageView leatherMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/weapons/leather.png"))));
@@ -179,6 +179,7 @@ public class MapController2 {
     private final ImageView spear = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/spear.png"))));
     private final ImageView sword = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/sword.png"))));
     private final ImageView horse = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Units/weapons/horse.png"))));
+    private final HashMap<String, Integer> hasGivenHandler = new HashMap<>();
     Text foodNumber = new Text();
     private boolean isTheFirstTime = false;
     private int edgeLength = 70;
@@ -449,7 +450,7 @@ public class MapController2 {
             event.consume();
         });
         
-        setSizeIcons(imageIcon6, 750, 825, 40, 40);
+        
         setMenuIcon6();
         imageIcon6.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             setImagesIcons1(false);
@@ -523,9 +524,9 @@ public class MapController2 {
             popularityMenu.setVisible(false);
             event.consume();
         });
-
-        backMarket.addEventHandler(MouseEvent.MOUSE_CLICKED,event->addBackForMarket());
-
+        
+        backMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> addBackForMarket());
+        
         Button nextTurn = new Button("Next Turn");
         nextTurn.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
         nextTurn.setLayoutX(1460);
@@ -537,15 +538,14 @@ public class MapController2 {
             event.consume();
         });
         
+        setEuropeanUnitsSize();
         setArabianUnitsSize();
         setEngineerSize();
-        setAllMenusSize();
         setSizeUnits(monk, "monk", 750, 720);
-        setEuropeanUnitsSize();
+        
         addWeapons();
         makeHorse();
         addGranaryButton();
-        setArabianUnitsSize();
         
         if (!isTheFirstTime) {
             setArabianUnits(false);
@@ -566,6 +566,9 @@ public class MapController2 {
             setImagesIconMilitaryBuildings(false);
             setImagesIconGatehouse(false);
             popularityMenu.setVisible(false);
+            setSizeIcons(imageIcon6, 750, 825, 40, 40);
+            
+            setAllMenusSize();
             pane.getChildren().addAll(imageView, imageIcon1, imageIcon2, imageIcon3, imageIcon4, imageIcon5, imageIcon6
                     , barracks, mercenary, armoury, stairs, shortWall, highWall
                     , towers, militaryBuildings, gatehouse, back, smallGate, largeGate, cage, pit, engineerGuild, stable, oilSmelter
@@ -584,7 +587,7 @@ public class MapController2 {
                     , miniMapLabel, miniMapShowingLabel
                     , mainMarketMenu, foodMenu, sourcesMenu, weaponsMenu, totalMenu
                     , tradeFoodMenu, tradeResourcesMenu, tradeWeaponsMenu, allMarketMenu, sellBuyMenu
-                    , woodMenu, ironMenu, rockMenu,backMarket
+                    , woodMenu, ironMenu, rockMenu, backMarket
                     , meatMenu, cheeseMenu, appleMenu, hopMenu, bearMenu, wheatMenu, flowerMenu, breadMenu
                     , bowMarket, crossbowMarket, leatherMarket, metalMarket, maceMarket, pikeMarket, spearMarket, swordMarket);
             isTheFirstTime = true;
@@ -594,7 +597,7 @@ public class MapController2 {
         stage.show();
         return "success";
     }
-
+    
     private void addBackForMarket() {
         mainMarketMenu.setVisible(true);
         foodMenu.setVisible(true);
@@ -611,7 +614,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(false);
     }
-
+    
     private void setSizeMenuIcons(ImageView icon, int x, int y) {
         icon.setLayoutX(x);
         icon.setLayoutY(y);
@@ -735,7 +738,7 @@ public class MapController2 {
         totalMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterTotalMenu());
 //        sellBuyMenu.setVisible(true);
     }
-
+    
     private void enterTotalMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -752,7 +755,7 @@ public class MapController2 {
         addSourceToList(false);
         //TODO: HOORA: text for each in format "buy/sell" price
     }
-
+    
     private void enterWeaponsMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -769,7 +772,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(true);
     }
-
+    
     private void enterSourceMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -786,7 +789,7 @@ public class MapController2 {
         addSourceToList(true);
         addWeaponsToList(false);
     }
-
+    
     private void enterFoodMenu() {
         backMarket.setVisible(true);
         mainMarketMenu.setVisible(false);
@@ -803,7 +806,7 @@ public class MapController2 {
         addSourceToList(false);
         addWeaponsToList(false);
     }
-
+    
     private void addWeaponsToList(boolean check) {
         bowMarket.setVisible(check);
         crossbowMarket.setVisible(check);
@@ -814,13 +817,13 @@ public class MapController2 {
         swordMarket.setVisible(check);
         spearMarket.setVisible(check);
     }
-
+    
     private void addSourceToList(boolean check) {
         woodMenu.setVisible(check);
         rockMenu.setVisible(check);
         ironMenu.setVisible(check);
     }
-
+    
     private void addFoodsToList(boolean check) {
         meatMenu.setVisible(check);
         cheeseMenu.setVisible(check);
@@ -953,14 +956,14 @@ public class MapController2 {
         setSizeMenuIcons(woodMenu, 650, 760);
         setSizeMenuIcons(rockMenu, 700, 760);
         setSizeMenuIcons(ironMenu, 750, 760);
-        setSizeIcons(bowMarket, 500, 760,30,30);
-        setSizeIcons(crossbowMarket, 550, 760,30,30);
-        setSizeIcons(leatherMarket, 600, 760,30,30);
-        setSizeIcons(metalMarket, 650, 760,30,30);
-        setSizeIcons(maceMarket, 700, 760,30,30);
-        setSizeIcons(pikeMarket, 750, 760,30,30);
-        setSizeIcons(spearMarket, 800, 760,30,30);
-        setSizeIcons(swordMarket, 850, 760,30,30);
+        setSizeIcons(bowMarket, 500, 760, 30, 30);
+        setSizeIcons(crossbowMarket, 550, 760, 30, 30);
+        setSizeIcons(leatherMarket, 600, 760, 30, 30);
+        setSizeIcons(metalMarket, 650, 760, 30, 30);
+        setSizeIcons(maceMarket, 700, 760, 30, 30);
+        setSizeIcons(pikeMarket, 750, 760, 30, 30);
+        setSizeIcons(spearMarket, 800, 760, 30, 30);
+        setSizeIcons(swordMarket, 850, 760, 30, 30);
         setSizeIcons(backMarket, 500, 790, 35, 35);
         setSizeMenuIcons(pikeMenu, 750, 760);
         setSizeMenuIcons(spearMenu, 800, 760);
@@ -1029,7 +1032,7 @@ public class MapController2 {
         swordMarket.setVisible(false);
         spearMarket.setVisible(false);
         backMarket.setVisible(false);
-
+        
         pikeMenu.setVisible(false);
         spearMenu.setVisible(false);
         metalMenu.setVisible(false);
@@ -1047,8 +1050,6 @@ public class MapController2 {
         imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             double menuX = mouseEvent.getX();
             double menuY = mouseEvent.getY();
-            System.out.println(menuX);
-            System.out.println(menuY);
             if (menuX >= 1032 && menuX <= 1089 && menuY >= 86 && menuY <= 138) {
                 popularityMenu.setVisible(true);
                 back.setVisible(true);
@@ -1104,7 +1105,7 @@ public class MapController2 {
         squareTower.setVisible(check);
     }
     
-    private boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
+    public boolean isLocationAppropriateToShow(int x, int y, Map map, int edgeLength) {
         return x - 11 * 70 / edgeLength >= 0 && y - 7 * 50 / edgeLength >= 0 && x + 16 * 50 / edgeLength <= map.getWidth()
                 && y + 8 * 50 / edgeLength <= map.getLength();
     }
@@ -1273,36 +1274,37 @@ public class MapController2 {
     }
     
     private void setSizeUnits(ImageView unit, String name, int x, int y) {
+        hasGivenHandler.put(name, 0);
         unit.setLayoutX(x);
         unit.setLayoutY(y);
         unit.toFront();
         unit.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            Cell[][] cells = GameController.currentGame.getMap().getCells();
-            if (selectedBuilding != null) {
+            if (hasGivenHandler.get(name) == 0) {
+                Cell[][] cells = GameController.currentGame.getMap().getCells();
                 if (toCreateUnitImageView == null) {
                     String address = "/images/Units/" + name + ".png";
                     toCreateUnitImageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
-                    toCreateUnitImageView.toFront();
-                    pane.getChildren().add(toCreateUnitImageView);
                 }
                 String result = gameController.createUnitGraphics(name);
                 if (result.equals("Unit created successfully!")) {
-                    int x2 = (int) (selectedBuilding.getLocation().getX() - shownX + (float) 11 * 70 / edgeLength) * edgeLength
-                            + new Random().nextInt(3) - 1;
-                    int y2 = (int) (selectedBuilding.getLocation().getY() - shownY + (float) 5 * 70 / edgeLength) * edgeLength
-                            + new Random().nextInt(3) - 1;
-                    toCreateUnitImageView.setFitHeight(30);
-                    toCreateUnitImageView.setFitWidth(30);
+                    int x2 = (int) (selectedBuilding.getLocation().getX() - shownX + (float) 11 * 70 / edgeLength) * edgeLength;
+                    int y2 = (int) (selectedBuilding.getLocation().getY() - shownY + (float) 5 * 70 / edgeLength) * edgeLength;
+                    toCreateUnitImageView.setFitHeight(20);
+                    toCreateUnitImageView.setFitWidth(20);
                     toCreateUnitImageView.setLayoutX(x2);
                     toCreateUnitImageView.setLayoutY(y2);
                     gameController.dropUnit(x2 / edgeLength, y2 / edgeLength, cells[x2 / edgeLength][y2 / edgeLength]
                             , name, "1");
+                    toCreateUnitImageView.toFront();
+                    pane.getChildren().add(toCreateUnitImageView);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Create Unit Error");
                     alert.setContentText(result);
                     alert.show();
                 }
+                toCreateUnitImageView = null;
+                hasGivenHandler.put(name, 1);
             }
         });
     }
@@ -1347,44 +1349,36 @@ public class MapController2 {
 //        ImageView imageView = new ImageView();
 //        imageView.setFitHeight(30);
 //        imageView.setFitWidth(30);
-//        imageView.setX(i);
-//        imageView.setY(100*j);
+//        imageView.setX();
+//        imageView.setY();
 //        String address = "images/" + naturalBlock + ".jpg";
 //        imageView.setImage(new Image(Objects.requireNonNull(getClass().getResource(address)).toExternalForm()));
 //        pane.getChildren().add(imageView);
     }
     
     private void showPeople(Pane pane, Map map, int i, int j) {
-        Cell cell = map.getCells()[getXLocationByPixel(i)][getYLocationByPixel(j)];
+        Cell cell = map.getCells()[i][j];
         if (cell.getPeople().size() == 0) return;
         for (Person person : cell.getPeople()) {
             String imageAddress;
             if (person instanceof MilitaryPerson) {
-                System.out.println(person.getType());
-                System.out.println(((MilitaryPerson) person).getNationality());
-                imageAddress = "/images/Units/" + ((MilitaryPerson) person).getNationality() +
-                        "/" + person.getType() + ".png";
-                Label buildingLabel = new Label();
-                buildingLabel.setBackground(new Background(MainController.setFirstPageBackground(imageAddress)));
-                buildingLabel.setPrefHeight(edgeLength);
-                buildingLabel.setPrefWidth(edgeLength);
-                buildingLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
-                buildingLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
+                imageAddress = "/images/Units/" + person.getType() + ".png";
+                Label unitLabel = new Label();
+                unitLabel.setBackground(new Background(MainController.setFirstPageBackground(imageAddress)));
+                unitLabel.setPrefHeight(20);
+                unitLabel.setPrefWidth(20);
+                unitLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
+                unitLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
                 
-                String s = "King: " + person.getKing().getUsername() + "\nType: " + person.getType();
+                String s = "King: " + person.getKing().getUsername() + "\nType: " + person.getType()
+                        + "\nMode: " + ((MilitaryPerson) person).getMode();
+                
                 Tooltip tooltip = new Tooltip(s);
                 tooltip.setStyle("-fx-font-size: 15px;");
-                buildingLabel.setTooltip(tooltip);
+                unitLabel.setTooltip(tooltip);
                 
-                EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-                    selectedBuilding = map.getCells()[i][j].getBuilding();
-                    setBuildingMenu(pane);
-                };
-                
-                
-                buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
-                buildingLabel.toFront();
-                pane.getChildren().add(buildingLabel);
+                unitLabel.toFront();
+                pane.getChildren().add(unitLabel);
             } else {
                 //TODO: workers...
             }
@@ -1423,30 +1417,32 @@ public class MapController2 {
             tooltipText.append(naturalBlock.getName()).append(", ");
         }
         if (cell.getNaturalBlocks().size() != 0) tooltipText.append("\n");
+        tooltipText.append(unitsInformation(cell));
         tooltip.setText(tooltipText.toString());
         tooltip.setStyle("-fx-font-size: 15px;");
         tooltip.setShowDelay(new Duration(500));
-
-//        if (cell.getPeople().size() != 0) tooltipText.append("People: ");
-//        for (Person person : cell.getPeople()) {
-//            tooltipText.append(person.getType()).append(", ");
-//        }
-//        if (cell.getPeople().size() != 0) tooltipText.append("\n");
-        
         return tooltip;
     }
     
     private String unitsInformation(Cell cell) {
-        String result = "";
-//        LinkedHashMap<Person, Integer> people = new LinkedHashMap<>();
-//        if (cell.getPeople().size() != 0) result += "People:\n";
-//        for (Person person : cell.getPeople()) {
-//            people.put(person, 0);
-//        }
-//
-//        for (int i = 0; i < )
-//        //TODO
-        return result;
+        StringBuilder result = new StringBuilder();
+        HashMap<String, Integer> numberOfPeople = new HashMap<>();
+        if (cell.getPeople().size() != 0) result.append("People:\n");
+        for (Person person : cell.getPeople()) {
+            numberOfPeople.put(person.getType(), 0);
+        }
+        for (Person person : cell.getPeople()) {
+            numberOfPeople.put(person.getType(), numberOfPeople.get(person.getType()) + 1);
+        }
+        for (java.util.Map.Entry<String, Integer> entry : numberOfPeople.entrySet()) {
+            MilitaryPerson unit = FileController.getMilitaryPersonByType(entry.getKey());
+            assert unit != null;
+            result.append(entry.getKey()).append(": ").append(entry.getValue()).append(", Speed: ").append(unit.getSpeed())
+                    .append(", Fire power: ").append(unit.getFirePower()).append(", Defend power: ").append(unit.getDefendPower())
+                    .append(", Mode: ").append(unit.getMode()).append(", Moving range: ").append(unit.getMovingRange())
+                    .append(", Shooting range: ").append(unit.getShootingRange()).append("\n");
+        }
+        return result.toString();
     }
     
     private void showBuilding(Pane pane, int i, int j, Building building) {
@@ -1459,13 +1455,14 @@ public class MapController2 {
         
         Label buildingLabel = new Label();
         buildingLabel.setBackground(new Background(MainController.setFirstPageBackground(imageAddress)));
-        buildingLabel.setPrefHeight(edgeLength);
-        buildingLabel.setPrefWidth(edgeLength);
+        buildingLabel.setPrefHeight(edgeLength - 5);
+        buildingLabel.setPrefWidth(edgeLength - 5);
         buildingLabel.setLayoutX((int) (i - shownX + (float) 11 * 70 / edgeLength) * edgeLength);
         buildingLabel.setLayoutY((int) (j - shownY + (float) 5 * 70 / edgeLength) * edgeLength);
         
-        String s = "King: " + building.getKing().getUsername() + "\nType: " + building.getType() + "\nCategory: " + building.getCategory()
-                + "\nHitPoint: " + building.getHitPoint() + "\nNumber of workers: " + building.getWorkerCounter();
+        String s = "King: " + building.getKing().getUsername() + "\nType: " + building.getType()
+                + "\nCategory: " + building.getCategory() + "\nHitPoint: " + building.getHitPoint()
+                + "\nNumber of workers: " + building.getWorkerCounter();
         Tooltip tooltip = new Tooltip(s);
         tooltip.setStyle("-fx-font-size: 15px;");
         buildingLabel.setTooltip(tooltip);
@@ -1473,11 +1470,6 @@ public class MapController2 {
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             selectedBuilding = map.getCells()[i][j].getBuilding();
             setBuildingMenu(pane);
-        };
-        
-        EventHandler<MouseEvent> hoverBuildingEventHandler = mouseEvent -> {
-//            System.out.println("yes");
-            //TODO
         };
         
         buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
