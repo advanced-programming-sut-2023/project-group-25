@@ -18,6 +18,25 @@ import java.util.ResourceBundle;
 public class ShopMenuGraphics extends Application implements Initializable {
 
     public Button back;
+    public Button meat;
+    public Button bread;
+    public Button cheese;
+    public Button apple;
+    public Button wheat;
+    public Button flour;
+    public Button wood;
+    public Button stone;
+    public Button iron;
+    public Button spear;
+    public Button bow;
+    public Button mace;
+    public Button crossbow;
+    public Button pike;
+    public Button sword;
+    public Button leatherArmor;
+    public Button ale;
+    public Button hop;
+    public Button metalArmor;
 
     public static void main(String[] args) throws Exception {
         launch();
