@@ -5,6 +5,7 @@ import Model.*;
 import View.FirstPage;
 import View.GameGraphics;
 import View.MainMenuGraphics;
+import View.ShopMenuGraphics;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -776,7 +777,7 @@ public class MapController2 {
         fifth.setVisible(check);
     }
 
-    private void setBuildingMenu(Pane pane) {
+    private void setBuildingMenu(Pane pane) throws Exception {
         ImageView towerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/towerMenu.png"))));
         ImageView gatehouseMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/gatehouseMenu.png"))));
         setSizeMenuIcons(towerMenu, 0, 670);
@@ -854,18 +855,19 @@ public class MapController2 {
         });
     }
 
-    private void setMarketMenu() {
+    private void setMarketMenu() throws Exception {
         //TODO: shop HOORA
-        mainMarketMenu.setVisible(true);
-        foodMenu.setVisible(true);
-        sourcesMenu.setVisible(true);
-        weaponsMenu.setVisible(true);
-        totalMenu.setVisible(true);
-        foodMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterFoodMenu());
-        sourcesMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterSourceMenu());
-        weaponsMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterWeaponsMenu());
-        totalMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterTotalMenu());
-//        sellBuyMenu.setVisible(true);
+//        mainMarketMenu.setVisible(true);
+//        foodMenu.setVisible(true);
+//        sourcesMenu.setVisible(true);
+//        weaponsMenu.setVisible(true);
+//        totalMenu.setVisible(true);
+//        foodMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterFoodMenu());
+//        sourcesMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterSourceMenu());
+//        weaponsMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterWeaponsMenu());
+//        totalMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> enterTotalMenu());
+////        sellBuyMenu.setVisible(true);
+        new ShopMenuGraphics().start(FirstPage.stage);
     }
 
     private void enterTotalMenu() {
@@ -1764,7 +1766,11 @@ public class MapController2 {
 
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
             selectedBuilding = map.getCells()[i][j].getBuilding();
-            setBuildingMenu(pane);
+            try {
+                setBuildingMenu(pane);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         };
         buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);
         buildingLabel.toFront();
