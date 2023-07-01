@@ -32,8 +32,10 @@ import static Controller.MapController2.clickedBuildingToDrop;
 public class GameGraphics extends Application {
     public static ImageView toBeDroppedBuildingImageView = null;
     public static ImageView toCreateUnitImageView = null;
+    public static ImageView lastBuildingImage;
     public static Building selectedBuilding = null;
     public static Cell selectedCell = null;
+    public static Building lastBuildingDropped;
     public static ArrayList<MilitaryPerson> selectedUnits = new ArrayList<>();
     private final GameController gameController;
     private Clipboard clipboard;
@@ -266,6 +268,8 @@ public class GameGraphics extends Application {
     private void buildBuildingAndShowMessage(Pane gamePane, String address, Cell cell, String type) {
         String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, type);
         if (Pattern.compile("success").matcher(result).find()) {
+            lastBuildingDropped=gameController.lastBuilding;
+            lastBuildingImage=new ImageView(new Image(String.valueOf(getClass().getResource(address))));
             ImageView droppedBuildingImageView = new ImageView
                     (new Image(String.valueOf(getClass().getResource(address))));
             droppedBuildingImageView.setFitHeight(edgeLength);
