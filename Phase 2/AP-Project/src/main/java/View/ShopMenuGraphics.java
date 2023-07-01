@@ -33,12 +33,12 @@ public class ShopMenuGraphics extends Application implements Initializable {
             stage.setScene(scene);
             stage.setFullScreen(true);
             stage.show();
-            back.setText("\n\nBack");
     }
 
     
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        back.setText("\n\nBack");
     }
 
     public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
