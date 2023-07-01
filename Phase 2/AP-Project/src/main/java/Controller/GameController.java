@@ -14,12 +14,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static Controller.ChangeMenuController.mapController;
 import static Controller.RegisterLoginController.getCurrentUser;
 
 public class GameController {
     public static Game currentGame;
-    private final int mapLength = 80;
-    private final int mapWidth = 80;
     public static Building lastBuilding;
     public String[] legalColors = {"yellow", "purple", "pink", "orange", "white", "black", "cyan", "red"};
     public ArrayList<NaturalBlock> tree = new ArrayList<>();
@@ -31,8 +30,7 @@ public class GameController {
     private int shownMapX;
     private int shownMapY;
     private Building selectedBuilding;
-
-
+    
     private static String checkTheNeededProducts(ArrayList<Product> product1, Kingdom currentKingdom) {
         for (Product neededProduct : product1) {
             boolean weHaveIt = false;
@@ -543,14 +541,14 @@ public class GameController {
     public String moveUnitGraphics(MilitaryPerson unit, Cell home, Cell destination, Scene scene, Stage stage, Map map
             , double shownX, double shownY, Pane pane, int edgeLength) {
         List<Cell> pathCells = PathFinder.findPath(home, destination, currentGame.getMap());
-        if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(unit.getLocation()))) {
-            return "The path is blocked!";
-        }
+        if (pathCells.size() == 0 || (pathCells.size() == 1 && pathCells.get(0).equals(unit.getLocation()))) return "The path is blocked!";
+        
         for (Cell cell : pathCells) {
             MovingUnitAnimation movingUnitAnimation = new MovingUnitAnimation(unit, cell, scene, stage, map, shownX
                     , shownY, pane, edgeLength);
             movingUnitAnimation.play();
         }
+        new MapController2().loadMapToShow(scene, stage, pane, map, (int) shownX, (int) shownY, edgeLength);
         return "Unit has been moved successfully!";
     }
 
@@ -1526,6 +1524,8 @@ public class GameController {
         kingdoms = createKingdomsInitially(kingdoms, usernames, gameId);
         Game game = new Game(gameId, kingdoms);
         currentGame = game;
+        int mapLength = 80;
+        int mapWidth = 80;
         MapController2.initializeMapTemplate(mapLength, mapWidth);
         game.setMap(Map.getTemplateMaps()[1]);
         game.setMapTemplateNumber(1);

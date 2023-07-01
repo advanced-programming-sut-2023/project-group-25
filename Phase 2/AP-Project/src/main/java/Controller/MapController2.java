@@ -19,14 +19,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-=======
 import java.util.*;
->>>>>>> 58f1ce67201d1fc176b1df59d90b4a97500cf7ac
 
 import static Controller.MapController.*;
 import static View.GameGraphics.selectedBuilding;
