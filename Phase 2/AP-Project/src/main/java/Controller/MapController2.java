@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Cell;
 import Model.*;
-import Model.Map;
 import View.FirstPage;
 import View.GameGraphics;
 import View.MainMenuGraphics;
@@ -20,15 +19,13 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.*;
 
 import static Controller.MapController.*;
 import static View.GameGraphics.selectedBuilding;
 import static View.GameGraphics.toCreateUnitImageView;
-import static java.util.Map.entry;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
@@ -115,7 +112,6 @@ public class MapController2 {
     private final ImageView armorerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/armorer.png"))));
     private final ImageView blacksmithMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/blacksmith.png"))));
     private final ImageView poleturnerMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/poleturner.png"))));
-
     private final ImageView mainMarketMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/market.png"))));
     private final ImageView backMarket = new ImageView(new Image(String.valueOf(getClass().getResource("/images/back.png"))));
     private final ImageView foodMenu = new ImageView(new Image(String.valueOf(getClass().getResource("/images/Menu/market/food.png"))));
