@@ -224,3 +224,14 @@
     -fx-pref-height: 250px;
     -fx-pref-width: 550px;
 }
+
+.shopIcon {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+}
+
+
+.shopIcon:hover {
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+}
