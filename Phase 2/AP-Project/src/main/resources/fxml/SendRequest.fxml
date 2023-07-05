@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.SendRequest">
+    <Button fx:id="back" style="-fx-translate-y: -450px; -fx-translate-x: -250px" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <VBox visible="false" fx:id="board" style="-fx-padding: 20px; -fx-spacing: 10px;
+    -fx-font-weight: bold; -fx-text-fill: #fff; -fx-font-size: 20px; -fx-font-family: 'Arial Narrow';" alignment="CENTER">
+        <Label fx:id="img" style="-fx-pref-width: 50px; -fx-pref-height: 50px"/>
+        <ComboBox fx:id="usernames" style="-fx-max-width: 300px"/>
+        <TextField promptText="amount" fx:id="amount" style="-fx-pref-height: 50px; -fx-max-width: 300px"/>
+        <TextField promptText="message" fx:id="message" style="-fx-pref-height: 200px; -fx-max-width: 300px"/>
+        <Button text="donate" onMouseClicked="#donate" styleClass="shopBtn"/>
+        <Button text="request" onMouseClicked="#request" styleClass="shopBtn"/>
+    </VBox>
+    <HBox style="-fx-translate-x: -50px; -fx-translate-y: 570px; -fx-spacing: 5px">
+        <Button styleClass="shopIcon" onMouseClicked="#meat" fx:id="meat"/>
+        <Button styleClass="shopIcon" onMouseClicked="#bread"  fx:id="bread"/>
+        <Button styleClass="shopIcon" onMouseClicked="#cheese" fx:id="cheese"/>
+        <Button styleClass="shopIcon" onMouseClicked="#apple" fx:id="apple"/>
+        <Button styleClass="shopIcon" onMouseClicked="#wheat" fx:id="wheat"/>
+        <Button styleClass="shopIcon" onMouseClicked="#flour" fx:id="flour"/>
+        <Button styleClass="shopIcon" onMouseClicked="#wood" fx:id="wood"/>
+        <Button styleClass="shopIcon" onMouseClicked="#stone" fx:id="stone"/>
+        <Button styleClass="shopIcon" onMouseClicked="#iron" fx:id="iron"/>
+        <Button styleClass="shopIcon" onMouseClicked="#spear" fx:id="spear"/>
+        <Button styleClass="shopIcon" onMouseClicked="#bow" fx:id="bow"/>
+        <Button styleClass="shopIcon" onMouseClicked="#mace" fx:id="mace"/>
+        <Button styleClass="shopIcon" onMouseClicked="#crossbow" fx:id="crossbow"/>
+        <Button styleClass="shopIcon" onMouseClicked="#pike" fx:id="pike"/>
+        <Button styleClass="shopIcon" onMouseClicked="#sword" fx:id="sword"/>
+        <Button styleClass="shopIcon" onMouseClicked="#leatherArmor" fx:id="leatherArmor"/>
+        <Button styleClass="shopIcon" onMouseClicked="#metalArmor" fx:id="metalArmor"/>
+        <Button styleClass="shopIcon" onMouseClicked="#ale" fx:id="ale"/>
+        <Button styleClass="shopIcon" onMouseClicked="#hop" fx:id="hop"/>
+    </HBox>
+</GridPane>

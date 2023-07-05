@@ -39,19 +39,26 @@ public class TradeController {
         return "success";
     }
 
-    public String showAllTrades() {
-        String resultMessage = "";
+    public static String createTradeRequest2(int amount, String msg, String name, int price, String receiverUsername) throws NoSuchAlgorithmException {
+        Trade trade = new Trade(gameController.getCurrentGame().turn.getCurrentKing().getUsername(), receiverUsername,
+                FileController.generateTradeId(),"request", name, amount, price,msg);
+        FileController.addTradeToFile(trade, gameController.getCurrentGame());
+        return "success";
+    }
+
+    public ArrayList<String> showAllTrades() {
+        ArrayList resultMessage = new ArrayList<>();
         ArrayList<Trade> allTrades = FileController.getAllTradesByKing(gameController.getCurrentGame().turn.getCurrentKing().getUsername(),
                 gameController.getCurrentGame());
         for (int i = 0; i < allTrades.size(); i++) {
-            resultMessage += ("Trade Type: <<" + allTrades.get(i).getTradeType() + ">>\n");
-            resultMessage += ("Trade ID: " + allTrades.get(i).getId() + "\n");
-            resultMessage += ("Sender Username: " + allTrades.get(i).getSenderUsername() + "\n");
-            resultMessage += ("Resource Type: " + allTrades.get(i).getResourceType() + "\n");
-            resultMessage += ("Resource Amount: " + allTrades.get(i).getResourceAmount() + "\n");
-            resultMessage += ("Resource Price: " + allTrades.get(i).getPrice() + "\n");
-            resultMessage += ("Message: " + allTrades.get(i).getMessage() + "\n");
-            resultMessage += ("___________________________________________\n");
+            resultMessage.add("Trade Type: <<" + allTrades.get(i).getTradeType() + ">>\n");
+            resultMessage.add("Trade ID: " + allTrades.get(i).getId() + "\n");
+            resultMessage.add("Sender Username: " + allTrades.get(i).getSenderUsername() + "\n");
+            resultMessage.add("Resource Type: " + allTrades.get(i).getResourceType() + "\n");
+            resultMessage.add("Resource Amount: " + allTrades.get(i).getResourceAmount() + "\n");
+            resultMessage.add("Resource Price: " + allTrades.get(i).getPrice() + "\n");
+            resultMessage.add("Message: " + allTrades.get(i).getMessage() + "\n");
+            resultMessage.add("___________________________________________\n");
         }
         return resultMessage;
     }

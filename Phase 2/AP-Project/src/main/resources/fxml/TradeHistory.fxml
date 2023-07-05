@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.TradeHistory">
+    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <VBox style="-fx-padding: 350px; -fx-translate-x: -200px; -fx-translate-y: -300px">
+        <ListView fx:id="list"/>
+    </VBox>
+</GridPane>

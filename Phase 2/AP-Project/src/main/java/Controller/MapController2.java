@@ -2,10 +2,7 @@ package Controller;
 
 import Model.Cell;
 import Model.*;
-import View.FirstPage;
-import View.GameGraphics;
-import View.MainMenuGraphics;
-import View.ShopMenuGraphics;
+import View.*;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -574,11 +571,24 @@ public class MapController2 {
         nextTurn.setLayoutY(701);
         nextTurn.toFront();
         pane.getChildren().add(nextTurn);
+        Button tradeMenu = new Button("Trade Menu");
+        tradeMenu.setStyle("-fx-background-color:#FC9303;-fx-text-fill: black;-fx-border-color: black;");
+        tradeMenu.setLayoutX(1370);
+        tradeMenu.setLayoutY(701);
+        tradeMenu.toFront();
+        pane.getChildren().add(tradeMenu);
         nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             gameController.nextTurn();
             event.consume();
         });
-        
+        tradeMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                new TradeMenuGraphics().start(FirstPage.stage);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            event.consume();
+        });
         setEuropeanUnitsSize();
         setArabianUnitsSize();
         setEngineerSize();
