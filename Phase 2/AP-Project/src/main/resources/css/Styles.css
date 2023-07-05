@@ -235,3 +235,12 @@
     -fx-pref-width: 50px;
     -fx-pref-height: 50px;
 }
+
+.shopBtn {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 50px;
+    -fx-background-color: #483c2e;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-family: "Arial Narrow";
+}

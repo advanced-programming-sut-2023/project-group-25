@@ -9,29 +9,24 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ComboBox?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="750" prefWidth="1200"
           stylesheets="@../css/Styles.css"
           alignment="CENTER"
-          fx:controller="View.ShopMenuGraphics">
-    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
-    <VBox style="-fx-padding: 350px; -fx-translate-x: -200px; -fx-translate-y: -300px">
-        <ListView fx:id="list" style="-fx-pref-width: 250px; -fx-pref-height: 300px; -fx-translate-x: -400px"/>
-    </VBox>
+          fx:controller="View.SendRequest">
+    <Button fx:id="back" style="-fx-translate-y: -450px; -fx-translate-x: -250px" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
     <VBox visible="false" fx:id="board" style="-fx-padding: 20px; -fx-spacing: 10px;
     -fx-font-weight: bold; -fx-text-fill: #fff; -fx-font-size: 20px; -fx-font-family: 'Arial Narrow';" alignment="CENTER">
-        <HBox alignment="CENTER_LEFT">
-            <Label fx:id="inventory" text="INVENTORY: " style="-fx-text-fill: #000000"/>
-            <Label fx:id="img" style="-fx-pref-height: 50px; -fx-pref-width: 50px;"/>
-        </HBox>
-        <HBox alignment="CENTER" style="-fx-spacing: 10px;">
-            <TextField promptText="amount" fx:id="amount" style="-fx-pref-height: 50px; -fx-pref-width: 300px"/>
-            <Button styleClass="shopBtn" onMouseClicked="#sell" text="sell"/>
-            <Button styleClass="shopBtn" onMouseClicked="#buy" text="buy"/>
-        </HBox>
+        <Label fx:id="img" style="-fx-pref-width: 50px; -fx-pref-height: 50px"/>
+        <ComboBox fx:id="usernames" style="-fx-max-width: 300px"/>
+        <TextField promptText="amount" fx:id="amount" style="-fx-pref-height: 50px; -fx-max-width: 300px"/>
+        <TextField promptText="message" fx:id="message" style="-fx-pref-height: 200px; -fx-max-width: 300px"/>
+        <Button text="donate" onMouseClicked="#donate" styleClass="shopBtn"/>
+        <Button text="request" onMouseClicked="#request" styleClass="shopBtn"/>
     </VBox>
-    <HBox style="-fx-translate-x: -50px; -fx-translate-y: 750px; -fx-spacing: 5px">
+    <HBox style="-fx-translate-x: -50px; -fx-translate-y: 570px; -fx-spacing: 5px">
         <Button styleClass="shopIcon" onMouseClicked="#meat" fx:id="meat"/>
         <Button styleClass="shopIcon" onMouseClicked="#bread"  fx:id="bread"/>
         <Button styleClass="shopIcon" onMouseClicked="#cheese" fx:id="cheese"/>

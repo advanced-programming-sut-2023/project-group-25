@@ -3,8 +3,10 @@ package View;
 import Controller.FileController;
 import Controller.GameController;
 import Controller.MainController;
-import Controller.RegisterLoginController;
+import Controller.TradeController;
+import Model.Kingdom;
 import Model.Product;
+import Model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,12 +19,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class ShopMenuGraphics extends Application implements Initializable {
+public class SendRequest extends Application implements Initializable {
 
     public Button back;
     public Button meat;
@@ -46,9 +48,9 @@ public class ShopMenuGraphics extends Application implements Initializable {
     public Button metalArmor;
     public VBox board;
     public Label img;
-    public Label inventory;
-    public ListView list;
     public TextField amount;
+    public ComboBox usernames;
+    public TextField message;
     Product product;
     Background apple1 = new Background(MainController.setFirstPageBackground("/images/Shop/apple.png"));
     Background bear1 = new Background(MainController.setFirstPageBackground("/images/Shop/bear.png"));
@@ -76,7 +78,7 @@ public class ShopMenuGraphics extends Application implements Initializable {
     @Override
     public void start(Stage stage) throws Exception {
 
-        GridPane firstPage = FXMLLoader.load(new URL(ShopMenuGraphics.class.getResource("/fxml/ShopMenu.fxml").toExternalForm()));
+        GridPane firstPage = FXMLLoader.load(new URL(ShopMenuGraphics.class.getResource("/fxml/SendRequest.fxml").toExternalForm()));
         Background background = new Background(MainController.setFirstPageBackground("/images/shopMenu.png"));
         firstPage.setBackground(background);
         Scene scene = new Scene(firstPage);
@@ -108,13 +110,21 @@ public class ShopMenuGraphics extends Application implements Initializable {
         ale.setBackground(bear1);
         hop.setBackground(hop1);
         metalArmor.setBackground(metalarmour1);
+        initializeUsers();
         Tooltips();
-        inventory.setText("INVENTORY: " + GameController.currentGame.getKingdomByKing(GameController.currentGame.turn.getCurrentKing().getUsername()).getInventory());
-        updateList();
+    }
+
+    public void initializeUsers() {
+        ArrayList<Kingdom> users = GameController.currentGame.getKingdoms();
+        for(int i=0; i<users.size();i++) {
+            if(!users.get(i).getKing().getUsername().equals(GameController.currentGame.turn.getCurrentKing().getUsername())) {
+                usernames.getItems().add(users.get(i).getKing().getUsername());
+            }
+        }
     }
 
     public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
-        new GameGraphics(FirstPage.changeMenuController).start(FirstPage.stage);
+        new TradeMenuGraphics().start(FirstPage.stage);
     }
 
     public void Tooltips() {
@@ -165,41 +175,6 @@ public class ShopMenuGraphics extends Application implements Initializable {
         img.setBackground(meat1);
     }
 
-    public void updateList() {
-        list.getItems().removeAll(list.getItems());
-        ArrayList<String> result = GameController.showProductCount();
-        for (int i = 0; i < result.size(); i++) {
-             list.getItems().add(result.get(i));
-        }
-    }
-
-    public void sell(MouseEvent mouseEvent) {
-        if(amount.getText().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("Sell Failed");
-            alert.setContentText("empty amount!");
-            alert.showAndWait();
-        } else {
-            String result = GameController.sellToShop2(product,Integer.parseInt(amount.getText()));
-            if(result.equals("success")) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("SUCCESS");
-                alert.setHeaderText("Sell succeeded");
-                alert.setContentText("product sold!");
-                alert.showAndWait();
-                inventory.setText("INVENTORY: " + GameController.currentGame.getKingdomByKing(GameController.currentGame.turn.getCurrentKing().getUsername()).getInventory());
-                updateList();
-
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText("Sell Failed");
-                alert.setContentText(result);
-                alert.showAndWait();
-            }
-        }
-    }
 
     public void stone(MouseEvent mouseEvent) {
         product = FileController.getProductByName("stone");
@@ -222,8 +197,6 @@ public class ShopMenuGraphics extends Application implements Initializable {
                 alert.setHeaderText("Buy succeeded");
                 alert.setContentText("product bought!");
                 alert.showAndWait();
-                inventory.setText("INVENTORY: " + GameController.currentGame.getKingdomByKing(GameController.currentGame.turn.getCurrentKing().getUsername()).getInventory());
-                updateList();
 
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -335,5 +308,50 @@ public class ShopMenuGraphics extends Application implements Initializable {
         product = FileController.getProductByName("hop");
         board.setVisible(true);
         img.setBackground(hop1);
+    }
+
+    public void donate(MouseEvent mouseEvent) throws Exception {
+        if(message.getText().equals("") || usernames.getSelectionModel().getSelectedItem() == null || amount.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Request Failed");
+            alert.setContentText("Please fill the trade form properly!");
+            alert.showAndWait();
+        } else {
+            TradeController.createTradeRequest2(Integer.parseInt(amount.getText()),message.getText(),product.getName(),0,
+                    usernames.getSelectionModel().getSelectedItem().toString());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText("Request Sent");
+            alert.setContentText("Trade sent successfully!");
+            alert.showAndWait();
+            new TradeMenuGraphics().start(FirstPage.stage);
+        }
+    }
+
+    public void request(MouseEvent mouseEvent) throws Exception {
+        if(message.getText().equals("") || usernames.getSelectionModel().getSelectedItem() == null || amount.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Request Failed");
+            alert.setContentText("Please fill the trade form properly!");
+            alert.showAndWait();
+        } else if (GameController.currentGame.getKingdomByKing(GameController.currentGame.turn.getCurrentKing().getUsername()).getInventory()
+            < Integer.parseInt(amount.getText()) * product.getCost()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Request Failed");
+            alert.setContentText("You don't have enough money!");
+            alert.showAndWait();
+        } else {
+            TradeController.createTradeRequest2(Integer.parseInt(amount.getText()),message.getText(),product.getName(),product.getCost(),
+                    usernames.getSelectionModel().getSelectedItem().toString());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("SUCCESS");
+            alert.setHeaderText("Request Sent");
+            alert.setContentText("Trade sent successfully!");
+            alert.showAndWait();
+            new TradeMenuGraphics().start(FirstPage.stage);
+        }
     }
 }

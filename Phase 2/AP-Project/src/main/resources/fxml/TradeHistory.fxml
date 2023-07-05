@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.TradeHistory">
+    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <VBox style="-fx-pref-width: 400px; -fx-pref-height: 400px; -fx-spacing: 10px" alignment="CENTER">
+        <ListView fx:id="list"
+                  style="-fx-font-size: 20px; -fx-font-family: 'Arial Narrow'; -fx-text-alignment: center;"/>
+        <Button styleClass="shopBtn" text="king as sender" onMouseClicked="#all"/>
+        <Button styleClass="shopBtn" text="king as receiver" onMouseClicked="#receiver"/>
+        <HBox>
+            <TextField fx:id="id" promptText="id" style="-fx-pref-width: 150px; -fx-pref-height: 100px"/>
+            <TextField fx:id="msg" promptText="message" style="-fx-pref-width: 250px; -fx-pref-height: 100px"/>
+        </HBox>
+        <Button styleClass="shopBtn" text="accept" onMouseClicked="#accept"/>
+    </VBox>
+
+</GridPane>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ListView?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="750" prefWidth="1200"
+          stylesheets="@../css/Styles.css"
+          alignment="CENTER"
+          fx:controller="View.TradeMenuGraphics">
+    <Button fx:id="back" style="-fx-translate-y: -450px; -fx-translate-x: -250px" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <HBox alignment="CENTER" style="-fx-spacing: 10px;">
+        <Button styleClass="shopBtn" text="send request" onMouseClicked="#request"/>
+        <Button styleClass="shopBtn" text="trade history" onMouseClicked="#history"/>
+    </HBox>
+    <HBox style="-fx-translate-x: -50px; -fx-translate-y: 750px; -fx-spacing: 5px">
+        <Button styleClass="shopIcon" fx:id="meat"/>
+        <Button styleClass="shopIcon" fx:id="bread"/>
+        <Button styleClass="shopIcon" fx:id="cheese"/>
+        <Button styleClass="shopIcon" fx:id="apple"/>
+        <Button styleClass="shopIcon" fx:id="wheat"/>
+        <Button styleClass="shopIcon" fx:id="flour"/>
+        <Button styleClass="shopIcon" fx:id="wood"/>
+        <Button styleClass="shopIcon" fx:id="stone"/>
+        <Button styleClass="shopIcon" fx:id="iron"/>
+        <Button styleClass="shopIcon" fx:id="spear"/>
+        <Button styleClass="shopIcon" fx:id="bow"/>
+        <Button styleClass="shopIcon" fx:id="mace"/>
+        <Button styleClass="shopIcon" fx:id="crossbow"/>
+        <Button styleClass="shopIcon" fx:id="pike"/>
+        <Button styleClass="shopIcon" fx:id="sword"/>
+        <Button styleClass="shopIcon" fx:id="leatherArmor"/>
+        <Button styleClass="shopIcon" fx:id="metalArmor"/>
+        <Button styleClass="shopIcon" fx:id="ale"/>
+        <Button styleClass="shopIcon" fx:id="hop"/>
+    </HBox>
+</GridPane>
