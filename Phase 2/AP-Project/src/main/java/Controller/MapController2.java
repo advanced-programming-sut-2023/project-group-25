@@ -25,8 +25,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static Controller.MapController.*;
-import static View.GameGraphics.selectedBuilding;
-import static View.GameGraphics.toCreateUnitImageView;
+import static View.GameGraphics.*;
 
 public class MapController2 {
     public static String clickedBuildingToDrop = null;
@@ -406,7 +405,7 @@ public class MapController2 {
         setSizeMenuIcons(undo, 1375, 830);
         stop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> stopHandler());
         briefing.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> briefingHandler());
-        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> deleteHandler(event));
+        delete.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> hasDelete = true);
         undo.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> undoHandler());
         setTextForPopularity();
         
@@ -635,7 +634,6 @@ public class MapController2 {
             isTheFirstTime = true;
         }
         
-        
         stage.show();
         return "success";
     }
@@ -653,15 +651,6 @@ public class MapController2 {
         population.setLayoutX(1050);
         population.setLayoutY(810);
         pane.getChildren().addAll(coins, population, popularity);
-    }
-    
-    private void deleteHandler(MouseEvent event) {
-//        if ()
-//        int cellX = getXLocationByPixel(event.getX() / edgeLength);
-//        int cellY = getYLocationByPixel(event.getY() / edgeLength);
-//        Cell cell = gameController.getCurrentGame().getMap().getCells()[cellX / edgeLength][cellY / edgeLength];
-//        cell.setBuilding(null);
-//        pane.getChildren().remove(GameGraphics.lastBuildingImage);
     }
     
     private void undoHandler() {
@@ -1671,11 +1660,11 @@ public class MapController2 {
                 unitLabel.toFront();
                 pane.getChildren().add(unitLabel);
                 
-                unitLabel.setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.isSecondaryButtonDown()) {
-                    
-                    }
-                });
+//                unitLabel.setOnMouseClicked(mouseEvent -> {
+//                    if (mouseEvent.isSecondaryButtonDown()) {
+//
+//                    }
+//                });
             }
         }
     }
@@ -1769,11 +1758,18 @@ public class MapController2 {
         buildingLabel.setTooltip(tooltip);
         
         EventHandler<MouseEvent> selectBuildingEventHandler = mouseEvent -> {
-            selectedBuilding = map.getCells()[i][j].getBuilding();
-            try {
-                setBuildingMenu(pane);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            if(hasDelete && building.getKing().getUsername().equals(gameController.getCurrentGame().turn.getCurrentKing().getUsername())) {
+                pane.getChildren().remove(buildingLabel);
+                building.getLocation().setBuilding(null);
+                loadMapToShow(scene, stage, pane, map, shownX, shownY, edgeLength);
+                hasDelete = false;
+            } else {
+                selectedBuilding = map.getCells()[i][j].getBuilding();
+                try {
+                    setBuildingMenu(pane);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         };
         buildingLabel.addEventFilter(MouseEvent.MOUSE_CLICKED, selectBuildingEventHandler);

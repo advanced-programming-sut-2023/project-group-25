@@ -64,11 +64,15 @@ public class MovingUnitAnimation extends Transition {
         if (person.getLocation().getY() == destination.getY() && person.getLocation().getX() != destination.getX())
             signDy = 0;
         else if ((signDx == 0 && signDy == 0) || (person.getLocation().getX() == destination.getX()
-                || person.getLocation().getY() == destination.getY())) this.stop();
-        Cell cell = map.getCells()[person.getLocation().getX() + signDx][person.getLocation().getY() + signDy];
-        person.getLocation().removePerson(person);
-        person.setLocation(cell);
-        cell.addPerson(person);
+                || person.getLocation().getY() == destination.getY())) {
+            Cell cell = map.getCells()[person.getLocation().getX() + signDx][person.getLocation().getY() + signDy];
+            person.getLocation().removePerson(person);
+            person.setLocation(cell);
+            cell.addPerson(person);
+            pane.getChildren().remove(imageView);
+            mapController.loadMapToShow(scene, stage, pane, map, (int) shownX, (int) shownY, edgeLength);
+            this.stop();
+        }
         if (person.getLocation().getX() == destination.getX() && person.getLocation().getY() != destination.getY())
             signDx = 0;
         if (person.getLocation().getY() == destination.getY() && person.getLocation().getX() != destination.getX())
@@ -84,7 +88,7 @@ public class MovingUnitAnimation extends Transition {
                 && (int) imageView.getLayoutX() / edgeLength != destination.getX()) signDy = 0;
         else if ((signDx == 0 && signDy == 0) || ((int) imageView.getLayoutX() / edgeLength == destination.getX()
                 || (int) imageView.getLayoutY() / edgeLength == destination.getY())) {
-            cell = map.getCells()[(int) imageView.getLayoutX() / edgeLength][(int) imageView.getLayoutY() / edgeLength];
+            Cell cell = map.getCells()[(int) imageView.getLayoutX() / edgeLength][(int) imageView.getLayoutY() / edgeLength];
             person.getLocation().removePerson(person);
             person.setLocation(cell);
             cell.addPerson(person);

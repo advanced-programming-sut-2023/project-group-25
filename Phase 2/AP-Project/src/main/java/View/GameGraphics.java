@@ -21,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -42,6 +43,7 @@ public class GameGraphics extends Application {
     public static Cell selectedCell = null;
     public static Building lastBuildingDropped;
     public static ArrayList<MilitaryPerson> selectedUnits = new ArrayList<>();
+    public static boolean hasDelete = false;
     private final GameController gameController;
     private Clipboard clipboard;
     private int edgeLength = 70;
@@ -238,6 +240,7 @@ public class GameGraphics extends Application {
             } else if (mouseEvent.isPrimaryButtonDown()) {
                 selectedCell = null;
                 selectedUnits.clear();
+                hasDelete = false;
             }
         };
         
@@ -386,6 +389,68 @@ public class GameGraphics extends Application {
             }
         };
         
+        EventHandler<KeyEvent> attackShortcutEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("A")) {
+                if (selectedUnits != null && selectedUnits.size() != 0) {
+                    //TODO: baner
+                    TextField x = new TextField();
+                    TextField y = new TextField();
+                    Dialog<Pair<String, String>> dialog = new Dialog<>();
+                    dialog.setTitle("Attacking Enemy");
+                    dialog.setHeaderText("Enter the location of the enemy you want to attack.");
+                    GridPane grid = new GridPane();
+                    grid.setHgap(10);
+                    grid.setVgap(10);
+                    grid.add(new Label("x: "), 0, 0);
+                    grid.add(x, 1, 0);
+                    grid.add(new Label("y: "), 0, 1);
+                    grid.add(y, 1, 1);
+                    dialog.getDialogPane().setContent(grid);
+                    ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+                    Optional<Pair<String, String>> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        boolean thereIsEnemy = false;
+                        Cell cell = GameController.currentGame.getMap().getCells()
+                                [Integer.parseInt(x.getText()) - 1][Integer.parseInt(y.getText()) - 1];
+                        for (Person person : cell.getPeople()) {
+                            if (person instanceof MilitaryPerson && !person.getKing().getUsername().equals(gameController.getCurrentGame().turn
+                                    .getCurrentKing().getUsername())) {
+                                thereIsEnemy = true;
+                                for (MilitaryPerson selectedUnit : selectedUnits) {
+                                    gameController.moveUnitGraphics(selectedUnit, selectedUnit.getLocation(), cell, scene, stage
+                                            , gameController.getCurrentGame().getMap(), shownX, shownY, gamePane, edgeLength);
+                                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                                            , shownX, shownY, edgeLength);
+                                }
+                            }
+                        }
+                        
+                        selectedUnits.clear();
+                        if (!thereIsEnemy) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setHeaderText("Attacking Error");
+                            alert.setContentText("There is no enemy in this location");
+                            alert.show();
+                        }
+                    }
+                    selectedUnits.clear();
+                }
+            }
+        };
+        
+        EventHandler<KeyEvent> deleteBuildingShortcutEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("Shift")) pressedKeyName = "Shift";
+            if (keyEvent.getCode().getName().equals("D") && pressedKeyName.equals("Shift")) {
+                if (selectedBuilding != null && selectedBuilding.getKing().getUsername().equals(gameController.getCurrentGame().turn
+                        .getCurrentKing().getUsername())) {
+                    selectedBuilding.getLocation().setBuilding(null);
+                    mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                            , shownX, shownY, edgeLength);
+                }
+            }
+        };
+        
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, previousClickEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, scrollingMouseEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, zoomingEventHandler);
@@ -400,6 +465,8 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, movingShortcutEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, dropBuildingShortcutEventHandler);
         scene.addEventFilter(KeyEvent.KEY_PRESSED, moveOnMapShortcutEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, attackShortcutEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, deleteBuildingShortcutEventHandler);
         
         stage.setScene(scene);
         stage.setFullScreen(true);

@@ -3,6 +3,7 @@ package Controller;
 import Model.Map;
 import Model.*;
 import View.Commands;
+import View.GameGraphics;
 import View.MovingUnitAnimation;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -393,12 +394,12 @@ public class GameController {
         }
         return result.toString();
     }
-
+    
     public String showPopularityFactors(String name) {
         StringBuilder result = new StringBuilder();
         Kingdom currentKingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         for (PopularityFactor popularityFactor : currentKingdom.getKingPopularityFactors()) {
-            if (popularityFactor.getName().equals(name)){
+            if (popularityFactor.getName().equals(name)) {
                 result.append(popularityFactor.getRate());
                 break;
             }
@@ -545,6 +546,7 @@ public class GameController {
                     , shownY, pane, edgeLength);
             movingUnitAnimation.play();
         }
+        
         new MapController2().loadMapToShow(scene, stage, pane, map, (int) shownX, (int) shownY, edgeLength);
         return "Unit has been moved successfully!";
     }
@@ -557,7 +559,7 @@ public class GameController {
         String type = MainController.getOptionsFromMatcher(matcher, "t", 2);
         int count = Integer.parseInt(Objects.requireNonNull(MainController.getOptionsFromMatcher(matcher, "c", 2)));
         MilitaryPerson givenUnit = FileController.getMilitaryPersonByType(type);
-
+        
         if (givenUnit == null) return "You have entered an invalid type of unit!";
         //Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
         Kingdom kingdom = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername());
@@ -738,13 +740,31 @@ public class GameController {
     public String attackEnemy(Matcher matcher) {
         int enemyX = Integer.parseInt(matcher.group("x"));
         int enemyY = Integer.parseInt(matcher.group("y"));
-        for (Person person : currentGame.getMap().getCells()[enemyX - 1][enemyY - 1].getPeople()) {
+        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
             if (!person.getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername())) {
                 String toGetMatcher = "move unit to -x " + (enemyX) + " -y " + (enemyY);
-                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!")) {
-                    return "Selected unit attacked successfully!";
-                } else {
-                    return "Selected unit can't got to this location!";
+                if (moveUnit(Commands.getMatcher(toGetMatcher, Commands.MOVE_UNIT)).equals("Unit has been moved successfully!"))
+                    return "success";
+                else return "Selected unit can't go to this location!";
+            }
+        }
+        return "There's no enemy in this location!";
+    }
+    
+    public String attackEnemyGraphics(int enemyX, int enemyY, Scene scene, Stage stage, Map map, int shownMapX, int shownMapY, Pane gamePane
+            , int edgeLength) {
+        for (Person person : currentGame.getMap().getCells()[enemyX][enemyY].getPeople()) {
+            MilitaryPerson militaryPerson = null;
+            if (person instanceof MilitaryPerson) militaryPerson = (MilitaryPerson) person;
+            assert militaryPerson != null;
+            if (!militaryPerson.getKing().getUsername().equals(currentGame.turn.getCurrentKing().getUsername())) {
+                if (moveUnitGraphics(militaryPerson, militaryPerson.getLocation(), currentGame.getMap().getCells()[enemyX][enemyY]
+                        , scene, stage, map, shownMapX, shownMapY, gamePane, edgeLength).equals("Unit has been moved successfully!"))
+                    return "success";
+                else {
+                    System.out.println(enemyX + " " + enemyY);
+                    return moveUnitGraphics(militaryPerson, militaryPerson.getLocation(), currentGame.getMap().getCells()[enemyX][enemyY]
+                            , scene, stage, map, shownMapX, shownMapY, gamePane, edgeLength);
                 }
             }
         }
