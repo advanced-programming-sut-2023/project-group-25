@@ -1533,4 +1533,11 @@ public class GameController {
 //
 //        FileController.addGameToFile(game);
     }
+
+    public static String shopTooltip(String name) {
+        String result = "";
+        Product product = FileController.getProductByName(name);
+        result = "Name: " + product.getName() + "\nCost: " + product.getPrice() + "\nPrice: " + product.getCost();
+        return result;
+    }
 }

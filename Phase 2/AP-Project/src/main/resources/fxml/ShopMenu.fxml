@@ -35,4 +35,12 @@
         <Button styleClass="shopIcon" fx:id="ale"/>
         <Button styleClass="shopIcon" fx:id="hop"/>
     </HBox>
+    <VBox fx:id="board" style="-fx-pref-width: 350px; -fx-pref-height: 300px">
+        <HBox>
+            <Label text="inventory"/>
+            <Label text="count"/>
+        </HBox>
+        <Button text="sell"/>
+        <Button text="buy"/>
+    </VBox>
 </GridPane>

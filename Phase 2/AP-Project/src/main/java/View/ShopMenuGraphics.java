@@ -1,14 +1,17 @@
 package View;
 
+import Controller.GameController;
 import Controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -37,6 +40,7 @@ public class ShopMenuGraphics extends Application implements Initializable {
     public Button ale;
     public Button hop;
     public Button metalArmor;
+    public VBox board;
 
     public static void main(String[] args) throws Exception {
         launch();
@@ -58,6 +62,8 @@ public class ShopMenuGraphics extends Application implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         back.setText("\n\nBack");
+        Background boardd = new Background(MainController.setFirstPageBackground("/images/board.png"));
+        board.setBackground(boardd);
         Background apple1 = new Background(MainController.setFirstPageBackground("/images/Shop/apple.png"));
         Background bear1 = new Background(MainController.setFirstPageBackground("/images/Shop/bear.png"));
         Background bow1 = new Background(MainController.setFirstPageBackground("/images/Shop/bow.png"));
@@ -96,9 +102,52 @@ public class ShopMenuGraphics extends Application implements Initializable {
         ale.setBackground(bear1);
         hop.setBackground(hop1);
         metalArmor.setBackground(metalarmour1);
+        Tooltips();
     }
 
     public void backToFirstPage(MouseEvent mouseEvent) throws Exception {
         new GameGraphics(FirstPage.changeMenuController).start(FirstPage.stage);
+    }
+
+    public void Tooltips() {
+        Tooltip woodT = new Tooltip(GameController.shopTooltip("wood"));
+        Tooltip meatT = new Tooltip(GameController.shopTooltip("meat"));
+        Tooltip breadT = new Tooltip(GameController.shopTooltip("bread"));
+        Tooltip cheeseT = new Tooltip(GameController.shopTooltip("cheese"));
+        Tooltip appleT = new Tooltip(GameController.shopTooltip("apple"));
+        Tooltip wheatT = new Tooltip(GameController.shopTooltip("wheat"));
+        Tooltip flourT = new Tooltip(GameController.shopTooltip("flour"));
+        Tooltip stoneT = new Tooltip(GameController.shopTooltip("stone"));
+        Tooltip ironT = new Tooltip(GameController.shopTooltip("iron"));
+        Tooltip spearT = new Tooltip(GameController.shopTooltip("spear"));
+        Tooltip bowT = new Tooltip(GameController.shopTooltip("bow"));
+        Tooltip maceT = new Tooltip(GameController.shopTooltip("mace"));
+        Tooltip crossbowT = new Tooltip(GameController.shopTooltip("crossbow"));
+        Tooltip pikeT = new Tooltip(GameController.shopTooltip("pike"));
+        Tooltip swordT = new Tooltip(GameController.shopTooltip("sword"));
+        Tooltip leatherArmorT = new Tooltip(GameController.shopTooltip("leatherArmor"));
+        Tooltip metalArmorT = new Tooltip(GameController.shopTooltip("metalArmor"));
+        Tooltip aleT = new Tooltip(GameController.shopTooltip("ale"));
+        Tooltip hopT = new Tooltip(GameController.shopTooltip("hop"));
+        wood.setTooltip(woodT);
+        meat.setTooltip(meatT);
+        bread.setTooltip(breadT);
+        cheese.setTooltip(cheeseT);
+        apple.setTooltip(appleT);
+        wheat.setTooltip(wheatT);
+        flour.setTooltip(flourT);
+        wood.setTooltip(woodT);
+        stone.setTooltip(stoneT);
+        iron.setTooltip(ironT);
+        spear.setTooltip(spearT);
+        bow.setTooltip(bowT);
+        mace.setTooltip(maceT);
+        crossbow.setTooltip(crossbowT);
+        pike.setTooltip(pikeT);
+        sword.setTooltip(swordT);
+        leatherArmor.setTooltip(leatherArmorT);
+        ale.setTooltip(aleT);
+        hop.setTooltip(hopT);
+        metalArmor.setTooltip(metalArmorT);
     }
 }
