@@ -14,25 +14,25 @@
           alignment="CENTER"
           fx:controller="View.ShopMenuGraphics">
     <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
-    <HBox>
-        <Button fx:id="meat"/>
-        <Button fx:id="bread"/>
-        <Button fx:id="cheese"/>
-        <Button fx:id="apple"/>
-        <Button fx:id="wheat"/>
-        <Button fx:id="flour"/>
-        <Button fx:id="wood"/>
-        <Button fx:id="stone"/>
-        <Button fx:id="iron"/>
-        <Button fx:id="spear"/>
-        <Button fx:id="bow"/>
-        <Button fx:id="mace"/>
-        <Button fx:id="crossbow"/>
-        <Button fx:id="pike"/>
-        <Button fx:id="sword"/>
-        <Button fx:id="leatherArmor"/>
-        <Button fx:id="metalArmor"/>
-        <Button fx:id="ale"/>
-        <Button fx:id="hop"/>
+    <HBox style="-fx-translate-y: 400px; -fx-translate-x: -50px; -fx-spacing: 5px">
+        <Button styleClass="shopIcon"  fx:id="meat"/>
+        <Button styleClass="shopIcon" fx:id="bread"/>
+        <Button styleClass="shopIcon" fx:id="cheese"/>
+        <Button styleClass="shopIcon" fx:id="apple"/>
+        <Button styleClass="shopIcon" fx:id="wheat"/>
+        <Button styleClass="shopIcon" fx:id="flour"/>
+        <Button styleClass="shopIcon" fx:id="wood"/>
+        <Button styleClass="shopIcon" fx:id="stone"/>
+        <Button styleClass="shopIcon" fx:id="iron"/>
+        <Button styleClass="shopIcon" fx:id="spear"/>
+        <Button styleClass="shopIcon" fx:id="bow"/>
+        <Button styleClass="shopIcon" fx:id="mace"/>
+        <Button styleClass="shopIcon" fx:id="crossbow"/>
+        <Button styleClass="shopIcon" fx:id="pike"/>
+        <Button styleClass="shopIcon" fx:id="sword"/>
+        <Button styleClass="shopIcon" fx:id="leatherArmor"/>
+        <Button styleClass="shopIcon" fx:id="metalArmor"/>
+        <Button styleClass="shopIcon" fx:id="ale"/>
+        <Button styleClass="shopIcon" fx:id="hop"/>
     </HBox>
 </GridPane>

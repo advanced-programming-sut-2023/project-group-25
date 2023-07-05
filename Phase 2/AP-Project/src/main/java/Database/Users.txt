@@ -9,8 +9,8 @@
 --STAY LOGGED IN? (boolean)--
 --AVATAR PATH--
 _____________________________________________________
-hoora
-b2dd323487c9bc31c504c3c81e6d09d17f88c9d40d154adc4d33f30315fc8e2d
+hihihi
+e37652c9a764c4a33ca2a02363b9d727ce32ae390114ac3c128c86ca81063414
 hoor hoori
 hoora@yahoo.com
 Be Strong!!
@@ -18,7 +18,7 @@ Be Strong!!
 3- In what city or town did your parents meet?
 tehran
 false
-/images/avatar/5.png
+/images/avatar/2.png
 _____________________________________________________
 gholi
 e27a4050ec240e571727fae5a3c6b92b7559c9f75a3c21234772ffa64d1a0e97
