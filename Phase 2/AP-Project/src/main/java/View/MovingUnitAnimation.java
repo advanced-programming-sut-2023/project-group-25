@@ -50,8 +50,8 @@ public class MovingUnitAnimation extends Transition {
         if (dy == 0) signDy = 0;
         String address = "/images/Units/" + person.getType() + ".png";
         this.imageView = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
-        this.imageView.setFitWidth(20);
-        this.imageView.setFitHeight(20);
+        this.imageView.setFitWidth((float) edgeLength * 3 / 5);
+        this.imageView.setFitHeight((float) edgeLength * 3 / 5);
         this.imageView.setLayoutX(person.getLocation().getX() * edgeLength);
         this.imageView.setLayoutY(person.getLocation().getY() * edgeLength);
         pane.getChildren().add(imageView);
@@ -69,14 +69,11 @@ public class MovingUnitAnimation extends Transition {
         imageView.setLayoutY(imageView.getLayoutY() + signDy * counter);
         imageView.toFront();
         if ((int) imageView.getLayoutX() / edgeLength == destination.getX()
-                && (int) imageView.getLayoutY() / edgeLength != destination.getY()) {
-            signDx = 0;
-        } else if ((int) imageView.getLayoutY() / edgeLength == destination.getY() &&
-                (int) imageView.getLayoutX() / edgeLength != destination.getX()) {
-            signDy = 0;
-        } else if ((signDx == 0 && signDy == 0) || ((int) imageView.getLayoutX() / edgeLength == destination.getX()
+                && (int) imageView.getLayoutY() / edgeLength != destination.getY()) signDx = 0;
+        else if ((int) imageView.getLayoutY() / edgeLength == destination.getY()
+                && (int) imageView.getLayoutX() / edgeLength != destination.getX()) signDy = 0;
+        else if ((signDx == 0 && signDy == 0) || ((int) imageView.getLayoutX() / edgeLength == destination.getX()
                 || (int) imageView.getLayoutY() / edgeLength == destination.getY())) {
-            System.out.println("arrived");
             Cell cell = map.getCells()[(int) imageView.getLayoutX() / edgeLength][(int) imageView.getLayoutY() / edgeLength];
             person.getLocation().removePerson(person);
             person.setLocation(cell);

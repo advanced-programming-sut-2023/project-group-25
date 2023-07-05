@@ -17,7 +17,7 @@ Be Strong!!
 0
 3- In what city or town did your parents meet?
 tehran
-true
+false
 /images/avatar/3.png
 _____________________________________________________
 gholi
@@ -28,6 +28,6 @@ Get invited to play!
 0
 1- What city were you born in?
 Qom
-false
+true
 /images/avatar/4.png
 _____________________________________________________
