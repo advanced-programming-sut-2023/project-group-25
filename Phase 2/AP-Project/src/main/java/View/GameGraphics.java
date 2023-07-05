@@ -25,9 +25,11 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import javax.swing.plaf.multi.MultiListUI;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static Controller.MapController2.clickedBuildingToDrop;
@@ -202,16 +204,6 @@ public class GameGraphics extends Application {
                         selectedUnits.clear();
                         Cell cell = cells[mapController.getXLocationByPixel(i)][mapController.getYLocationByPixel(j)];
                         selectUnits(cell);
-//
-//                        TextInputDialog dialog = new TextInputDialog("0");
-//                        dialog.setTitle("Selecting Units");
-//                        dialog.setHeaderText("Look, a Text Input Dialog");
-//                        dialog.setContentText("Please enter your name:");
-//
-//                        Optional<String> result = dialog.showAndWait();
-//                        result.ifPresent(name -> System.out.println("Your name: " + name));
-//
-//
 //                        for (Person person : cell.getPeople()) {
 //                            if (person instanceof MilitaryPerson) selectedUnits.add((MilitaryPerson) person);
 //                        }
@@ -275,12 +267,10 @@ public class GameGraphics extends Application {
         };
         
         EventHandler<MouseEvent> moveUnitEventHandler = mouseEvent -> {
-            
             if (previousMouseEvent.isPrimaryButtonDown() && selectedUnits.size() != 0) {
                 Cell cell = GameController.currentGame.getMap().getCells()
                         [mapController.getXLocationByPixel(mouseEvent.getX() / edgeLength)]
                         [mapController.getYLocationByPixel(mouseEvent.getY() / edgeLength)];
-                //TODO: samin --> path finder
                 for (MilitaryPerson selectedUnit : selectedUnits) {
 //                    selectedUnit.getLocation().removePerson(selectedUnit);
 //                    selectedUnit.setLocation(cell);
@@ -291,6 +281,108 @@ public class GameGraphics extends Application {
                             , shownX, shownY, edgeLength);
                 }
                 selectedUnits.clear();
+            }
+        };
+        
+        EventHandler<KeyEvent> movingShortcutEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("M")) {
+                if (selectedUnits != null && selectedUnits.size() != 0) {
+                    TextField x = new TextField();
+                    TextField y = new TextField();
+                    Dialog<Pair<String, String>> dialog = new Dialog<>();
+                    dialog.setTitle("Moving Units");
+                    dialog.setHeaderText("Enter the destination of the unit(s).");
+                    GridPane grid = new GridPane();
+                    grid.setHgap(10);
+                    grid.setVgap(10);
+                    grid.add(new Label("x: "), 0, 0);
+                    grid.add(x, 1, 0);
+                    grid.add(new Label("y: "), 0, 1);
+                    grid.add(y, 1, 1);
+                    dialog.getDialogPane().setContent(grid);
+                    ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+                    Optional<Pair<String, String>> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        Cell cell = GameController.currentGame.getMap().getCells()
+                                [Integer.parseInt(x.getText()) - 1][Integer.parseInt(y.getText()) - 1];
+                        for (MilitaryPerson selectedUnit : selectedUnits) {
+                            gameController.moveUnitGraphics(selectedUnit, selectedUnit.getLocation(), cell, scene, stage
+                                    , gameController.getCurrentGame().getMap(), shownX, shownY, gamePane, edgeLength);
+                            mapController.loadMapToShow(scene, stage, gamePane, gameController.getCurrentGame().getMap()
+                                    , shownX, shownY, edgeLength);
+                        }
+                    }
+                    selectedUnits.clear();
+                }
+            }
+        };
+        
+        EventHandler<KeyEvent> dropBuildingShortcutEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("D")) {
+                if (clickedBuildingToDrop != null) {
+                    TextField x = new TextField();
+                    TextField y = new TextField();
+                    Dialog<Pair<String, String>> dialog = new Dialog<>();
+                    dialog.setTitle("Dropping Building");
+                    dialog.setHeaderText("Enter the location of the building.");
+                    GridPane grid = new GridPane();
+                    grid.setHgap(10);
+                    grid.setVgap(10);
+                    grid.add(new Label("x: "), 0, 0);
+                    grid.add(x, 1, 0);
+                    grid.add(new Label("y: "), 0, 1);
+                    grid.add(y, 1, 1);
+                    dialog.getDialogPane().setContent(grid);
+                    ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                    dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+                    Optional<Pair<String, String>> result = dialog.showAndWait();
+                    if (result.isPresent()) {
+                        String address = "/images/Buildings/" + FileController.getBuildingCategoryByType(clickedBuildingToDrop)
+                                + "/" + clickedBuildingToDrop + ".png";
+                        Cell cell = gameController.getCurrentGame().getMap().getCells()
+                                [Integer.parseInt(x.getText()) - 1][Integer.parseInt(y.getText()) - 1];
+                        buildBuildingAndShowMessage(gamePane, address, cell, clickedBuildingToDrop);
+                    }
+                }
+            }
+        };
+        
+        EventHandler<KeyEvent> moveOnMapShortcutEventHandler = keyEvent -> {
+            if (keyEvent.getCode().getName().equals("Shift")) pressedKeyName = "Shift";
+            if (keyEvent.getCode().getName().equals("M") && pressedKeyName.equals("Shift")) {
+                TextField x = new TextField();
+                TextField y = new TextField();
+                Dialog<Pair<String, String>> dialog = new Dialog<>();
+                dialog.setTitle("Moving On Map");
+                dialog.setHeaderText("Enter the location of the cell you want to see at the center of the screen.");
+                GridPane grid = new GridPane();
+                grid.setHgap(10);
+                grid.setVgap(10);
+                grid.add(new Label("x: "), 0, 0);
+                grid.add(x, 1, 0);
+                grid.add(new Label("y: "), 0, 1);
+                grid.add(y, 1, 1);
+                dialog.getDialogPane().setContent(grid);
+                ButtonType loginButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+                dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+                Optional<Pair<String, String>> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    if (!mapController.isLocationAppropriateToShow(Integer.parseInt(x.getText()), Integer.parseInt(y.getText())
+                            , gameController.getCurrentGame().getMap(), edgeLength)) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Moving On Map Error");
+                        alert.setContentText("This location cannot be shown at the center of screen. Please enter appropriate numbers.");
+                        alert.show();
+                    } else {
+                        shownX = Integer.parseInt(x.getText());
+                        shownY = Integer.parseInt(y.getText());
+                        Map map = gameController.getCurrentGame().getMap();
+                        mapController.setMiniMapShowingX((shownX - 11 + 1411 * (map.getLength() - 22) / 115) * 115 / (map.getLength() - 22));
+                        mapController.setMiniMapShowingY((shownY - 5 + 729 * (map.getWidth() - 10) / 115) * 115 / (map.getWidth() - 10));
+                        mapController.loadMapToShow(scene, stage, gamePane, map, shownX, shownY, edgeLength);
+                    }
+                }
             }
         };
         
@@ -305,7 +397,9 @@ public class GameGraphics extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, showClipBoardEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveOnMiniMapeEventHandler);
         scene.addEventFilter(MouseEvent.MOUSE_CLICKED, moveUnitEventHandler);
-        
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, movingShortcutEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, dropBuildingShortcutEventHandler);
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, moveOnMapShortcutEventHandler);
         
         stage.setScene(scene);
         stage.setFullScreen(true);
@@ -344,15 +438,17 @@ public class GameGraphics extends Application {
 //            //TODO
 //        }
         for (Person person : cell.getPeople()) {
-            if (person instanceof MilitaryPerson) selectedUnits.add((MilitaryPerson) person);
+            if (person instanceof MilitaryPerson && person.getKing().getUsername()
+                    .equals(gameController.getCurrentGame().turn.getCurrentKing().getUsername()))
+                selectedUnits.add((MilitaryPerson) person);
         }
     }
     
     private void buildBuildingAndShowMessage(Pane gamePane, String address, Cell cell, String type) {
         String result = gameController.dropBuildingGraphics(cell.getX(), cell.getY(), cell, type);
         if (Pattern.compile("success").matcher(result).find()) {
-            lastBuildingDropped=gameController.lastBuilding;
-            lastBuildingImage=new ImageView(new Image(String.valueOf(getClass().getResource(address))));
+            lastBuildingDropped = gameController.lastBuilding;
+            lastBuildingImage = new ImageView(new Image(String.valueOf(getClass().getResource(address))));
             ImageView droppedBuildingImageView = new ImageView
                     (new Image(String.valueOf(getClass().getResource(address))));
             droppedBuildingImageView.setFitHeight(edgeLength);
