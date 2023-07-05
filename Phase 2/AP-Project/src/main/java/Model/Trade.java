@@ -12,8 +12,10 @@ public class Trade {
     private int resourceAmount;
     private int price;
     private String message;
+
+    private String state;
     
-    public Trade(String senderUsername, String receiverUsername, int id, String tradeType, String resourceType, int resourceAmount, int price, String message) {
+    public Trade(String senderUsername, String receiverUsername, int id, String tradeType, String resourceType, int resourceAmount, int price, String message, String state) {
         this.senderUsername = senderUsername;
         this.receiverUsername = receiverUsername;
         this.id = id;
@@ -22,6 +24,7 @@ public class Trade {
         this.resourceAmount = resourceAmount;
         this.price = price;
         this.message = message;
+        this.state = state;
     }
 
     public static ArrayList<Trade> getAllTrades() {
@@ -57,5 +60,13 @@ public class Trade {
     }
     public String getReceiverUsername() {
         return receiverUsername;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

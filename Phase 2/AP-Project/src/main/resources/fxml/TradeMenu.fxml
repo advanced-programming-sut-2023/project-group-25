@@ -15,7 +15,7 @@
           stylesheets="@../css/Styles.css"
           alignment="CENTER"
           fx:controller="View.TradeMenuGraphics">
-    <Button fx:id="back" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
+    <Button fx:id="back" style="-fx-translate-y: -450px; -fx-translate-x: -250px" styleClass="backToFirstPage" onMouseClicked="#backToFirstPage"/>
     <HBox alignment="CENTER" style="-fx-spacing: 10px;">
         <Button styleClass="shopBtn" text="send request" onMouseClicked="#request"/>
         <Button styleClass="shopBtn" text="trade history" onMouseClicked="#history"/>

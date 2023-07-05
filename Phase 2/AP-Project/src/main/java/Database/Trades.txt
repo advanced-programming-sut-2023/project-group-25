@@ -7,34 +7,16 @@
 --RESOURCE AMOUNT--
 --RESOURCE PRICE--
 --RESOURCE MESSAGE--
+--STATE--
 _____________________________________________________
 0
 295
 request
 gholi
 hihihi
-bow
+stone
 2
-155
-pleaseee
-_____________________________________________________
-2
-295
-request
-gholi
-hihihi
-iron
-30
-225
-asjhuiw
-_____________________________________________________
-4
-295
-request
-gholi
-hihihi
-metalArmor
-20
-290
-ashuiw wnei
+70
+please
+accepted
 _____________________________________________________

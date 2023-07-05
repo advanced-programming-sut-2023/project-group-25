@@ -156,6 +156,7 @@ public class TradeMenuGraphics extends Application implements Initializable {
         new SendRequest().start(FirstPage.stage);
     }
 
-    public void history(MouseEvent mouseEvent) {
+    public void history(MouseEvent mouseEvent) throws Exception {
+        new TradeHistory().start(FirstPage.stage);
     }
 }
