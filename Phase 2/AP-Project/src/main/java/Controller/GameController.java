@@ -1540,4 +1540,39 @@ public class GameController {
         result = "Name: " + product.getName() + "\nCost: " + product.getPrice() + "\nPrice: " + product.getCost();
         return result;
     }
+
+    public static String buyFromShop2(Product product, int amount) {
+        if (product.getCost() * amount > currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory())
+            return "Buy process failed; You don't have enough money!";
+        else {
+            currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory()
+                    - product.getCost() * amount);
+            product = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(product.getName());
+            product.setCount(product.getCount() + amount);
+            return "success";
+        }
+    }
+
+    public static String sellToShop2(Product product, int amount) {
+        Product product1 = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(product.getName());
+        if(product1 == null) {
+            return "You dont have this product!";
+        }
+        if (product1.getCount() < amount)
+            return "Invalid product amount; You don't have this much of the product!";
+        currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).setInventory(currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getInventory()
+                + product.getPrice() * amount);
+        product1 = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProductByName(product.getName());
+        product1.setCount(product1.getCount() - amount);
+        return "success";
+    }
+
+    public static ArrayList<String> showProductCount() {
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Product> products = currentGame.getKingdomByKing(currentGame.turn.getCurrentKing().getUsername()).getKingProducts();
+        for(Product product : products) {
+            result.add("Name: " + product.getName() + "Count: " + product.getCount());
+        }
+        return result;
+    }
 }
